@@ -1,0 +1,238 @@
+# Docker Compose for Sudan Digital Identity System
+# Production-ready multi-service architecture
+
+version: '3.8'
+
+services:
+  # Main Application
+  sudan-digital-identity:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: production
+        REACT_APP_OID_BASE: ${REACT_APP_OID_BASE:-1.3.6.1.4.1.61026.1}
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-https://api.sudan.gov.sd}
+        REACT_APP_BLOCKCHAIN_NETWORK: ${REACT_APP_BLOCKCHAIN_NETWORK:-sudan-mainnet}
+        REACT_APP_BIOMETRIC_SERVICE_URL: ${REACT_APP_BIOMETRIC_SERVICE_URL:-https://biometric.sudan.gov.sd}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - sudan-network
+    depends_on:
+      - redis
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Redis for Caching and Sessions
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD:-sudanredis2024}
+    volumes:
+      - redis_data:/data
+    networks:
+      - sudan-network
+    deploy:
+      restart_policy:
+        condition: on-failure
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-sudan_identity}
+      POSTGRES_USER: ${POSTGRES_USER:-sudan_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SudanDB2024!}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - sudan-network
+    deploy:
+      restart_policy:
+        condition: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-sudan_admin} -d ${POSTGRES_DB:-sudan_identity}"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API Gateway with Kong
+  api-gateway:
+    image: kong:3.4-alpine
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    ports:
+      - "8000:8000"  # Proxy
+      - "8001:8001"  # Admin API
+    volumes:
+      - ./kong/kong.yml:/kong/declarative/kong.yml
+    networks:
+      - sudan-network
+    depends_on:
+      - sudan-digital-identity
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Load Balancer
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    networks:
+      - sudan-network
+    depends_on:
+      - sudan-digital-identity
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  # Monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    networks:
+      - sudan-network
+
+  # Grafana for Dashboards
+  grafana:
+    image: grafana/grafana:10.0.0
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-SudanGrafana2024!}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - sudan-network
+    depends_on:
+      - prometheus
+
+  # Blockchain Network (Hyperledger Fabric)
+  fabric-peer:
+    image: hyperledger/fabric-peer:2.5
+    environment:
+      - CORE_PEER_ID=peer0.sudan.gov.sd
+      - CORE_PEER_ADDRESS=peer0.sudan.gov.sd:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.sudan.gov.sd:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.sudan.gov.sd:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.sudan.gov.sd:7051
+      - CORE_PEER_LOCALMSPID=SudanMSP
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=sudan-network
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_PROFILE_ENABLED=true
+    ports:
+      - "7051:7051"
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./blockchain/crypto-config/peerOrganizations/sudan.gov.sd/peers/peer0.sudan.gov.sd/msp:/etc/hyperledger/fabric/msp
+      - ./blockchain/crypto-config/peerOrganizations/sudan.gov.sd/peers/peer0.sudan.gov.sd/tls:/etc/hyperledger/fabric/tls
+      - peer0_data:/var/hyperledger/production
+    networks:
+      - sudan-network
+
+  # Object Storage (MinIO)
+  minio:
+    image: minio/minio:RELEASE.2023-09-23T03-47-50Z
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-sudanadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-SudanMinio2024!}
+    volumes:
+      - minio_data:/data
+    networks:
+      - sudan-network
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  sudan-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  peer0_data:
+    driver: local
+  minio_data:
+    driver: local

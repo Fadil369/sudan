@@ -5,16 +5,36 @@
  */
 
 :root {
-  /* Sudan National Colors */
+  /* Sudan National Colors - Enhanced */
   --primary-red: #CE1126;          /* Sudan flag red - primary actions */
+  --primary-red-dark: #B91C3C;     /* Darker red for hover states */
+  --primary-red-light: #FEE2E2;    /* Light red for backgrounds */
   --primary-white: #FFFFFF;        /* Sudan flag white - backgrounds */
   --primary-black: #000000;        /* Sudan flag black - text/contrast */
+  --primary-blue: #1E40AF;         /* Sudan triangle blue */
+  --primary-blue-light: #EFF6FF;   /* Light blue backgrounds */
   
-  /* Extended Government Palette */
+  /* Government Brand Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--primary-blue) 0%, #1D4ED8 100%);
+  --gradient-accent: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-blue) 100%);
+  --gradient-subtle: linear-gradient(135deg, var(--primary-red-light) 0%, var(--primary-blue-light) 100%);
+  
+  /* Extended Government Palette - Enhanced */
   --gov-blue: #1E40AF;            /* Trust, official communications */
+  --gov-blue-light: #3B82F6;      /* Lighter blue for interaction */
   --gov-green: #059669;           /* Agriculture, health, success states */
+  --gov-green-light: #10B981;     /* Success indicators */
   --gov-gold: #D97706;            /* Energy, premium services */
+  --gov-gold-light: #F59E0B;      /* Warning states */
   --gov-purple: #7C3AED;          /* Innovation, digital services */
+  --gov-purple-light: #8B5CF6;    /* Interactive elements */
+  
+  /* Glass Morphism Effects */
+  --glass-background: rgba(255, 255, 255, 0.08);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.12);
+  --glass-backdrop: blur(24px) saturate(180%);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   
   /* Semantic Colors */
   --success: #10B981;
@@ -82,12 +102,19 @@
   --radius-2xl: 1rem;      /* 16px */
   --radius-full: 9999px;
   
-  /* Shadows */
+  /* Enhanced Shadow System */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+  
+  /* Government Specific Shadows */
+  --shadow-red: 0 10px 25px -5px rgb(206 17 38 / 0.15);
+  --shadow-blue: 0 10px 25px -5px rgb(30 64 175 / 0.15);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-glow: 0 0 20px rgb(206 17 38 / 0.3);
   
   /* Z-Index Scale */
   --z-dropdown: 1000;

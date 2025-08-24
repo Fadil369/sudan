@@ -1,0 +1,236 @@
+# RBAC Configuration for Sudan Digital Identity System
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sudan-identity-sa
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: rbac
+automountServiceAccountToken: true
+
+---
+# ClusterRole for system-wide permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: sudan-identity-cluster-role
+  labels:
+    app: sudan-digital-identity
+    component: rbac
+rules:
+# Read-only access to nodes for monitoring
+- apiGroups: [""]
+  resources: ["nodes", "nodes/metrics"]
+  verbs: ["get", "list", "watch"]
+# Read-only access to namespaces
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get", "list", "watch"]
+
+---
+# Role for namespace-specific permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: sudan-identity-role
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: rbac
+rules:
+# Pod management
+- apiGroups: [""]
+  resources: ["pods", "pods/log", "pods/status"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+# Service management
+- apiGroups: [""]
+  resources: ["services", "services/status"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+# ConfigMap and Secret access
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch"]
+# PVC access for storage
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["get", "list", "watch", "create", "update", "patch"]
+# Deployment management
+- apiGroups: ["apps"]
+  resources: ["deployments", "deployments/status", "replicasets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+# Ingress management
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses", "ingresses/status"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+# HPA access
+- apiGroups: ["autoscaling"]
+  resources: ["horizontalpodautoscalers"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+# Events access for debugging
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["get", "list", "watch"]
+
+---
+# ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sudan-identity-cluster-binding
+  labels:
+    app: sudan-digital-identity
+    component: rbac
+subjects:
+- kind: ServiceAccount
+  name: sudan-identity-sa
+  namespace: sudan-identity
+roleRef:
+  kind: ClusterRole
+  name: sudan-identity-cluster-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# RoleBinding for namespace permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: sudan-identity-binding
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: rbac
+subjects:
+- kind: ServiceAccount
+  name: sudan-identity-sa
+  namespace: sudan-identity
+roleRef:
+  kind: Role
+  name: sudan-identity-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Service Account for Monitoring
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: monitoring-sa
+  namespace: sudan-identity
+  labels:
+    app: monitoring
+    component: rbac
+
+---
+# ClusterRole for monitoring access
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: monitoring-cluster-role
+  labels:
+    app: monitoring
+    component: rbac
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "nodes/proxy", "nodes/metrics", "services", "endpoints", "pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["extensions"]
+  resources: ["ingresses"]
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics", "/health"]
+  verbs: ["get"]
+
+---
+# ClusterRoleBinding for monitoring
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: monitoring-cluster-binding
+  labels:
+    app: monitoring
+    component: rbac
+subjects:
+- kind: ServiceAccount
+  name: monitoring-sa
+  namespace: sudan-identity
+roleRef:
+  kind: ClusterRole
+  name: monitoring-cluster-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# NetworkPolicy for security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: sudan-identity-network-policy
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: security
+spec:
+  podSelector:
+    matchLabels:
+      app: sudan-digital-identity
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  # Allow traffic from ingress controller
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 3000
+  # Allow traffic from monitoring
+  - from:
+    - podSelector:
+        matchLabels:
+          app: prometheus
+    ports:
+    - protocol: TCP
+      port: 3000
+  # Allow internal communication
+  - from:
+    - podSelector:
+        matchLabels:
+          app: sudan-digital-identity
+    ports:
+    - protocol: TCP
+      port: 3000
+  egress:
+  # Allow DNS resolution
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow HTTPS traffic to external APIs
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+  # Allow communication with database
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+  # Allow communication with Redis
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis
+    ports:
+    - protocol: TCP
+      port: 6379
+  # Allow communication with blockchain network
+  - to:
+    - podSelector:
+        matchLabels:
+          app: fabric-peer
+    ports:
+    - protocol: TCP
+      port: 7051

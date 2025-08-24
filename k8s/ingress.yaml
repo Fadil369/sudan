@@ -1,0 +1,220 @@
+# Ingress Configuration for Sudan Digital Identity System
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sudan-digital-identity-ingress
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: ingress
+  annotations:
+    # NGINX Ingress Controller annotations
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    
+    # Security headers
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+      more_set_headers "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.sudan.gov.sd wss:; manifest-src 'self';";
+      more_set_headers "Strict-Transport-Security: max-age=63072000; includeSubDomains; preload";
+    
+    # Rate limiting
+    nginx.ingress.kubernetes.io/rate-limit-connections: "100"
+    nginx.ingress.kubernetes.io/rate-limit-requests-per-minute: "1000"
+    
+    # Caching
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        add_header X-Content-Type-Options nosniff;
+      }
+    
+    # Certificate management (cert-manager)
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+    
+    # Load balancing
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$remote_addr"
+    
+    # Monitoring
+    nginx.ingress.kubernetes.io/enable-access-log: "true"
+    nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
+    
+spec:
+  tls:
+  - hosts:
+    - sudan-identity.gov.sd
+    - www.sudan-identity.gov.sd
+    - portal.sudan.gov.sd
+    - api.sudan.gov.sd
+    secretName: sudan-identity-tls
+  rules:
+  # Main portal
+  - host: sudan-identity.gov.sd
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sudan-digital-identity-service
+            port:
+              number: 80
+  
+  # WWW redirect
+  - host: www.sudan-identity.gov.sd
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sudan-digital-identity-service
+            port:
+              number: 80
+  
+  # Government portal
+  - host: portal.sudan.gov.sd
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sudan-digital-identity-service
+            port:
+              number: 80
+  
+  # API endpoints
+  - host: api.sudan.gov.sd
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sudan-digital-identity-service
+            port:
+              number: 80
+
+---
+# Staging Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sudan-digital-identity-staging-ingress
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: staging-ingress
+    environment: staging
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    
+    # Basic auth for staging
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: staging-basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Sudan Digital Identity Staging'
+    
+spec:
+  tls:
+  - hosts:
+    - staging.sudan-identity.gov.sd
+    secretName: sudan-identity-staging-tls
+  rules:
+  - host: staging.sudan-identity.gov.sd
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sudan-digital-identity-service
+            port:
+              number: 80
+
+---
+# Development Ingress (Internal only)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sudan-digital-identity-dev-ingress
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: dev-ingress
+    environment: development
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    
+    # IP whitelist for development
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+    
+spec:
+  rules:
+  - host: dev.sudan-identity.internal
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: sudan-digital-identity-service
+            port:
+              number: 80
+
+---
+# Monitoring Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monitoring-ingress
+  namespace: sudan-identity
+  labels:
+    app: monitoring
+    component: ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    
+    # Basic auth for monitoring endpoints
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: monitoring-basic-auth
+    nginx.ingress.kubernetes.io/auth-realm: 'Sudan Digital Identity Monitoring'
+    
+spec:
+  tls:
+  - hosts:
+    - monitoring.sudan-identity.gov.sd
+    secretName: monitoring-tls
+  rules:
+  - host: monitoring.sudan-identity.gov.sd
+    http:
+      paths:
+      - path: /prometheus
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-service
+            port:
+              number: 9090
+      - path: /grafana
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana-service
+            port:
+              number: 3000

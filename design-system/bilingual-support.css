@@ -7,16 +7,19 @@
    ARABIC TYPOGRAPHY AND RTL SUPPORT
 ============================================================================= */
 
-/* Arabic Font Loading */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+/* Enhanced Arabic Font Loading with Modern Typography */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
 
-/* Root Variables for Bilingual Support */
+/* Enhanced Variables for Bilingual Support */
 :root {
-  --font-arabic-primary: 'Noto Sans Arabic', 'Cairo', sans-serif;
-  --font-arabic-display: 'Amiri', 'Noto Sans Arabic', serif;
+  --font-arabic-primary: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', 'Cairo', sans-serif;
+  --font-arabic-display: 'Amiri', 'Cairo', 'Noto Sans Arabic', serif;
+  --font-arabic-modern: 'Cairo', 'Noto Sans Arabic', sans-serif;
   --font-english-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-english-display: 'Inter', 'Segoe UI', system-ui, sans-serif;
   
   /* Arabic-specific spacing adjustments */
   --arabic-line-height-multiplier: 1.4;

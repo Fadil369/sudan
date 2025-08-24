@@ -1,0 +1,185 @@
+# Kubernetes Services for Sudan Digital Identity System
+apiVersion: v1
+kind: Service
+metadata:
+  name: sudan-digital-identity-service
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: web-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3000"
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    app: sudan-digital-identity
+    component: web
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+
+---
+# Internal Service for Pod-to-Pod Communication
+apiVersion: v1
+kind: Service
+metadata:
+  name: sudan-digital-identity-internal
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: internal-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    app: sudan-digital-identity
+    component: web
+
+---
+# Redis Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: sudan-identity
+  labels:
+    app: redis
+    component: cache
+spec:
+  type: ClusterIP
+  ports:
+  - name: redis
+    port: 6379
+    targetPort: 6379
+    protocol: TCP
+  selector:
+    app: redis
+    component: cache
+
+---
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: sudan-identity
+  labels:
+    app: postgres
+    component: database
+spec:
+  type: ClusterIP
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+    protocol: TCP
+  selector:
+    app: postgres
+    component: database
+
+---
+# Prometheus Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  namespace: sudan-identity
+  labels:
+    app: prometheus
+    component: monitoring
+spec:
+  type: ClusterIP
+  ports:
+  - name: prometheus
+    port: 9090
+    targetPort: 9090
+    protocol: TCP
+  selector:
+    app: prometheus
+    component: monitoring
+
+---
+# Grafana Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: sudan-identity
+  labels:
+    app: grafana
+    component: dashboard
+spec:
+  type: ClusterIP
+  ports:
+  - name: grafana
+    port: 3000
+    targetPort: 3000
+    protocol: TCP
+  selector:
+    app: grafana
+    component: dashboard
+
+---
+# Blockchain Peer Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: fabric-peer-service
+  namespace: sudan-identity
+  labels:
+    app: fabric-peer
+    component: blockchain
+spec:
+  type: ClusterIP
+  ports:
+  - name: peer
+    port: 7051
+    targetPort: 7051
+    protocol: TCP
+  - name: chaincode
+    port: 7052
+    targetPort: 7052
+    protocol: TCP
+  selector:
+    app: fabric-peer
+    component: blockchain
+
+---
+# MinIO Service for Object Storage
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service
+  namespace: sudan-identity
+  labels:
+    app: minio
+    component: storage
+spec:
+  type: ClusterIP
+  ports:
+  - name: api
+    port: 9000
+    targetPort: 9000
+    protocol: TCP
+  - name: console
+    port: 9001
+    targetPort: 9001
+    protocol: TCP
+  selector:
+    app: minio
+    component: storage

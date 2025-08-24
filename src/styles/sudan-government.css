@@ -137,15 +137,16 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Sudan Government Cards */
+/* Enhanced Sudan Government Cards */
 .sudan-status-card {
   background: var(--sudan-gradient-card);
-  backdrop-filter: blur(16px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-lg);
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .sudan-status-card::before {
@@ -154,14 +155,30 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gov-primary), var(--gov-secondary));
+  height: 3px;
+  background: linear-gradient(90deg, #CE1126, #1E40AF, #059669);
+  opacity: 0.8;
+}
+
+.sudan-status-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(206, 17, 38, 0.1) 0%, transparent 70%);
+  border-radius: 0 0 0 100px;
 }
 
 .sudan-status-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-  border-color: rgba(14, 165, 233, 0.3);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(206, 17, 38, 0.2);
+  border-color: rgba(206, 17, 38, 0.4);
+}
+
+.sudan-status-card:hover::after {
+  background: radial-gradient(circle, rgba(206, 17, 38, 0.15) 0%, transparent 70%);
 }
 
 .sudan-department-card {
@@ -569,7 +586,7 @@ button:focus,
   color: white;
 }
 
-/* Loading Shimmer Effect */
+/* Enhanced Loading States & Interactions */
 .sudan-loading {
   background: linear-gradient(90deg, 
     rgba(255, 255, 255, 0.05) 25%, 
@@ -577,6 +594,127 @@ button:focus,
     rgba(255, 255, 255, 0.05) 75%);
   background-size: 400% 100%;
   animation: sudan-shimmer 1.5s infinite;
+}
+
+/* Skeleton Loading for Cards */
+.sudan-skeleton {
+  background: linear-gradient(90deg,
+    rgba(206, 17, 38, 0.08) 25%,
+    rgba(206, 17, 38, 0.15) 50%,
+    rgba(206, 17, 38, 0.08) 75%);
+  background-size: 200% 100%;
+  animation: sudan-skeleton-pulse 1.2s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes sudan-skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Enhanced Loading Spinner */
+.sudan-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(206, 17, 38, 0.2);
+  border-top: 3px solid #CE1126;
+  border-radius: 50%;
+  animation: sudan-spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes sudan-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Interactive Progress Ring */
+.sudan-progress-ring {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.sudan-progress-ring svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.sudan-progress-ring circle {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.sudan-progress-ring .background {
+  stroke: rgba(255, 255, 255, 0.2);
+}
+
+.sudan-progress-ring .progress {
+  stroke: #CE1126;
+  stroke-dasharray: 188.5;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+/* Modern Button Enhancements */
+.sudan-btn-modern {
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-primary);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.sudan-btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.sudan-btn-modern:hover::before {
+  left: 100%;
+}
+
+.sudan-btn-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(206, 17, 38, 0.4);
+}
+
+.sudan-btn-modern:active {
+  transform: translateY(0);
+}
+
+/* Glass Panel Effect */
+.sudan-glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sudan-glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
 }
 
 /* Sudan Flag Accent Line */
