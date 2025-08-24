@@ -1,0 +1,321 @@
+# Prometheus Configuration for Sudan Digital Identity System
+# Comprehensive monitoring for production government services
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'sudan-identity-prod'
+    environment: 'production'
+    region: 'sudan'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Load alerting rules
+rule_files:
+  - "alert_rules.yml"
+  - "sudan_identity_rules.yml"
+
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    scrape_interval: 10s
+
+  # Sudan Identity Portal Application
+  - job_name: 'sudan-identity-portal'
+    static_configs:
+      - targets: 
+        - 'sudan-identity-service:3000'
+        - 'sudan-identity-service-2:3000'
+        - 'sudan-identity-service-3:3000'
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    scheme: https
+    tls_config:
+      ca_file: /etc/ssl/certs/ca.pem
+      cert_file: /etc/ssl/certs/sudan-identity.pem
+      key_file: /etc/ssl/private/sudan-identity.key
+    basic_auth:
+      username: 'monitoring'
+      password_file: /etc/prometheus/monitoring_password
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+      - source_labels: [__address__]
+        regex: '([^:]+):.*'
+        target_label: server
+        replacement: '${1}'
+
+  # API Gateway (Kong)
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['kong:8001']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  # Ministry Services
+  - job_name: 'health-ministry'
+    static_configs:
+      - targets: ['health-api.sudan.gov.sd:443']
+    metrics_path: '/actuator/prometheus'
+    scheme: https
+    scrape_interval: 30s
+
+  - job_name: 'education-ministry'
+    static_configs:
+      - targets: ['education-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  - job_name: 'interior-ministry'
+    static_configs:
+      - targets: ['interior-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  - job_name: 'finance-ministry'
+    static_configs:
+      - targets: ['finance-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  - job_name: 'energy-ministry'
+    static_configs:
+      - targets: ['energy-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  - job_name: 'infrastructure-ministry'
+    static_configs:
+      - targets: ['infrastructure-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  - job_name: 'justice-ministry'
+    static_configs:
+      - targets: ['justice-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  # Database Monitoring
+  - job_name: 'postgresql'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 15s
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+    scrape_interval: 15s
+
+  # Blockchain Network
+  - job_name: 'hyperledger-fabric'
+    static_configs:
+      - targets: 
+        - 'fabric-peer0:9443'
+        - 'fabric-peer1:9443'
+        - 'fabric-orderer:9443'
+    metrics_path: '/metrics'
+    scrape_interval: 20s
+    scheme: https
+
+  # Biometric Services
+  - job_name: 'biometric-service'
+    static_configs:
+      - targets: ['biometric-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  # Document Management
+  - job_name: 'document-service'
+    static_configs:
+      - targets: ['documents-api.sudan.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 30s
+
+  # Infrastructure Monitoring
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets:
+        - 'node1:9100'
+        - 'node2:9100'
+        - 'node3:9100'
+        - 'node4:9100'
+        - 'node5:9100'
+    scrape_interval: 15s
+
+  - job_name: 'kubernetes-apiservers'
+    kubernetes_sd_configs:
+      - role: endpoints
+        namespaces:
+          names:
+            - sudan-identity
+            - kube-system
+    scheme: https
+    tls_config:
+      ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+        action: keep
+        regex: default;kubernetes;https
+
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - sudan-identity
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+
+  # Load Balancer and Ingress
+  - job_name: 'nginx-ingress'
+    static_configs:
+      - targets: ['nginx-controller:10254']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  # External Service Monitoring
+  - job_name: 'central-bank-api'
+    static_configs:
+      - targets: ['api.cbos.gov.sd:443']
+    metrics_path: '/health/metrics'
+    scheme: https
+    scrape_interval: 60s
+
+  - job_name: 'national-statistics'
+    static_configs:
+      - targets: ['api.cbs.gov.sd:443']
+    metrics_path: '/metrics'
+    scheme: https
+    scrape_interval: 60s
+
+  # Chat Support System
+  - job_name: 'chat-support'
+    static_configs:
+      - targets: ['chat-service:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 20s
+
+  # Notification Services
+  - job_name: 'notification-service'
+    static_configs:
+      - targets: ['notifications:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # Message Queue (RabbitMQ)
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: ['rabbitmq:15692']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  # Storage Systems
+  - job_name: 'minio'
+    static_configs:
+      - targets: ['minio:9000']
+    metrics_path: '/minio/prometheus/metrics'
+    scrape_interval: 30s
+
+  # Network Infrastructure
+  - job_name: 'blackbox-exporter'
+    static_configs:
+      - targets:
+        - 'https://sudan-identity.gov.sd'
+        - 'https://api.sudan.gov.sd/health'
+        - 'https://health-api.sudan.gov.sd/health'
+        - 'https://education-api.sudan.gov.sd/health'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # DNS Monitoring
+  - job_name: 'dns-monitoring'
+    static_configs:
+      - targets:
+        - 'sudan-identity.gov.sd'
+        - 'api.sudan.gov.sd'
+        - 'health-api.sudan.gov.sd'
+    metrics_path: /probe
+    params:
+      module: [dns_lookup]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # Certificate Monitoring
+  - job_name: 'tls-certificate-monitoring'
+    static_configs:
+      - targets:
+        - 'sudan-identity.gov.sd:443'
+        - 'api.sudan.gov.sd:443'
+    metrics_path: /probe
+    params:
+      module: [tls_connect]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+# Remote write configuration for long-term storage
+remote_write:
+  - url: "https://metrics.sudan.gov.sd/api/v1/write"
+    basic_auth:
+      username: "sudan-identity"
+      password_file: "/etc/prometheus/remote_write_password"
+    write_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'up|http_.*|sudan_identity_.*|blockchain_.*|biometric_.*'
+        action: keep
+    queue_config:
+      capacity: 10000
+      max_samples_per_send: 2000
+      batch_send_deadline: 10s
+      min_backoff: 30ms
+      max_backoff: 100ms
+
+# Storage configuration
+storage:
+  tsdb:
+    path: /prometheus/data
+    retention.time: 30d
+    retention.size: 100GB
+    wal-compression: true
