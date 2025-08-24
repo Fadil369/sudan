@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البوابة الإلكترونية الحكومية - جمهورية السودان | Sudan Government Digital Portal</title>
+    <link rel="stylesheet" href="../design-system/foundation.css">
+    <link rel="stylesheet" href="../design-system/components.css">
+    <link rel="stylesheet" href="../design-system/bilingual-support.css">
+    <style>
+        .demo-section {
+            margin-bottom: var(--space-12);
+            padding-bottom: var(--space-8);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .demo-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--primary-red);
+            margin-bottom: var(--space-6);
+            text-align: center;
+        }
+        
+        .feature-showcase {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+        }
+        
+        @media (min-width: 768px) {
+            .feature-showcase {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .example-box {
+            background: var(--gray-50);
+            padding: var(--space-6);
+            border-radius: var(--radius-xl);
+            border: 2px dashed var(--gray-300);
+        }
+    </style>
+</head>
+<body class="font-loaded">
+    <!-- Language Toggle Button -->
+    <button class="language-toggle" onclick="toggleLanguage()" id="lang-toggle">
+        EN
+    </button>
+    
+    <!-- Skip Links in Both Languages -->
+    <a href="#main-content" class="skip-link sr-only-arabic">انتقل إلى المحتوى الرئيسي</a>
+    <a href="#main-content" class="skip-link sr-only-english">Skip to main content</a>
+    
+    <!-- Header with Bilingual Content -->
+    <header class="document-header-bilingual">
+        <div class="container">
+            <h1 class="document-title-arabic">البوابة الإلكترونية الحكومية</h1>
+            <h2 class="document-title-english">Sudan Government Digital Portal</h2>
+            <p style="margin-top: var(--space-4); opacity: 0.9;">
+                <span class="text-arabic">خدمة أكثر من 40 مليون مواطن</span><br>
+                <span class="text-english">Serving 40+ Million Citizens</span>
+            </p>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="container" style="margin-top: var(--space-8);">
+        
+        <!-- Typography Demonstration -->
+        <section class="demo-section">
+            <h2 class="demo-title">
+                <span class="text-arabic">عرض الطباعة</span><br>
+                <span class="text-english" style="font-size: var(--font-size-lg);">Typography Showcase</span>
+            </h2>
+            
+            <div class="feature-showcase">
+                <div class="example-box">
+                    <h3 class="text-arabic" style="margin-bottom: var(--space-4);">النص العربي</h3>
+                    <p class="text-arabic" style="line-height: 2; font-size: var(--font-size-lg);">
+                        هذا نص تجريبي باللغة العربية لإظهار كيفية عرض النصوص العربية في البوابة الحكومية الإلكترونية لجمهورية السودان. يتم استخدام خط نوتو العربي لضمان وضوح النص وجودة القراءة.
+                    </p>
+                    <div class="text-arabic" style="margin-top: var(--space-4); font-size: var(--font-size-sm); color: var(--gray-600);">
+                        الخط: نوتو العربي • الاتجاه: من اليمين إلى اليسار
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <h3 class="text-english" style="margin-bottom: var(--space-4);">English Text</h3>
+                    <p class="text-english" style="line-height: 1.6; font-size: var(--font-size-base);">
+                        This is sample English text demonstrating how English content appears in the Sudan Government Digital Portal. The Inter font family is used for optimal readability and modern appearance across all government services.
+                    </p>
+                    <div class="text-english" style="margin-top: var(--space-4); font-size: var(--font-size-sm); color: var(--gray-600);">
+                        Font: Inter • Direction: Left to Right
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Form Components Demonstration -->
+        <section class="demo-section">
+            <h2 class="demo-title">
+                <span class="text-arabic">نماذج ثنائية اللغة</span><br>
+                <span class="text-english" style="font-size: var(--font-size-lg);">Bilingual Forms</span>
+            </h2>
+            
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <div class="bilingual-container">
+                            <span class="content-arabic">طلب تجديد الهوية</span>
+                            <span class="content-english">ID Renewal Request</span>
+                        </div>
+                    </h3>
+                </div>
+                
+                <form class="card-content">
+                    <div class="form-group">
+                        <div class="form-label-bilingual">
+                            <span class="form-label-arabic form-label-required">الاسم الكامل</span>
+                            <span class="form-label-english">Full Name *</span>
+                        </div>
+                        <input type="text" class="form-input" placeholder="أدخل الاسم الكامل / Enter full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label-bilingual">
+                            <span class="form-label-arabic form-label-required">رقم الهوية الحالي</span>
+                            <span class="form-label-english">Current ID Number *</span>
+                        </div>
+                        <input type="text" class="form-input" placeholder="رقم الهوية / ID Number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label-bilingual">
+                            <span class="form-label-arabic">رقم الهاتف</span>
+                            <span class="form-label-english">Phone Number</span>
+                        </div>
+                        <input type="tel" class="form-input" placeholder="+249 xxx xxx xxxx">
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label-bilingual">
+                            <span class="form-label-arabic">العنوان الحالي</span>
+                            <span class="form-label-english">Current Address</span>
+                        </div>
+                        <textarea class="form-textarea" placeholder="العنوان السكني الحالي / Current residential address"></textarea>
+                    </div>
+                </form>
+                
+                <div class="card-footer">
+                    <button class="btn btn-outline">
+                        <span class="text-arabic">إلغاء</span>
+                        <span class="text-english" style="font-size: var(--font-size-sm);">Cancel</span>
+                    </button>
+                    <button class="btn btn-primary">
+                        <span class="text-arabic">إرسال الطلب</span>
+                        <span class="text-english" style="font-size: var(--font-size-sm);">Submit Request</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Service Cards Demonstration -->
+        <section class="demo-section">
+            <h2 class="demo-title">
+                <span class="text-arabic">الخدمات الحكومية</span><br>
+                <span class="text-english" style="font-size: var(--font-size-lg);">Government Services</span>
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4);">
+                <div class="service-card-bilingual">
+                    <div class="service-icon" style="background: #FEF2F2; color: var(--primary-red); font-size: var(--font-size-3xl); margin-bottom: var(--space-4);">🆔</div>
+                    <div class="service-title-arabic">السجل المدني والهوية</div>
+                    <div class="service-title-english">Civil Registry & Identity</div>
+                    <p class="text-arabic" style="font-size: var(--font-size-sm); color: var(--gray-600); margin: var(--space-3) 0;">
+                        بطاقات الهوية، شهادات الميلاد، تسجيل الزواج
+                    </p>
+                    <p class="text-english" style="font-size: var(--font-size-xs); color: var(--gray-500); margin-bottom: var(--space-4);">
+                        ID cards, birth certificates, marriage registration
+                    </p>
+                    <div class="status-bilingual">
+                        <span class="badge badge-success status-arabic">جميع الخدمات متاحة</span>
+                        <span class="status-english">All Services Available</span>
+                    </div>
+                </div>
+                
+                <div class="service-card-bilingual">
+                    <div class="service-icon" style="background: #F0FDF4; color: var(--success); font-size: var(--font-size-3xl); margin-bottom: var(--space-4);">🏥</div>
+                    <div class="service-title-arabic">الخدمات الصحية</div>
+                    <div class="service-title-english">Health Services</div>
+                    <p class="text-arabic" style="font-size: var(--font-size-sm); color: var(--gray-600); margin: var(--space-3) 0;">
+                        السجلات الطبية، المواعيد، التأمين الصحي
+                    </p>
+                    <p class="text-english" style="font-size: var(--font-size-xs); color: var(--gray-500); margin-bottom: var(--space-4);">
+                        Medical records, appointments, health insurance
+                    </p>
+                    <div class="status-bilingual">
+                        <span class="badge badge-success status-arabic">جميع الخدمات متاحة</span>
+                        <span class="status-english">All Services Available</span>
+                    </div>
+                </div>
+                
+                <div class="service-card-bilingual">
+                    <div class="service-icon" style="background: #EFF6FF; color: var(--info); font-size: var(--font-size-3xl); margin-bottom: var(--space-4);">🎓</div>
+                    <div class="service-title-arabic">خدمات التعليم</div>
+                    <div class="service-title-english">Education Services</div>
+                    <p class="text-arabic" style="font-size: var(--font-size-sm); color: var(--gray-600); margin: var(--space-3) 0;">
+                        السجلات الأكاديمية، الشهادات، التسجيل
+                    </p>
+                    <p class="text-english" style="font-size: var(--font-size-xs); color: var(--gray-500); margin-bottom: var(--space-4);">
+                        Academic records, certificates, enrollment
+                    </p>
+                    <div class="status-bilingual">
+                        <span class="badge badge-success status-arabic">جميع الخدمات متاحة</span>
+                        <span class="status-english">All Services Available</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Date and Number Formatting -->
+        <section class="demo-section">
+            <h2 class="demo-title">
+                <span class="text-arabic">التواريخ والأرقام</span><br>
+                <span class="text-english" style="font-size: var(--font-size-lg);">Dates and Numbers</span>
+            </h2>
+            
+            <div class="feature-showcase">
+                <div class="example-box">
+                    <h4 class="text-arabic" style="margin-bottom: var(--space-4);">التواريخ ثنائية اللغة</h4>
+                    <div class="date-bilingual">
+                        <div class="date-hijri">15 محرم 1447 هـ</div>
+                        <div class="date-gregorian">August 24, 2025 CE</div>
+                    </div>
+                    
+                    <div style="margin-top: var(--space-4);">
+                        <h5 class="text-arabic" style="margin-bottom: var(--space-2);">أوقات الدوام الرسمي</h5>
+                        <div class="text-arabic">من الأحد إلى الخميس: 8:00 ص - 4:00 م</div>
+                        <div class="text-english" style="font-size: var(--font-size-sm); color: var(--gray-600);">
+                            Sunday to Thursday: 8:00 AM - 4:00 PM
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="example-box">
+                    <h4 class="text-english" style="margin-bottom: var(--space-4);">Currency and Statistics</h4>
+                    <div class="currency-bilingual">
+                        <span class="currency-arabic">500 جنيه سوداني</span>
+                        <span class="currency-english">(≈ $2.50 USD)</span>
+                    </div>
+                    
+                    <div style="margin-top: var(--space-4);">
+                        <h5 style="margin-bottom: var(--space-2);">Processing Statistics</h5>
+                        <div class="numbers-arabic text-arabic">معدل المعالجة: 94%</div>
+                        <div class="text-english" style="font-size: var(--font-size-sm); color: var(--gray-600);">
+                            Processing Rate: 94%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Navigation and Layout Demonstration -->
+        <section class="demo-section">
+            <h2 class="demo-title">
+                <span class="text-arabic">التنقل والتخطيط</span><br>
+                <span class="text-english" style="font-size: var(--font-size-lg);">Navigation and Layout</span>
+            </h2>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <span class="text-arabic">قائمة التنقل الرئيسية</span>
+                        <span class="text-english" style="font-size: var(--font-size-base); color: var(--gray-600);">Main Navigation Menu</span>
+                    </h3>
+                </div>
+                
+                <div class="card-content">
+                    <nav class="nav nav-vertical">
+                        <a href="#" class="nav-item active">
+                            <span>🏠</span>
+                            <div class="bilingual-container">
+                                <span class="content-arabic">الرئيسية</span>
+                                <span class="content-english" style="font-size: var(--font-size-sm);">Home</span>
+                            </div>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <span>📋</span>
+                            <div class="bilingual-container">
+                                <span class="content-arabic">طلباتي</span>
+                                <span class="content-english" style="font-size: var(--font-size-sm);">My Applications</span>
+                            </div>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <span>📄</span>
+                            <div class="bilingual-container">
+                                <span class="content-arabic">الوثائق</span>
+                                <span class="content-english" style="font-size: var(--font-size-sm);">Documents</span>
+                            </div>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <span>⚙️</span>
+                            <div class="bilingual-container">
+                                <span class="content-arabic">الإعدادات</span>
+                                <span class="content-english" style="font-size: var(--font-size-sm);">Settings</span>
+                            </div>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Alert and Notification Examples -->
+        <section class="demo-section">
+            <h2 class="demo-title">
+                <span class="text-arabic">التنبيهات والإشعارات</span><br>
+                <span class="text-english" style="font-size: var(--font-size-lg);">Alerts and Notifications</span>
+            </h2>
+            
+            <div style="display: grid; gap: var(--space-4);">
+                <div class="alert alert-success">
+                    <div class="text-arabic" style="font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                        تم قبول طلبكم بنجاح
+                    </div>
+                    <div class="text-english" style="font-size: var(--font-size-sm);">
+                        Your application has been successfully approved
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <div class="text-arabic" style="font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                        يرجى تحديث بياناتك الشخصية
+                    </div>
+                    <div class="text-english" style="font-size: var(--font-size-sm);">
+                        Please update your personal information
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <div class="text-arabic" style="font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                        خدمة جديدة متاحة الآن
+                    </div>
+                    <div class="text-english" style="font-size: var(--font-size-sm);">
+                        New service now available
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer style="background: var(--gray-900); color: white; padding: var(--space-8) 0; margin-top: var(--space-12);">
+        <div class="container">
+            <div style="text-align: center;">
+                <h3 style="margin-bottom: var(--space-2);">
+                    <span class="text-arabic">جمهورية السودان - الحكومة الرقمية</span>
+                </h3>
+                <h4 style="color: var(--gray-400); margin-bottom: var(--space-4);">
+                    <span class="text-english">Republic of Sudan - Digital Government</span>
+                </h4>
+                <p style="color: var(--gray-400); margin-bottom: var(--space-4);">
+                    <span class="text-arabic">خدمة أكثر من 40 مليون مواطن من خلال التحول الرقمي</span><br>
+                    <span class="text-english">Serving 40+ million citizens through digital transformation</span>
+                </p>
+                
+                <div style="display: flex; justify-content: center; gap: var(--space-6); flex-wrap: wrap;">
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">
+                        <span class="text-arabic">سياسة الخصوصية</span><br>
+                        <span class="text-english" style="font-size: var(--font-size-xs);">Privacy Policy</span>
+                    </a>
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">
+                        <span class="text-arabic">شروط الخدمة</span><br>
+                        <span class="text-english" style="font-size: var(--font-size-xs);">Terms of Service</span>
+                    </a>
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">
+                        <span class="text-arabic">الدعم الفني</span><br>
+                        <span class="text-english" style="font-size: var(--font-size-xs);">Support</span>
+                    </a>
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">
+                        <span class="text-arabic">اتصل بنا</span><br>
+                        <span class="text-english" style="font-size: var(--font-size-xs);">Contact Us</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Language switching functionality
+        let currentLanguage = 'ar'; // Start with Arabic
+        
+        function toggleLanguage() {
+            const html = document.getElementById('html-root');
+            const langToggle = document.getElementById('lang-toggle');
+            
+            if (currentLanguage === 'ar') {
+                // Switch to English
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                langToggle.textContent = 'ع';
+                currentLanguage = 'en';
+                
+                // Update document title
+                document.title = 'Sudan Government Digital Portal | البوابة الإلكترونية الحكومية - جمهورية السودان';
+            } else {
+                // Switch to Arabic
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                langToggle.textContent = 'EN';
+                currentLanguage = 'ar';
+                
+                // Update document title
+                document.title = 'البوابة الإلكترونية الحكومية - جمهورية السودان | Sudan Government Digital Portal';
+            }
+            
+            // Add animation class for smooth transition
+            document.body.classList.add('lang-switch-animation');
+            setTimeout(() => {
+                document.body.classList.remove('lang-switch-animation');
+            }, 300);
+        }
+        
+        // Font loading detection
+        if ('fonts' in document) {
+            document.fonts.ready.then(() => {
+                document.body.classList.add('font-loaded');
+            });
+        }
+        
+        // Form input direction handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="text"], textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Detect Arabic characters and adjust direction
+                    const arabicPattern = /[\u0600-\u06FF\u0750-\u077F]/;
+                    if (arabicPattern.test(this.value)) {
+                        this.style.direction = 'rtl';
+                        this.style.textAlign = 'right';
+                    } else {
+                        this.style.direction = 'ltr';
+                        this.style.textAlign = 'left';
+                    }
+                });
+            });
+        });
+        
+        // Keyboard navigation support for RTL
+        document.addEventListener('keydown', function(e) {
+            if (currentLanguage === 'ar' && e.key === 'Tab') {
+                // Handle RTL tab navigation if needed
+                // This is handled automatically by browsers, but can be customized
+            }
+        });
+        
+        // Screen reader announcements for language changes
+        function announceLanguageChange(lang) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('role', 'status');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.className = 'sr-only';
+            
+            if (lang === 'ar') {
+                announcement.textContent = 'تم التبديل إلى العربية';
+            } else {
+                announcement.textContent = 'Switched to English';
+            }
+            
+            document.body.appendChild(announcement);
+            setTimeout(() => {
+                document.body.removeChild(announcement);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

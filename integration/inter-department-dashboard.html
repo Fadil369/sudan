@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudan Inter-Departmental Integration Hub</title>
+    <link rel="stylesheet" href="../design-system/foundation.css">
+    <link rel="stylesheet" href="../design-system/components.css">
+    <link rel="stylesheet" href="../design-system/accessibility.css">
+    <style>
+        /* Integration-specific styles */
+        .integration-hub {
+            display: grid;
+            grid-template-areas: 
+                "sidebar header header"
+                "sidebar main main"
+                "sidebar main main";
+            grid-template-columns: 300px 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+            gap: 0;
+        }
+        
+        .integration-sidebar {
+            grid-area: sidebar;
+            background: var(--gray-900);
+            color: white;
+            padding: var(--space-6);
+            overflow-y: auto;
+        }
+        
+        .integration-header {
+            grid-area: header;
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: var(--space-4) var(--space-6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .integration-main {
+            grid-area: main;
+            padding: var(--space-6);
+            background: var(--gray-50);
+            overflow-y: auto;
+        }
+        
+        .department-node {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            margin-bottom: var(--space-4);
+            border-left: 4px solid;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+        }
+        
+        .department-node:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .department-node.health { border-left-color: var(--success); }
+        .department-node.education { border-left-color: var(--info); }
+        .department-node.finance { border-left-color: var(--warning); }
+        .department-node.civil { border-left-color: var(--primary-red); }
+        .department-node.agriculture { border-left-color: var(--gov-green); }
+        .department-node.social { border-left-color: var(--gov-purple); }
+        
+        .department-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-top: var(--space-2);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        
+        .status-dot.warning { background: var(--warning); }
+        .status-dot.error { background: var(--error); }
+        
+        .integration-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .flow-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-base);
+            border: 1px solid var(--gray-200);
+            position: relative;
+        }
+        
+        .flow-card::after {
+            content: '→';
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            transform: translateY(-50%);
+            font-size: var(--font-size-2xl);
+            color: var(--gray-400);
+            background: var(--gray-50);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .flow-card:last-child::after {
+            display: none;
+        }
+        
+        .api-endpoint {
+            background: var(--gray-900);
+            color: var(--gray-100);
+            padding: var(--space-3);
+            border-radius: var(--radius-lg);
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: var(--font-size-sm);
+            margin: var(--space-3) 0;
+            overflow-x: auto;
+        }
+        
+        .data-sync-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+        
+        .sync-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .sync-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 auto var(--space-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-xl);
+        }
+        
+        .sync-icon.success { background: var(--success); color: white; }
+        .sync-icon.warning { background: var(--warning); color: white; }
+        .sync-icon.error { background: var(--error); color: white; }
+        
+        .workflow-diagram {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-bottom: var(--space-8);
+            box-shadow: var(--shadow-base);
+            overflow-x: auto;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            min-width: 800px;
+        }
+        
+        .workflow-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .workflow-step::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -var(--space-2);
+            width: var(--space-4);
+            height: 2px;
+            background: var(--gray-300);
+        }
+        
+        .workflow-step:last-child::after {
+            display: none;
+        }
+        
+        .workflow-step.active::after {
+            background: var(--primary-red);
+        }
+        
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-300);
+            color: var(--gray-600);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-2);
+            font-weight: var(--font-weight-semibold);
+        }
+        
+        .workflow-step.active .step-circle {
+            background: var(--primary-red);
+            color: white;
+        }
+        
+        .workflow-step.completed .step-circle {
+            background: var(--success);
+            color: white;
+        }
+        
+        @media (max-width: 1024px) {
+            .integration-hub {
+                grid-template-areas: 
+                    "header"
+                    "main";
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            
+            .integration-sidebar {
+                display: none;
+            }
+            
+            .integration-main {
+                padding: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Links -->
+    <a href="#main-content" class="skip-navigation">Skip to main content</a>
+    
+    <div class="integration-hub">
+        <!-- Sidebar with Department Navigation -->
+        <aside class="integration-sidebar">
+            <div style="margin-bottom: var(--space-8);">
+                <h1 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); margin-bottom: var(--space-2); color: var(--primary-red);">
+                    Integration Hub
+                </h1>
+                <p style="font-size: var(--font-size-sm); color: var(--gray-400);">
+                    Cross-Departmental Services
+                </p>
+            </div>
+            
+            <nav>
+                <h2 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--gray-400); margin-bottom: var(--space-4); text-transform: uppercase; letter-spacing: 0.05em;">
+                    Government Departments
+                </h2>
+                
+                <div class="department-node health">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-medium); color: white; margin: 0;">
+                            Health & Population
+                        </h3>
+                        <span style="font-size: var(--font-size-xs); background: rgba(255,255,255,0.2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);">
+                            ACTIVE
+                        </span>
+                    </div>
+                    <div class="department-status">
+                        <div class="status-dot"></div>
+                        <span style="font-size: var(--font-size-xs); color: var(--gray-300);">2.1M records synced</span>
+                    </div>
+                </div>
+                
+                <div class="department-node education">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-medium); color: white; margin: 0;">
+                            Education Ministry
+                        </h3>
+                        <span style="font-size: var(--font-size-xs); background: rgba(255,255,255,0.2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);">
+                            ACTIVE
+                        </span>
+                    </div>
+                    <div class="department-status">
+                        <div class="status-dot"></div>
+                        <span style="font-size: var(--font-size-xs); color: var(--gray-300);">1.8M students</span>
+                    </div>
+                </div>
+                
+                <div class="department-node finance">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-medium); color: white; margin: 0;">
+                            Finance & Economy
+                        </h3>
+                        <span style="font-size: var(--font-size-xs); background: rgba(255,204,0,0.3); color: #FFC107; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);">
+                            SYNC
+                        </span>
+                    </div>
+                    <div class="department-status">
+                        <div class="status-dot warning"></div>
+                        <span style="font-size: var(--font-size-xs); color: var(--gray-300);">Sync in progress</span>
+                    </div>
+                </div>
+                
+                <div class="department-node civil">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-medium); color: white; margin: 0;">
+                            Civil Registry
+                        </h3>
+                        <span style="font-size: var(--font-size-xs); background: rgba(255,255,255,0.2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);">
+                            ACTIVE
+                        </span>
+                    </div>
+                    <div class="department-status">
+                        <div class="status-dot"></div>
+                        <span style="font-size: var(--font-size-xs); color: var(--gray-300);">40.2M citizens</span>
+                    </div>
+                </div>
+                
+                <div class="department-node agriculture">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-medium); color: white; margin: 0;">
+                            Agriculture
+                        </h3>
+                        <span style="font-size: var(--font-size-xs); background: rgba(255,255,255,0.2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);">
+                            ACTIVE
+                        </span>
+                    </div>
+                    <div class="department-status">
+                        <div class="status-dot"></div>
+                        <span style="font-size: var(--font-size-xs); color: var(--gray-300);">850K farmers</span>
+                    </div>
+                </div>
+                
+                <div class="department-node social">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--space-2);">
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-medium); color: white; margin: 0;">
+                            Social Welfare
+                        </h3>
+                        <span style="font-size: var(--font-size-xs); background: rgba(255,255,255,0.2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm);">
+                            ACTIVE
+                        </span>
+                    </div>
+                    <div class="department-status">
+                        <div class="status-dot"></div>
+                        <span style="font-size: var(--font-size-xs); color: var(--gray-300);">3.2M beneficiaries</span>
+                    </div>
+                </div>
+            </nav>
+            
+            <div style="margin-top: var(--space-8); padding-top: var(--space-6); border-top: 1px solid var(--gray-700);">
+                <h3 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--gray-400); margin-bottom: var(--space-4);">
+                    System Health
+                </h3>
+                <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: var(--font-size-sm); color: var(--gray-300);">API Gateway</span>
+                        <span style="color: var(--success); font-size: var(--font-size-xs);">●</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: var(--font-size-sm); color: var(--gray-300);">Database Cluster</span>
+                        <span style="color: var(--success); font-size: var(--font-size-xs);">●</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: var(--font-size-sm); color: var(--gray-300);">Message Queue</span>
+                        <span style="color: var(--warning); font-size: var(--font-size-xs);">●</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Header -->
+        <header class="integration-header">
+            <div>
+                <h1 style="font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin: 0;">
+                    Inter-Departmental Integration Dashboard
+                </h1>
+                <p style="font-size: var(--font-size-base); color: var(--gray-600); margin: 0;">
+                    Real-time cross-department data synchronization and workflow management
+                </p>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: var(--space-4);">
+                <div class="badge badge-success">All Systems Operational</div>
+                <button class="btn btn-outline">🔄 Sync All</button>
+                <button class="btn btn-primary">📊 Generate Report</button>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main id="main-content" class="integration-main">
+            <!-- Data Synchronization Status -->
+            <section style="margin-bottom: var(--space-8);">
+                <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--space-6);">
+                    Data Synchronization Status
+                </h2>
+                
+                <div class="data-sync-status">
+                    <div class="sync-card">
+                        <div class="sync-icon success">✓</div>
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                            Citizen Records
+                        </h3>
+                        <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-2);">
+                            Last sync: 2 minutes ago
+                        </p>
+                        <div style="font-size: var(--font-size-xs); color: var(--success);">40,234,567 records</div>
+                    </div>
+                    
+                    <div class="sync-card">
+                        <div class="sync-icon success">✓</div>
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                            Health Data
+                        </h3>
+                        <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-2);">
+                            Last sync: 5 minutes ago
+                        </p>
+                        <div style="font-size: var(--font-size-xs); color: var(--success);">2,156,789 records</div>
+                    </div>
+                    
+                    <div class="sync-card">
+                        <div class="sync-icon warning">⚡</div>
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                            Financial Records
+                        </h3>
+                        <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-2);">
+                            Sync in progress...
+                        </p>
+                        <div style="font-size: var(--font-size-xs); color: var(--warning);">Processing batch 847/1250</div>
+                    </div>
+                    
+                    <div class="sync-card">
+                        <div class="sync-icon success">✓</div>
+                        <h3 style="font-size: var(--font-size-base); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                            Education Data
+                        </h3>
+                        <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-2);">
+                            Last sync: 1 hour ago
+                        </p>
+                        <div style="font-size: var(--font-size-xs); color: var(--success);">1,843,256 student records</div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Cross-Department Workflow Example -->
+            <section style="margin-bottom: var(--space-8);">
+                <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--space-6);">
+                    Cross-Department Workflow: New Citizen Registration
+                </h2>
+                
+                <div class="workflow-diagram">
+                    <div class="workflow-steps">
+                        <div class="workflow-step completed">
+                            <div class="step-circle">1</div>
+                            <h4 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                                Birth Certificate
+                            </h4>
+                            <p style="font-size: var(--font-size-xs); color: var(--gray-600);">Civil Registry</p>
+                        </div>
+                        
+                        <div class="workflow-step completed">
+                            <div class="step-circle">2</div>
+                            <h4 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                                Health Record
+                            </h4>
+                            <p style="font-size: var(--font-size-xs); color: var(--gray-600);">Health Ministry</p>
+                        </div>
+                        
+                        <div class="workflow-step active">
+                            <div class="step-circle">3</div>
+                            <h4 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                                Tax ID Generation
+                            </h4>
+                            <p style="font-size: var(--font-size-xs); color: var(--gray-600);">Finance Ministry</p>
+                        </div>
+                        
+                        <div class="workflow-step">
+                            <div class="step-circle">4</div>
+                            <h4 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                                Education Eligibility
+                            </h4>
+                            <p style="font-size: var(--font-size-xs); color: var(--gray-600);">Education Ministry</p>
+                        </div>
+                        
+                        <div class="workflow-step">
+                            <div class="step-circle">5</div>
+                            <h4 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-1);">
+                                Social Benefits
+                            </h4>
+                            <p style="font-size: var(--font-size-xs); color: var(--gray-600);">Social Welfare</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: var(--space-6); padding-top: var(--space-4); border-top: 1px solid var(--gray-200);">
+                        <div style="display: flex; justify-content: between; align-items: center; gap: var(--space-4);">
+                            <div>
+                                <strong>Current Case:</strong> Ahmed Mohamed Ali (DOB: 2025-08-01)
+                            </div>
+                            <div>
+                                <span class="badge badge-warning">Step 3 - Processing</span>
+                            </div>
+                            <div>
+                                <strong>Estimated Completion:</strong> 2 hours
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- API Integration Flow -->
+            <section style="margin-bottom: var(--space-8);">
+                <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--space-6);">
+                    API Integration Flow
+                </h2>
+                
+                <div class="integration-flow">
+                    <div class="flow-card">
+                        <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--primary-red); margin-bottom: var(--space-3);">
+                            🆔 Civil Registry API
+                        </h3>
+                        <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-3);">
+                            Core citizen identification and civil status data
+                        </p>
+                        <div class="api-endpoint">
+                            GET /api/v2/citizens/{oid}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-4);">
+                            <span class="badge badge-success">Active</span>
+                            <span style="font-size: var(--font-size-xs); color: var(--gray-500);">99.9% uptime</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-card">
+                        <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--success); margin-bottom: var(--space-3);">
+                            🏥 Health Data API
+                        </h3>
+                        <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-3);">
+                            Medical records and health insurance information
+                        </p>
+                        <div class="api-endpoint">
+                            GET /api/v2/health/{oid}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-4);">
+                            <span class="badge badge-success">Active</span>
+                            <span style="font-size: var(--font-size-xs); color: var(--gray-500);">99.7% uptime</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flow-card">
+                        <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); color: var(--warning); margin-bottom: var(--space-3);">
+                            💰 Financial API
+                        </h3>
+                        <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-3);">
+                            Tax records, payments, and financial transactions
+                        </p>
+                        <div class="api-endpoint">
+                            GET /api/v2/finance/{oid}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-4);">
+                            <span class="badge badge-warning">Sync</span>
+                            <span style="font-size: var(--font-size-xs); color: var(--gray-500);">98.2% uptime</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Real-time Activity Feed -->
+            <section style="margin-bottom: var(--space-8);">
+                <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--space-6);">
+                    Real-time Cross-Department Activity
+                </h2>
+                
+                <div class="card">
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <div style="display: flex; align-items: start; gap: var(--space-3); padding: var(--space-4); border-bottom: 1px solid var(--gray-100);">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); flex-shrink: 0;">
+                                ✓
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: var(--font-weight-medium); margin-bottom: var(--space-1);">
+                                    Health insurance activated for Ahmed Mohamed Ali
+                                </div>
+                                <div style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-1);">
+                                    Health Ministry → Social Welfare → Finance Ministry
+                                </div>
+                                <div style="font-size: var(--font-size-xs); color: var(--gray-500);">
+                                    2 minutes ago • OID: 1234567890
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: start; gap: var(--space-3); padding: var(--space-4); border-bottom: 1px solid var(--gray-100);">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--info); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); flex-shrink: 0;">
+                                📚
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: var(--font-weight-medium); margin-bottom: var(--space-1);">
+                                    Student graduation certificate issued
+                                </div>
+                                <div style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-1);">
+                                    Education Ministry → Civil Registry → Labor Ministry
+                                </div>
+                                <div style="font-size: var(--font-size-xs); color: var(--gray-500);">
+                                    5 minutes ago • Batch: 247 certificates
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: start; gap: var(--space-3); padding: var(--space-4); border-bottom: 1px solid var(--gray-100);">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--warning); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); flex-shrink: 0;">
+                                ⚡
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: var(--font-weight-medium); margin-bottom: var(--space-1);">
+                                    Bulk tax payment processing initiated
+                                </div>
+                                <div style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-1);">
+                                    Finance Ministry → Banking Integration
+                                </div>
+                                <div style="font-size: var(--font-size-xs); color: var(--gray-500);">
+                                    8 minutes ago • 15,847 transactions
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: start; gap: var(--space-3); padding: var(--space-4); border-bottom: 1px solid var(--gray-100);">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); flex-shrink: 0;">
+                                🌾
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: var(--font-weight-medium); margin-bottom: var(--space-1);">
+                                    Agricultural subsidy disbursement approved
+                                </div>
+                                <div style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-1);">
+                                    Agriculture Ministry → Finance Ministry → Banking
+                                </div>
+                                <div style="font-size: var(--font-size-xs); color: var(--gray-500);">
+                                    12 minutes ago • 2,345 farmers
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: start; gap: var(--space-3); padding: var(--space-4);">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-red); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); flex-shrink: 0;">
+                                🆔
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: var(--font-weight-medium); margin-bottom: var(--space-1);">
+                                    New birth registration triggered ID generation
+                                </div>
+                                <div style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-1);">
+                                    Civil Registry → Health Ministry → Education Ministry
+                                </div>
+                                <div style="font-size: var(--font-size-xs); color: var(--gray-500);">
+                                    15 minutes ago • New citizen registration
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Integration Health Metrics -->
+            <section>
+                <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--gray-900); margin-bottom: var(--space-6);">
+                    Integration Health Metrics
+                </h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-6);">
+                    <div class="card">
+                        <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-4); color: var(--gray-900);">
+                            API Performance
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Average Response Time</span>
+                                <span style="font-weight: var(--font-weight-semibold);">127ms</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Requests per Second</span>
+                                <span style="font-weight: var(--font-weight-semibold);">2,847</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Success Rate</span>
+                                <span style="font-weight: var(--font-weight-semibold); color: var(--success);">99.7%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-4); color: var(--gray-900);">
+                            Data Synchronization
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Records Processed Today</span>
+                                <span style="font-weight: var(--font-weight-semibold);">1.2M</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Sync Conflicts</span>
+                                <span style="font-weight: var(--font-weight-semibold);">23</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Data Integrity</span>
+                                <span style="font-weight: var(--font-weight-semibold); color: var(--success);">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-4); color: var(--gray-900);">
+                            System Resources
+                        </h3>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>CPU Usage</span>
+                                <span style="font-weight: var(--font-weight-semibold);">67%</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Memory Usage</span>
+                                <span style="font-weight: var(--font-weight-semibold);">84%</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>Storage Used</span>
+                                <span style="font-weight: var(--font-weight-semibold);">2.7TB / 5TB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        // Real-time updates simulation
+        function updateMetrics() {
+            // Simulate real-time metric updates
+            const responseTime = Math.floor(Math.random() * 50) + 100;
+            const requestsPerSecond = Math.floor(Math.random() * 500) + 2500;
+            
+            // Update would happen here in real implementation
+            console.log(`Updated metrics: ${responseTime}ms, ${requestsPerSecond} req/s`);
+        }
+        
+        // Update metrics every 5 seconds
+        setInterval(updateMetrics, 5000);
+        
+        // Department node interactions
+        document.querySelectorAll('.department-node').forEach(node => {
+            node.addEventListener('click', function() {
+                // Remove active class from all nodes
+                document.querySelectorAll('.department-node').forEach(n => n.classList.remove('active'));
+                // Add active class to clicked node
+                this.classList.add('active');
+                
+                // Filter content based on selected department
+                const department = this.classList[1]; // Get department class
+                console.log(`Selected department: ${department}`);
+                
+                // In real implementation, this would filter the dashboard content
+            });
+        });
+        
+        // Responsive sidebar toggle for mobile
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.integration-sidebar');
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Handle mobile responsiveness
+        function handleResize() {
+            const sidebar = document.querySelector('.integration-sidebar');
+            if (window.innerWidth <= 1024) {
+                // Mobile view
+                if (!document.querySelector('.mobile-toggle')) {
+                    const toggle = document.createElement('button');
+                    toggle.className = 'btn btn-outline mobile-toggle';
+                    toggle.textContent = '☰ Departments';
+                    toggle.onclick = toggleSidebar;
+                    document.querySelector('.integration-header').prepend(toggle);
+                }
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Call on load
+    </script>
+</body>
+</html>

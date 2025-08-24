@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خدمات الطوارئ الحكومية - Sudan Emergency Government Services</title>
+    
+    <!-- Preload critical resources for emergency situations -->
+    <link rel="preload" href="/fonts/NotoSansArabic-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/css/emergency-critical.css" as="style">
+    
+    <!-- Critical CSS inline for emergency services -->
+    <style>
+        /* EMERGENCY CRITICAL CSS - Inline for fastest loading */
+        :root {
+            --emergency-red: #DC2626;
+            --emergency-green: #16A34A;
+            --emergency-blue: #1D4ED8;
+            --emergency-black: #000000;
+            --emergency-white: #FFFFFF;
+            --emergency-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: 'Noto Sans Arabic', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            color: var(--emergency-black);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        /* Emergency header - always visible */
+        .emergency-header {
+            background: var(--emergency-red);
+            color: var(--emergency-white);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            text-align: center;
+            box-shadow: var(--emergency-shadow);
+        }
+        
+        .emergency-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 0 12px 0;
+        }
+        
+        .emergency-subtitle {
+            font-size: 20px;
+            margin: 0;
+            opacity: 0.95;
+        }
+        
+        /* Critical action buttons */
+        .emergency-actions {
+            display: grid;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .emergency-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            background: var(--emergency-red);
+            color: var(--emergency-white);
+            border: 4px solid var(--emergency-black);
+            border-radius: 16px;
+            padding: 24px;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 80px;
+            box-shadow: var(--emergency-shadow);
+        }
+        
+        .emergency-btn:hover,
+        .emergency-btn:focus {
+            background: var(--emergency-black);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            outline: 4px solid var(--emergency-red);
+            outline-offset: 2px;
+        }
+        
+        .emergency-btn-medical {
+            background: var(--emergency-red);
+        }
+        
+        .emergency-btn-fire {
+            background: #EA580C;
+        }
+        
+        .emergency-btn-police {
+            background: var(--emergency-blue);
+        }
+        
+        .emergency-btn-general {
+            background: var(--emergency-green);
+        }
+        
+        /* Emergency icon */
+        .emergency-icon {
+            font-size: 32px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .emergency-icon {
+                animation: none;
+            }
+        }
+        
+        /* Service description */
+        .service-description {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        /* High contrast mode */
+        @media (prefers-contrast: high) {
+            .emergency-btn {
+                border-width: 6px;
+                background: var(--emergency-white);
+                color: var(--emergency-black);
+            }
+            
+            .emergency-header {
+                background: var(--emergency-black);
+                border: 4px solid var(--emergency-white);
+            }
+        }
+    </style>
+    
+    <!-- Load external stylesheets after critical inline CSS -->
+    <link rel="stylesheet" href="/design-system/foundation.css">
+    <link rel="stylesheet" href="/design-system/accessibility.css">
+    <link rel="stylesheet" href="/accessibility/accessible-service-patterns.css">
+</head>
+<body>
+    <!-- Skip navigation for screen readers -->
+    <a href="#main-content" class="skip-navigation">
+        انتقل إلى المحتوى الرئيسي - Skip to main content
+    </a>
+    
+    <!-- Language toggle - always accessible -->
+    <div class="language-toggle" role="group" aria-labelledby="lang-toggle-title">
+        <span id="lang-toggle-title" class="sr-only">اختر لغتك - Choose your language</span>
+        <button class="lang-button active" 
+                aria-pressed="true"
+                aria-describedby="arabic-selected"
+                onclick="setLanguage('ar')" 
+                lang="ar">
+            العربية
+        </button>
+        <span id="arabic-selected" class="sr-only">اللغة العربية مُختارة</span>
+        
+        <button class="lang-button" 
+                aria-pressed="false"
+                aria-describedby="english-available"
+                onclick="setLanguage('en')" 
+                lang="en">
+            English
+        </button>
+        <span id="english-available" class="sr-only">Switch to English</span>
+    </div>
+    
+    <!-- Main emergency content -->
+    <main id="main-content" role="main">
+        <!-- Emergency alert header -->
+        <header class="emergency-header" role="banner">
+            <h1 class="emergency-title">
+                <span class="emergency-icon" aria-hidden="true">🚨</span>
+                خدمات الطوارئ الحكومية
+            </h1>
+            <p class="emergency-subtitle">
+                Sudan Government Emergency Services
+                <br>
+                متوفرة 24/7 - Available 24/7
+            </p>
+        </header>
+        
+        <!-- Critical emergency actions -->
+        <section class="emergency-actions" aria-labelledby="emergency-actions-title">
+            <h2 id="emergency-actions-title" class="sr-only">
+                إجراءات الطوارئ - Emergency Actions
+            </h2>
+            
+            <!-- Medical Emergency -->
+            <button class="emergency-btn emergency-btn-medical" 
+                    onclick="initiateEmergencyCall('medical')"
+                    aria-describedby="medical-description">
+                <span class="emergency-icon" aria-hidden="true">🏥</span>
+                <div>
+                    <div>طوارئ طبية - Medical Emergency</div>
+                    <div class="service-description" id="medical-description">
+                        اتصال مباشر بالإسعاف والخدمات الطبية الطارئة
+                        <br>
+                        Direct connection to ambulance and emergency medical services
+                    </div>
+                </div>
+            </button>
+            
+            <!-- Fire Emergency -->
+            <button class="emergency-btn emergency-btn-fire" 
+                    onclick="initiateEmergencyCall('fire')"
+                    aria-describedby="fire-description">
+                <span class="emergency-icon" aria-hidden="true">🔥</span>
+                <div>
+                    <div>إطفاء الحريق - Fire Department</div>
+                    <div class="service-description" id="fire-description">
+                        الإبلاغ عن الحرائق وطلب خدمات الإطفاء
+                        <br>
+                        Report fires and request fire department services
+                    </div>
+                </div>
+            </button>
+            
+            <!-- Police Emergency -->
+            <button class="emergency-btn emergency-btn-police" 
+                    onclick="initiateEmergencyCall('police')"
+                    aria-describedby="police-description">
+                <span class="emergency-icon" aria-hidden="true">👮</span>
+                <div>
+                    <div>الشرطة - Police Emergency</div>
+                    <div class="service-description" id="police-description">
+                        الإبلاغ عن الجرائم وطلب المساعدة الأمنية
+                        <br>
+                        Report crimes and request police assistance
+                    </div>
+                </div>
+            </button>
+            
+            <!-- General Emergency -->
+            <button class="emergency-btn emergency-btn-general" 
+                    onclick="initiateEmergencyCall('general')"
+                    aria-describedby="general-description">
+                <span class="emergency-icon" aria-hidden="true">📞</span>
+                <div>
+                    <div>طوارئ عامة - General Emergency</div>
+                    <div class="service-description" id="general-description">
+                        للحالات الطارئة الأخرى والمساعدة العامة
+                        <br>
+                        For other emergencies and general assistance
+                    </div>
+                </div>
+            </button>
+        </section>
+        
+        <!-- Emergency information and fallbacks -->
+        <section class="emergency-info" aria-labelledby="emergency-info-title">
+            <h2 id="emergency-info-title">
+                معلومات مهمة - Important Information
+            </h2>
+            
+            <!-- Direct phone numbers fallback -->
+            <div class="emergency-fallback" role="region" aria-labelledby="fallback-title">
+                <h3 id="fallback-title">
+                    أرقام الطوارئ المباشرة - Direct Emergency Numbers
+                </h3>
+                
+                <div class="phone-numbers">
+                    <div class="phone-item">
+                        <strong>الإسعاف - Ambulance:</strong>
+                        <a href="tel:999" class="phone-link">999</a>
+                    </div>
+                    <div class="phone-item">
+                        <strong>الإطفاء - Fire Department:</strong>
+                        <a href="tel:998" class="phone-link">998</a>
+                    </div>
+                    <div class="phone-item">
+                        <strong>الشرطة - Police:</strong>
+                        <a href="tel:997" class="phone-link">997</a>
+                    </div>
+                    <div class="phone-item">
+                        <strong>طوارئ عامة - General Emergency:</strong>
+                        <a href="tel:996" class="phone-link">996</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SMS Emergency Service -->
+            <div class="sms-emergency" role="region" aria-labelledby="sms-title">
+                <h3 id="sms-title">
+                    خدمة الطوارئ عبر الرسائل - SMS Emergency Service
+                </h3>
+                <p>
+                    إذا لم تتمكن من الاتصال، أرسل رسالة نصية تحتوي على "طوارئ" أو "EMERGENCY" إلى:
+                    <br>
+                    If you cannot make a phone call, send SMS with "طوارئ" or "EMERGENCY" to:
+                </p>
+                <div class="sms-number">
+                    <a href="sms:1234" class="phone-link">1234</a>
+                </div>
+            </div>
+            
+            <!-- Location services -->
+            <div class="location-services" role="region" aria-labelledby="location-title">
+                <h3 id="location-title">
+                    خدمات الموقع - Location Services
+                </h3>
+                <button class="location-btn" onclick="shareLocation()" aria-describedby="location-description">
+                    <span aria-hidden="true">📍</span>
+                    مشاركة الموقع مع خدمات الطوارئ
+                </button>
+                <p id="location-description">
+                    Share your location with emergency services for faster response
+                </p>
+            </div>
+            
+            <!-- Nearest facilities -->
+            <div class="nearest-facilities" role="region" aria-labelledby="facilities-title">
+                <h3 id="facilities-title">
+                    أقرب المرافق - Nearest Facilities
+                </h3>
+                
+                <div class="facilities-list">
+                    <div class="facility-item">
+                        <h4>أقرب مستشفى - Nearest Hospital</h4>
+                        <p>مستشفى الخرطوم التعليمي - Khartoum Teaching Hospital</p>
+                        <p>العنوان: شارع الجامعة، الخرطوم</p>
+                        <p>Address: University Avenue, Khartoum</p>
+                        <a href="tel:+249183123456" class="facility-phone">+249-183-123-456</a>
+                    </div>
+                    
+                    <div class="facility-item">
+                        <h4>أقرب مركز شرطة - Nearest Police Station</h4>
+                        <p>مركز شرطة الخرطوم المركزي - Central Khartoum Police Station</p>
+                        <p>العنوان: وسط الخرطوم</p>
+                        <p>Address: Downtown Khartoum</p>
+                        <a href="tel:+249183987654" class="facility-phone">+249-183-987-654</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Accessibility features notice -->
+        <section class="accessibility-notice" aria-labelledby="a11y-title">
+            <h2 id="a11y-title">
+                الميزات المساعدة - Accessibility Features
+            </h2>
+            <ul>
+                <li>متوافق مع قارئات الشاشة - Compatible with screen readers</li>
+                <li>يمكن التنقل بالكيبورد كاملاً - Full keyboard navigation</li>
+                <li>نصوص عالية التباين - High contrast text</li>
+                <li>أحجام أزرار كبيرة للمس - Large touch targets</li>
+                <li>يعمل بدون JavaScript - Works without JavaScript</li>
+            </ul>
+        </section>
+    </main>
+    
+    <!-- Live region for announcements -->
+    <div id="live-announcements" 
+         class="live-region" 
+         aria-live="assertive" 
+         aria-atomic="true" 
+         role="status">
+    </div>
+    
+    <!-- Emergency JavaScript - Progressive enhancement -->
+    <script>
+        // Emergency service functions with fallbacks
+        function initiateEmergencyCall(serviceType) {
+            const phoneNumbers = {
+                medical: '999',
+                fire: '998',
+                police: '997',
+                general: '996'
+            };
+            
+            const serviceNames = {
+                medical: 'خدمة الإسعاف - Ambulance Service',
+                fire: 'خدمة الإطفاء - Fire Department',
+                police: 'خدمة الشرطة - Police Service',
+                general: 'خدمة الطوارئ العامة - General Emergency Service'
+            };
+            
+            // Announce to screen readers
+            announceToScreenReader(
+                `تم الاتصال بـ ${serviceNames[serviceType]} - Calling ${serviceNames[serviceType]}`
+            );
+            
+            // Try to make the call
+            const phoneNumber = phoneNumbers[serviceType];
+            
+            // For desktop browsers, show instructions
+            if (!window.navigator.userAgent.match(/Mobile|Android|iPhone/)) {
+                alert(`اتصل بالرقم: ${phoneNumber}\nCall: ${phoneNumber}`);
+                return;
+            }
+            
+            // For mobile devices, initiate call
+            try {
+                window.location.href = `tel:${phoneNumber}`;
+            } catch (error) {
+                // Fallback if tel: link doesn't work
+                alert(`اتصل بالرقم: ${phoneNumber}\nCall: ${phoneNumber}`);
+            }
+        }
+        
+        function shareLocation() {
+            announceToScreenReader('جاري تحديد الموقع - Getting your location');
+            
+            if (!navigator.geolocation) {
+                announceToScreenReader('خدمة الموقع غير متاحة - Location service not available');
+                return;
+            }
+            
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    
+                    announceToScreenReader(
+                        `تم تحديد الموقع وإرساله لخدمات الطوارئ - Location shared with emergency services`
+                    );
+                    
+                    // In a real implementation, this would send location to emergency services
+                    console.log('Location shared:', lat, lon);
+                },
+                function(error) {
+                    announceToScreenReader(
+                        'لم يتمكن من تحديد الموقع - Unable to determine location'
+                    );
+                }
+            );
+        }
+        
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update button states
+            document.querySelectorAll('.lang-button').forEach(btn => {
+                btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
+            });
+            
+            document.querySelector(`[onclick="setLanguage('${lang}')"]`).classList.add('active');
+            document.querySelector(`[onclick="setLanguage('${lang}')"]`).setAttribute('aria-pressed', 'true');
+            
+            announceToScreenReader(
+                lang === 'ar' ? 'تم تغيير اللغة إلى العربية' : 'Language changed to English'
+            );
+        }
+        
+        function announceToScreenReader(message) {
+            const liveRegion = document.getElementById('live-announcements');
+            liveRegion.textContent = message;
+            
+            // Clear after 3 seconds to prevent accumulation
+            setTimeout(() => {
+                liveRegion.textContent = '';
+            }, 3000);
+        }
+        
+        // Keyboard shortcuts for emergency services
+        document.addEventListener('keydown', function(e) {
+            // Alt + M for Medical
+            if (e.altKey && e.key === 'm') {
+                e.preventDefault();
+                initiateEmergencyCall('medical');
+            }
+            
+            // Alt + F for Fire
+            if (e.altKey && e.key === 'f') {
+                e.preventDefault();
+                initiateEmergencyCall('fire');
+            }
+            
+            // Alt + P for Police
+            if (e.altKey && e.key === 'p') {
+                e.preventDefault();
+                initiateEmergencyCall('police');
+            }
+            
+            // Alt + G for General
+            if (e.altKey && e.key === 'g') {
+                e.preventDefault();
+                initiateEmergencyCall('general');
+            }
+        });
+        
+        // Auto-detect language based on browser settings
+        const browserLang = navigator.language || navigator.userLanguage;
+        if (browserLang.startsWith('ar')) {
+            setLanguage('ar');
+        } else {
+            setLanguage('en');
+        }
+        
+        // Announce page load completion
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                announceToScreenReader(
+                    'صفحة خدمات الطوارئ جاهزة - Emergency services page ready'
+                );
+            }, 1000);
+        });
+    </script>
+    
+    <!-- Fallback for users with JavaScript disabled -->
+    <noscript>
+        <div class="noscript-notice" style="background: #FEF2F2; border: 3px solid #DC2626; padding: 20px; margin: 20px 0; border-radius: 8px;">
+            <h3 style="color: #991B1B; margin-top: 0;">
+                JavaScript غير مفعل - JavaScript Disabled
+            </h3>
+            <p>
+                هذه الصفحة تعمل بدون JavaScript. استخدم أرقام الهاتف المباشرة أدناه:
+                <br>
+                This page works without JavaScript. Use the direct phone numbers below:
+            </p>
+            <ul>
+                <li><strong>طوارئ طبية - Medical:</strong> <a href="tel:999">999</a></li>
+                <li><strong>إطفاء - Fire:</strong> <a href="tel:998">998</a></li>
+                <li><strong>شرطة - Police:</strong> <a href="tel:997">997</a></li>
+                <li><strong>عام - General:</strong> <a href="tel:996">996</a></li>
+            </ul>
+        </div>
+    </noscript>
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudan Digital Government - Official Dashboard</title>
+    <link rel="stylesheet" href="../design-system/foundation.css">
+    <link rel="stylesheet" href="../design-system/components.css">
+    <style>
+        /* Official Dashboard Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            padding: var(--space-6);
+            overflow-y: auto;
+            z-index: var(--z-fixed);
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: var(--space-6);
+        }
+        
+        .header-bar {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: var(--space-4) var(--space-6);
+            margin-bottom: var(--space-6);
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-base);
+            border-left: 4px solid;
+        }
+        
+        .stat-card.applications {
+            border-left-color: var(--primary-red);
+        }
+        
+        .stat-card.processed {
+            border-left-color: var(--success);
+        }
+        
+        .stat-card.pending {
+            border-left-color: var(--warning);
+        }
+        
+        .stat-card.rejected {
+            border-left-color: var(--error);
+        }
+        
+        .stat-number {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--gray-900);
+            margin-bottom: var(--space-2);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--gray-600);
+            margin-bottom: var(--space-1);
+        }
+        
+        .stat-change {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .stat-change.positive {
+            color: var(--success);
+        }
+        
+        .stat-change.negative {
+            color: var(--error);
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-base);
+            margin-bottom: var(--space-6);
+        }
+        
+        .priority-queue {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-base);
+            border-left: 4px solid var(--error);
+        }
+        
+        .priority-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--gray-100);
+            margin-bottom: var(--space-2);
+        }
+        
+        .priority-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .department-selector {
+            margin-bottom: var(--space-6);
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div style="margin-bottom: var(--space-8);">
+            <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); color: var(--primary-red); margin-bottom: var(--space-2);">
+                Sudan Gov Portal
+            </h2>
+            <p style="font-size: var(--font-size-sm); color: var(--gray-600);">
+                Official Dashboard
+            </p>
+        </div>
+        
+        <!-- User Info -->
+        <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-6);">
+            <div style="display: flex; align-items: center; gap: var(--space-3);">
+                <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--primary-red); display: flex; align-items: center; justify-content: center; color: white; font-weight: var(--font-weight-semibold);">
+                    DR
+                </div>
+                <div>
+                    <div style="font-weight: var(--font-weight-medium);">Dr. Fatima Al-Rashid</div>
+                    <div style="font-size: var(--font-size-sm); color: var(--gray-600);">Health Ministry Director</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Department Selector -->
+        <div class="department-selector">
+            <label class="form-label">Current Department</label>
+            <select class="form-select">
+                <option value="health">Health & Population</option>
+                <option value="education">Education</option>
+                <option value="finance">Finance & Economy</option>
+                <option value="civil">Civil Registry</option>
+                <option value="agriculture">Agriculture</option>
+                <option value="social">Social Welfare</option>
+            </select>
+        </div>
+        
+        <!-- Navigation Menu -->
+        <nav class="nav nav-vertical">
+            <a href="#" class="nav-item active">
+                📊 Dashboard Overview
+            </a>
+            <a href="#" class="nav-item">
+                📋 Applications Queue
+            </a>
+            <a href="#" class="nav-item">
+                👥 Citizen Requests
+            </a>
+            <a href="#" class="nav-item">
+                📈 Department Analytics
+            </a>
+            <a href="#" class="nav-item">
+                ⚙️ System Management
+            </a>
+            <a href="#" class="nav-item">
+                👨‍💼 Staff Management
+            </a>
+            <a href="#" class="nav-item">
+                📄 Reports & Documents
+            </a>
+            <a href="#" class="nav-item">
+                🔧 Settings
+            </a>
+        </nav>
+        
+        <!-- Quick Actions -->
+        <div style="margin-top: var(--space-8);">
+            <h3 style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--gray-700); margin-bottom: var(--space-4);">
+                QUICK ACTIONS
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+                <button class="btn btn-primary btn-sm btn-full">
+                    🚨 Emergency Alert
+                </button>
+                <button class="btn btn-outline btn-sm btn-full">
+                    📢 Broadcast Notice
+                </button>
+                <button class="btn btn-outline btn-sm btn-full">
+                    📊 Generate Report
+                </button>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Header Bar -->
+        <header class="header-bar">
+            <div style="display: flex; align-items: center; gap: var(--space-4); flex: 1;">
+                <button class="btn btn-ghost" style="display: none;" id="menu-toggle">
+                    ☰
+                </button>
+                <h1 style="font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); color: var(--gray-900);">
+                    Health Ministry Dashboard
+                </h1>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: var(--space-4);">
+                <div class="badge badge-success">
+                    System Status: Online
+                </div>
+                <button class="btn btn-ghost">
+                    🔔 Notifications
+                </button>
+                <button class="btn btn-outline">
+                    👤 Profile
+                </button>
+            </div>
+        </header>
+        
+        <div id="main-content">
+            <!-- Key Performance Indicators -->
+            <section class="stats-grid">
+                <div class="stat-card applications">
+                    <div class="stat-label">Total Applications Today</div>
+                    <div class="stat-number">2,847</div>
+                    <div class="stat-change positive">
+                        ↗ +12.3% from yesterday
+                    </div>
+                </div>
+                
+                <div class="stat-card processed">
+                    <div class="stat-label">Applications Processed</div>
+                    <div class="stat-number">2,156</div>
+                    <div class="stat-change positive">
+                        ↗ +8.7% completion rate
+                    </div>
+                </div>
+                
+                <div class="stat-card pending">
+                    <div class="stat-label">Pending Review</div>
+                    <div class="stat-number">691</div>
+                    <div class="stat-change negative">
+                        ↗ Requires attention
+                    </div>
+                </div>
+                
+                <div class="stat-card rejected">
+                    <div class="stat-label">Citizens Served</div>
+                    <div class="stat-number">1.2M</div>
+                    <div class="stat-change positive">
+                        ↗ Monthly active users
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Priority Queue -->
+            <section class="priority-queue">
+                <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-4); color: var(--gray-900);">
+                    🚨 Priority Queue - Urgent Cases
+                </h2>
+                
+                <div class="priority-item">
+                    <div>
+                        <div style="font-weight: var(--font-weight-medium);">Emergency Health Card Replacement</div>
+                        <div style="font-size: var(--font-size-sm); color: var(--gray-600);">
+                            Patient: Ahmed Mohamed Ali • ID: 1234567890 • Hospital: Khartoum General
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-2);">
+                        <span class="badge badge-error">Critical</span>
+                        <button class="btn btn-sm btn-primary">Review</button>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <div>
+                        <div style="font-weight: var(--font-weight-medium);">Maternity Leave Approval</div>
+                        <div style="font-size: var(--font-size-sm); color: var(--gray-600);">
+                            Employee: Dr. Sara Hassan • Department: Pediatrics • Due Date: Sept 15
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-2);">
+                        <span class="badge badge-warning">High</span>
+                        <button class="btn btn-sm btn-primary">Approve</button>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <div>
+                        <div style="font-weight: var(--font-weight-medium);">Medical Equipment Procurement</div>
+                        <div style="font-size: var(--font-size-sm); color: var(--gray-600);">
+                            Hospital: Blue Nile Regional • Equipment: Ventilators (5 units) • Budget: $50K
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: var(--space-2);">
+                        <span class="badge badge-warning">High</span>
+                        <button class="btn btn-sm btn-primary">Review</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Analytics Dashboard -->
+            <section style="display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-6); margin-top: var(--space-8);">
+                <div class="chart-container">
+                    <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-4);">
+                        Application Processing Trends
+                    </h3>
+                    <!-- Placeholder for chart -->
+                    <div style="height: 300px; background: var(--gray-50); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; color: var(--gray-500);">
+                        📈 Chart: Applications processed over time<br>
+                        Peak hours: 10 AM - 2 PM<br>
+                        Average processing time: 4.2 hours
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Department Performance</h3>
+                    <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-1);">
+                                <span style="font-size: var(--font-size-sm);">Patient Registration</span>
+                                <span style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);">94%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 94%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-1);">
+                                <span style="font-size: var(--font-size-sm);">Health Insurance</span>
+                                <span style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);">87%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 87%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-1);">
+                                <span style="font-size: var(--font-size-sm);">Medical Records</span>
+                                <span style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium);">91%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 91%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Recent Applications Table -->
+            <section style="margin-top: var(--space-8);">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6);">
+                        <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); color: var(--gray-900);">
+                            Recent Applications
+                        </h2>
+                        <div style="display: flex; gap: var(--space-2);">
+                            <button class="btn btn-outline btn-sm">
+                                📥 Export
+                            </button>
+                            <button class="btn btn-outline btn-sm">
+                                🔍 Filter
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Application ID</th>
+                                    <th>Citizen Name</th>
+                                    <th>Service Type</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Assigned To</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#HLT-2025-8901</td>
+                                    <td>Ahmed Mohamed Ali</td>
+                                    <td>Health Insurance Registration</td>
+                                    <td><span class="badge badge-error">Critical</span></td>
+                                    <td><span class="badge badge-warning">Under Review</span></td>
+                                    <td>Dr. Amina Hassan</td>
+                                    <td>Aug 24, 2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Review</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#HLT-2025-8902</td>
+                                    <td>Fatima Ibrahim</td>
+                                    <td>Medical Record Access</td>
+                                    <td><span class="badge badge-secondary">Normal</span></td>
+                                    <td><span class="badge badge-success">Approved</span></td>
+                                    <td>Dr. Omar Salah</td>
+                                    <td>Aug 24, 2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#HLT-2025-8903</td>
+                                    <td>Mohammed Abdullah</td>
+                                    <td>Prescription Refill</td>
+                                    <td><span class="badge badge-warning">High</span></td>
+                                    <td><span class="badge badge-warning">Pending Documents</span></td>
+                                    <td>Dr. Khadija Ahmed</td>
+                                    <td>Aug 23, 2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- System Status -->
+            <section style="margin-top: var(--space-8);">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4);">
+                    <div class="card card-success">
+                        <h3 class="card-title">System Health</h3>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Database</span>
+                                <span class="badge badge-success">Online</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>API Gateway</span>
+                                <span class="badge badge-success">Healthy</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Biometric Services</span>
+                                <span class="badge badge-success">Connected</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Active Users</h3>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Citizens Online</span>
+                                <span style="font-weight: var(--font-weight-semibold);">12,847</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Officials Active</span>
+                                <span style="font-weight: var(--font-weight-semibold);">234</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Mobile Users</span>
+                                <span style="font-weight: var(--font-weight-semibold);">78%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (window.innerWidth <= 1024) {
+            menuToggle.style.display = 'block';
+        }
+        
+        menuToggle?.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+        
+        // Responsive handling
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 1024) {
+                menuToggle.style.display = 'block';
+            } else {
+                menuToggle.style.display = 'none';
+                sidebar.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>

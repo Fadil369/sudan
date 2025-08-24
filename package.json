@@ -1,0 +1,175 @@
+{
+  "name": "sudan-national-digital-identity",
+  "version": "1.0.0",
+  "description": "Sudan National Digital Identity System - OID-based government portal",
+  "private": true,
+  "homepage": "https://portal.sudan.gov.sd",
+  "author": {
+    "name": "Sudan Digital Transformation Initiative",
+    "email": "digital@sudan.gov.sd",
+    "url": "https://sudan.gov.sd"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sudan-gov/digital-identity-portal"
+  },
+  "keywords": [
+    "sudan",
+    "digital-identity",
+    "oid",
+    "government-portal",
+    "biometric",
+    "accessibility",
+    "mobile-first"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "@mui/material": "^5.14.0",
+    "@mui/icons-material": "^5.14.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/lab": "^5.0.0-alpha.140",
+    "@mui/x-charts": "^6.0.0",
+    "@mui/x-data-grid": "^6.0.0",
+    "@mui/x-date-pickers": "^6.0.0",
+    "dayjs": "^1.11.0",
+    "react-router-dom": "^6.8.0",
+    "axios": "^1.4.0",
+    "qrcode": "^1.5.3",
+    "jsqr": "^1.4.0",
+    "crypto-js": "^4.1.1",
+    "file-saver": "^2.0.5",
+    "jspdf": "^2.5.1",
+    "html2canvas": "^1.4.1",
+    "react-qr-scanner": "^1.0.0-alpha.11",
+    "react-webcam": "^7.1.1",
+    "workbox-sw": "^7.0.0",
+    "workbox-strategies": "^7.0.0",
+    "fabric-network": "^2.2.18",
+    "socket.io-client": "^4.7.2",
+    "@simplewebauthn/browser": "^7.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-react": "^7.22.0",
+    "@babel/preset-typescript": "^7.22.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/node": "^18.16.0",
+    "@types/jest": "^29.5.0",
+    "typescript": "^5.1.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "jest-canvas-mock": "^2.5.0",
+    "jest-junit": "^16.0.0",
+    "jest-html-reporters": "^3.1.0",
+    "@emotion/jest": "^11.11.0",
+    "identity-obj-proxy": "^3.0.0",
+    "babel-jest": "^29.5.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.32.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-jsx-a11y": "^6.7.0",
+    "prettier": "^2.8.8",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "@storybook/react": "^7.0.0",
+    "@storybook/addon-essentials": "^7.0.0",
+    "chromatic": "^6.19.0",
+    "wrangler": "^3.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && npm run build:sw",
+    "build:sw": "workbox generateSW workbox-config.js",
+    "test": "react-scripts test",
+    "test:coverage": "npm test -- --coverage --watchAll=false",
+    "test:ci": "npm test -- --coverage --watchAll=false --reporters=default --reporters=jest-junit",
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:check": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md}",
+    "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,css,md}",
+    "typecheck": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "analyze": "npm run build && npx serve -s build",
+    "prepare": "husky install",
+    "precommit": "lint-staged",
+    "validate": "npm run lint:check && npm run format:check && npm run typecheck && npm run test:ci"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:8080",
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!src/setupTests.js",
+      "!src/__mocks__/**",
+      "!src/**/*.stories.{js,jsx,ts,tsx}"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{css,md}": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run validate"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "jsx-a11y/anchor-is-valid": "warn",
+      "jsx-a11y/img-redundant-alt": "error",
+      "jsx-a11y/aria-role": "error",
+      "jsx-a11y/no-autofocus": "warn",
+      "react-hooks/exhaustive-deps": "warn"
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": false,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "endOfLine": "lf"
+  }
+}

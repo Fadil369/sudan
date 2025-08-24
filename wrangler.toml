@@ -1,0 +1,52 @@
+name = "sudan-digital-transformation"
+compatibility_date = "2023-10-26"
+
+[pages]
+build = "npm run build"
+
+[workers]
+main = "api/index.js"
+
+[[services]]
+binding = "API"
+service = "api"
+
+[[services]]
+binding = "HEALTH"
+service = "health"
+
+[[services]]
+binding = "AGRICULTURE"
+service = "agriculture"
+
+[[services]]
+binding = "EDUCATION"
+service = "education"
+
+[[services]]
+binding = "FINANCE"
+service = "finance"
+
+[[services]]
+binding = "ENERGY"
+service = "energy"
+
+[[services]]
+binding = "INFRASTRUCTURE"
+service = "infrastructure"
+
+[[services]]
+binding = "JUSTICE"
+service = "justice"
+
+[[services]]
+binding = "FOREIGN_AFFAIRS"
+service = "foreign_affairs"
+
+[[services]]
+binding = "LABOR"
+service = "labor"
+
+[[services]]
+binding = "SOCIAL_WELFARE"
+service = "social_welfare"
