@@ -135,13 +135,54 @@
   },
   "proxy": "http://localhost:8080",
   "jest": {
+    "testEnvironment": "jsdom",
+    "testEnvironmentOptions": {
+      "url": "http://localhost"
+    },
+    "globalSetup": "<rootDir>/src/tests/globalSetup.js",
+    "globalTeardown": "<rootDir>/src/tests/globalTeardown.js",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
       "!src/**/*.d.ts",
-      "!src/index.tsx",
+      "!src/index.js",
       "!src/setupTests.js",
       "!src/__mocks__/**",
       "!src/**/*.stories.{js,jsx,ts,tsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 70,
+        "functions": 70,
+        "lines": 70,
+        "statements": 70
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html",
+      "json-summary"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "<rootDir>/test-results",
+          "outputName": "junit.xml",
+          "suiteNameTemplate": "{filepath}",
+          "classNameTemplate": "{classname}",
+          "titleTemplate": "{title}"
+        }
+      ],
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "<rootDir>/test-results",
+          "filename": "report.html",
+          "expand": true
+        }
+      ]
     ]
   },
   "lint-staged": {
