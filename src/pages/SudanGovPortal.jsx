@@ -29,7 +29,7 @@ import {
   MonitorHeart,
   Psychology,
   Science,
-  Emergency,
+  ReportProblem as Emergency,
   Menu,
   Close,
   Search,

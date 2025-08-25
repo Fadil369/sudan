@@ -70,7 +70,7 @@ const InfrastructureMinistryPortal = ({ language = 'en' }) => {
         <Card sx={{ height: '100%', backgroundColor: '#e1f5fe' }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <LocationCity sx={{ fontSize: 40, color: '#0277bd', mr: 2 }} />
+              <LocationIcon sx={{ fontSize: 40, color: '#0277bd', mr: 2 }} />
               <Typography variant="h4" color="#0277bd">
                 {infrastructureData.bridges.toLocaleString()}
               </Typography>

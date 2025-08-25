@@ -13,7 +13,7 @@ import {
   Fingerprint,
   MoreVert,
   Verified,
-  Emergency,
+  ReportProblem as Emergency,
   Support,
   Settings,
   Language,

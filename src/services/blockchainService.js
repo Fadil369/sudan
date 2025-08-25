@@ -1,7 +1,7 @@
 // Sudan Digital Identity Blockchain Service
 // Hyperledger Fabric integration for immutable audit trails
 
-import crypto from 'crypto';
+import CryptoJS from 'crypto-js';
 
 class BlockchainService {
   constructor() {
@@ -344,20 +344,17 @@ class BlockchainService {
 
   // Generate transaction ID
   generateTransactionId() {
-    return crypto.randomBytes(32).toString('hex');
+    return CryptoJS.lib.WordArray.random(32).toString();
   }
 
   // Generate block hash
   generateBlockHash() {
-    return crypto.randomBytes(32).toString('hex');
+    return CryptoJS.lib.WordArray.random(32).toString();
   }
 
   // Hash data for integrity verification
   hashData(data) {
-    return crypto
-      .createHash('sha256')
-      .update(JSON.stringify(data))
-      .digest('hex');
+    return CryptoJS.SHA256(JSON.stringify(data)).toString();
   }
 
   // Generate mock audit trail for demo
@@ -552,10 +549,7 @@ export class AuditTrailManager {
       screen.width + 
       screen.height;
       
-    return crypto.createHash('sha256')
-      .update(fingerprint)
-      .digest('hex')
-      .substring(0, 16);
+    return CryptoJS.SHA256(fingerprint).toString().substring(0, 16);
   }
 }
 

@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import CryptoJS from 'crypto-js';
 
 /**
  * Secure Configuration Management
@@ -155,14 +155,14 @@ class ConfigManager {
    * Generate secure random secret
    */
   generateSecureSecret(length = 64) {
-    return crypto.randomBytes(length).toString('hex');
+    return CryptoJS.lib.WordArray.random(length/2).toString();
   }
 
   /**
    * Generate encryption key
    */
   generateEncryptionKey() {
-    return crypto.randomBytes(32).toString('hex');
+    return CryptoJS.lib.WordArray.random(32).toString();
   }
 
   /**
@@ -202,22 +202,13 @@ class ConfigManager {
    */
   encrypt(text) {
     try {
-      const algorithm = 'aes-256-gcm';
-      const key = Buffer.from(this.get('ENCRYPTION_KEY'), 'hex');
-      const iv = crypto.randomBytes(16);
-      
-      const cipher = crypto.createCipher(algorithm, key);
-      cipher.setAAD(Buffer.from('sudan-oid-portal'));
-      
-      let encrypted = cipher.update(text, 'utf8', 'hex');
-      encrypted += cipher.final('hex');
-      
-      const authTag = cipher.getAuthTag();
+      const key = this.get('ENCRYPTION_KEY');
+      const encrypted = CryptoJS.AES.encrypt(text, key).toString();
       
       return {
         encrypted,
-        iv: iv.toString('hex'),
-        authTag: authTag.toString('hex')
+        iv: 'browser-compat',
+        authTag: 'browser-compat'
       };
     } catch (error) {
       throw new Error(`Encryption failed: ${error.message}`);
@@ -229,17 +220,8 @@ class ConfigManager {
    */
   decrypt(encryptedData) {
     try {
-      const algorithm = 'aes-256-gcm';
-      const key = Buffer.from(this.get('ENCRYPTION_KEY'), 'hex');
-      const iv = Buffer.from(encryptedData.iv, 'hex');
-      const authTag = Buffer.from(encryptedData.authTag, 'hex');
-      
-      const decipher = crypto.createDecipher(algorithm, key);
-      decipher.setAAD(Buffer.from('sudan-oid-portal'));
-      decipher.setAuthTag(authTag);
-      
-      let decrypted = decipher.update(encryptedData.encrypted, 'hex', 'utf8');
-      decrypted += decipher.final('utf8');
+      const key = this.get('ENCRYPTION_KEY');
+      const decrypted = CryptoJS.AES.decrypt(encryptedData.encrypted, key).toString(CryptoJS.enc.Utf8);
       
       return decrypted;
     } catch (error) {

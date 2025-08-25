@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import {
   Agriculture as AgricultureIcon,
-  Eco as EcoIcon,
+  Nature as EcoIcon,
   Landscape as LandIcon,
   WaterDrop as WaterIcon,
   Grass as CropIcon,

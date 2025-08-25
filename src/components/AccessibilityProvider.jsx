@@ -17,7 +17,8 @@ import {
   ZoomOut,
   Brightness6,
   BrightnessHigh,
-  BrightnessLow
+  BrightnessLow,
+  Psychology
 } from '@mui/icons-material';
 
 import {
