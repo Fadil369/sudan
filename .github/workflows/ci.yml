@@ -2,11 +2,11 @@ name: Sudan Digital Identity CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop, staging ]
+    branches: [main, develop, staging]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   release:
-    types: [ published ]
+    types: [published]
 
 env:
   NODE_VERSION: '18.x'
@@ -14,7 +14,6 @@ env:
   IMAGE_NAME: sudan-gov/digital-identity
 
 jobs:
-  # Security and Quality Checks
   security-scan:
     name: Security & Quality Scan
     runs-on: ubuntu-latest
@@ -28,13 +27,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
       - name: Run security audit
-        run: npm audit --audit-level high
+        run: npm audit --audit-level=high
 
       - name: Run dependency check
         uses: dependency-check/Dependency-Check_Action@main
@@ -52,7 +51,6 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
-  # Unit and Integration Tests
   test:
     name: Run Tests
     runs-on: ubuntu-latest
@@ -63,11 +61,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -81,7 +79,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          file: ./coverage/lcov.info
+          files: ./coverage/lcov.info
           fail_ci_if_error: false
 
       - name: Archive test results
@@ -93,7 +91,6 @@ jobs:
             test-results/
             coverage/
 
-  # Accessibility Testing
   accessibility-test:
     name: Accessibility Testing
     runs-on: ubuntu-latest
@@ -105,7 +102,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -118,7 +115,6 @@ jobs:
           npm install -g @axe-core/cli
           axe build/ --exit
 
-  # Build and Package
   build:
     name: Build Application
     runs-on: ubuntu-latest
@@ -131,7 +127,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -155,12 +151,11 @@ jobs:
           npm install -g bundlesize
           bundlesize
 
-  # Docker Build and Push
   docker:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
     needs: [build, accessibility-test]
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.event_name == 'release'
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || github.event_name == 'release' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -198,12 +193,11 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
 
-  # Deploy to Staging
   deploy-staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     needs: [docker]
-    if: github.ref == 'refs/heads/staging'
+    if: ${{ github.ref == 'refs/heads/staging' }}
     environment: staging
     steps:
       - name: Checkout code
@@ -212,7 +206,7 @@ jobs:
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.28.0'
+          version: v1.28.0
 
       - name: Configure kubectl
         run: |
@@ -231,12 +225,11 @@ jobs:
           kubectl wait --for=condition=ready pod -l app=sudan-digital-identity -n staging --timeout=300s
           curl -f https://staging.sudan-identity.gov.sd/health || exit 1
 
-  # Deploy to Production
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
     needs: [docker]
-    if: github.event_name == 'release'
+    if: ${{ github.event_name == 'release' }}
     environment: production
     steps:
       - name: Checkout code
@@ -245,7 +238,7 @@ jobs:
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.28.0'
+          version: v1.28.0
 
       - name: Configure kubectl
         run: |
@@ -254,7 +247,6 @@ jobs:
 
       - name: Blue-Green Deployment
         run: |
-          # Deploy to green environment
           kubectl set image deployment/sudan-digital-identity-green \
             web=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.release.tag_name }} \
             -n production
@@ -263,7 +255,6 @@ jobs:
       - name: Health check on green deployment
         run: |
           kubectl wait --for=condition=ready pod -l app=sudan-digital-identity-green -n production --timeout=300s
-          # Run comprehensive health checks
           curl -f https://green.sudan-identity.gov.sd/health || exit 1
           curl -f https://green.sudan-identity.gov.sd/api/health || exit 1
 
@@ -277,12 +268,11 @@ jobs:
         run: |
           kubectl scale deployment sudan-digital-identity-blue --replicas=0 -n production
 
-  # Performance Testing
   performance-test:
     name: Performance Testing
     runs-on: ubuntu-latest
     needs: [deploy-staging]
-    if: github.ref == 'refs/heads/staging'
+    if: ${{ github.ref == 'refs/heads/staging' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -294,7 +284,7 @@ jobs:
             https://staging.sudan-identity.gov.sd
             https://staging.sudan-identity.gov.sd/health
             https://staging.sudan-identity.gov.sd/education
-          configPath: './lighthouse.config.js'
+          configPath: ./lighthouse.config.js
           uploadArtifacts: true
 
       - name: Load testing with Artillery
@@ -302,20 +292,18 @@ jobs:
           npm install -g artillery
           artillery run performance-tests/load-test.yml
 
-  # Security Scanning
   security-post-deploy:
     name: Post-Deploy Security Scan
     runs-on: ubuntu-latest
     needs: [deploy-staging]
-    if: github.ref == 'refs/heads/staging'
+    if: ${{ github.ref == 'refs/heads/staging' }}
     steps:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.10.0
         with:
-          target: 'https://staging.sudan-identity.gov.sd'
-          rules_file_name: '.zap/rules.tsv'
+          target: https://staging.sudan-identity.gov.sd
+          rules_file_name: .zap/rules.tsv
 
-  # Notification
   notify:
     name: Notify Team
     runs-on: ubuntu-latest
