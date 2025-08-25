@@ -1,84 +1,62 @@
+/* eslint-disable no-unused-vars */
 import {
-  AccountTree,
-  Person,
-  Verified,
-  Fingerprint,
-  FaceRetouchingNatural,
-  RemoveRedEye,
-  Security,
-  CloudSync,
-  Psychology,
-  Check,
-  Error,
-  Warning,
-  Info,
-  QrCode2,
-  NearMe,
-  Bluetooth,
-  Wifi,
-  Key,
-  Lock,
-  LockOpen,
-  Shield,
-  VerifiedUser,
-  Assignment,
-  DocumentScanner,
-  CameraAlt,
-  ContactPhone,
-  Email,
-  LocationOn,
-  DateRange,
-  Badge as BadgeIcon,
-  AdminPanelSettings
+    AccountTree,
+    Badge as BadgeIcon,
+    Check,
+    ContactPhone,
+    DateRange,
+    Email,
+    Error,
+    FaceRetouchingNatural,
+    Fingerprint,
+    LocationOn,
+    Person,
+    Psychology,
+    RemoveRedEye,
+    Search,
+    Security,
+    Shield
 } from '@mui/icons-material';
 
 import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Grid,
-  Chip,
-  LinearProgress,
-  TextField,
-  Avatar,
-  Badge,
-  Alert,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
-  CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  FormControlLabel,
-  Switch,
-  IconButton,
-  Tooltip,
-  Paper,
-  Tab,
-  Tabs,
-  TabPanel
+    Alert,
+    Avatar,
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Chip,
+    CircularProgress,
+    Grid,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Paper,
+    Tab,
+    Tabs,
+    TextField,
+    Typography
 } from '@mui/material';
 
-import { useState, useEffect, useRef } from 'react';
 import QRCode from 'qrcode.react';
+import { useEffect, useRef, useState } from 'react';
+import { useAccessibility } from './AccessibilityProvider';
 
-const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen' }) => {
+const OIDIntegration = ({ isRTL = false, language = 'en', selectedDepartment, userRole = 'citizen' }) => {
+  // Accessibility settings
+  const { accessibility } = useAccessibility();
+  // Determine right-to-left from accessibility context
+  const rtl = accessibility.rightToLeft;
   const [citizenData, setCitizenData] = useState(null);
   const [verificationStatus, setVerificationStatus] = useState('none'); // none, scanning, processing, verified, failed
-  const [biometricData, setBiometricData] = useState({
+  // Apply accessibility font size and contrast
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--font-scale', accessibility.fontSize === 'small' ? '0.875' : accessibility.fontSize === 'large' ? '1.25' : accessibility.fontSize === 'xlarge' ? '1.5' : '1');
+    if (accessibility.highContrast) root.classList.add('high-contrast'); else root.classList.remove('high-contrast');
+  }, [accessibility.fontSize, accessibility.highContrast]);
+  const [_biometricData, _setBiometricData] = useState({
     fingerprint: null,
     face: null,
     iris: null,
@@ -86,12 +64,12 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
   });
   const [oidNumber, setOidNumber] = useState('1.3.6.1.4.1.61026.1.1.01.001.123456789.7');
   const [qrCodeData, setQrCodeData] = useState('');
-  const [activeStep, setActiveStep] = useState(0);
-  const [registrationDialog, setRegistrationDialog] = useState(false);
-  const [verificationDialog, setVerificationDialog] = useState(false);
+  const [_activeStep, _setActiveStep] = useState(0);
+  const [_registrationDialog, _setRegistrationDialog] = useState(false);
+  const [_verificationDialog, _setVerificationDialog] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
+  const _videoRef = useRef(null);
+  const _canvasRef = useRef(null);
 
   // Mock citizen data based on OID
   useEffect(() => {
@@ -140,7 +118,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
       };
 
       setCitizenData(mockCitizenData);
-      
+
       // Generate QR Code data
       setQrCodeData(JSON.stringify({
         oid: oidNumber,
@@ -153,16 +131,16 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
 
   const handleBiometricScan = async (type) => {
     setVerificationStatus('scanning');
-    
+
     // Simulate biometric scanning
     setTimeout(() => {
       setVerificationStatus('processing');
-      
+
       setTimeout(() => {
         const success = Math.random() > 0.1; // 90% success rate
-        
+
         if (success) {
-          setBiometricData(prev => ({
+          _setBiometricData(prev => ({
             ...prev,
             [type]: {
               captured: true,
@@ -211,7 +189,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
           >
             <Person sx={{ fontSize: '3rem' }} />
           </Avatar>
-          
+
           <Box flex={1}>
             <Typography
               variant="h5"
@@ -221,12 +199,12 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                 mb: 0.5
               }}
             >
-              {isRTL 
+              {isRTL
                 ? `${citizenData.personalInfo.firstNameArabic} ${citizenData.personalInfo.lastNameArabic}`
                 : `${citizenData.personalInfo.firstNameEnglish} ${citizenData.personalInfo.lastNameEnglish}`
               }
             </Typography>
-            
+
             <Typography
               variant="body2"
               sx={{
@@ -237,7 +215,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
             >
               {citizenData.humanReadableId}
             </Typography>
-            
+
             <Typography
               variant="caption"
               sx={{
@@ -248,7 +226,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
             >
               OID: {citizenData.oid}
             </Typography>
-            
+
             <Box display="flex" gap={1} mt={2}>
               <Chip
                 label={citizenData.verificationLevel}
@@ -271,7 +249,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
               />
             </Box>
           </Box>
-          
+
           {/* QR Code */}
           <Box textAlign="center">
             <Paper
@@ -340,7 +318,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                     }}
                   />
                 </ListItem>
-                
+
                 <ListItem sx={{ px: 0 }}>
                   <ListItemIcon>
                     <LocationOn sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
@@ -354,7 +332,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                     }}
                   />
                 </ListItem>
-                
+
                 <ListItem sx={{ px: 0 }}>
                   <ListItemIcon>
                     <BadgeIcon sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
@@ -370,7 +348,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                 </ListItem>
               </List>
             </Grid>
-            
+
             <Grid item xs={12} md={6}>
               <List>
                 <ListItem sx={{ px: 0 }}>
@@ -386,7 +364,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                     }}
                   />
                 </ListItem>
-                
+
                 <ListItem sx={{ px: 0 }}>
                   <ListItemIcon>
                     <Email sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
@@ -400,7 +378,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                     }}
                   />
                 </ListItem>
-                
+
                 <ListItem sx={{ px: 0 }}>
                   <ListItemIcon>
                     <LocationOn sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
@@ -434,23 +412,23 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                     {type === 'face' && <FaceRetouchingNatural sx={{ fontSize: 40, color: getBiometricStatusColor(status), mb: 1 }} />}
                     {type === 'iris' && <RemoveRedEye sx={{ fontSize: 40, color: getBiometricStatusColor(status), mb: 1 }} />}
                     {type === 'voice' && <Psychology sx={{ fontSize: 40, color: getBiometricStatusColor(status), mb: 1 }} />}
-                    
+
                     <Typography
                       variant="body2"
                       sx={{ color: 'rgba(255, 255, 255, 0.9)', fontWeight: 600, mb: 1 }}
                     >
-                      {isRTL 
-                        ? type === 'fingerprint' ? 'بصمة الإصبع' 
+                      {rtl
+                        ? type === 'fingerprint' ? 'بصمة الإصبع'
                           : type === 'face' ? 'التعرف على الوجه'
                           : type === 'iris' ? 'بصمة العين'
-                          : 'بصمة الصوت'
-                        : type === 'fingerprint' ? 'Fingerprint'
-                          : type === 'face' ? 'Face Recognition'
+                          : 'التعرف على الصوت'
+                        : type === 'fingerprint' ? 'Fingerprint Scan'
+                          : type === 'face' ? 'Facial Recognition'
                           : type === 'iris' ? 'Iris Scan'
-                          : 'Voice Print'
+                          : 'Voice Recognition'
                       }
                     </Typography>
-                    
+
                     <Chip
                       label={getBiometricStatusText(status)}
                       size="small"
@@ -483,7 +461,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                         variant="body1"
                         sx={{ color: 'rgba(255, 255, 255, 0.9)', fontWeight: 600 }}
                       >
-                        {isRTL 
+                        {isRTL
                           ? certType === 'birth' ? 'شهادة الميلاد'
                             : certType === 'national_id' ? 'البطاقة الشخصية'
                             : certType === 'passport' ? 'جواز السفر'
@@ -494,12 +472,12 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                             : 'Marriage Certificate'
                         }
                       </Typography>
-                      
+
                       <Chip
                         label={cert.status}
                         size="small"
                         sx={{
-                          backgroundColor: cert.status === 'issued' ? 'rgba(0, 230, 118, 0.2)' 
+                          backgroundColor: cert.status === 'issued' ? 'rgba(0, 230, 118, 0.2)'
                                          : cert.status === 'pending' ? 'rgba(245, 158, 11, 0.2)'
                                          : 'rgba(158, 158, 158, 0.2)',
                           color: cert.status === 'issued' ? '#00e676'
@@ -509,7 +487,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                         }}
                       />
                     </Box>
-                    
+
                     {cert.date && (
                       <Typography
                         variant="caption"
@@ -543,7 +521,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                       >
                         {service.name}
                       </Typography>
-                      
+
                       <Chip
                         label={service.status}
                         size="small"
@@ -554,7 +532,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                         }}
                       />
                     </Box>
-                    
+
                     <Box display="flex" gap={1} flexWrap="wrap">
                       {service.permissions.map((permission) => (
                         <Chip
@@ -657,7 +635,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
             >
               <Fingerprint sx={{ fontSize: 40, color: '#0ea5e9' }} />
               <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                {isRTL ? 'بصمة الإصبع' : 'Fingerprint'}
+                {rtl ? 'بصمة الإصبع' : 'Fingerprint Scan'}
               </Typography>
             </Button>
           </Grid>
@@ -679,7 +657,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
             >
               <FaceRetouchingNatural sx={{ fontSize: 40, color: '#10b981' }} />
               <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                {isRTL ? 'الوجه' : 'Face'}
+                {rtl ? 'الوجه' : 'Facial Recognition'}
               </Typography>
             </Button>
           </Grid>
@@ -701,7 +679,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
             >
               <RemoveRedEye sx={{ fontSize: 40, color: '#f59e0b' }} />
               <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                {isRTL ? 'بصمة العين' : 'Iris'}
+                {rtl ? 'بصمة العين' : 'Iris Scan'}
               </Typography>
             </Button>
           </Grid>
@@ -723,7 +701,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
             >
               <Psychology sx={{ fontSize: 40, color: '#a855f7' }} />
               <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                {isRTL ? 'الصوت' : 'Voice'}
+                {rtl ? 'الصوت' : 'Voice Recognition'}
               </Typography>
             </Button>
           </Grid>
@@ -739,7 +717,7 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
               color: 'rgba(255, 255, 255, 0.9)'
             }}
           >
-            {isRTL 
+            {isRTL
               ? 'تم التحقق من هويتك بنجاح. يمكنك الآن الوصول إلى جميع الخدمات الحكومية.'
               : 'Your identity has been successfully verified. You can now access all government services.'
             }
@@ -785,17 +763,20 @@ const OIDIntegration = ({ isRTL = false, selectedDepartment, userRole = 'citizen
                 variant="h5"
                 sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 600 }}
               >
-                {isRTL ? 'نظام الهوية الرقمية السوداني' : 'Sudan Digital Identity System'}
+                {rtl ? 'نظام الهوية الرقمية السوداني' : 'Sudan Digital Identity System'}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ color: 'rgba(255, 255, 255, 0.7)' }}
               >
-                {isRTL ? 'مدعوم بتقنية المعرف الكائني (OID)' : 'Powered by Object Identifier (OID) Technology'}
+                {rtl ? 'مدعوم بتقنية المعرف الكائني (OID)' : 'Powered by Object Identifier (OID) Technology'}
+              </Typography>
+              <Typography variant="subtitle2" sx={{ color: 'rgba(255, 255, 255, 0.85)', mt: 1 }}>
+                {rtl ? 'الملف الشخصي للمواطن' : 'OID-Based Citizen Profile'}
               </Typography>
             </Box>
           </Box>
-          
+
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} md={8}>
               <TextField

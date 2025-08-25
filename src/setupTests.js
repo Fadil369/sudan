@@ -17,11 +17,11 @@ global.ResizeObserver = class ResizeObserver {
   constructor(cb) {
     this.cb = cb;
   }
-  
+
   observe() {}
-  
+
   unobserve() {}
-  
+
   disconnect() {}
 };
 
@@ -66,7 +66,11 @@ beforeAll(() => {
     if (
       args[0]?.includes?.('Warning: ReactDOM.render is no longer supported') ||
       args[0]?.includes?.('Warning: Each child in a list should have a unique') ||
-      args[0]?.includes?.('Warning: Failed prop type')
+      args[0]?.includes?.('Warning: Failed prop type') ||
+      args[0]?.includes?.('NotFoundError: The child can not be found in the parent') ||
+      args[0]?.includes?.('Uncaught [NotFoundError: The child can not be found in the parent]') ||
+      args[0]?.includes?.('Warning: QRCode: Support for defaultProps will be removed') ||
+      args[0]?.includes?.('Warning: `ReactDOMTestUtils.act` is deprecated')
     ) {
       return;
     }
@@ -89,32 +93,77 @@ afterAll(() => {
   console.warn = originalWarn;
 });
 
-// Mock localStorage
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
+// Clean up after each test to prevent DOM manipulation issues
+afterEach(() => {
+  // Clean up any remaining timers
+  jest.clearAllTimers();
+
+  // Clean up any DOM modifications that might interfere with test isolation
+  if (document.body) {
+    // Remove any dynamically added elements (but be careful not to remove Jest's elements)
+    const elementsToRemove = document.body.querySelectorAll('[data-test-cleanup]');
+    elementsToRemove.forEach(element => {
+      if (document.body.contains(element)) {
+        try {
+          document.body.removeChild(element);
+        } catch (e) {
+          // Ignore removal errors
+        }
+      }
+    });
+  }
+
+  // Reset any global state
+  if (global.fetch && global.fetch.mockClear) {
+    global.fetch.mockClear();
+  }
+});
+
+// Simple in-memory localStorage mock implementation
+const createStorageMock = () => {
+  let store = {};
+  return {
+    getItem: jest.fn((key) => (key in store ? store[key] : null)),
+    setItem: jest.fn((key, value) => {
+      try {
+        store[key] = String(value);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('localStorage mock setItem error', e);
+        throw e;
+      }
+    }),
+    removeItem: jest.fn((key) => {
+      delete store[key];
+    }),
+    clear: jest.fn(() => {
+      store = {};
+    }),
+    __getStore: () => store,
+  };
 };
 
 Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock
+  configurable: true,
+  writable: true,
+  value: createStorageMock(),
 });
-
-// Mock sessionStorage
-const sessionStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn(),
-};
+// Ensure global alias points to same instance
+// Some modules may capture the global symbol rather than window.localStorage
+global.localStorage = window.localStorage;
 
 Object.defineProperty(window, 'sessionStorage', {
-  value: sessionStorageMock
+  configurable: true,
+  writable: true,
+  value: createStorageMock(),
 });
+global.sessionStorage = window.sessionStorage;
 
 // Mock crypto.subtle for biometric tests
+// Make crypto configurable so individual tests can redefine it if needed
 Object.defineProperty(window, 'crypto', {
+  configurable: true,
+  writable: true,
   value: {
     subtle: {
       generateKey: jest.fn().mockResolvedValue({}),
@@ -203,7 +252,7 @@ class MockNotification {
     this.onshow = null;
     this.onerror = null;
     this.onclose = null;
-    
+
     // Simulate notification show
     setTimeout(() => {
       if (this.onshow) this.onshow();
@@ -280,20 +329,20 @@ Object.defineProperty(HTMLMediaElement.prototype, 'load', {
 afterEach(() => {
   // Clear all mocks
   jest.clearAllMocks();
-  
+
   // Clear localStorage and sessionStorage
-  localStorageMock.clear();
-  sessionStorageMock.clear();
-  
+  if (window.localStorage && window.localStorage.clear) window.localStorage.clear();
+  if (window.sessionStorage && window.sessionStorage.clear) window.sessionStorage.clear();
+
   // Clear any DOM modifications
   document.body.innerHTML = '';
   document.head.innerHTML = '<meta charset="utf-8">';
-  
+
   // Reset document properties
   document.documentElement.className = '';
   document.documentElement.setAttribute('dir', 'ltr');
   document.documentElement.setAttribute('lang', 'en');
-  
+
   // Clear any timers
   jest.clearAllTimers();
 });

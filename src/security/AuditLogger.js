@@ -1,6 +1,6 @@
 // Browser-compatible logging for Sudan OID Portal
-import configManager from './ConfigManager.js';
 import CryptoJS from 'crypto-js';
+import configManager from './ConfigManager.js';
 
 /**
  * Comprehensive Audit Logging System
@@ -116,14 +116,14 @@ class AuditLogger {
     try {
       const existingLogs = JSON.parse(localStorage.getItem('sudan-audit-logs') || '[]');
       const updatedLogs = [...existingLogs, ...events];
-      
+
       // Keep only last 1000 entries in localStorage
       if (updatedLogs.length > 1000) {
         updatedLogs.splice(0, updatedLogs.length - 1000);
       }
-      
+
       localStorage.setItem('sudan-audit-logs', JSON.stringify(updatedLogs));
-      
+
       if (process.env.NODE_ENV === 'development') {
         console.log('Audit logs flushed:', events.length, 'entries');
       }
@@ -179,14 +179,21 @@ class AuditLogger {
       const logs = this.getLogs(10000); // Export all
       const blob = new Blob([JSON.stringify(logs, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      
+
       const a = document.createElement('a');
       a.href = url;
       a.download = `sudan-audit-logs-${new Date().toISOString().split('T')[0]}.json`;
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-      
+      // Only remove if still attached (avoid NotFoundError in test environments)
+      try {
+        if (document.body.contains(a)) {
+          document.body.removeChild(a);
+        }
+      } catch (err) {
+        // Ignore removal errors in test environments
+      }
+
       URL.revokeObjectURL(url);
       return true;
     } catch (error) {
