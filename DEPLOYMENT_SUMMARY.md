@@ -140,7 +140,7 @@ npm run build:production
 wrangler deploy --env production
 
 # 3. Verify deployment
-curl -f https://sudan.gov.sd/health
+curl -f https://sd.brainsait.com/health
 ```
 
 ### Full Infrastructure Deployment
@@ -172,7 +172,7 @@ wrangler deploy --env production
 
 ### Production Deployment 🚀
 - [ ] Deploy to Cloudflare Pages/Workers
-- [ ] Configure DNS records for sudan.gov.sd
+- [ ] Configure DNS records for sd.brainsait.com
 - [ ] Enable monitoring and alerting
 - [ ] Setup backup and disaster recovery
 - [ ] Configure SSL certificates
@@ -256,7 +256,7 @@ The **Sudan National Digital Identity System** is now a **world-class digital go
 - **Integration**: 10 government ministries fully integrated
 
 ### 🚀 Next Steps
-1. **Production Deployment**: Deploy to sudan.gov.sd
+1. **Production Deployment**: Deploy to sd.brainsait.com
 2. **User Training**: Government staff onboarding
 3. **Citizen Rollout**: Phased public launch
 4. **Continuous Monitoring**: 24/7 system oversight

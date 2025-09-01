@@ -10,7 +10,7 @@ import auditLogger from '../security/AuditLogger';
 
 class APIConnector {
   constructor() {
-    this.baseURL = process.env.REACT_APP_API_BASE_URL || 'https://api.sudan.gov.sd/v1';
+    this.baseURL = process.env.REACT_APP_API_BASE_URL || 'https://api.sd.brainsait.com/v1';
     this.authToken = localStorage.getItem('authToken');
     this.isProduction = process.env.NODE_ENV === 'production';
     this.mockData = process.env.REACT_APP_MOCK_DATA === 'true';
@@ -871,7 +871,7 @@ class APIConnector {
         status: 'pending'
       },
       contactInfo: {
-        email: `${ministryName}@sudan.gov.sd`,
+        email: `${ministryName}@sd.brainsait.com`,
         phone: '+249123456789',
         office: `${ministryName} Ministry - Citizen Services`
       }

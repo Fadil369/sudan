@@ -18,7 +18,7 @@ class DatabaseService {
     this.config = {
       // Primary Database Configuration
       primary: {
-        host: process.env.REACT_APP_DB_HOST || 'db.sudan.gov.sd',
+        host: process.env.REACT_APP_DB_HOST || 'db.sd.brainsait.com',
         port: process.env.REACT_APP_DB_PORT || 5432,
         database: process.env.REACT_APP_DB_NAME || 'sudan_national_identity',
         ssl: process.env.REACT_APP_DB_SSL === 'true',

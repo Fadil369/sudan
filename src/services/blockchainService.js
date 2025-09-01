@@ -9,9 +9,9 @@ class BlockchainService {
       channelName: 'sudan-identity-channel',
       chaincodeName: 'sudan-identity-chaincode',
       mspId: 'SudanGovMSP',
-      caUrl: process.env.REACT_APP_BLOCKCHAIN_CA_URL || 'https://ca.sudan-blockchain.gov.sd',
-      peerUrl: process.env.REACT_APP_BLOCKCHAIN_PEER_URL || 'grpc://peer0.sudan-blockchain.gov.sd:7051',
-      ordererUrl: process.env.REACT_APP_BLOCKCHAIN_ORDERER_URL || 'grpc://orderer.sudan-blockchain.gov.sd:7050',
+      caUrl: process.env.REACT_APP_BLOCKCHAIN_CA_URL || 'https://ca.sd.brainsait.com',
+      peerUrl: process.env.REACT_APP_BLOCKCHAIN_PEER_URL || 'grpc://peer0.sd.brainsait.com:7051',
+      ordererUrl: process.env.REACT_APP_BLOCKCHAIN_ORDERER_URL || 'grpc://orderer.sd.brainsait.com:7050',
       walletPath: './wallet',
       connectionProfilePath: './connection-profile.json'
     };

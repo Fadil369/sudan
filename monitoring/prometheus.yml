@@ -64,49 +64,49 @@ scrape_configs:
   # Ministry Services
   - job_name: 'health-ministry'
     static_configs:
-      - targets: ['health-api.sudan.gov.sd:443']
+      - targets: ['health-api.sd.brainsait.com:443']
     metrics_path: '/actuator/prometheus'
     scheme: https
     scrape_interval: 30s
 
   - job_name: 'education-ministry'
     static_configs:
-      - targets: ['education-api.sudan.gov.sd:443']
+      - targets: ['education-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
 
   - job_name: 'interior-ministry'
     static_configs:
-      - targets: ['interior-api.sudan.gov.sd:443']
+      - targets: ['interior-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
 
   - job_name: 'finance-ministry'
     static_configs:
-      - targets: ['finance-api.sudan.gov.sd:443']
+      - targets: ['finance-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
 
   - job_name: 'energy-ministry'
     static_configs:
-      - targets: ['energy-api.sudan.gov.sd:443']
+      - targets: ['energy-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
 
   - job_name: 'infrastructure-ministry'
     static_configs:
-      - targets: ['infrastructure-api.sudan.gov.sd:443']
+      - targets: ['infrastructure-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
 
   - job_name: 'justice-ministry'
     static_configs:
-      - targets: ['justice-api.sudan.gov.sd:443']
+      - targets: ['justice-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
@@ -136,7 +136,7 @@ scrape_configs:
   # Biometric Services
   - job_name: 'biometric-service'
     static_configs:
-      - targets: ['biometric-api.sudan.gov.sd:443']
+      - targets: ['biometric-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
@@ -144,7 +144,7 @@ scrape_configs:
   # Document Management
   - job_name: 'document-service'
     static_configs:
-      - targets: ['documents-api.sudan.gov.sd:443']
+      - targets: ['documents-api.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 30s
@@ -201,14 +201,14 @@ scrape_configs:
   # External Service Monitoring
   - job_name: 'central-bank-api'
     static_configs:
-      - targets: ['api.cbos.gov.sd:443']
+      - targets: ['api.cbos.sd.brainsait.com:443']
     metrics_path: '/health/metrics'
     scheme: https
     scrape_interval: 60s
 
   - job_name: 'national-statistics'
     static_configs:
-      - targets: ['api.cbs.gov.sd:443']
+      - targets: ['api.cbs.sd.brainsait.com:443']
     metrics_path: '/metrics'
     scheme: https
     scrape_interval: 60s
@@ -245,10 +245,10 @@ scrape_configs:
   - job_name: 'blackbox-exporter'
     static_configs:
       - targets:
-        - 'https://sudan-identity.gov.sd'
-        - 'https://api.sudan.gov.sd/health'
-        - 'https://health-api.sudan.gov.sd/health'
-        - 'https://education-api.sudan.gov.sd/health'
+        - 'https://sd.brainsait.com'
+        - 'https://api.sd.brainsait.com/health'
+        - 'https://health-api.sd.brainsait.com/health'
+        - 'https://education-api.sd.brainsait.com/health'
     metrics_path: /probe
     params:
       module: [http_2xx]
@@ -264,9 +264,9 @@ scrape_configs:
   - job_name: 'dns-monitoring'
     static_configs:
       - targets:
-        - 'sudan-identity.gov.sd'
-        - 'api.sudan.gov.sd'
-        - 'health-api.sudan.gov.sd'
+        - 'sd.brainsait.com'
+        - 'api.sd.brainsait.com'
+        - 'health-api.sd.brainsait.com'
     metrics_path: /probe
     params:
       module: [dns_lookup]
@@ -282,8 +282,8 @@ scrape_configs:
   - job_name: 'tls-certificate-monitoring'
     static_configs:
       - targets:
-        - 'sudan-identity.gov.sd:443'
-        - 'api.sudan.gov.sd:443'
+        - 'sd.brainsait.com:443'
+        - 'api.sd.brainsait.com:443'
     metrics_path: /probe
     params:
       module: [tls_connect]
@@ -297,7 +297,7 @@ scrape_configs:
 
 # Remote write configuration for long-term storage
 remote_write:
-  - url: "https://metrics.sudan.gov.sd/api/v1/write"
+  - url: "https://metrics.sd.brainsait.com/api/v1/write"
     basic_auth:
       username: "sudan-identity"
       password_file: "/etc/prometheus/remote_write_password"

@@ -514,14 +514,14 @@ async function removeOfflineAction(id) {
 
 function isAllowedExternalDomain(origin) {
   const allowedDomains = [
-    'https://api.sudan.gov.sd',
-    'https://health-api.sudan.gov.sd',
-    'https://education-api.sudan.gov.sd',
-    'https://interior-api.sudan.gov.sd',
-    'https://finance-api.sudan.gov.sd',
-    'https://energy-api.sudan.gov.sd',
-    'https://infrastructure-api.sudan.gov.sd',
-    'https://justice-api.sudan.gov.sd',
+    'https://api.sd.brainsait.com',
+    'https://health-api.sd.brainsait.com',
+    'https://education-api.sd.brainsait.com',
+    'https://interior-api.sd.brainsait.com',
+    'https://finance-api.sd.brainsait.com',
+    'https://energy-api.sd.brainsait.com',
+    'https://infrastructure-api.sd.brainsait.com',
+    'https://justice-api.sd.brainsait.com',
     'https://fonts.googleapis.com',
     'https://fonts.gstatic.com'
   ];

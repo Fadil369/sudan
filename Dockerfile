@@ -8,7 +8,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Add build metadata
-LABEL maintainer="Sudan Digital Transformation Initiative <digital@sudan.gov.sd>"
+LABEL maintainer="Sudan Digital Transformation Initiative <digital@sd.brainsait.com>"
 LABEL version="1.0.0"
 LABEL description="Sudan National Digital Identity System"
 
@@ -38,9 +38,9 @@ COPY . .
 
 # Build arguments for environment configuration
 ARG REACT_APP_OID_BASE=1.3.6.1.4.1.61026.1
-ARG REACT_APP_API_URL=https://api.sudan.gov.sd
+ARG REACT_APP_API_URL=https://api.sd.brainsait.com
 ARG REACT_APP_BLOCKCHAIN_NETWORK=sudan-mainnet
-ARG REACT_APP_BIOMETRIC_SERVICE_URL=https://biometric.sudan.gov.sd
+ARG REACT_APP_BIOMETRIC_SERVICE_URL=https://biometric.sd.brainsait.com
 ARG NODE_ENV=production
 
 # Set environment variables for build
@@ -87,7 +87,7 @@ server {
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-XSS-Protection "1; mode=block" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.sudan.gov.sd wss:; manifest-src 'self';" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.sd.brainsait.com wss:; manifest-src 'self';" always;
     add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
     
     # Compression
@@ -125,7 +125,7 @@ server {
     
     # API proxy (if needed)
     location /api/ {
-        proxy_pass https://api.sudan.gov.sd/;
+        proxy_pass https://api.sd.brainsait.com/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

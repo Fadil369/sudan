@@ -32,7 +32,7 @@ const environments = {
   staging: {
     name: 'staging',
     api: {
-      baseUrl: 'https://staging-api.sudan.gov.sd/api',
+      baseUrl: 'https://staging-api.sd.brainsait.com/api',
       timeout: 30000,
       retries: 3
     },
@@ -56,7 +56,7 @@ const environments = {
   production: {
     name: 'production',
     api: {
-      baseUrl: 'https://api.sudan.gov.sd/api',
+      baseUrl: 'https://api.sd.brainsait.com/api',
       timeout: 30000,
       retries: 5
     },
@@ -86,20 +86,20 @@ const cloudflareConfig = {
   zones: {
     primary: {
       zoneId: process.env.CLOUDFLARE_ZONE_ID || '',
-      domain: 'sudan.gov.sd'
+      domain: 'sd.brainsait.com'
     },
     cdn: {
       zoneId: process.env.CLOUDFLARE_CDN_ZONE_ID || '',
-      domain: 'cdn.sudan.gov.sd'
+      domain: 'cdn.sd.brainsait.com'
     }
   },
   
   workers: {
     routes: [
-      { pattern: 'sudan.gov.sd/api/*', worker: 'sudan-api-worker' },
-      { pattern: 'sudan.gov.sd/auth/*', worker: 'sudan-auth-worker' },
-      { pattern: 'sudan.gov.sd/biometric/*', worker: 'sudan-biometric-worker' },
-      { pattern: 'sudan.gov.sd/blockchain/*', worker: 'sudan-blockchain-worker' }
+      { pattern: 'sd.brainsait.com/api/*', worker: 'sudan-api-worker' },
+      { pattern: 'sd.brainsait.com/auth/*', worker: 'sudan-auth-worker' },
+      { pattern: 'sd.brainsait.com/biometric/*', worker: 'sudan-biometric-worker' },
+      { pattern: 'sd.brainsait.com/blockchain/*', worker: 'sudan-blockchain-worker' }
     ],
     
     kvNamespaces: {
@@ -320,17 +320,17 @@ const integrationConfig = {
   government: {
     ministries: {
       health: {
-        endpoint: 'https://health.sudan.gov.sd/api',
+        endpoint: 'https://health.sd.brainsait.com/api',
         timeout: 10000,
         retries: 3
       },
       education: {
-        endpoint: 'https://education.sudan.gov.sd/api',
+        endpoint: 'https://education.sd.brainsait.com/api',
         timeout: 10000,
         retries: 3
       },
       finance: {
-        endpoint: 'https://finance.sudan.gov.sd/api',
+        endpoint: 'https://finance.sd.brainsait.com/api',
         timeout: 10000,
         retries: 3
       }
@@ -354,7 +354,7 @@ const integrationConfig = {
   biometric: {
     providers: {
       primary: {
-        endpoint: 'https://biometric.sudan.gov.sd/api',
+        endpoint: 'https://biometric.sd.brainsait.com/api',
         timeout: 20000,
         retries: 3
       }

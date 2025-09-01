@@ -23,7 +23,7 @@ metadata:
       more_set_headers "X-Content-Type-Options: nosniff";
       more_set_headers "X-XSS-Protection: 1; mode=block";
       more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
-      more_set_headers "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.sudan.gov.sd wss:; manifest-src 'self';";
+      more_set_headers "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://api.sd.brainsait.com wss:; manifest-src 'self';";
       more_set_headers "Strict-Transport-Security: max-age=63072000; includeSubDomains; preload";
     
     # Rate limiting
@@ -52,14 +52,14 @@ metadata:
 spec:
   tls:
   - hosts:
-    - sudan-identity.gov.sd
-    - www.sudan-identity.gov.sd
-    - portal.sudan.gov.sd
-    - api.sudan.gov.sd
+    - sd.brainsait.com
+    - www.sd.brainsait.com
+    - portal.sd.brainsait.com
+    - api.sd.brainsait.com
     secretName: sudan-identity-tls
   rules:
   # Main portal
-  - host: sudan-identity.gov.sd
+  - host: sd.brainsait.com
     http:
       paths:
       - path: /
@@ -71,7 +71,7 @@ spec:
               number: 80
   
   # WWW redirect
-  - host: www.sudan-identity.gov.sd
+  - host: www.sd.brainsait.com
     http:
       paths:
       - path: /
@@ -83,7 +83,7 @@ spec:
               number: 80
   
   # Government portal
-  - host: portal.sudan.gov.sd
+  - host: portal.sd.brainsait.com
     http:
       paths:
       - path: /
@@ -95,7 +95,7 @@ spec:
               number: 80
   
   # API endpoints
-  - host: api.sudan.gov.sd
+  - host: api.sd.brainsait.com
     http:
       paths:
       - path: /
@@ -130,10 +130,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - staging.sudan-identity.gov.sd
+    - staging.sd.brainsait.com
     secretName: sudan-identity-staging-tls
   rules:
-  - host: staging.sudan-identity.gov.sd
+  - host: staging.sd.brainsait.com
     http:
       paths:
       - path: /
@@ -198,10 +198,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - monitoring.sudan-identity.gov.sd
+    - monitoring.sd.brainsait.com
     secretName: monitoring-tls
   rules:
-  - host: monitoring.sudan-identity.gov.sd
+  - host: monitoring.sd.brainsait.com
     http:
       paths:
       - path: /prometheus

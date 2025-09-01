@@ -138,7 +138,7 @@ Memory Usage: > 80%
 
 ### Cloudflare Setup
 ```yaml
-Zone: sudan.gov.sd
+Zone: sd.brainsait.com
 Workers: 12 specialized functions
 KV Namespaces: 4 (sessions, cache, config, audit)
 D1 Databases: 3 (identity, audit, sessions)
@@ -149,7 +149,7 @@ R2 Buckets: 4 (documents, backups, logs, media)
 ```bash
 NODE_ENV=production
 REACT_APP_ENVIRONMENT=production
-REACT_APP_API_BASE_URL=https://api.sudan.gov.sd/api
+REACT_APP_API_BASE_URL=https://api.sd.brainsait.com/api
 REACT_APP_MAX_CONCURRENT_USERS=50000000
 REACT_APP_SESSION_TIMEOUT=1800
 ```
