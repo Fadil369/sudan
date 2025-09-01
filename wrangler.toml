@@ -1,52 +1,241 @@
-name = "sudan-digital-transformation"
-compatibility_date = "2023-10-26"
+name = "sudan-digital-identity"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
 
-[pages]
-build = "npm run build"
+# Main site configuration
+[env.production]
+name = "sudan-digital-identity-prod"
+route = { pattern = "sudan.gov.sd/*", zone_name = "sudan.gov.sd" }
 
-[workers]
-main = "api/index.js"
+[env.staging]
+name = "sudan-digital-identity-staging"
+route = { pattern = "staging.sudan.gov.sd/*", zone_name = "sudan.gov.sd" }
 
+# Pages configuration
+[[pages]]
+project_name = "sudan-digital-identity"
+compatibility_date = "2024-01-01"
+
+[pages.build]
+command = "npm run build:production"
+destination_dir = "build"
+
+[pages.env.production.vars]
+NODE_ENV = "production"
+REACT_APP_ENVIRONMENT = "production"
+REACT_APP_API_BASE_URL = "https://api.sudan.gov.sd/api"
+
+[pages.env.preview.vars]
+NODE_ENV = "staging"
+REACT_APP_ENVIRONMENT = "staging"
+REACT_APP_API_BASE_URL = "https://staging-api.sudan.gov.sd/api"
+
+# KV Namespaces
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "sudan_sessions_kv"
+preview_id = "sudan_sessions_kv_preview"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "sudan_cache_kv"
+preview_id = "sudan_cache_kv_preview"
+
+[[kv_namespaces]]
+binding = "CONFIG"
+id = "sudan_config_kv"
+preview_id = "sudan_config_kv_preview"
+
+[[kv_namespaces]]
+binding = "AUDIT"
+id = "sudan_audit_kv"
+preview_id = "sudan_audit_kv_preview"
+
+# D1 Databases
+[[d1_databases]]
+binding = "IDENTITY_DB"
+database_name = "sudan-identity-db"
+database_id = "sudan_identity_db_id"
+
+[[d1_databases]]
+binding = "AUDIT_DB"
+database_name = "sudan-audit-db"
+database_id = "sudan_audit_db_id"
+
+[[d1_databases]]
+binding = "SESSIONS_DB"
+database_name = "sudan-sessions-db"
+database_id = "sudan_sessions_db_id"
+
+# R2 Buckets
+[[r2_buckets]]
+binding = "DOCUMENTS"
+bucket_name = "sudan-documents"
+
+[[r2_buckets]]
+binding = "BACKUPS"
+bucket_name = "sudan-backups"
+
+[[r2_buckets]]
+binding = "LOGS"
+bucket_name = "sudan-logs"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "sudan-media"
+
+# Durable Objects
+[[durable_objects.bindings]]
+name = "REALTIME_UPDATES"
+class_name = "SudanRealTimeUpdates"
+
+[[durable_objects.bindings]]
+name = "SESSION_MANAGER"
+class_name = "SudanSessionManager"
+
+[[durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "SudanRateLimiter"
+
+# Services for microservices architecture
 [[services]]
 binding = "API"
-service = "api"
+service = "sudan-api-service"
+environment = "production"
+
+[[services]]
+binding = "AUTH"
+service = "sudan-auth-service"
+environment = "production"
 
 [[services]]
 binding = "HEALTH"
-service = "health"
-
-[[services]]
-binding = "AGRICULTURE"
-service = "agriculture"
+service = "sudan-health-service"
+environment = "production"
 
 [[services]]
 binding = "EDUCATION"
-service = "education"
+service = "sudan-education-service"
+environment = "production"
 
 [[services]]
 binding = "FINANCE"
-service = "finance"
+service = "sudan-finance-service"
+environment = "production"
+
+[[services]]
+binding = "AGRICULTURE"
+service = "sudan-agriculture-service"
+environment = "production"
 
 [[services]]
 binding = "ENERGY"
-service = "energy"
+service = "sudan-energy-service"
+environment = "production"
 
 [[services]]
 binding = "INFRASTRUCTURE"
-service = "infrastructure"
+service = "sudan-infrastructure-service"
+environment = "production"
 
 [[services]]
 binding = "JUSTICE"
-service = "justice"
+service = "sudan-justice-service"
+environment = "production"
 
 [[services]]
 binding = "FOREIGN_AFFAIRS"
-service = "foreign_affairs"
+service = "sudan-foreign-affairs-service"
+environment = "production"
 
 [[services]]
 binding = "LABOR"
-service = "labor"
+service = "sudan-labor-service"
+environment = "production"
 
 [[services]]
 binding = "SOCIAL_WELFARE"
-service = "social_welfare"
+service = "sudan-social-welfare-service"
+environment = "production"
+
+[[services]]
+binding = "BIOMETRIC"
+service = "sudan-biometric-service"
+environment = "production"
+
+[[services]]
+binding = "BLOCKCHAIN"
+service = "sudan-blockchain-service"
+environment = "production"
+
+[[services]]
+binding = "MONITORING"
+service = "sudan-monitoring-service"
+environment = "production"
+
+# Analytics Engine
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "sudan_portal_analytics"
+
+# Logpush configuration
+[[logpush]]
+destination = "r2://sudan-logs/cloudflare-logs"
+dataset = "http_requests"
+filter = ""
+
+# Custom domains
+[[custom_domains]]
+domain = "sudan.gov.sd"
+certificate_authority = "google"
+
+[[custom_domains]]
+domain = "www.sudan.gov.sd"
+certificate_authority = "google"
+
+[[custom_domains]]
+domain = "portal.sudan.gov.sd"
+certificate_authority = "google"
+
+# Environment variables (sensitive ones should be set via dashboard)
+[vars]
+ENVIRONMENT = "production"
+CLOUDFLARE_ZONE_ID = ""
+DEPLOYMENT_VERSION = "1.0.0"
+MAX_CONCURRENT_USERS = "50000000"
+SESSION_TIMEOUT = "1800"
+CACHE_TTL = "3600"
+MONITORING_ENABLED = "true"
+AUDIT_LOGGING_ENABLED = "true"
+COMPRESSION_ENABLED = "true"
+RATE_LIMITING_ENABLED = "true"
+
+# Cron triggers for scheduled tasks
+[[triggers.crons]]
+cron = "0 0 * * *"  # Daily at midnight
+service = "sudan-backup-service"
+
+[[triggers.crons]]
+cron = "0 */6 * * *"  # Every 6 hours
+service = "sudan-health-check-service"
+
+[[triggers.crons]]
+cron = "*/15 * * * *"  # Every 15 minutes
+service = "sudan-monitoring-service"
+
+# Queue configuration for background processing
+[[queues]]
+binding = "AUDIT_QUEUE"
+queue_name = "sudan-audit-queue"
+
+[[queues]]
+binding = "NOTIFICATION_QUEUE"
+queue_name = "sudan-notification-queue"
+
+[[queues]]
+binding = "BIOMETRIC_QUEUE"
+queue_name = "sudan-biometric-queue"
+
+[[queues]]
+binding = "BLOCKCHAIN_QUEUE"
+queue_name = "sudan-blockchain-queue"
