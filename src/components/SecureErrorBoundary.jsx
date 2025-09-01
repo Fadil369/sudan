@@ -101,7 +101,7 @@ class SecureErrorBoundary extends React.Component {
     
     // Remove potentially sensitive information
     const sanitized = message
-      .replace(/\/[A-Za-z]:[\\\/].*?[\\\/]/g, '[PATH_REDACTED]') // File paths
+      .replace(/[A-Za-z]:[\\\/].*?[\\]/g, '[PATH_REDACTED]') // File paths
       .replace(/https?:\/\/[^\s]+/g, '[URL_REDACTED]') // URLs
       .replace(/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/g, '[IP_REDACTED]') // IP addresses
       .replace(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, '[EMAIL_REDACTED]') // Email addresses
@@ -118,7 +118,7 @@ class SecureErrorBoundary extends React.Component {
     
     return stackTrace
       .split('\n')
-      .map(line => line.replace(/\/[A-Za-z]:[\\\/].*?[\\\/]/g, '[PATH_REDACTED]'))
+      .map(line => line.replace(/[A-Za-z]:[\\\/].*?[\\]/g, '[PATH_REDACTED]'))
       .filter(line => !line.includes('node_modules')) // Remove node_modules references
       .slice(0, 10) // Limit stack trace depth
       .join('\n');
