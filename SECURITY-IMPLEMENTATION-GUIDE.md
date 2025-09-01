@@ -403,7 +403,7 @@ add_header Content-Security-Policy "default-src 'self'";
 
 For security-related issues or questions:
 
-- **Security Team**: security@sudan.gov.sd
+- **Security Team**: security@sd.brainsait.com
 - **Emergency Contact**: +249-XXX-XXX-XXX
 - **Issue Tracking**: Submit via secure portal
 

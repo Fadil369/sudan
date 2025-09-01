@@ -324,15 +324,15 @@
         "gridPos": {"h": 9, "w": 12, "x": 12, "y": 34},
         "targets": [
           {
-            "expr": "probe_success{instance=\"https://sudan-identity.gov.sd\"}",
+            "expr": "probe_success{instance=\"https://sd.brainsait.com\"}",
             "legendFormat": "Main Portal"
           },
           {
-            "expr": "probe_success{instance=\"https://api.sudan.gov.sd/health\"}",
+            "expr": "probe_success{instance=\"https://api.sd.brainsait.com/health\"}",
             "legendFormat": "API Gateway"
           },
           {
-            "expr": "avg(probe_success{instance=~\"https://.*-api.sudan.gov.sd.*\"})",
+            "expr": "avg(probe_success{instance=~\"https://.*-api.sd.brainsait.com.*\"})",
             "legendFormat": "Ministry APIs"
           }
         ],
@@ -484,12 +484,12 @@
     "links": [
       {
         "title": "Sudan Identity System Documentation",
-        "url": "https://docs.sudan.gov.sd/identity-system",
+        "url": "https://docs.sd.brainsait.com/identity-system",
         "type": "link"
       },
       {
         "title": "Alert Manager",
-        "url": "https://alerts.sudan.gov.sd",
+        "url": "https://alerts.sd.brainsait.com",
         "type": "link"
       },
       {

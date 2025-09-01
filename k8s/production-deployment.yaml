@@ -298,7 +298,7 @@ metadata:
   name: sudan-portal-config
   namespace: sudan-government
 data:
-  api-base-url: "https://api.sudan.gov.sd/v1"
+  api-base-url: "https://api.sd.brainsait.com/v1"
   environment: "production"
   monitoring-enabled: "true"
   cache-ttl: "3600"
@@ -312,23 +312,23 @@ data:
   compliance-mode: "iso27001"
   
   # Ministry API URLs
-  health-api-url: "https://health.sudan.gov.sd/api/v1"
-  education-api-url: "https://education.sudan.gov.sd/api/v1"
-  finance-api-url: "https://finance.sudan.gov.sd/api/v1"
-  agriculture-api-url: "https://agriculture.sudan.gov.sd/api/v1"
-  energy-api-url: "https://energy.sudan.gov.sd/api/v1"
-  infrastructure-api-url: "https://infrastructure.sudan.gov.sd/api/v1"
-  justice-api-url: "https://justice.sudan.gov.sd/api/v1"
-  foreign-affairs-api-url: "https://foreign.sudan.gov.sd/api/v1"
-  labor-api-url: "https://labor.sudan.gov.sd/api/v1"
-  social-welfare-api-url: "https://social.sudan.gov.sd/api/v1"
+  health-api-url: "https://health.sd.brainsait.com/api/v1"
+  education-api-url: "https://education.sd.brainsait.com/api/v1"
+  finance-api-url: "https://finance.sd.brainsait.com/api/v1"
+  agriculture-api-url: "https://agriculture.sd.brainsait.com/api/v1"
+  energy-api-url: "https://energy.sd.brainsait.com/api/v1"
+  infrastructure-api-url: "https://infrastructure.sd.brainsait.com/api/v1"
+  justice-api-url: "https://justice.sd.brainsait.com/api/v1"
+  foreign-affairs-api-url: "https://foreign.sd.brainsait.com/api/v1"
+  labor-api-url: "https://labor.sd.brainsait.com/api/v1"
+  social-welfare-api-url: "https://social.sd.brainsait.com/api/v1"
   
   # External Integration URLs
-  national-records-api: "https://records.sudan.gov.sd/api/v1"
-  central-bank-api: "https://cbs.sudan.gov.sd/api/v1"
-  sudan-post-api: "https://post.sudan.gov.sd/api/v1"
-  statistics-api: "https://statistics.sudan.gov.sd/api/v1"
-  biometric-service-url: "https://biometric.sudan.gov.sd/api/v1"
+  national-records-api: "https://records.sd.brainsait.com/api/v1"
+  central-bank-api: "https://cbs.sd.brainsait.com/api/v1"
+  sudan-post-api: "https://post.sd.brainsait.com/api/v1"
+  statistics-api: "https://statistics.sd.brainsait.com/api/v1"
+  biometric-service-url: "https://biometric.sd.brainsait.com/api/v1"
   
   # BrainSAIT Integration
   brainsait-api-url: "https://api.brainsait.com/v1"
@@ -336,9 +336,9 @@ data:
   sudan-oid-branch: "1.3.6.1.4.1.61026.1"
   
   # Blockchain Configuration
-  blockchain-ca-url: "https://ca.sudan-blockchain.gov.sd"
-  blockchain-peer-url: "grpc://peer0.sudan-blockchain.gov.sd:7051"
-  blockchain-orderer-url: "grpc://orderer.sudan-blockchain.gov.sd:7050"
+  blockchain-ca-url: "https://ca.sd.brainsait.com"
+  blockchain-peer-url: "grpc://peer0.sd.brainsait.com:7051"
+  blockchain-orderer-url: "grpc://orderer.sd.brainsait.com:7050"
   blockchain-channel: "sudan-identity-channel"
   blockchain-chaincode: "sudan-identity-chaincode"
   
@@ -365,7 +365,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "30"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
     nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "https://portal.sudan.gov.sd"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "https://portal.sd.brainsait.com"
     nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
     nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,X-Citizen-OID"
     nginx.ingress.kubernetes.io/rate-limit: "1000"
@@ -374,11 +374,11 @@ metadata:
 spec:
   tls:
   - hosts:
-    - portal.sudan.gov.sd
-    - api.sudan.gov.sd
+    - portal.sd.brainsait.com
+    - api.sd.brainsait.com
     secretName: sudan-portal-tls
   rules:
-  - host: portal.sudan.gov.sd
+  - host: portal.sd.brainsait.com
     http:
       paths:
       - path: /
@@ -388,7 +388,7 @@ spec:
             name: sudan-digital-identity-service
             port:
               number: 80
-  - host: api.sudan.gov.sd
+  - host: api.sd.brainsait.com
     http:
       paths:
       - path: /v1

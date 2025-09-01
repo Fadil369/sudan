@@ -443,9 +443,9 @@ class ScalabilityMonitoringService {
    */
   initializeEndpoints() {
     const endpoints = [
-      { id: 'primary', url: 'https://api.sudan.gov.sd', weight: 50, region: 'khartoum' },
-      { id: 'secondary', url: 'https://api-kassala.sudan.gov.sd', weight: 30, region: 'kassala' },
-      { id: 'tertiary', url: 'https://api-port-sudan.sudan.gov.sd', weight: 20, region: 'port-sudan' }
+      { id: 'primary', url: 'https://api.sd.brainsait.com', weight: 50, region: 'khartoum' },
+      { id: 'secondary', url: 'https://api-kassala.sd.brainsait.com', weight: 30, region: 'kassala' },
+      { id: 'tertiary', url: 'https://api-port-sudan.sd.brainsait.com', weight: 20, region: 'port-sudan' }
     ];
 
     endpoints.forEach(endpoint => {

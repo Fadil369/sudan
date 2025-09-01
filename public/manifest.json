@@ -155,8 +155,8 @@
   "related_applications": [
     {
       "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=gov.sudan.identity",
-      "id": "gov.sudan.identity"
+      "url": "https://play.google.com/store/apps/details?id=com.sd.brainsait.identity",
+      "id": "com.sd.brainsait.identity"
     },
     {
       "platform": "itunes",

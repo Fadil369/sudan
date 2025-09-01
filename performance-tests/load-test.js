@@ -41,7 +41,7 @@ export let options = {
 // Test data generators
 const generateCitizenOid = () => `1.3.6.1.4.1.61026.1.${Math.floor(Math.random() * 1000000)}`;
 const generatePhoneNumber = () => `+249${Math.floor(Math.random() * 900000000) + 100000000}`;
-const generateEmail = () => `test${Math.floor(Math.random() * 10000)}@test.sudan.gov.sd`;
+const generateEmail = () => `test${Math.floor(Math.random() * 10000)}@test.sd.brainsait.com`;
 
 const testCitizens = [
   {
@@ -49,25 +49,25 @@ const testCitizens = [
     name: 'Ahmed Mohammed Test',
     nationalId: '199012345678',
     phone: '+249912345678',
-    email: 'ahmed.test@sudan.gov.sd'
+    email: 'ahmed.test@sd.brainsait.com'
   },
   {
     oid: '1.3.6.1.4.1.61026.1.654321',
     name: 'Fatima Ali Test',
     nationalId: '198506789012',
     phone: '+249987654321',
-    email: 'fatima.test@sudan.gov.sd'
+    email: 'fatima.test@sd.brainsait.com'
   }
 ];
 
 // Base URL configuration
-const BASE_URL = __ENV.BASE_URL || 'https://api.sudan.gov.sd/v1';
-const PORTAL_URL = __ENV.PORTAL_URL || 'https://sudan-identity.gov.sd';
+const BASE_URL = __ENV.BASE_URL || 'https://api.sd.brainsait.com/v1';
+const PORTAL_URL = __ENV.PORTAL_URL || 'https://sd.brainsait.com';
 
 // Authentication helper
 function authenticate() {
   const loginResponse = http.post(`${BASE_URL}/auth/login`, JSON.stringify({
-    username: 'test@sudan.gov.sd',
+    username: 'test@sd.brainsait.com',
     password: 'TestPassword123!',
     loginType: 'email'
   }), {

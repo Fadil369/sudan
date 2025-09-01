@@ -10,5 +10,5 @@ metadata:
     environment: production
   annotations:
     description: "Sudan National Digital Identity System - Government Portal"
-    contact: "digital@sudan.gov.sd"
+    contact: "digital@sd.brainsait.com"
     version: "1.0.0"

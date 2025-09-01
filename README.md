@@ -263,9 +263,9 @@ npm run format
 ```bash
 # Create .env file with the following variables:
 REACT_APP_OID_BASE=1.3.6.1.4.1.61026.1
-REACT_APP_API_URL=https://api.sudan.gov.sd
+REACT_APP_API_URL=https://api.sd.brainsait.com
 REACT_APP_BLOCKCHAIN_NETWORK=sudan-mainnet
-REACT_APP_BIOMETRIC_SERVICE_URL=https://biometric.sudan.gov.sd
+REACT_APP_BIOMETRIC_SERVICE_URL=https://biometric.sd.brainsait.com
 REACT_APP_ENCRYPTION_KEY=your-encryption-key-here
 ```
 

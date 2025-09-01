@@ -223,7 +223,7 @@ jobs:
       - name: Run smoke tests
         run: |
           kubectl wait --for=condition=ready pod -l app=sudan-digital-identity -n staging --timeout=300s
-          curl -f https://staging.sudan-identity.gov.sd/health || exit 1
+          curl -f https://staging.sd.brainsait.com/health || exit 1
 
   deploy-production:
     name: Deploy to Production
@@ -255,8 +255,8 @@ jobs:
       - name: Health check on green deployment
         run: |
           kubectl wait --for=condition=ready pod -l app=sudan-digital-identity-green -n production --timeout=300s
-          curl -f https://green.sudan-identity.gov.sd/health || exit 1
-          curl -f https://green.sudan-identity.gov.sd/api/health || exit 1
+          curl -f https://green.sd.brainsait.com/health || exit 1
+          curl -f https://green.sd.brainsait.com/api/health || exit 1
 
       - name: Switch traffic to green
         run: |
@@ -281,9 +281,9 @@ jobs:
         uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
-            https://staging.sudan-identity.gov.sd
-            https://staging.sudan-identity.gov.sd/health
-            https://staging.sudan-identity.gov.sd/education
+            https://staging.sd.brainsait.com
+            https://staging.sd.brainsait.com/health
+            https://staging.sd.brainsait.com/education
           configPath: ./lighthouse.config.js
           uploadArtifacts: true
 
@@ -301,7 +301,7 @@ jobs:
       - name: OWASP ZAP Baseline Scan
         uses: zaproxy/action-baseline@v0.10.0
         with:
-          target: https://staging.sudan-identity.gov.sd
+          target: https://staging.sd.brainsait.com
           rules_file_name: .zap/rules.tsv
 
   notify:
