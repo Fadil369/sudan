@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Paper,
   Typography,
   Box,
   Grid,
@@ -9,14 +8,12 @@ import {
 } from '@mui/material';
 import {
   LineChart,
-  BarChart,
   ResponsiveChartContainer,
   ChartsXAxis,
   ChartsYAxis,
   ChartsTooltip,
   BarPlot
 } from '@mui/x-charts';
-import { useAccessibility } from './AccessibilityProvider';
 import {
   citizenRegistrationData,
   serviceUsageData,
@@ -26,7 +23,6 @@ import {
 } from '../data/analytics-data';
 
 const AnalyticsDashboard = ({ language = 'en' }) => {
-  const { accessibility } = useAccessibility();
   const isRTL = language === 'ar';
 
   return (

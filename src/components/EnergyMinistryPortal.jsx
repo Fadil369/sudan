@@ -8,22 +8,12 @@ import {
   Box,
   Tabs,
   Tab,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Chip,
   CircularProgress
 } from '@mui/material';
 import {
   Bolt as EnergyIcon,
   Power as PowerIcon,
-  WbSunny as SolarIcon,
-  Waves as HydroIcon,
-  Assessment as AnalyticsIcon,
-  LocationOn as LocationIcon
+  Assessment as AnalyticsIcon
 } from '@mui/icons-material';
 import { useAccessibility } from './AccessibilityProvider';
 

@@ -12,9 +12,6 @@ import {
   Agriculture as AgricultureIcon,
   Nature as EcoIcon,
   Landscape as LandIcon,
-  WaterDrop as WaterIcon,
-  Grass as CropIcon,
-  Pets as LivestockIcon,
 } from '@mui/icons-material';
 import { useAccessibility } from './AccessibilityProvider';
 

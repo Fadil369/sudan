@@ -8,10 +8,8 @@ import {
   Box,
   CircularProgress
 } from '@mui/material';
-import { useAccessibility } from './AccessibilityProvider';
 
 const FinanceMinistryPortal = ({ language = 'en' }) => {
-  const { accessibility } = useAccessibility();
   const isRTL = language === 'ar';
   const [financeData, setFinanceData] = useState(null);
 
