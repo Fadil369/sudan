@@ -13,32 +13,17 @@ import {
   Work,
   VolunteerActivism,
   Person,
-  AdminPanelSettings,
   Notifications,
-  Language,
   Settings,
-  Security,
   Analytics,
-  Schedule,
-  Support,
   TrendingUp,
-  Groups,
-  Assignment,
+  Support,
   CloudQueue,
   Verified,
   MonitorHeart,
-  Psychology,
-  Science,
   ReportProblem as Emergency,
   Menu,
-  Close,
   Search,
-  FilterList,
-  Sort,
-  Refresh,
-  CloudSync,
-  NotificationImportant,
-  Shield,
   Chat as ChatIcon,
   Fingerprint as BiometricIcon,
   Feedback as FeedbackIcon
@@ -64,25 +49,12 @@ import {
   Chip,
   LinearProgress,
   TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Switch,
   FormControlLabel,
   Divider,
-  Paper,
   Container,
-  Fade,
-  Slide,
-  Tooltip,
   Alert,
   CircularProgress,
-  Tab,
-  Tabs,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -258,8 +230,8 @@ const SudanGovPortal = () => {
   const [isRTL, setIsRTL] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState('dashboard');
-  const [userRole, setUserRole] = useState('citizen'); // citizen, official, admin
-  const [currentTab, setCurrentTab] = useState(0);
+  const [userRole] = useState('citizen'); // citizen, official, admin - setUserRole available for future use
+  // const [currentTab, setCurrentTab] = useState(0); // Available for future tabbed interface
   const [searchQuery, setSearchQuery] = useState('');
   const [notifications, setNotifications] = useState([]);
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -267,13 +239,13 @@ const SudanGovPortal = () => {
   const [isBiometricDialogOpen, setIsBiometricDialogOpen] = useState(false);
   const [biometricUsername, setBiometricUsername] = useState('');
   const [biometricMessage, setBiometricMessage] = useState('');
-  const [systemStatus, setSystemStatus] = useState({
-    overall: 'operational',
-    services: 'active',
-    oidSystem: 'connected',
-    biometric: 'operational',
-    blockchain: 'syncing'
-  });
+  // const [systemStatus, setSystemStatus] = useState({ // Available for future system monitoring
+  //   overall: 'operational',
+  //   services: 'active',
+  //   oidSystem: 'connected',
+  //   biometric: 'operational',
+  //   blockchain: 'syncing'
+  // });
   const [governmentMetrics, setGovernmentMetrics] = useState({
     citizensRegistered: 12500000,
     servicesDigitalized: 847,
@@ -1037,7 +1009,6 @@ const SudanGovPortal = () => {
           <DialogTitle>{isRTL ? 'المصادقة البيومترية' : 'Biometric Authentication'}</DialogTitle>
           <DialogContent>
             <TextField
-              autoFocus
               margin="dense"
               label={isRTL ? 'اسم المستخدم' : 'Username'}
               type="text"

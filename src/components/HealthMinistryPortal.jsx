@@ -7,10 +7,8 @@ import {
   CardContent,
   Box
 } from '@mui/material';
-import { useAccessibility } from './AccessibilityProvider';
 
 const HealthMinistryPortal = ({ language = 'en' }) => {
-  const { accessibility } = useAccessibility();
   const isRTL = language === 'ar';
   const [healthData, setHealthData] = useState(null);
 

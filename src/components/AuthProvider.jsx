@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   // Initialize auth state on mount
   useEffect(() => {
     initializeAuth();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-refresh tokens before expiry
   useEffect(() => {
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
         return () => clearTimeout(timeout);
       }
     }
-  }, [tokens, sessionExpiry]);
+  }, [tokens, sessionExpiry]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * Initialize authentication state from stored tokens
@@ -83,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * Secure login function
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * Secure logout function

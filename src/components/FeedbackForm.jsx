@@ -12,10 +12,8 @@ import {
   Snackbar,
   Alert
 } from '@mui/material';
-import { useAccessibility } from './AccessibilityProvider';
 
 const FeedbackForm = ({ language = 'en' }) => {
-  const { accessibility } = useAccessibility();
   const isRTL = language === 'ar';
 
   const [subject, setSubject] = useState('');

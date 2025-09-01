@@ -12,7 +12,7 @@ function base64UrlEncode(str) {
 
 function base64UrlDecode(str) {
   str += new Array(5 - str.length % 4).join('=');
-  return atob(str.replace(/\-/g, '+').replace(/_/g, '/'));
+  return atob(str.replace(/-/g, '+').replace(/_/g, '/'));
 }
 
 // Simple JWT implementation for browser
@@ -220,4 +220,5 @@ class AuthService {
   }
 }
 
-export default new AuthService();
+const authService = new AuthService();
+export default authService;
