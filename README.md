@@ -333,7 +333,7 @@ Try:
 - `bash scripts/pull-images.sh` (adds retries)
 - `export DOCKER_CLIENT_TIMEOUT=180 COMPOSE_HTTP_TIMEOUT=180`
 - Pull manually once, then re-run `docker compose up -d --build`:
-  - `docker pull kong:3.4-alpine`
+  - `docker pull kong/kong:3.4.2`
   - `docker pull postgres:15-alpine`
   - `docker pull redis:7-alpine`
   - `docker pull grafana/grafana:10.0.0`

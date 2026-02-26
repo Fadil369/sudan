@@ -670,7 +670,8 @@ services:
 
   # API Gateway with Kong
   api-gateway:
-    image: kong:3.4-alpine
+    # Note: Kong is not a Docker "library" image; use the org namespace.
+    image: kong/kong:3.4.2
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml

@@ -52,7 +52,7 @@ docker compose up -d --build
 
 ### Manual pulls (if needed)
 ```bash
-docker pull kong:3.4-alpine
+docker pull kong/kong:3.4.2
 docker pull postgres:15-alpine
 docker pull redis:7-alpine
 docker pull nginx:1.25-alpine
