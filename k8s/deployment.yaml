@@ -1,0 +1,221 @@
+# Kubernetes Deployment for Sudan Digital Identity System
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sudan-digital-identity
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: web
+    version: "1.0.0"
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    description: "Sudan National Digital Identity System Web Application"
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: sudan-digital-identity
+      component: web
+  template:
+    metadata:
+      labels:
+        app: sudan-digital-identity
+        component: web
+        version: "1.0.0"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: sudan-identity-sa
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+      - name: web
+        image: ghcr.io/sudan-gov/digital-identity:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: sudan-identity-config
+              key: NODE_ENV
+        - name: REACT_APP_OID_BASE
+          valueFrom:
+            configMapKeyRef:
+              name: sudan-identity-config
+              key: REACT_APP_OID_BASE
+        - name: REACT_APP_API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: sudan-identity-config
+              key: REACT_APP_API_BASE_URL
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: sudan-identity-secrets
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sudan-identity-secrets
+              key: POSTGRES_PASSWORD
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sudan-identity-secrets
+              key: REDIS_PASSWORD
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: sudan-identity-secrets
+              key: JWT_SECRET
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+        - name: app-logs
+          mountPath: /var/log/app
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          runAsUser: 1001
+          runAsGroup: 1001
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: sudan-identity-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
+      - name: app-logs
+        emptyDir: {}
+      securityContext:
+        fsGroup: 1001
+        runAsNonRoot: true
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - sudan-digital-identity
+              topologyKey: kubernetes.io/hostname
+      tolerations:
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+
+---
+# HorizontalPodAutoscaler for automatic scaling
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: sudan-digital-identity-hpa
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: autoscaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sudan-digital-identity
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Pods
+        value: 4
+        periodSeconds: 15
+      - type: Percent
+        value: 100
+        periodSeconds: 15
+      selectPolicy: Max
+
+---
+# PodDisruptionBudget for high availability
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sudan-digital-identity-pdb
+  namespace: sudan-identity
+  labels:
+    app: sudan-digital-identity
+    component: availability
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: sudan-digital-identity
+      component: web

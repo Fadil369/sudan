@@ -1,0 +1,14 @@
+# Kubernetes Namespace for Sudan Digital Identity System
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sudan-identity
+  labels:
+    name: sudan-identity
+    purpose: digital-government
+    country: sudan
+    environment: production
+  annotations:
+    description: "Sudan National Digital Identity System - Government Portal"
+    contact: "digital@sd.brainsait.com"
+    version: "1.0.0"

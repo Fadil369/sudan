@@ -1,0 +1,237 @@
+_format_version: "3.0"
+_transform: true
+
+# Local configuration for the docker-compose stack.
+services:
+  - name: web-portal
+    url: http://sudan-digital-identity:3000
+    routes:
+      - name: web-portal-root
+        paths:
+          - /
+        strip_path: false
+        preserve_host: true
+
+  - name: identity-service
+    url: http://identity-service:3001
+    routes:
+      - name: identity-service-api
+        paths:
+          - /api/identity
+        strip_path: false
+
+  - name: ai-service
+    url: http://ai-service:3007
+    routes:
+      - name: ai-service-api
+        paths:
+          - /api/ai
+        strip_path: false
+
+  - name: agency-integration
+    url: http://agency-integration:3005
+    routes:
+      - name: agency-integration-api
+        paths:
+          - /api/agencies
+          - /api/requests
+          - /api/consent
+          - /api/stats
+        strip_path: false
+
+  - name: oid-service
+    url: http://oid-service:3002
+    routes:
+      - name: oid-service-api
+        paths:
+          - /api/v1/oid
+        strip_path: false
+
+  - name: ussd-service
+    url: http://ussd-service:3006
+    routes:
+      - name: ussd-api
+        paths:
+          - /api/ussd
+        strip_path: false
+
+  - name: public-api
+    url: http://public-api:3010
+    routes:
+      - name: public-api-modules
+        paths:
+          - /api/infrastructure
+          - /api/mining
+          - /api/agriculture
+          - /api/education
+          - /api/energy
+          - /api/finance
+          - /api/foreign_affairs
+          - /api/health
+          - /api/justice
+          - /api/labor
+          - /api/social_welfare
+          - /api/oid
+          - /api/notifications
+        strip_path: false
+
+  - name: audit-service
+    url: http://audit-service:3004
+    routes:
+      - name: audit-api
+        paths:
+          - /api/v1/audit
+        strip_path: false
+
+  - name: data-quality-engine
+    url: http://data-quality-engine:3011
+    routes:
+      - name: data-quality-api
+        paths:
+          - /api/v1/data-quality
+        strip_path: false
+
+  - name: fraud-detection-system
+    url: http://fraud-detection-system:3012
+    routes:
+      - name: fraud-api
+        paths:
+          - /api/v1/fraud
+        strip_path: false
+
+  - name: reporting-analytics-engine
+    url: http://reporting-analytics-engine:3013
+    routes:
+      - name: reports-api
+        paths:
+          - /api/v1/reports
+        strip_path: false
+
+  - name: compliance-audit-engine
+    url: http://compliance-audit-engine:3014
+    routes:
+      - name: compliance-api
+        paths:
+          - /api/v1/compliance
+        strip_path: false
+
+  - name: backup-recovery-system
+    url: http://backup-recovery-system:3015
+    routes:
+      - name: backup-api
+        paths:
+          - /api/v1/backup
+        strip_path: false
+
+  - name: notification-system
+    url: http://notification-system:3016
+    routes:
+      - name: notifications-api
+        paths:
+          - /api/v1/notifications
+        strip_path: false
+
+  - name: access-control-engine
+    url: http://access-control-engine:3017
+    routes:
+      - name: access-api
+        paths:
+          - /api/v1/access
+        strip_path: false
+
+  - name: integration-orchestrator
+    url: http://integration-orchestrator:3018
+    routes:
+      - name: integration-api
+        paths:
+          - /api/v1/integration
+        strip_path: false
+
+  - name: performance-monitor
+    url: http://performance-monitor:3019
+    routes:
+      - name: performance-api
+        paths:
+          - /api/v1/performance
+        strip_path: false
+
+  - name: nile-water-management
+    url: http://nile-water-management:3020
+    routes:
+      - name: nile-water-api
+        paths:
+          - /api/v1/nile-water
+        strip_path: false
+
+  - name: farming-agriculture-system
+    url: http://farming-agriculture-system:3021
+    routes:
+      - name: farming-api
+        paths:
+          - /api/v1/farming
+        strip_path: false
+
+  - name: gold-treasures-management
+    url: http://gold-treasures-management:3022
+    routes:
+      - name: gold-treasures-api
+        paths:
+          - /api/v1/gold-treasures
+        strip_path: false
+
+  - name: red-sea-ports-management
+    url: http://red-sea-ports-management:3023
+    routes:
+      - name: ports-api
+        paths:
+          - /api/v1/ports
+        strip_path: false
+
+  - name: education-management
+    url: http://education-management:3024
+    routes:
+      - name: education-api
+        paths:
+          - /api/v1/education
+        strip_path: false
+
+  - name: healthcare-management
+    url: http://healthcare-management:3025
+    routes:
+      - name: healthcare-api
+        paths:
+          - /api/v1/healthcare
+        strip_path: false
+
+plugins:
+  - name: prometheus
+  - name: correlation-id
+    config:
+      header_name: X-Request-ID
+      generator: uuid
+      echo_downstream: true
+  - name: rate-limiting
+    config:
+      minute: 120
+      hour: 2000
+      policy: local
+  - name: cors
+    config:
+      origins:
+        - "*"
+      methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      headers:
+        - Accept
+        - Content-Type
+        - Authorization
+        - X-Request-ID
+        - X-Citizen-OID
+      exposed_headers:
+        - X-Request-ID
+      credentials: false
+      max_age: 3600

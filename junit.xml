@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="55" failures="52" errors="0" time="18.853">
+  <testsuite name="OIDIntegration Component" errors="0" failures="18" skipped="0" timestamp="2025-08-25T01:08:24" time="6.782" tests="19">
+    <testcase classname="OIDIntegration Component renders OID integration interface correctly" name="OIDIntegration Component renders OID integration interface correctly" time="0.444">
+    </testcase>
+    <testcase classname="OIDIntegration Component displays user OID number correctly" name="OIDIntegration Component displays user OID number correctly" time="0.137">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component renders biometric authentication options" name="OIDIntegration Component renders biometric authentication options" time="0.099">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component fingerprint authentication works" name="OIDIntegration Component fingerprint authentication works" time="0.1">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component QR code generation works" name="OIDIntegration Component QR code generation works" time="0.132">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component digital certificate display works" name="OIDIntegration Component digital certificate display works" time="0.169">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component document management section renders" name="OIDIntegration Component document management section renders" time="0.103">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component service permissions management works" name="OIDIntegration Component service permissions management works" time="0.073">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component verification status updates correctly" name="OIDIntegration Component verification status updates correctly" time="0.063">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component Arabic language support works" name="OIDIntegration Component Arabic language support works" time="0.078">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component handles missing user data gracefully" name="OIDIntegration Component handles missing user data gracefully" time="0.068">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component biometric enrollment process works" name="OIDIntegration Component biometric enrollment process works" time="0.067">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component document download functionality" name="OIDIntegration Component document download functionality" time="0.071">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component security features are properly displayed" name="OIDIntegration Component security features are properly displayed" time="0.05">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component handles network errors gracefully" name="OIDIntegration Component handles network errors gracefully" time="0.073">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component accessibility features work correctly" name="OIDIntegration Component accessibility features work correctly" time="0.069">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Component real-time verification updates" name="OIDIntegration Component real-time verification updates" time="0.057">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Integration Tests integrates with external OID service" name="OIDIntegration Integration Tests integrates with external OID service" time="0.057">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="OIDIntegration Integration Tests handles biometric service integration" name="OIDIntegration Integration Tests handles biometric service integration" time="0.167">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="SudanGovPortal" errors="0" failures="15" skipped="0" timestamp="2025-08-25T01:08:31" time="4.631" tests="16">
+    <testcase classname="SudanGovPortal renders main portal title correctly in English" name="SudanGovPortal renders main portal title correctly in English" time="0.565">
+    </testcase>
+    <testcase classname="SudanGovPortal renders main portal title correctly in Arabic" name="SudanGovPortal renders main portal title correctly in Arabic" time="0.63">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal displays all 11 government departments" name="SudanGovPortal displays all 11 government departments" time="0.229">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal dashboard shows real-time metrics" name="SudanGovPortal dashboard shows real-time metrics" time="0.155">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal quick actions panel is present and functional" name="SudanGovPortal quick actions panel is present and functional" time="0.139">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal department cards are clickable" name="SudanGovPortal department cards are clickable" time="0.166">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal language switching affects text direction" name="SudanGovPortal language switching affects text direction" time="0.112">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal shows user information when user is provided" name="SudanGovPortal shows user information when user is provided" time="0.114">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal handles missing user gracefully" name="SudanGovPortal handles missing user gracefully" time="0.156">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal responsive design elements are present" name="SudanGovPortal responsive design elements are present" time="0.105">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal accessibility features work correctly" name="SudanGovPortal accessibility features work correctly" time="0.111">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal navigation between sections works" name="SudanGovPortal navigation between sections works" time="0.142">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal search functionality works" name="SudanGovPortal search functionality works" time="0.114">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal Integration Tests loads and displays data correctly" name="SudanGovPortal Integration Tests loads and displays data correctly" time="0.116">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal Integration Tests handles errors gracefully" name="SudanGovPortal Integration Tests handles errors gracefully" time="0.113">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+    <testcase classname="SudanGovPortal Performance Tests renders within acceptable time" name="SudanGovPortal Performance Tests renders within acceptable time" time="0.096">
+      <failure>NotFoundError: The child can not be found in the parent.</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="AccessibilityProvider" errors="0" failures="19" skipped="0" timestamp="2025-08-25T01:08:36" time="1.746" tests="20">
+    <testcase classname="AccessibilityProvider provides default accessibility settings" name="AccessibilityProvider provides default accessibility settings" time="0.04">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:66:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider updates font size setting" name="AccessibilityProvider updates font size setting" time="0.005">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:80:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider toggles high contrast mode" name="AccessibilityProvider toggles high contrast mode" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:93:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider toggles reduced motion mode" name="AccessibilityProvider toggles reduced motion mode" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:109:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider toggles screen reader mode" name="AccessibilityProvider toggles screen reader mode" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:125:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider sets color blindness filter" name="AccessibilityProvider sets color blindness filter" time="0.002">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:138:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider persists settings to localStorage" name="AccessibilityProvider persists settings to localStorage" time="0.012">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:151:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider loads settings from localStorage on mount" name="AccessibilityProvider loads settings from localStorage on mount" time="0.005">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:174:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider applies CSS variables for font scaling" name="AccessibilityProvider applies CSS variables for font scaling" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:187:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider handles invalid localStorage data gracefully" name="AccessibilityProvider handles invalid localStorage data gracefully" time="0.003">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:205:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider throws error when useAccessibility is used outside provider" name="AccessibilityProvider throws error when useAccessibility is used outside provider" time="0.046">
+    </testcase>
+    <testcase classname="AccessibilityProvider applies multiple settings simultaneously" name="AccessibilityProvider applies multiple settings simultaneously" time="0.003">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:228:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider respects system preferences for reduced motion" name="AccessibilityProvider respects system preferences for reduced motion" time="0.003">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:264:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider respects system preferences for high contrast" name="AccessibilityProvider respects system preferences for high contrast" time="0.003">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:290:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider keyboard navigation support works" name="AccessibilityProvider keyboard navigation support works" time="0.003">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:301:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider color blindness filters are applied correctly" name="AccessibilityProvider color blindness filters are applied correctly" time="0.016">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:317:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider handles rapid setting changes without errors" name="AccessibilityProvider handles rapid setting changes without errors" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:335:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider CSS Effects font size changes affect CSS custom properties" name="AccessibilityProvider CSS Effects font size changes affect CSS custom properties" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:357:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider CSS Effects high contrast mode applies correct CSS" name="AccessibilityProvider CSS Effects high contrast mode applies correct CSS" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:379:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+    <testcase classname="AccessibilityProvider CSS Effects reduced motion removes animations" name="AccessibilityProvider CSS Effects reduced motion removes animations" time="0.004">
+      <failure>Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it&apos;s defined in, or you might have mixed up default and named imports.
+    at createFiberFromTypeAndProps (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28478:17)
+    at createFiberFromElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:28504:15)
+    at reconcileSingleElement (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:13986:23)
+    at reconcileChildFibers (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:14044:35)
+    at reconcileChildren (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19193:28)
+    at updateHostRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:19912:5)
+    at beginWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:21654:14)
+    at beginWork$1 (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at performConcurrentWorkOnRoot (/workspaces/sudan/node_modules/react-dom/cjs/react-dom.development.js:25777:74)
+    at flushActQueue (/workspaces/sudan/node_modules/react/cjs/react.development.js:2667:24)
+    at act (/workspaces/sudan/node_modules/react/cjs/react.development.js:2582:11)
+    at actWithWarning (/workspaces/sudan/node_modules/react-dom/cjs/react-dom-test-utils.development.js:1740:10)
+    at /workspaces/sudan/node_modules/@testing-library/react/dist/act-compat.js:63:25
+    at renderRoot (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:159:26)
+    at render (/workspaces/sudan/node_modules/@testing-library/react/dist/pure.js:246:10)
+    at Object.&lt;anonymous&gt; (/workspaces/sudan/src/tests/AccessibilityProvider.test.jsx:397:11)
+    at Promise.then.completed (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/utils.js:316:10)
+    at _callCircusTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:218:40)
+    at _runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:155:3)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:66:9)
+    at _runTestsForDescribeBlock (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:60:9)
+    at run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/run.js:25:3)
+    at runAndTransformResultsToJestFormat (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:170:21)
+    at jestAdapter (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:82:19)
+    at runTestInternal (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:389:16)
+    at runTest (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/runTest.js:475:34)
+    at TestRunner.runTests (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-runner/build/index.js:101:12)
+    at TestScheduler.scheduleTests (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/TestScheduler.js:333:13)
+    at runJest (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/runJest.js:404:19)
+    at _run10000 (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:320:7)
+    at runCLI (/workspaces/sudan/node_modules/react-scripts/node_modules/@jest/core/build/cli/index.js:173:3)
+    at Object.run (/workspaces/sudan/node_modules/react-scripts/node_modules/jest-cli/build/cli/index.js:155:37)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

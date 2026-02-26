@@ -1,0 +1,362 @@
+# Sudan Digital Identity System - Alert Rules
+# Critical monitoring and alerting for government services
+
+groups:
+  # Application Health Alerts
+  - name: sudan_identity_health
+    interval: 15s
+    rules:
+      - alert: SudanIdentityServiceDown
+        expr: up{job="sudan-identity-portal"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: sudan-identity
+          ministry: interior
+        annotations:
+          summary: "Sudan Identity Portal service is down"
+          description: "Sudan Identity Portal service {{ $labels.instance }} has been down for more than 1 minute."
+          runbook_url: "https://docs.sd.brainsait.com/runbooks/service-down"
+
+      - alert: SudanIdentityHighErrorRate
+        expr: rate(http_requests_total{job="sudan-identity-portal",status=~"5.."}[5m]) / rate(http_requests_total{job="sudan-identity-portal"}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: sudan-identity
+        annotations:
+          summary: "High error rate detected in Sudan Identity Portal"
+          description: "Error rate is {{ $value | humanizePercentage }} for service {{ $labels.instance }}"
+
+      - alert: SudanIdentitySlowResponse
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="sudan-identity-portal"}[5m])) > 2
+        for: 3m
+        labels:
+          severity: warning
+          service: sudan-identity
+        annotations:
+          summary: "Sudan Identity Portal response time is slow"
+          description: "95th percentile response time is {{ $value }}s for {{ $labels.instance }}"
+
+  # Ministry Services Health
+  - name: ministry_services_health
+    interval: 30s
+    rules:
+      - alert: MinistryServiceDown
+        expr: up{job=~".*-ministry"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          type: ministry-service
+        annotations:
+          summary: "Ministry service is down: {{ $labels.job }}"
+          description: "Ministry service {{ $labels.job }} at {{ $labels.instance }} has been down for more than 2 minutes."
+
+      - alert: HealthMinistryAPIUnreachable
+        expr: up{job="health-ministry"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          ministry: health
+          impact: citizen-services
+        annotations:
+          summary: "Health Ministry API is unreachable"
+          description: "Citizens cannot access health records and services"
+          action: "Immediately contact Health Ministry IT team"
+
+      - alert: EducationMinistrySlowResponse
+        expr: histogram_quantile(0.90, rate(http_request_duration_seconds_bucket{job="education-ministry"}[5m])) > 5
+        for: 5m
+        labels:
+          severity: warning
+          ministry: education
+        annotations:
+          summary: "Education Ministry API responding slowly"
+          description: "90th percentile response time is {{ $value }}s"
+
+  # Database and Infrastructure
+  - name: database_infrastructure
+    interval: 15s
+    rules:
+      - alert: PostgreSQLDown
+        expr: up{job="postgresql"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          component: database
+        annotations:
+          summary: "PostgreSQL database is down"
+          description: "Main PostgreSQL database is unreachable"
+          impact: "All citizen identity services affected"
+
+      - alert: PostgreSQLHighConnections
+        expr: pg_stat_activity_count / pg_settings_max_connections > 0.8
+        for: 2m
+        labels:
+          severity: warning
+          component: database
+        annotations:
+          summary: "PostgreSQL connection usage is high"
+          description: "Database connection usage is at {{ $value | humanizePercentage }}"
+
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "Redis cache service is down"
+          description: "Session and cache services may be impacted"
+
+      - alert: RedisHighMemoryUsage
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
+        for: 2m
+        labels:
+          severity: warning
+          component: cache
+        annotations:
+          summary: "Redis memory usage is high"
+          description: "Redis memory usage is at {{ $value | humanizePercentage }}"
+
+  # Blockchain Network Health
+  - name: blockchain_health
+    interval: 20s
+    rules:
+      - alert: BlockchainPeerDown
+        expr: up{job="hyperledger-fabric"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: blockchain
+          impact: audit-trail
+        annotations:
+          summary: "Blockchain peer is down: {{ $labels.instance }}"
+          description: "Blockchain peer {{ $labels.instance }} is unreachable. Audit trail integrity may be compromised."
+
+      - alert: BlockchainConsensusFailure
+        expr: increase(fabric_consensus_failures_total[5m]) > 0
+        for: 1m
+        labels:
+          severity: critical
+          component: blockchain
+        annotations:
+          summary: "Blockchain consensus failures detected"
+          description: "{{ $value }} consensus failures in the last 5 minutes"
+
+      - alert: BlockchainSlowTransactions
+        expr: histogram_quantile(0.90, rate(fabric_transaction_duration_seconds_bucket[5m])) > 10
+        for: 3m
+        labels:
+          severity: warning
+          component: blockchain
+        annotations:
+          summary: "Blockchain transactions are slow"
+          description: "90th percentile transaction time is {{ $value }}s"
+
+  # Biometric Services
+  - name: biometric_services
+    interval: 30s
+    rules:
+      - alert: BiometricServiceDown
+        expr: up{job="biometric-service"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: biometric
+          impact: identity-verification
+        annotations:
+          summary: "Biometric service is down"
+          description: "Citizens cannot verify their identity using biometrics"
+
+      - alert: BiometricProcessingDelay
+        expr: histogram_quantile(0.95, rate(biometric_processing_duration_seconds_bucket[10m])) > 30
+        for: 5m
+        labels:
+          severity: warning
+          component: biometric
+        annotations:
+          summary: "Biometric processing is taking too long"
+          description: "95th percentile processing time is {{ $value }}s"
+
+      - alert: BiometricMatchingAccuracyLow
+        expr: biometric_matching_accuracy < 0.95
+        for: 2m
+        labels:
+          severity: warning
+          component: biometric
+        annotations:
+          summary: "Biometric matching accuracy is below threshold"
+          description: "Current accuracy is {{ $value | humanizePercentage }}"
+
+  # System Resources
+  - name: system_resources
+    interval: 15s
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 3m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+        for: 2m
+        labels:
+          severity: critical
+          component: infrastructure
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: DiskSpaceLow
+        expr: (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100 > 85
+        for: 1m
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "Disk space is running low"
+          description: "Disk usage is {{ $value }}% on {{ $labels.instance }}"
+
+      - alert: DiskSpaceCritical
+        expr: (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100 > 95
+        for: 30s
+        labels:
+          severity: critical
+          component: infrastructure
+        annotations:
+          summary: "Disk space critically low"
+          description: "Disk usage is {{ $value }}% on {{ $labels.instance }}"
+
+  # Network and Connectivity
+  - name: network_connectivity
+    interval: 30s
+    rules:
+      - alert: SudanIdentityWebsiteDown
+        expr: probe_success{job="blackbox-exporter", instance="https://sd.brainsait.com"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: website
+          public_facing: "true"
+        annotations:
+          summary: "Sudan Identity website is down"
+          description: "Main website is unreachable from external monitoring"
+
+      - alert: APIEndpointDown
+        expr: probe_success{job="blackbox-exporter", instance=~"https://.*api.sd.brainsait.com.*"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          component: api
+        annotations:
+          summary: "API endpoint is down: {{ $labels.instance }}"
+          description: "API endpoint {{ $labels.instance }} is not responding"
+
+      - alert: SSLCertificateExpiringSoon
+        expr: probe_ssl_earliest_cert_expiry - time() < 7 * 24 * 3600  # 7 days
+        for: 1h
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "SSL certificate expiring soon"
+          description: "SSL certificate for {{ $labels.instance }} expires in {{ $value | humanizeDuration }}"
+
+      - alert: SSLCertificateExpired
+        expr: probe_ssl_earliest_cert_expiry - time() < 0
+        for: 1m
+        labels:
+          severity: critical
+          component: security
+        annotations:
+          summary: "SSL certificate has expired"
+          description: "SSL certificate for {{ $labels.instance }} has expired"
+
+  # Chat Support System
+  - name: chat_support
+    interval: 30s
+    rules:
+      - alert: ChatServiceDown
+        expr: up{job="chat-support"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          component: chat
+        annotations:
+          summary: "Chat support service is down"
+          description: "Citizens cannot access live chat support"
+
+      - alert: ChatResponseTimeSlow
+        expr: histogram_quantile(0.95, rate(chat_response_duration_seconds_bucket[5m])) > 30
+        for: 5m
+        labels:
+          severity: warning
+          component: chat
+        annotations:
+          summary: "Chat response times are slow"
+          description: "95th percentile chat response time is {{ $value }}s"
+
+  # Security Alerts
+  - name: security_monitoring
+    interval: 15s
+    rules:
+      - alert: UnusualTrafficPattern
+        expr: rate(http_requests_total{job="sudan-identity-portal"}[5m]) > 1000
+        for: 2m
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "Unusual traffic pattern detected"
+          description: "Request rate is {{ $value }} requests/second"
+
+      - alert: Multiple401Errors
+        expr: rate(http_requests_total{job="sudan-identity-portal",status="401"}[5m]) > 10
+        for: 1m
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "Multiple authentication failures detected"
+          description: "{{ $value }} authentication failures per second"
+
+      - alert: DatabaseConnectionFailures
+        expr: increase(pg_stat_database_numbackends[5m]) > 100
+        for: 2m
+        labels:
+          severity: warning
+          component: security
+        annotations:
+          summary: "Potential database attack detected"
+          description: "Unusual number of database connections: {{ $value }}"
+
+  # Ministry-Specific SLA Monitoring  
+  - name: ministry_sla_monitoring
+    interval: 60s
+    rules:
+      - alert: HealthMinistryResponseTimeSLA
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="health-ministry"}[10m])) > 3
+        for: 5m
+        labels:
+          severity: warning
+          ministry: health
+          sla_violation: "true"
+        annotations:
+          summary: "Health Ministry API violating SLA"
+          description: "95th percentile response time ({{ $value }}s) exceeds 3s SLA"
+
+      - alert: CitizenServiceAvailabilitySLA
+        expr: (1 - (rate(http_requests_total{job=~".*-ministry",status=~"5.."}[1h]) / rate(http_requests_total{job=~".*-ministry"}[1h]))) < 0.995  # 99.5% uptime SLA
+        for: 5m
+        labels:
+          severity: critical
+          sla_violation: "true"
+        annotations:
+          summary: "Citizen service availability below SLA"
+          description: "Service availability is {{ $value | humanizePercentage }}, below 99.5% SLA"

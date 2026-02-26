@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SGDUS - Sudan Government Digital Unified System - Transformando Sudán con tecnología digital de vanguardia">
+    <meta name="author" content="BrainSAIT - Republic of Sudan">
+    <meta name="theme-color" content="#0F2341">
+    <title>SGDUS | Sudan Government Digital Unified System</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* ==================== PREMIUM LUXURY DESIGN SYSTEM ==================== */
+        :root {
+            /* Sophisticated Color Palette */
+            --deep-navy: #0F2341;
+            --rich-gold: #D4AF37;
+            --deep-emerald: #195F4B;
+            --slate-blue: #2D4B73;
+            --sage-green: #738778;
+            --copper: #B87333;
+            --ivory: #FFFFF0;
+            --cream: #FFFDD0;
+            --charcoal: #232323;
+            --soft-white: #F8F9FA;
+            
+            /* Extended Palette */
+            --midnight-blue: #0A1628;
+            --royal-blue: #1E3A5F;
+            --ocean-blue: #1A4B7C;
+            --forest-green: #145240;
+            --golden-amber: #E8B923;
+            --bronze: #CD7F32;
+            --platinum: #E5E4E2;
+            --pearl: #F5F5F5;
+            
+            /* Gradients */
+            --gradient-premium: linear-gradient(135deg, var(--deep-navy) 0%, var(--royal-blue) 50%, var(--ocean-blue) 100%);
+            --gradient-gold: linear-gradient(135deg, var(--rich-gold) 0%, var(--golden-amber) 50%, var(--copper) 100%);
+            --gradient-emerald: linear-gradient(135deg, var(--deep-emerald) 0%, var(--forest-green) 100%);
+            --gradient-hero: linear-gradient(145deg, var(--midnight-blue) 0%, var(--deep-navy) 40%, var(--slate-blue) 100%);
+            --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(248,249,250,0.9) 100%);
+            
+            /* Typography */
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Outfit', 'Segoe UI', sans-serif;
+            --font-arabic: 'Noto Sans Arabic', Arial, sans-serif;
+            
+            /* Shadows */
+            --shadow-luxury: 0 25px 50px -12px rgba(15, 35, 65, 0.35);
+            --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.12);
+            --shadow-elevated: 0 20px 60px rgba(15, 35, 65, 0.25);
+            --shadow-glow-gold: 0 0 40px rgba(212, 175, 55, 0.3);
+            
+            /* Transitions */
+            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            --transition-luxury: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        /* ==================== RESET & BASE ==================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--charcoal);
+            background: var(--soft-white);
+            overflow-x: hidden;
+        }
+        
+        /* Arabic Support */
+        [dir="rtl"] body {
+            font-family: var(--font-arabic);
+        }
+        
+        /* ==================== TYPOGRAPHY ==================== */
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 500;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+        }
+        
+        .display-1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 300;
+            letter-spacing: -0.03em;
+        }
+        
+        .display-2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+        }
+        
+        .display-3 {
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+        
+        .text-gold { color: var(--rich-gold); }
+        .text-navy { color: var(--deep-navy); }
+        .text-emerald { color: var(--deep-emerald); }
+        
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(15, 35, 65, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            transition: var(--transition-smooth);
+        }
+        
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 35, 65, 0.98);
+            box-shadow: var(--shadow-luxury);
+        }
+        
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+        
+        .navbar-logo {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-gold);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--deep-navy);
+            font-weight: 700;
+        }
+        
+        .navbar-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 0.02em;
+        }
+        
+        .navbar-subtitle {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        
+        .navbar-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .navbar-link {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition-smooth);
+        }
+        
+        .navbar-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-gold);
+            transition: var(--transition-smooth);
+        }
+        
+        .navbar-link:hover {
+            color: var(--rich-gold);
+        }
+        
+        .navbar-link:hover::after {
+            width: 100%;
+        }
+        
+        .navbar-cta {
+            padding: 0.75rem 2rem;
+            background: var(--gradient-gold);
+            color: var(--deep-navy);
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-glow-gold);
+        }
+        
+        .navbar-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-hero);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+        }
+        
+        /* Decorative Elements */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(ellipse, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+            animation: hero-glow 8s ease-in-out infinite;
+        }
+        
+        @keyframes hero-glow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        /* Geometric Pattern */
+        .hero-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .hero-text {
+            color: white;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1.25rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--rich-gold);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .hero-badge i {
+            font-size: 0.7rem;
+        }
+        
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 300;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.03em;
+        }
+        
+        .hero-title-accent {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-description {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            max-width: 540px;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: var(--gradient-gold);
+            color: var(--deep-navy);
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-glow-gold);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.45);
+        }
+        
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            color: white;
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--rich-gold);
+            color: var(--rich-gold);
+        }
+        
+        /* Hero Visual */
+        .hero-visual {
+            position: relative;
+        }
+        
+        .hero-card {
+            background: var(--gradient-card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-elevated);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--gradient-gold);
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(15, 35, 65, 0.03) 0%, rgba(15, 35, 65, 0.08) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(15, 35, 65, 0.08);
+        }
+        
+        .hero-stat-value {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--deep-navy);
+            line-height: 1;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: var(--slate-blue);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .hero-oid {
+            background: var(--deep-navy);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .hero-oid-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-navy);
+            font-size: 1.25rem;
+        }
+        
+        .hero-oid-text {
+            flex: 1;
+        }
+        
+        .hero-oid-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .hero-oid-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--rich-gold);
+            letter-spacing: 0.02em;
+        }
+        
+        /* ==================== FEATURES SECTION ==================== */
+        .features {
+            padding: 8rem 0;
+            background: var(--soft-white);
+            position: relative;
+        }
+        
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 5rem;
+        }
+        
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(25, 95, 75, 0.1);
+            color: var(--deep-emerald);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            font-size: clamp(2.25rem, 5vw, 3.25rem);
+            color: var(--deep-navy);
+            margin-bottom: 1.25rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.15rem;
+            color: var(--slate-blue);
+            line-height: 1.7;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(15, 35, 65, 0.06);
+            box-shadow: var(--shadow-card);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-premium);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition-smooth);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-elevated);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, rgba(15, 35, 65, 0.08) 0%, rgba(15, 35, 65, 0.04) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--deep-navy);
+            margin-bottom: 1.5rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .feature-card:hover .feature-icon {
+            background: var(--gradient-gold);
+            color: var(--deep-navy);
+        }
+        
+        .feature-title {
+            font-size: 1.35rem;
+            color: var(--deep-navy);
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-description {
+            font-size: 0.95rem;
+            color: var(--slate-blue);
+            line-height: 1.7;
+        }
+        
+        /* ==================== SERVICES SECTION ==================== */
+        .services {
+            padding: 8rem 0;
+            background: var(--deep-navy);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(ellipse at right, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+        }
+        
+        .services .section-header {
+            color: white;
+        }
+        
+        .services .section-badge {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--rich-gold);
+        }
+        
+        .services .section-title {
+            color: white;
+        }
+        
+        .services .section-subtitle {
+            color: rgba(255, 255, 255, 0.65);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+        
+        .service-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+        }
+        
+        .service-card:hover::after {
+            width: 60%;
+        }
+        
+        .service-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--rich-gold);
+            margin: 0 auto 1rem;
+        }
+        
+        .service-title {
+            font-size: 1.1rem;
+            color: white;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-description {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.6;
+        }
+        
+        /* ==================== STATS SECTION ==================== */
+        .stats {
+            padding: 6rem 0;
+            background: var(--gradient-premium);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 50%, rgba(25, 95, 75, 0.1) 0%, transparent 40%);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 300;
+            color: white;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value-accent {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+        
+        /* ==================== CTA SECTION ==================== */
+        .cta {
+            padding: 8rem 0;
+            background: var(--soft-white);
+            position: relative;
+        }
+        
+        .cta-card {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--gradient-premium);
+            border-radius: 30px;
+            padding: 5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-elevated);
+        }
+        
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+        }
+        
+        .cta-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-description {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 550px;
+            margin: 0 auto 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-btn {
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        
+        .cta-btn-primary {
+            background: var(--gradient-gold);
+            color: var(--deep-navy);
+            box-shadow: var(--shadow-glow-gold);
+        }
+        
+        .cta-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.45);
+        }
+        
+        .cta-btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .cta-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+        }
+        
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: var(--midnight-blue);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-brand {
+            max-width: 300px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .footer-logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--deep-navy);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        .footer-logo-text {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .footer-description {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        
+        .footer-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--rich-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.25rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-link {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-link a {
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .footer-link a:hover {
+            color: var(--rich-gold);
+        }
+        
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+        }
+        
+        .footer-socials {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .footer-social {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        
+        .footer-social:hover {
+            background: var(--gradient-gold);
+            color: var(--deep-navy);
+        }
+        
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
+        
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-description {
+                margin: 0 auto 2.5rem;
+            }
+            
+            .hero-actions {
+                justify-content: center;
+            }
+            
+            .hero-visual {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-links {
+                display: none;
+            }
+            
+            .hero-content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .features-grid,
+            .services-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-card {
+                padding: 3rem 2rem;
+            }
+            
+            .cta-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-brand {
+                max-width: 100%;
+            }
+            
+            .footer-logo {
+                justify-content: center;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        /* ==================== RTL SUPPORT ==================== */
+        [dir="rtl"] .navbar-links {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .hero-actions {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .hero-oid {
+            flex-direction: row-reverse;
+        }
+        
+        [dir="rtl"] .cta-actions {
+            flex-direction: column;
+        }
+        
+        [dir="rtl"] .footer-links {
+            padding-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-brand">
+                <div class="navbar-logo">🇸🇩</div>
+                <div>
+                    <div class="navbar-title">SGDUS</div>
+                    <div class="navbar-subtitle">الحكومة الرقمية السودانية</div>
+                </div>
+            </a>
+            <ul class="navbar-links">
+                <li><a href="#features" class="navbar-link">Features</a></li>
+                <li><a href="#services" class="navbar-link">Services</a></li>
+                <li><a href="#stats" class="navbar-link">Impact</a></li>
+                <li><a href="#contact" class="navbar-link">Contact</a></li>
+            </ul>
+            <button class="navbar-cta">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-pattern"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Republic of Sudan • Ministry of Information</span>
+                </div>
+                <h1 class="hero-title">
+                    Sudan Government<br>
+                    <span class="hero-title-accent">Digital Unified System</span>
+                </h1>
+                <p class="hero-description">
+                    Transforming Sudan through cutting-edge digital technology. A comprehensive platform connecting 45 million citizens to essential government services through AI-powered infrastructure.
+                </p>
+                <div class="hero-actions">
+                    <a href="#" class="btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Explore Platform
+                    </a>
+                    <a href="#" class="btn-secondary">
+                        <i class="fas fa-play"></i>
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">45M+</div>
+                            <div class="hero-stat-label">Citizens</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">847</div>
+                            <div class="hero-stat-label">Services</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">18</div>
+                            <div class="hero-stat-label">Ministries</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-value">99.9%</div>
+                            <div class="hero-stat-label">Uptime</div>
+                        </div>
+                    </div>
+                    <div class="hero-oid">
+                        <div class="hero-oid-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <div class="hero-oid-text">
+                            <div class="hero-oid-label">System OID Root</div>
+                            <div class="hero-oid-value">1.3.6.1.4.1.61026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-gem"></i>
+                    Platform Capabilities
+                </div>
+                <h2 class="section-title">Enterprise-Grade Digital Infrastructure</h2>
+                <p class="section-subtitle">
+                    Built with cutting-edge technology to serve every citizen, regardless of location or device capability.
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <h3 class="feature-title">Digital Identity</h3>
+                    <p class="feature-description">
+                        Secure biometric authentication with OID-based unique identifiers for every citizen. NFC & blockchain verification.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">AI & Machine Learning</h3>
+                    <p class="feature-description">
+                        BrainSAIT neural networks providing NLP in Arabic/English, predictive analytics, and intelligent automation.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Universal Access</h3>
+                    <p class="feature-description">
+                        USSD for basic phones, native iOS/Android apps, web portal, and offline-capable Progressive Web App.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Zero-Trust Security</h3>
+                    <p class="feature-description">
+                        End-to-end encryption, biometric authentication, audit logging, and FHIR/NPHIES compliance.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="feature-title">Cloud Infrastructure</h3>
+                    <p class="feature-description">
+                        Kubernetes orchestration, auto-scaling, multi-region redundancy, and 99.9% SLA guaranteed.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="feature-title">Interoperability</h3>
+                    <p class="feature-description">
+                        Seamless data sharing between 18 ministries with consent management and standardized APIs.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fas fa-crown"></i>
+                    Ministry Services
+                </div>
+                <h2 class="section-title">Comprehensive Government Services</h2>
+                <p class="section-subtitle">
+                    18 ministries connected through a unified digital platform with real-time data synchronization.
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4 class="service-title">Civil Registry</h4>
+                    <p class="service-description">ID, birth, marriage, death certificates</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h4 class="service-title">Healthcare</h4>
+                    <p class="service-description">Medical records, appointments, telemedicine</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4 class="service-title">Education</h4>
+                    <p class="service-description">Certificates, enrollment, exam results</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h4 class="service-title">Agriculture</h4>
+                    <p class="service-description">Farm registration, subsidies, markets</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h4 class="service-title">Energy</h4>
+                    <p class="service-description">Utilities, solar programs, mining</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <h4 class="service-title">Infrastructure</h4>
+                    <p class="service-description">Building permits, urban planning</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h4 class="service-title">Justice</h4>
+                    <p class="service-description">Court records, legal documentation</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-passport"></i>
+                    </div>
+                    <h4 class="service-title">Foreign Affairs</h4>
+                    <p class="service-description">Passports, visas, diplomatic services</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" id="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value"><span class="stat-value-accent">45</span>M+</div>
+                    <div class="stat-label">Citizens Served</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value"><span class="stat-value-accent">12.5</span>M</div>
+                    <div class="stat-label">Digital IDs Issued</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value"><span class="stat-value-accent">156</span>K</div>
+                    <div class="stat-label">Daily Transactions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value"><span class="stat-value-accent">847</span></div>
+                    <div class="stat-label">Active Services</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <div class="cta-card">
+                <h2 class="cta-title">Join Sudan's Digital Transformation</h2>
+                <p class="cta-description">
+                    Partner with BrainSAIT to build the future of government services. 
+                    Experience seamless, secure, and accessible digital public services.
+                </p>
+                <div class="cta-actions">
+                    <a href="#" class="cta-btn cta-btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Get Started Today
+                    </a>
+                    <a href="#" class="cta-btn cta-btn-secondary">
+                        <i class="fas fa-envelope"></i>
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">🇸🇩</div>
+                        <div class="footer-logo-text">SGDUS</div>
+                    </div>
+                    <p class="footer-description">
+                        Sudan Government Digital Unified System - Transforming public services through innovation and technology.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="footer-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">Features</a></li>
+                        <li class="footer-link"><a href="#">Security</a></li>
+                        <li class="footer-link"><a href="#">Integrations</a></li>
+                        <li class="footer-link"><a href="#">API Docs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">About</a></li>
+                        <li class="footer-link"><a href="#">Careers</a></li>
+                        <li class="footer-link"><a href="#">Press</a></li>
+                        <li class="footer-link"><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link"><a href="#">Privacy</a></li>
+                        <li class="footer-link"><a href="#">Terms</a></li>
+                        <li class="footer-link"><a href="#">Security</a></li>
+                        <li class="footer-link"><a href="#">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2024 SGDUS - Republic of Sudan. All rights reserved.
+                </div>
+                <div class="footer-socials">
+                    <a href="#" class="footer-social"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="footer-social"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="footer-social"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.feature-card, .service-card, .stat-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

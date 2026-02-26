@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudan Digital Services - Citizen Dashboard</title>
+    <link rel="stylesheet" href="../design-system/foundation.css">
+    <link rel="stylesheet" href="../design-system/components.css">
+    <style>
+        /* Dashboard-specific styles */
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #B91C3C  100%);
+            color: white;
+            padding: var(--space-6) 0;
+            margin-bottom: var(--space-8);
+        }
+        
+        .dashboard-nav {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: var(--space-4) 0;
+            margin-bottom: var(--space-6);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+        }
+        
+        @media (min-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-base);
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+        
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-4);
+            font-size: var(--font-size-2xl);
+        }
+        
+        .service-card.identity .service-icon {
+            background: #FEF2F2;
+            color: var(--primary-red);
+        }
+        
+        .service-card.health .service-icon {
+            background: #F0FDF4;
+            color: var(--success);
+        }
+        
+        .service-card.education .service-icon {
+            background: #EFF6FF;
+            color: var(--info);
+        }
+        
+        .service-card.finance .service-icon {
+            background: #FFFBEB;
+            color: var(--warning);
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+        
+        .notifications-panel {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-base);
+            border: 1px solid var(--gray-200);
+            margin-bottom: var(--space-8);
+        }
+        
+        .notification-item {
+            display: flex;
+            align-items: start;
+            gap: var(--space-3);
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4);">
+                <div>
+                    <h1 style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-bold); margin-bottom: var(--space-2);">
+                        مرحباً أحمد محمد
+                    </h1>
+                    <p style="font-size: var(--font-size-lg); opacity: 0.9;">
+                        Sudan Digital Services Portal
+                    </p>
+                </div>
+                <div style="display: flex; align-items: center; gap: var(--space-4);">
+                    <div class="badge badge-success" style="background: rgba(255,255,255,0.2); color: white;">
+                        <span>●</span>
+                        OID Verified
+                    </div>
+                    <button class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);">
+                        Profile Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav class="dashboard-nav">
+        <div class="container">
+            <div class="nav">
+                <a href="#" class="nav-item active">
+                    📊 Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    📋 My Applications
+                </a>
+                <a href="#" class="nav-item">
+                    📄 Documents
+                </a>
+                <a href="#" class="nav-item">
+                    🔔 Notifications
+                </a>
+                <a href="#" class="nav-item">
+                    🎯 Services
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main id="main-content" class="container">
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="card">
+                <h3 class="card-title">Quick Actions</h3>
+                <div style="display: grid; gap: var(--space-3);">
+                    <button class="btn btn-primary btn-full">
+                        🆔 Apply for New ID Card
+                    </button>
+                    <button class="btn btn-outline btn-full">
+                        🏥 Book Health Appointment
+                    </button>
+                    <button class="btn btn-outline btn-full">
+                        💰 Pay Government Fees
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title">Recent Activity</h3>
+                <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: var(--font-size-sm);">ID Renewal Application</span>
+                        <span class="badge badge-warning">Pending</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: var(--font-size-sm);">Tax Payment</span>
+                        <span class="badge badge-success">Completed</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: var(--font-size-sm);">Health Record Update</span>
+                        <span class="badge badge-success">Completed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Notifications Panel -->
+        <section class="notifications-panel">
+            <h2 style="font-size: var(--font-size-xl); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-4); color: var(--gray-900);">
+                Important Notifications
+            </h2>
+            
+            <div class="notification-item">
+                <div class="notification-icon" style="background: #FEF2F2; color: var(--error);">⚠️</div>
+                <div style="flex: 1;">
+                    <h4 style="font-weight: var(--font-weight-medium); margin-bottom: var(--space-1);">
+                        ID Card Expiration Notice
+                    </h4>
+                    <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-2);">
+                        Your national ID card expires in 30 days. Please renew to avoid service interruption.
+                    </p>
+                    <button class="btn btn-sm btn-primary">Renew Now</button>
+                </div>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon" style="background: #F0FDF4; color: var(--success);">✅</div>
+                <div style="flex: 1;">
+                    <h4 style="font-weight: var(--font-weight-medium); margin-bottom: var(--space-1);">
+                        Health Insurance Activated
+                    </h4>
+                    <p style="font-size: var(--font-size-sm); color: var(--gray-600); margin-bottom: var(--space-2);">
+                        Your health insurance plan is now active. You can now access healthcare services.
+                    </p>
+                    <button class="btn btn-sm btn-outline">View Details</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Government Services Grid -->
+        <section>
+            <h2 style="font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-6); color: var(--gray-900);">
+                Government Services
+            </h2>
+            
+            <div class="dashboard-grid">
+                <!-- Identity Services -->
+                <div class="service-card identity">
+                    <div class="service-icon">🆔</div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                        Identity & Civil Registry
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        ID cards, birth certificates, marriage registration
+                    </p>
+                    <div class="service-status service-status-active">
+                        All Services Available
+                    </div>
+                </div>
+                
+                <!-- Health Services -->
+                <div class="service-card health">
+                    <div class="service-icon">🏥</div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                        Health Services
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Medical records, appointments, health insurance
+                    </p>
+                    <div class="service-status service-status-active">
+                        All Services Available
+                    </div>
+                </div>
+                
+                <!-- Education Services -->
+                <div class="service-card education">
+                    <div class="service-icon">🎓</div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                        Education Services
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Student records, certificates, enrollment
+                    </p>
+                    <div class="service-status service-status-active">
+                        All Services Available
+                    </div>
+                </div>
+                
+                <!-- Finance Services -->
+                <div class="service-card finance">
+                    <div class="service-icon">💰</div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                        Finance & Tax
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Tax payments, financial records, business registration
+                    </p>
+                    <div class="service-status service-status-active">
+                        All Services Available
+                    </div>
+                </div>
+                
+                <!-- Agriculture Services -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: #F0FDF4; color: var(--success);">🌾</div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                        Agriculture
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Farm registration, subsidies, market access
+                    </p>
+                    <div class="service-status service-status-active">
+                        All Services Available
+                    </div>
+                </div>
+                
+                <!-- Social Welfare -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: #EFF6FF; color: var(--info);">🤝</div>
+                    <h3 style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-2);">
+                        Social Welfare
+                    </h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
+                        Benefits, assistance programs, support services
+                    </p>
+                    <div class="service-status service-status-active">
+                        All Services Available
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Application Status -->
+        <section style="margin-top: var(--space-8);">
+            <h2 style="font-size: var(--font-size-2xl); font-weight: var(--font-weight-semibold); margin-bottom: var(--space-6); color: var(--gray-900);">
+                My Applications
+            </h2>
+            
+            <div class="card">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Application</th>
+                                <th>Department</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ID Card Renewal</td>
+                                <td>Civil Registry</td>
+                                <td><span class="badge badge-warning">Under Review</span></td>
+                                <td>Aug 20, 2025</td>
+                                <td><button class="btn btn-sm btn-outline">Track</button></td>
+                            </tr>
+                            <tr>
+                                <td>Tax Payment Receipt</td>
+                                <td>Finance Ministry</td>
+                                <td><span class="badge badge-success">Completed</span></td>
+                                <td>Aug 18, 2025</td>
+                                <td><button class="btn btn-sm btn-outline">Download</button></td>
+                            </tr>
+                            <tr>
+                                <td>Health Insurance Registration</td>
+                                <td>Health Ministry</td>
+                                <td><span class="badge badge-success">Approved</span></td>
+                                <td>Aug 15, 2025</td>
+                                <td><button class="btn btn-sm btn-outline">View Card</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer style="background: var(--gray-900); color: white; padding: var(--space-8) 0; margin-top: var(--space-12);">
+        <div class="container">
+            <div style="text-align: center;">
+                <h3 style="margin-bottom: var(--space-4);">Republic of Sudan Digital Government</h3>
+                <p style="color: var(--gray-400); margin-bottom: var(--space-4);">
+                    Serving 40+ million citizens through digital transformation
+                </p>
+                <div style="display: flex; justify-content: center; gap: var(--space-6); flex-wrap: wrap;">
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">Privacy Policy</a>
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">Terms of Service</a>
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">Support</a>
+                    <a href="#" style="color: var(--gray-400); text-decoration: none;">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Language Toggle -->
+    <div style="position: fixed; bottom: var(--space-4); right: var(--space-4); z-index: var(--z-fixed);">
+        <button class="btn btn-primary" style="border-radius: var(--radius-full); width: 56px; height: 56px; padding: 0;">
+            🌐
+        </button>
+    </div>
+</body>
+</html>

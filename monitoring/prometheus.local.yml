@@ -1,0 +1,22 @@
+# Prometheus (local/dev) configuration for Sudan Digital Identity System
+# This avoids production-only TLS/auth files so `docker-compose up` works out of the box.
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Kong Admin API metrics (Prometheus plugin enabled in kong/kong.yml)
+  - job_name: "api-gateway"
+    static_configs:
+      - targets: ["api-gateway:8001"]
+    metrics_path: "/metrics"
+    scrape_interval: 15s
+

@@ -1,0 +1,10 @@
+# Recording/alerting rules placeholder for production Prometheus config.
+# The full set can be expanded as services/exporters are deployed.
+
+groups:
+  - name: sudan_identity_recording
+    interval: 30s
+    rules:
+      - record: job:http_requests_total:rate5m
+        expr: sum by (job) (rate(http_requests_total[5m]))
+

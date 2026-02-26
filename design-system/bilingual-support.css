@@ -1,0 +1,517 @@
+/**
+ * Sudan National Government - Arabic/English Bilingual Support
+ * RTL/LTR Layout System with Typography and UI Adaptations
+ */
+
+/* =============================================================================
+   ARABIC TYPOGRAPHY AND RTL SUPPORT
+============================================================================= */
+
+/* Enhanced Arabic Font Loading with Modern Typography */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+/* Enhanced Variables for Bilingual Support */
+:root {
+  --font-arabic-primary: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', 'Cairo', sans-serif;
+  --font-arabic-display: 'Amiri', 'Cairo', 'Noto Sans Arabic', serif;
+  --font-arabic-modern: 'Cairo', 'Noto Sans Arabic', sans-serif;
+  --font-english-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-english-display: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  
+  /* Arabic-specific spacing adjustments */
+  --arabic-line-height-multiplier: 1.4;
+  --arabic-letter-spacing: 0.02em;
+  
+  /* Layout direction indicators */
+  --layout-direction: ltr;
+  --text-align-start: left;
+  --text-align-end: right;
+  --margin-start: margin-left;
+  --margin-end: margin-right;
+  --padding-start: padding-left;
+  --padding-end: padding-right;
+  --border-start: border-left;
+  --border-end: border-right;
+}
+
+/* RTL Layout Adjustments */
+[dir="rtl"] {
+  --layout-direction: rtl;
+  --text-align-start: right;
+  --text-align-end: left;
+  --margin-start: margin-right;
+  --margin-end: margin-left;
+  --padding-start: padding-right;
+  --padding-end: padding-left;
+  --border-start: border-right;
+  --border-end: border-left;
+}
+
+/* =============================================================================
+   LANGUAGE-SPECIFIC TYPOGRAPHY
+============================================================================= */
+
+/* Arabic Text Styling */
+[lang="ar"], [dir="rtl"] {
+  font-family: var(--font-arabic-primary);
+  line-height: calc(var(--line-height-normal) * var(--arabic-line-height-multiplier));
+  letter-spacing: var(--arabic-letter-spacing);
+  text-align: right;
+}
+
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3,
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 {
+  font-family: var(--font-arabic-display);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+/* English Text Styling */
+[lang="en"], [dir="ltr"] {
+  font-family: var(--font-english-primary);
+  text-align: left;
+}
+
+/* Mixed Content Support */
+.text-mixed {
+  font-family: var(--font-english-primary), var(--font-arabic-primary);
+}
+
+.text-arabic {
+  font-family: var(--font-arabic-primary);
+  direction: rtl;
+  text-align: right;
+  line-height: calc(var(--line-height-normal) * var(--arabic-line-height-multiplier));
+}
+
+.text-english {
+  font-family: var(--font-english-primary);
+  direction: ltr;
+  text-align: left;
+}
+
+/* =============================================================================
+   BILINGUAL UI COMPONENTS
+============================================================================= */
+
+/* Language Toggle Button */
+.language-toggle {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  background: var(--primary-red);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-popover);
+  transition: all 0.2s ease-in-out;
+}
+
+.language-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+[dir="rtl"] .language-toggle {
+  right: auto;
+  left: var(--space-4);
+}
+
+/* Bilingual Content Container */
+.bilingual-container {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.content-arabic {
+  flex: 1;
+  direction: rtl;
+  text-align: right;
+  font-family: var(--font-arabic-primary);
+}
+
+.content-english {
+  flex: 1;
+  direction: ltr;
+  text-align: left;
+  font-family: var(--font-english-primary);
+}
+
+@media (max-width: 768px) {
+  .bilingual-container {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
+
+/* Form Labels and Inputs - Bilingual */
+.form-label-bilingual {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.form-label-arabic {
+  font-family: var(--font-arabic-primary);
+  direction: rtl;
+  text-align: right;
+  color: var(--gray-700);
+  font-weight: var(--font-weight-medium);
+}
+
+.form-label-english {
+  font-family: var(--font-english-primary);
+  direction: ltr;
+  text-align: left;
+  color: var(--gray-600);
+  font-size: var(--font-size-sm);
+}
+
+/* RTL Form Adjustments */
+[dir="rtl"] .form-input,
+[dir="rtl"] .form-textarea,
+[dir="rtl"] .form-select {
+  text-align: right;
+  font-family: var(--font-arabic-primary);
+}
+
+/* Placeholder text for RTL */
+[dir="rtl"] .form-input::placeholder,
+[dir="rtl"] .form-textarea::placeholder {
+  text-align: right;
+  font-family: var(--font-arabic-primary);
+}
+
+/* =============================================================================
+   NAVIGATION AND LAYOUT ADJUSTMENTS
+============================================================================= */
+
+/* RTL Navigation */
+[dir="rtl"] .nav {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-vertical {
+  flex-direction: column;
+}
+
+/* Button Groups RTL */
+[dir="rtl"] .btn-group {
+  flex-direction: row-reverse;
+}
+
+/* Card Content RTL */
+[dir="rtl"] .card {
+  text-align: right;
+}
+
+[dir="rtl"] .card-footer {
+  flex-direction: row-reverse;
+}
+
+/* Table RTL Support */
+[dir="rtl"] .table {
+  text-align: right;
+}
+
+[dir="rtl"] .table th,
+[dir="rtl"] .table td {
+  text-align: right;
+}
+
+/* Sidebar RTL */
+[dir="rtl"] .sidebar {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .main-content {
+  margin-left: 0;
+  margin-right: 280px;
+}
+
+/* =============================================================================
+   GOVERNMENT-SPECIFIC BILINGUAL COMPONENTS
+============================================================================= */
+
+/* Official Document Header */
+.document-header-bilingual {
+  background: linear-gradient(135deg, var(--primary-red) 0%, #B91C3C 100%);
+  color: white;
+  padding: var(--space-6);
+  text-align: center;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.document-title-arabic {
+  font-family: var(--font-arabic-display);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-2);
+  direction: rtl;
+}
+
+.document-title-english {
+  font-family: var(--font-english-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  opacity: 0.9;
+  direction: ltr;
+}
+
+/* Bilingual Service Cards */
+.service-card-bilingual {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-base);
+  border: 1px solid var(--gray-200);
+  text-align: center;
+}
+
+.service-title-arabic {
+  font-family: var(--font-arabic-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-1);
+  direction: rtl;
+}
+
+.service-title-english {
+  font-family: var(--font-english-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--gray-600);
+  direction: ltr;
+}
+
+/* Status Indicators - Bilingual */
+.status-bilingual {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  align-items: center;
+}
+
+.status-arabic {
+  font-family: var(--font-arabic-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  direction: rtl;
+}
+
+.status-english {
+  font-family: var(--font-english-primary);
+  font-size: var(--font-size-xs);
+  color: var(--gray-500);
+  direction: ltr;
+}
+
+/* =============================================================================
+   NUMBER AND DATE FORMATTING
+============================================================================= */
+
+/* Arabic-Indic Numerals Support */
+.numbers-arabic {
+  font-feature-settings: "numr";
+  font-variant-numeric: tabular-nums;
+}
+
+/* Date Display - Bilingual */
+.date-bilingual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.date-hijri {
+  font-family: var(--font-arabic-primary);
+  direction: rtl;
+  color: var(--gray-700);
+}
+
+.date-gregorian {
+  font-family: var(--font-english-primary);
+  font-size: var(--font-size-sm);
+  color: var(--gray-500);
+}
+
+/* Currency Display */
+.currency-bilingual {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.currency-arabic {
+  font-family: var(--font-arabic-primary);
+  direction: rtl;
+}
+
+.currency-english {
+  font-family: var(--font-english-primary);
+  font-size: var(--font-size-sm);
+  color: var(--gray-500);
+}
+
+/* =============================================================================
+   MOBILE ADAPTATIONS FOR BILINGUAL SUPPORT
+============================================================================= */
+
+/* Mobile Language Toggle */
+@media (max-width: 640px) {
+  .language-toggle {
+    top: var(--space-2);
+    right: var(--space-2);
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-xs);
+  }
+  
+  [dir="rtl"] .language-toggle {
+    right: auto;
+    left: var(--space-2);
+  }
+  
+  .bilingual-container {
+    gap: var(--space-2);
+  }
+  
+  .service-title-arabic {
+    font-size: var(--font-size-base);
+  }
+  
+  .service-title-english {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* =============================================================================
+   ACCESSIBILITY ENHANCEMENTS FOR BILINGUAL CONTENT
+============================================================================= */
+
+/* Screen Reader Support */
+.sr-only-arabic {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  font-family: var(--font-arabic-primary);
+}
+
+.sr-only-english {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  font-family: var(--font-english-primary);
+}
+
+/* Focus Indicators - Language Aware */
+[lang="ar"] *:focus-visible,
+[dir="rtl"] *:focus-visible {
+  outline: 2px solid var(--primary-red);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* High Contrast Mode - Bilingual */
+@media (prefers-contrast: high) {
+  .text-arabic, .text-english {
+    color: var(--gray-900);
+    background: white;
+  }
+  
+  .form-label-arabic, .form-label-english {
+    color: var(--gray-900);
+    font-weight: var(--font-weight-semibold);
+  }
+}
+
+/* =============================================================================
+   PRINT STYLES FOR BILINGUAL DOCUMENTS
+============================================================================= */
+
+@media print {
+  .language-toggle {
+    display: none;
+  }
+  
+  .document-header-bilingual {
+    background: none !important;
+    color: black !important;
+    border-bottom: 2px solid var(--gray-900);
+  }
+  
+  .bilingual-container {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .text-arabic, .text-english {
+    color: black !important;
+  }
+}
+
+/* =============================================================================
+   ANIMATION SUPPORT FOR LANGUAGE SWITCHING
+============================================================================= */
+
+.lang-switch-animation {
+  transition: all 0.3s ease-in-out;
+}
+
+.lang-switch-fade-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.lang-switch-fade-out {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+[dir="rtl"] .lang-switch-fade-out {
+  transform: translateX(-20px);
+}
+
+/* Loading state for font loading */
+.font-loading {
+  visibility: hidden;
+}
+
+.font-loaded {
+  visibility: visible;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

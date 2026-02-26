@@ -1,0 +1,210 @@
+{
+  "name": "Sudan Digital Identity Portal - البوابة الرقمية للهوية السودانية",
+  "short_name": "Sudan Identity",
+  "description": "Official digital identity portal for Sudanese citizens with offline-first capabilities - البوابة الرسمية للهوية الرقمية للمواطنين السودانيين مع القدرات دون اتصال",
+  "version": "1.0.0",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#2c5aa0",
+  "background_color": "#ffffff",
+  "lang": "ar-SD",
+  "dir": "rtl",
+  "categories": ["government", "productivity", "utilities", "lifestyle"],
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop home screen"
+    },
+    {
+      "src": "/screenshots/mobile-home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile home screen"
+    },
+    {
+      "src": "/screenshots/services-offline.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Offline services access"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "My Identity - هويتي",
+      "short_name": "Identity",
+      "description": "Access your digital identity - الوصول إلى هويتك الرقمية",
+      "url": "/identity?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-identity.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "My Services - خدماتي",
+      "short_name": "Services",
+      "description": "Access government services offline - الوصول إلى الخدمات الحكومية دون اتصال",
+      "url": "/services?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-services.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Documents - الوثائق",
+      "short_name": "Documents",
+      "description": "View and manage documents - عرض وإدارة الوثائق",
+      "url": "/documents?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-documents.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Health Records - السجلات الصحية",
+      "short_name": "Health",
+      "description": "Access health records - الوصول إلى السجلات الصحية",
+      "url": "/ministries/health?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-health.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Emergency - الطوارئ",
+      "short_name": "Emergency",
+      "description": "Emergency services access - الوصول إلى خدمات الطوارئ",
+      "url": "/emergency?source=shortcut",
+      "icons": [
+        {
+          "src": "/icons/shortcut-emergency.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.sd.brainsait.identity",
+      "id": "com.sd.brainsait.identity"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/sudan-identity/id123456789"
+    }
+  ],
+  "prefer_related_applications": false,
+  "share_target": {
+    "action": "/share-document",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "document",
+          "accept": ["image/*", ".pdf", ".doc", ".docx"]
+        }
+      ]
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+sudan-identity",
+      "url": "/protocol-handler?type=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/open-document",
+      "accept": {
+        "image/*": [".jpg", ".jpeg", ".png", ".webp", ".gif"],
+        "application/pdf": [".pdf"],
+        "application/msword": [".doc"],
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"]
+      }
+    }
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "id": "/",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+}

@@ -1,0 +1,834 @@
+/**
+ * Sudan Government - Accessible Service Design Patterns
+ * NHS Design System & GDS Patterns Adapted for Government Services
+ * WCAG 2.1 AA+ Compliant Components for 40+ Million Citizens
+ */
+
+/* =============================================================================
+   NHS-INSPIRED GOVERNMENT SERVICE PATTERNS
+============================================================================= */
+
+/* Government Service Card - Based on NHS Service Finder Pattern */
+.gov-service-card {
+  background: #ffffff;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-4);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  
+  /* NHS-style focus indicators */
+  outline: 0;
+  box-shadow: inset 0 0 0 0 var(--primary-red);
+}
+
+.gov-service-card:hover,
+.gov-service-card:focus {
+  border-color: var(--primary-red);
+  box-shadow: 0 4px 12px rgba(206, 17, 38, 0.15);
+  transform: translateY(-2px);
+}
+
+.gov-service-card:focus {
+  outline: 3px solid var(--primary-red);
+  outline-offset: 2px;
+  box-shadow: inset 0 0 0 4px #ffffff, 
+              inset 0 0 0 7px var(--primary-red);
+}
+
+/* Service status indicators - NHS traffic light system adapted */
+.service-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+}
+
+/* Available - Green (NHS Green) */
+.service-status-available {
+  background: #E8F5E8;
+  color: #00401F;
+  border-color: #00703C;
+}
+
+.service-status-available::before {
+  content: "●";
+  color: #00703C;
+  font-size: var(--font-size-lg);
+}
+
+/* Limited - Amber (NHS Amber) */
+.service-status-limited {
+  background: #FFF2CC;
+  color: #594D00;
+  border-color: #FFEB3B;
+}
+
+.service-status-limited::before {
+  content: "●";
+  color: #F57C00;
+  font-size: var(--font-size-lg);
+}
+
+/* Unavailable - Red (NHS Red) */
+.service-status-unavailable {
+  background: #FDEBEE;
+  color: #8C1C13;
+  border-color: #D5281B;
+}
+
+.service-status-unavailable::before {
+  content: "●";
+  color: #D5281B;
+  font-size: var(--font-size-lg);
+}
+
+/* Emergency - High contrast for critical services */
+.service-status-emergency {
+  background: #000000;
+  color: #FFFFFF;
+  border-color: #FF0000;
+  animation: pulse-emergency 2s infinite;
+}
+
+@keyframes pulse-emergency {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+  50% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service-status-emergency {
+    animation: none;
+  }
+}
+
+/* =============================================================================
+   CITIZEN JOURNEY PATTERNS - NHS Patient Pathway Adapted
+============================================================================= */
+
+/* Citizen journey steps - NHS timeline pattern */
+.citizen-journey {
+  background: #ffffff;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  margin: var(--space-6) 0;
+}
+
+.journey-title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.journey-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: step-counter;
+}
+
+.journey-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-left: 4px solid var(--gray-200);
+  margin-left: var(--space-6);
+  padding-left: var(--space-6);
+  position: relative;
+  counter-increment: step-counter;
+}
+
+[dir="rtl"] .journey-step {
+  border-left: none;
+  border-right: 4px solid var(--gray-200);
+  margin-left: 0;
+  margin-right: var(--space-6);
+  padding-left: 0;
+  padding-right: var(--space-6);
+}
+
+/* Step number indicator */
+.journey-step::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: -14px;
+  top: var(--space-4);
+  width: 28px;
+  height: 28px;
+  background: var(--gray-300);
+  color: var(--gray-700);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  border: 3px solid #ffffff;
+}
+
+[dir="rtl"] .journey-step::before {
+  left: auto;
+  right: -14px;
+}
+
+/* Completed step */
+.journey-step.completed {
+  border-color: var(--success);
+}
+
+.journey-step.completed::before {
+  background: var(--success);
+  color: #ffffff;
+  content: "✓";
+  font-size: var(--font-size-xs);
+}
+
+/* Active step */
+.journey-step.active {
+  border-color: var(--primary-red);
+  background: #FFF8F8;
+}
+
+.journey-step.active::before {
+  background: var(--primary-red);
+  color: #ffffff;
+  animation: pulse-active 2s infinite;
+}
+
+@keyframes pulse-active {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-step.active::before {
+    animation: none;
+  }
+}
+
+/* Step content */
+.step-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.step-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--gray-900);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.step-description {
+  font-size: var(--font-size-base);
+  color: var(--gray-600);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* Expected duration indicator */
+.step-duration {
+  font-size: var(--font-size-sm);
+  color: var(--gray-500);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-2);
+}
+
+.step-duration::before {
+  content: "⏱ ";
+  margin-right: var(--space-1);
+}
+
+[dir="rtl"] .step-duration::before {
+  margin-right: 0;
+  margin-left: var(--space-1);
+}
+
+/* =============================================================================
+   GOVERNMENT FORM PATTERNS - GDS Form Design
+============================================================================= */
+
+/* Form section grouping - GDS fieldset pattern */
+.form-section {
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+  background: #ffffff;
+}
+
+.form-section-legend {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--gray-900);
+  padding: 0 var(--space-3);
+  background: #ffffff;
+  margin-bottom: var(--space-4);
+}
+
+/* Question pattern - GDS single question per page adapted for complex forms */
+.form-question {
+  margin-bottom: var(--space-8);
+}
+
+.form-question-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-2);
+}
+
+.form-question-hint {
+  font-size: var(--font-size-base);
+  color: var(--gray-600);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-4);
+}
+
+/* Required field indicator - Enhanced for accessibility */
+.form-required-indicator {
+  color: var(--error);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  margin-left: var(--space-1);
+}
+
+[dir="rtl"] .form-required-indicator {
+  margin-left: 0;
+  margin-right: var(--space-1);
+}
+
+.form-required-indicator::after {
+  content: " (required)";
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--gray-600);
+}
+
+/* Enhanced form inputs with government styling */
+.form-input-enhanced {
+  width: 100%;
+  padding: var(--space-4);
+  border: 3px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-family: inherit;
+  background: #ffffff;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-input-enhanced:focus {
+  outline: 0;
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 0 var(--primary-red);
+}
+
+/* Error state - GDS error pattern */
+.form-input-error {
+  border-color: var(--error);
+  border-width: 4px;
+  background: #FEF7F7;
+}
+
+.form-input-error:focus {
+  border-color: var(--error);
+  box-shadow: 0 0 0 4px rgba(220, 38, 127, 0.25);
+}
+
+/* Error message pattern */
+.form-error-message {
+  color: var(--error);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  margin-top: var(--space-2);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.form-error-message::before {
+  content: "!";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--error);
+  color: #ffffff;
+  border-radius: 50%;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Success state indicator */
+.form-input-success {
+  border-color: var(--success);
+  background: #F6FDF6;
+}
+
+.form-success-message {
+  color: var(--success);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  margin-top: var(--space-2);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.form-success-message::before {
+  content: "✓";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: var(--success);
+  color: #ffffff;
+  border-radius: 50%;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* =============================================================================
+   DOCUMENT UPLOAD PATTERNS - NHS Document Submission
+============================================================================= */
+
+/* Document upload area - Drag and drop with accessibility */
+.document-upload-area {
+  border: 3px dashed var(--gray-300);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  text-align: center;
+  background: #fafafa;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+
+.document-upload-area:hover,
+.document-upload-area:focus-within {
+  border-color: var(--primary-red);
+  background: #fff8f8;
+}
+
+.document-upload-area.dragover {
+  border-color: var(--success);
+  background: #f0fff4;
+  border-style: solid;
+}
+
+.document-upload-icon {
+  font-size: var(--font-size-5xl);
+  color: var(--gray-400);
+  margin-bottom: var(--space-4);
+}
+
+.document-upload-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-2);
+}
+
+.document-upload-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--gray-600);
+  margin-bottom: var(--space-4);
+}
+
+.document-upload-button {
+  background: var(--primary-red);
+  color: #ffffff;
+  border: none;
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  transition: background 0.2s ease-in-out;
+}
+
+.document-upload-button:hover {
+  background: #B91C3C;
+}
+
+.document-upload-button:focus {
+  outline: 3px solid var(--primary-red);
+  outline-offset: 2px;
+}
+
+/* Hidden file input for accessibility */
+.document-upload-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Document preview list */
+.document-list {
+  margin-top: var(--space-6);
+}
+
+.document-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-3);
+  background: #ffffff;
+}
+
+.document-icon {
+  font-size: var(--font-size-2xl);
+  color: var(--primary-red);
+}
+
+.document-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.document-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--gray-900);
+  font-size: var(--font-size-base);
+  margin-bottom: var(--space-1);
+  word-break: break-word;
+}
+
+.document-size {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+}
+
+.document-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.document-remove {
+  background: var(--error);
+  color: #ffffff;
+  border: none;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  min-width: 36px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-remove:hover {
+  background: #B91C1C;
+}
+
+.document-remove:focus {
+  outline: 3px solid var(--error);
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   PRIORITY QUEUE PATTERNS - NHS Triage System Adapted
+============================================================================= */
+
+/* Priority levels for government services */
+.priority-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  border: 2px solid transparent;
+}
+
+/* Emergency Priority - Red */
+.priority-emergency {
+  background: #FEE2E2;
+  color: #991B1B;
+  border-color: #DC2626;
+}
+
+.priority-emergency::before {
+  content: "🚨";
+  animation: flash 1s infinite;
+}
+
+@keyframes flash {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .priority-emergency::before {
+    animation: none;
+  }
+}
+
+/* Urgent Priority - Orange */
+.priority-urgent {
+  background: #FED7AA;
+  color: #9A3412;
+  border-color: #EA580C;
+}
+
+.priority-urgent::before {
+  content: "⚡";
+}
+
+/* Standard Priority - Blue */
+.priority-standard {
+  background: #DBEAFE;
+  color: #1E40AF;
+  border-color: #3B82F6;
+}
+
+.priority-standard::before {
+  content: "📋";
+}
+
+/* Low Priority - Green */
+.priority-low {
+  background: #D1FAE5;
+  color: #065F46;
+  border-color: #10B981;
+}
+
+.priority-low::before {
+  content: "📝";
+}
+
+/* Queue position indicator */
+.queue-position {
+  background: var(--gray-100);
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: center;
+  margin: var(--space-6) 0;
+}
+
+.queue-number {
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--primary-red);
+  margin-bottom: var(--space-2);
+}
+
+.queue-description {
+  font-size: var(--font-size-lg);
+  color: var(--gray-700);
+  margin-bottom: var(--space-4);
+}
+
+.queue-estimate {
+  font-size: var(--font-size-base);
+  color: var(--gray-600);
+  font-weight: var(--font-weight-medium);
+}
+
+/* =============================================================================
+   BIOMETRIC AUTHENTICATION PATTERNS
+============================================================================= */
+
+/* Biometric authentication interface */
+.biometric-auth {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 3px solid var(--primary-red);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  text-align: center;
+  margin: var(--space-6) 0;
+  box-shadow: 0 10px 25px rgba(206, 17, 38, 0.1);
+}
+
+.biometric-icon {
+  font-size: var(--font-size-5xl);
+  margin-bottom: var(--space-4);
+  color: var(--primary-red);
+  animation: pulse-biometric 2s infinite;
+}
+
+@keyframes pulse-biometric {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .biometric-icon {
+    animation: none;
+  }
+}
+
+.biometric-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--gray-900);
+  margin-bottom: var(--space-4);
+}
+
+.biometric-instruction {
+  font-size: var(--font-size-base);
+  color: var(--gray-600);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-6);
+}
+
+.biometric-status {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--space-4);
+}
+
+.biometric-status.scanning {
+  background: #FFF7ED;
+  color: #9A3412;
+  border: 2px solid #FB923C;
+}
+
+.biometric-status.success {
+  background: #F0FDF4;
+  color: #166534;
+  border: 2px solid #22C55E;
+}
+
+.biometric-status.error {
+  background: #FEF2F2;
+  color: #991B1B;
+  border: 2px solid #EF4444;
+}
+
+/* Alternative authentication methods */
+.auth-alternatives {
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 2px solid var(--gray-200);
+}
+
+.auth-alternatives-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--gray-700);
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+.auth-method-button {
+  display: block;
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  margin-bottom: var(--space-3);
+  background: #ffffff;
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-lg);
+  color: var(--gray-700);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+.auth-method-button:hover,
+.auth-method-button:focus {
+  border-color: var(--primary-red);
+  background: #fff8f8;
+  color: var(--gray-900);
+}
+
+.auth-method-button:focus {
+  outline: 3px solid var(--primary-red);
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   HIGH CONTRAST AND PRINT STYLES
+============================================================================= */
+
+/* Enhanced high contrast mode */
+@media (prefers-contrast: high) {
+  .gov-service-card,
+  .form-section,
+  .document-upload-area,
+  .biometric-auth {
+    border-width: 4px;
+    border-color: #000000;
+  }
+  
+  .service-status-indicator,
+  .priority-indicator {
+    border-width: 3px;
+    font-weight: var(--font-weight-bold);
+  }
+  
+  .form-input-enhanced {
+    border-width: 4px;
+    border-color: #000000;
+  }
+  
+  .form-input-enhanced:focus {
+    border-color: #000000;
+    background: #FFFFFF;
+  }
+}
+
+/* Print optimization for government documents */
+@media print {
+  .gov-service-card,
+  .form-section {
+    border: 2px solid #000000;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  
+  .journey-steps {
+    page-break-inside: avoid;
+  }
+  
+  .journey-step::before {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+  
+  .biometric-auth,
+  .document-upload-area {
+    display: none !important;
+  }
+  
+  .priority-indicator::before,
+  .service-status-indicator::before {
+    color: #000000 !important;
+  }
+}
