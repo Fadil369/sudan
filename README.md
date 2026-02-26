@@ -264,8 +264,8 @@ This implementation provides a complete digital government portal system support
 ### Installation & Setup
 ```bash
 # Clone the repository
-git clone [repository-url]
-cd oid-sudan
+git clone https://github.com/Fadil369/sudan.git
+cd sudan
 
 # Install dependencies
 npm install
@@ -305,8 +305,11 @@ REACT_APP_ENCRYPTION_KEY=your-encryption-key-here
 
 ### Local Stack (Docker Compose)
 ```bash
+# (Optional) Pre-pull third-party images with retries (helps with TLS handshake timeouts)
+bash scripts/pull-images.sh
+
 # Start local services (portal, redis, postgres, kong, prometheus, grafana, etc.)
-docker compose up -d
+docker compose up -d --build
 
 # Quick health checks
 ./scripts/health-check-all.sh
@@ -322,6 +325,18 @@ Default local endpoints:
 - Kong proxy: `http://localhost:8000`
 - Prometheus: `http://localhost:9090`
 - Grafana: `http://localhost:3008` (admin password is `GRAFANA_PASSWORD` in `docker-compose.yml`)
+
+### Docker Pull Troubleshooting (TLS handshake timeout)
+If your machine intermittently fails to pull images with `net/http: TLS handshake timeout`, it’s usually an environment/network issue (Docker Hub reachability, DNS, VPN/proxy, etc.).
+
+Try:
+- `bash scripts/pull-images.sh` (adds retries)
+- `export DOCKER_CLIENT_TIMEOUT=180 COMPOSE_HTTP_TIMEOUT=180`
+- Pull manually once, then re-run `docker compose up -d --build`:
+  - `docker pull kong:3.4-alpine`
+  - `docker pull postgres:15-alpine`
+  - `docker pull redis:7-alpine`
+  - `docker pull grafana/grafana:10.0.0`
 
 ## 🧪 Testing Strategy
 

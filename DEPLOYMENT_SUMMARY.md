@@ -131,7 +131,8 @@ sudan-digital-identity/
 
 ### Quick Deployment (Docker Compose)
 ```bash
-cd sudan-main
+# From the repo root
+bash scripts/pull-images.sh
 docker compose up -d --build
 ./scripts/health-check-all.sh
 ```
