@@ -1,7 +1,3 @@
-import { Gateway, Wallets } from 'fabric-network';
-import fs from 'fs';
-import path from 'path';
-
 // In-memory representation of the ledger
 let ledger = {};
 
