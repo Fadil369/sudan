@@ -70,7 +70,8 @@ beforeAll(() => {
       args[0]?.includes?.('NotFoundError: The child can not be found in the parent') ||
       args[0]?.includes?.('Uncaught [NotFoundError: The child can not be found in the parent]') ||
       args[0]?.includes?.('Warning: QRCode: Support for defaultProps will be removed') ||
-      args[0]?.includes?.('Warning: `ReactDOMTestUtils.act` is deprecated')
+      args[0]?.includes?.('Warning: `ReactDOMTestUtils.act` is deprecated') ||
+      args[0]?.includes?.('A suspended resource finished loading inside a test')
     ) {
       return;
     }
