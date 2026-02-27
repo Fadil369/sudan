@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import SudanGovPortal from './pages/SudanGovPortal';
-import AuthProvider from './components/AuthProvider';
-import SecureErrorBoundary from './components/SecureErrorBoundary';
+import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import auditLogger from './security/AuditLogger';
 
@@ -16,11 +14,7 @@ auditLogger.logSystemEvent('STARTUP', {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <SecureErrorBoundary>
-      <AuthProvider>
-        <SudanGovPortal />
-      </AuthProvider>
-    </SecureErrorBoundary>
+    <App />
   </React.StrictMode>
 );
 

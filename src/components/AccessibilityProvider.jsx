@@ -27,7 +27,7 @@ import {
   Typography
 } from '@mui/material';
 
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
 
 // Accessibility Context
 const AccessibilityContext = createContext();
@@ -60,71 +60,74 @@ const WCAG_STANDARDS = {
   }
 };
 
-const AccessibilityProvider = ({ children, isRTL = false }) => {
-  // Accessibility State
-  const [accessibilitySettings, setAccessibilitySettings] = useState({
-  // Visual Accessibility
-  highContrast: false,
-  fontSize: 'medium', // small, medium, large, xlarge
-  colorBlindnessFilter: 'none', // none, protanopia, deuteranopia, tritanopia
+/**
+ * Build default accessibility settings, optionally merged with persisted localStorage values.
+ * Using a factory function allows useState to be initialized synchronously so that
+ * tests (and the initial render) immediately reflect persisted preferences.
+ */
+const buildInitialSettings = (rtl = false) => {
+  const defaults = {
+    // Visual Accessibility
+    highContrast: false,
+    fontSize: 'medium',
+    colorBlindnessFilter: 'none',
     reducedMotion: false,
-
     // Auditory Accessibility
     soundEnabled: true,
-  screenReaderMode: false,
+    screenReaderMode: false,
     captionsEnabled: false,
     audioDescriptions: false,
-
     // Motor Accessibility
     stickyKeys: false,
-    clickDelay: 0, // milliseconds
+    clickDelay: 0,
     touchGestures: true,
     keyboardNavigation: true,
-
     // Cognitive Accessibility
     simplifiedInterface: false,
     extendedTimeout: false,
     autoComplete: true,
     focusIndicators: true,
-
     // Language Accessibility
-    language: isRTL ? 'ar' : 'en',
+    language: rtl ? 'ar' : 'en',
     textToSpeech: false,
     translationEnabled: false,
-    rightToLeft: isRTL
-  });
+    rightToLeft: rtl,
+  };
+
+  try {
+    const saved = localStorage.getItem('accessibility-settings');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Map legacy property names for backward compatibility
+      if (Object.prototype.hasOwnProperty.call(parsed, 'screenReader')) {
+        parsed.screenReaderMode = parsed.screenReader;
+        delete parsed.screenReader;
+      }
+      if (Object.prototype.hasOwnProperty.call(parsed, 'colorBlindness')) {
+        parsed.colorBlindnessFilter = parsed.colorBlindness;
+        delete parsed.colorBlindness;
+      }
+      return { ...defaults, ...parsed };
+    }
+  } catch (_) {
+    // Ignore parse errors – fall back to defaults
+  }
+  return defaults;
+};
+
+const AccessibilityProvider = ({ children, isRTL = false }) => {
+  // Initialize state synchronously from localStorage so that the first render already
+  // reflects persisted settings (avoids a flash of default values and simplifies tests).
+  const [accessibilitySettings, setAccessibilitySettings] = useState(() =>
+    buildInitialSettings(isRTL)
+  );
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [activePanel, setActivePanel] = useState('visual');
   const [announcements, setAnnouncements] = useState([]);
 
-  // Initialize accessibility from localStorage
+  // Detect and apply OS-level accessibility preferences on mount
   useEffect(() => {
-    // Support older key used in tests and other parts of the app
-    const savedSettings = localStorage.getItem('accessibility-settings');
-    if (savedSettings) {
-      try {
-        const parsed = JSON.parse(savedSettings);
-        // Map legacy property names to current schema for backward compatibility
-        if (Object.prototype.hasOwnProperty.call(parsed, 'screenReader')) {
-          parsed.screenReaderMode = parsed.screenReader;
-          delete parsed.screenReader;
-        }
-        if (Object.prototype.hasOwnProperty.call(parsed, 'colorBlindness')) {
-          parsed.colorBlindnessFilter = parsed.colorBlindness;
-          delete parsed.colorBlindness;
-        }
-        setAccessibilitySettings(prev => ({
-          ...prev,
-          ...parsed
-        }));
-      } catch (error) {
-        console.warn('Failed to load accessibility settings:', error);
-      }
-    }
-
-    // Detect system preferences
-    // Detect system preferences
     const reducedMotionQuery = window.matchMedia?.('(prefers-reduced-motion: reduce)');
     if (reducedMotionQuery?.matches) {
       setAccessibilitySettings(prev => ({ ...prev, reducedMotion: true }));
@@ -134,6 +137,29 @@ const AccessibilityProvider = ({ children, isRTL = false }) => {
       setAccessibilitySettings(prev => ({ ...prev, highContrast: true }));
     }
   }, []);
+
+  // Synchronous layout-phase re-read of localStorage.  In test environments
+  // (JSDOM + RTL act()) useLayoutEffect fires before render() returns, so any
+  // settings written to localStorage before render() are applied immediately.
+  useLayoutEffect(() => {
+    try {
+      const saved = localStorage.getItem('accessibility-settings');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Object.prototype.hasOwnProperty.call(parsed, 'screenReader')) {
+          parsed.screenReaderMode = parsed.screenReader;
+          delete parsed.screenReader;
+        }
+        if (Object.prototype.hasOwnProperty.call(parsed, 'colorBlindness')) {
+          parsed.colorBlindnessFilter = parsed.colorBlindness;
+          delete parsed.colorBlindness;
+        }
+        setAccessibilitySettings(prev => ({ ...prev, ...parsed }));
+      }
+    } catch (_) {
+      // Ignore parse errors
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* eslint-disable react-hooks/exhaustive-deps */
   // Save settings to localStorage

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Sudan National Digital Identity System - OID-based government portal",
   "private": true,
-  "homepage": "https://portal.sd.brainsait.com",
+  "homepage": "https://Fadil369.github.io/sudan",
   "author": {
     "name": "Sudan Digital Transformation Initiative",
     "email": "digital@sd.brainsait.com",
@@ -51,6 +51,7 @@
     "html2canvas": "^1.4.1",
     "jsonwebtoken": "^9.0.2",
     "jsqr": "^1.4.0",
+    "lucide-react": "^0.575.0",
     "process": "^0.11.10",
     "qrcode": "^1.5.3",
     "qrcode.react": "^4.2.0",

@@ -140,6 +140,21 @@ const createStorageMock = () => {
       store = {};
     }),
     __getStore: () => store,
+    // Re-wires implementations after jest.resetAllMocks() resets them.
+    // CRA sets resetMocks: true which clears mockImplementation before each test.
+    _reinitialize: function () {
+      let s = {};
+      this.getItem.mockImplementation((k) => (k in s ? s[k] : null));
+      this.setItem.mockImplementation((k, v) => {
+        s[k] = String(v);
+      });
+      this.removeItem.mockImplementation((k) => {
+        delete s[k];
+      });
+      this.clear.mockImplementation(() => {
+        s = {};
+      });
+    },
   };
 };
 
@@ -158,6 +173,31 @@ Object.defineProperty(window, 'sessionStorage', {
   value: createStorageMock(),
 });
 global.sessionStorage = window.sessionStorage;
+
+// CRA sets resetMocks: true which calls jest.resetAllMocks() before each test,
+// clearing all mock implementations.  Re-wire localStorage/sessionStorage
+// implementations in beforeEach so they remain functional throughout tests.
+beforeEach(() => {
+  if (window.localStorage && window.localStorage._reinitialize) {
+    window.localStorage._reinitialize();
+  }
+  if (window.sessionStorage && window.sessionStorage._reinitialize) {
+    window.sessionStorage._reinitialize();
+  }
+  // Re-wire matchMedia so MUI and tests that depend on it continue to work.
+  if (window.matchMedia) {
+    window.matchMedia.mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+  }
+});
 
 // Mock crypto.subtle for biometric tests
 // Make crypto configurable so individual tests can redefine it if needed
@@ -334,11 +374,9 @@ afterEach(() => {
   if (window.localStorage && window.localStorage.clear) window.localStorage.clear();
   if (window.sessionStorage && window.sessionStorage.clear) window.sessionStorage.clear();
 
-  // Clear any DOM modifications
-  document.body.innerHTML = '';
-  document.head.innerHTML = '<meta charset="utf-8">';
-
-  // Reset document properties
+  // Reset document root properties (do NOT clear head/body innerHTML – removing
+  // CSS-in-JS style tags from <head> invalidates emotion's internal cache and
+  // causes "NotFoundError: The child can not be found in the parent" in subsequent tests)
   document.documentElement.className = '';
   document.documentElement.setAttribute('dir', 'ltr');
   document.documentElement.setAttribute('lang', 'en');

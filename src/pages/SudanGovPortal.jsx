@@ -227,8 +227,8 @@ const governmentDepartments = [
     }
   ];
 
-const SudanGovPortal = () => {
-  const [isRTL, setIsRTL] = useState(false);
+const SudanGovPortal = ({ language, user } = {}) => {
+  const [isRTL, setIsRTL] = useState(language === 'ar');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState('dashboard');
   const [userRole] = useState('citizen'); // citizen, official, admin - setUserRole available for future use
@@ -240,13 +240,6 @@ const SudanGovPortal = () => {
   const [isBiometricDialogOpen, setIsBiometricDialogOpen] = useState(false);
   const [biometricUsername, setBiometricUsername] = useState('');
   const [biometricMessage, setBiometricMessage] = useState('');
-  // const [systemStatus, setSystemStatus] = useState({ // Available for future system monitoring
-  //   overall: 'operational',
-  //   services: 'active',
-  //   oidSystem: 'connected',
-  //   biometric: 'operational',
-  //   blockchain: 'syncing'
-  // });
   const [governmentMetrics, setGovernmentMetrics] = useState({
     citizensRegistered: 12500000,
     servicesDigitalized: 847,
@@ -254,6 +247,11 @@ const SudanGovPortal = () => {
     satisfactionScore: 4.7,
     systemUptime: 99.8
   });
+
+  // Sync isRTL with language prop changes
+  useEffect(() => {
+    setIsRTL(language === 'ar');
+  }, [language]);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -343,6 +341,10 @@ const SudanGovPortal = () => {
   const renderDepartmentCard = useCallback((department) => (
     <Card
       key={department.id}
+      role="button"
+      tabIndex={0}
+      aria-label={department.name}
+      style={{ minHeight: '44px' }}
       className="sudan-department-card"
       sx={{
         height: '100%',
@@ -404,12 +406,12 @@ const SudanGovPortal = () => {
           sx={{
             color: 'rgba(255, 255, 255, 0.95)',
             fontWeight: 600,
-            mb: 1,
+            mb: 0.5,
             fontSize: '1.1rem',
             lineHeight: 1.3
           }}
         >
-          {department.nameShort}
+          {department.name}
         </Typography>
 
         <Typography
@@ -481,7 +483,7 @@ const SudanGovPortal = () => {
               {(governmentMetrics.citizensRegistered / 1000000).toFixed(1)}M
             </Typography>
             <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-              {isRTL ? 'مواطن مسجل' : 'Citizens Registered'}
+              {isRTL ? 'مواطن نشط' : 'Active Citizens'}
             </Typography>
             <LinearProgress
               variant="determinate"
@@ -497,29 +499,10 @@ const SudanGovPortal = () => {
           <CardContent sx={{ textAlign: 'center', p: 3 }}>
             <CloudQueue sx={{ fontSize: 48, color: '#10b981', mb: 1 }} />
             <Typography variant="h4" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700 }}>
-              {governmentMetrics.servicesDigitalized}
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-              {isRTL ? 'خدمة رقمية' : 'Digital Services'}
-            </Typography>
-            <Chip
-              label={isRTL ? 'مكتمل 78%' : '78% Complete'}
-              size="small"
-              sx={{ mt: 1, backgroundColor: '#10b98120', color: '#10b981' }}
-            />
-          </CardContent>
-        </Card>
-      </Grid>
-
-      <Grid item xs={12} md={3}>
-        <Card className="sudan-status-card">
-          <CardContent sx={{ textAlign: 'center', p: 3 }}>
-            <TrendingUp sx={{ fontSize: 48, color: '#f59e0b', mb: 1 }} />
-            <Typography variant="h4" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700 }}>
               {(governmentMetrics.transactionsToday / 1000).toFixed(0)}K
             </Typography>
             <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-              {isRTL ? 'معاملة اليوم' : 'Transactions Today'}
+              {isRTL ? 'المعاملات اليومية' : 'Daily Transactions'}
             </Typography>
             <Typography variant="caption" sx={{ color: '#00e676', mt: 1, display: 'block' }}>
               {isRTL ? '↗ +15% من الأمس' : '↗ +15% from yesterday'}
@@ -544,6 +527,25 @@ const SudanGovPortal = () => {
                 {isRTL ? 'صحي' : 'Healthy'}
               </Typography>
             </Box>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} md={3}>
+        <Card className="sudan-status-card">
+          <CardContent sx={{ textAlign: 'center', p: 3 }}>
+            <TrendingUp sx={{ fontSize: 48, color: '#f59e0b', mb: 1 }} />
+            <Typography variant="h4" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700 }}>
+              {governmentMetrics.satisfactionScore.toFixed(1)}/5
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+              {isRTL ? 'رضا الخدمة' : 'Service Satisfaction'}
+            </Typography>
+            <Chip
+              label={isRTL ? 'ممتاز' : 'Excellent'}
+              size="small"
+              sx={{ mt: 1, backgroundColor: '#f59e0b20', color: '#f59e0b' }}
+            />
           </CardContent>
         </Card>
       </Grid>
@@ -587,55 +589,61 @@ const SudanGovPortal = () => {
                 <Button
                   fullWidth
                   variant="outlined"
-                  startIcon={<Person />}
-                  className="sudan-action-btn"
+                  startIcon={<Emergency />}
+                  className="sudan-action-btn emergency"
+                  style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
                 >
-                  {isRTL ? 'تسجيل مواطن جديد' : 'Register New Citizen'}
+                  {isRTL ? 'خدمات الطوارئ' : 'Emergency Services'}
                 </Button>
               </Grid>
-              
+
               <Grid item xs={12} sm={6} md={3}>
                 <Button
                   fullWidth
                   variant="outlined"
                   startIcon={<Verified />}
                   className="sudan-action-btn"
+                  style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
                 >
-                  {isRTL ? 'التحقق من الهوية' : 'Verify Identity'}
+                  {isRTL ? 'التحقق من الهوية' : 'ID Verification'}
                 </Button>
               </Grid>
-              
+
               <Grid item xs={12} sm={6} md={3}>
                 <Button
                   fullWidth
                   variant="outlined"
                   startIcon={<Analytics />}
                   className="sudan-action-btn"
+                  style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
                 >
-                  {isRTL ? 'تقرير النظام' : 'System Report'}
+                  {isRTL ? 'طلب وثيقة' : 'Document Request'}
                 </Button>
               </Grid>
-              
+
               <Grid item xs={12} sm={6} md={3}>
                 <Button
                   fullWidth
                   variant="outlined"
-                  startIcon={<Emergency />}
-                  className="sudan-action-btn emergency"
+                  startIcon={<AccountBalance />}
+                  className="sudan-action-btn"
+                  style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
                 >
-                  {isRTL ? 'وضع الطوارئ' : 'Emergency Mode'}
+                  {isRTL ? 'خدمات الدفع' : 'Payment Services'}
                 </Button>
               </Grid>
+
               <Grid item xs={12} sm={6} md={3}>
                 <Button
                   fullWidth
                   variant="outlined"
                   startIcon={<BiometricIcon />}
                   className="sudan-action-btn"
+                  style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
                   onClick={() => setIsBiometricDialogOpen(true)}
                 >
@@ -696,7 +704,15 @@ const SudanGovPortal = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', background: 'var(--sudan-gradient-primary)' }}>
+    <Box
+      data-testid="gov-portal-container"
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        background: 'var(--sudan-gradient-primary)',
+        direction: isRTL ? 'rtl' : 'ltr',
+      }}
+    >
       {/* Navigation Sidebar */}
       <Drawer
         variant="permanent"
@@ -748,6 +764,7 @@ const SudanGovPortal = () => {
         <List sx={{ p: 2 }}>
           <ListItem
             button
+            style={{ minHeight: '44px' }}
             selected={selectedDepartment === 'dashboard'}
             onClick={() => handleDepartmentChange('dashboard')}
             className="sudan-nav-item"
@@ -763,6 +780,7 @@ const SudanGovPortal = () => {
 
           <ListItem
             button
+            style={{ minHeight: '44px' }}
             selected={selectedDepartment === 'oid_tree'}
             onClick={() => handleDepartmentChange('oid_tree')}
             className="sudan-nav-item"
@@ -782,6 +800,7 @@ const SudanGovPortal = () => {
             <ListItem
               key={department.id}
               button
+              style={{ minHeight: '44px' }}
               selected={selectedDepartment === department.id}
               onClick={() => handleDepartmentChange(department.id)}
               className="sudan-nav-item"
@@ -808,7 +827,7 @@ const SudanGovPortal = () => {
 
           <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 
-          <ListItem button className="sudan-nav-item">
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item">
             <ListItemIcon>
               <Settings sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
             </ListItemIcon>
@@ -818,7 +837,7 @@ const SudanGovPortal = () => {
             />
           </ListItem>
 
-          <ListItem button className="sudan-nav-item">
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item">
             <ListItemIcon>
               <Support sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
             </ListItemIcon>
@@ -868,6 +887,7 @@ const SudanGovPortal = () => {
       {/* Main Content Area */}
       <Box
         component="main"
+        role="main"
         sx={{
           flexGrow: 1,
           minHeight: '100vh',
@@ -890,6 +910,7 @@ const SudanGovPortal = () => {
               edge="start"
               color="inherit"
               onClick={() => setMobileMenuOpen(true)}
+              style={{ minHeight: '44px' }}
               sx={{ mr: 2, display: { md: 'none' } }}
             >
               <Menu />
@@ -912,7 +933,17 @@ const SudanGovPortal = () => {
                 '& input': { color: 'rgba(255, 255, 255, 0.9)' }
               }}
               InputProps={{
-                startAdornment: <Search sx={{ color: 'rgba(255, 255, 255, 0.6)', mr: 1 }} />
+                startAdornment: (
+                  <IconButton
+                    data-testid="search-button"
+                    size="small"
+                    style={{ minHeight: '44px' }}
+                    sx={{ color: 'rgba(255, 255, 255, 0.6)', mr: 0.5 }}
+                    aria-label={isRTL ? 'بحث' : 'Search'}
+                  >
+                    <Search />
+                  </IconButton>
+                )
               }}
             />
 
@@ -937,18 +968,23 @@ const SudanGovPortal = () => {
               />
 
               {/* Notifications */}
-              <IconButton sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+              <IconButton style={{ minHeight: '44px' }} sx={{ color: 'rgba(255, 255, 255, 0.8)' }} aria-label="notifications">
                 <Badge badgeContent={notifications.length} color="error">
                   <Notifications />
                 </Badge>
               </IconButton>
 
               {/* System Status */}
-              <IconButton sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+              <IconButton style={{ minHeight: '44px' }} sx={{ color: 'rgba(255, 255, 255, 0.8)' }} aria-label="system status">
                 <MonitorHeart />
               </IconButton>
 
               {/* User Profile */}
+              {user?.name && (
+                <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.85)', mr: 1 }}>
+                  {user.name}
+                </Typography>
+              )}
               <Avatar
                 sx={{
                   width: 36,
@@ -956,8 +992,9 @@ const SudanGovPortal = () => {
                   background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
                   fontSize: '0.9rem'
                 }}
+                aria-label={user?.name || (userRole === 'citizen' ? 'Citizen' : 'User')}
               >
-                {userRole === 'citizen' ? 'C' : userRole === 'official' ? 'A' : 'A'}
+                {user?.name ? user.name.charAt(0).toUpperCase() : userRole === 'citizen' ? 'C' : 'A'}
               </Avatar>
             </Box>
           </Toolbar>
@@ -998,6 +1035,7 @@ const SudanGovPortal = () => {
           color="primary" 
           aria-label="chat" 
           onClick={toggleChat} 
+          style={{ minHeight: '44px' }}
           sx={{ position: 'fixed', bottom: 20, right: 20 }}
         >
           <ChatIcon />
@@ -1023,9 +1061,9 @@ const SudanGovPortal = () => {
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setIsBiometricDialogOpen(false)}>{isRTL ? 'إلغاء' : 'Cancel'}</Button>
-            <Button onClick={handleBiometricRegister}>{isRTL ? 'تسجيل' : 'Register'}</Button>
-            <Button onClick={handleBiometricAuthenticate}>{isRTL ? 'مصادقة' : 'Authenticate'}</Button>
+            <Button style={{ minHeight: '44px' }} onClick={() => setIsBiometricDialogOpen(false)}>{isRTL ? 'إلغاء' : 'Cancel'}</Button>
+            <Button style={{ minHeight: '44px' }} onClick={handleBiometricRegister}>{isRTL ? 'تسجيل' : 'Register'}</Button>
+            <Button style={{ minHeight: '44px' }} onClick={handleBiometricAuthenticate}>{isRTL ? 'مصادقة' : 'Authenticate'}</Button>
           </DialogActions>
         </Dialog>
       </Box>
