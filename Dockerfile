@@ -7,11 +7,6 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Add build metadata
-LABEL maintainer="Sudan Digital Transformation Initiative <digital@sd.brainsait.com>"
-LABEL version="1.0.0"
-LABEL description="Sudan National Digital Identity System"
-
 # Install build dependencies for native modules
 RUN apk add --no-cache \
     python3 \
@@ -30,8 +25,8 @@ RUN apk add --no-cache \
 # Copy package files for dependency installation
 COPY package*.json ./
 
-# Install dependencies with npm ci for reproducible builds
-RUN npm ci --only=production --no-audit --no-fund
+# Install all dependencies (including devDependencies needed for the build step)
+RUN npm ci --legacy-peer-deps --no-audit --no-fund
 
 # Copy all source code
 COPY . .
@@ -52,11 +47,16 @@ ENV NODE_ENV=$NODE_ENV
 ENV GENERATE_SOURCEMAP=false
 ENV INLINE_RUNTIME_CHUNK=false
 
-# Build the application
-RUN npm run build
+# Build the application using production script (includes CI=false and sourcemap disabling)
+RUN npm run build:production
 
 # Stage 2: Production Runtime
 FROM nginx:1.25-alpine AS runtime
+
+# Add image metadata
+LABEL maintainer="Sudan Digital Transformation Initiative <digital@sd.brainsait.com>"
+LABEL version="1.0.0"
+LABEL description="Sudan National Digital Identity System"
 
 # Install security updates and required packages
 RUN apk upgrade --no-cache && \
