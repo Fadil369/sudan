@@ -1,0 +1,36 @@
+# .github/labeler.yml
+# Automatically label pull requests based on changed file paths.
+# See: https://github.com/actions/labeler
+
+documentation:
+  - any: ['**/*.md', 'docs/**/*']
+
+frontend:
+  - any: ['src/**/*.jsx', 'src/**/*.js', 'src/**/*.tsx', 'src/**/*.ts', 'src/**/*.css']
+
+tests:
+  - any: ['src/tests/**/*', 'src/**/*.test.*', 'src/setupTests.js']
+
+ci/cd:
+  - any: ['.github/**/*', 'Dockerfile', 'docker-compose.yml', 'nginx.conf', 'k8s/**/*']
+
+security:
+  - any: ['src/security/**/*', 'src/api/**/*', 'backend/**/*']
+
+blockchain:
+  - any: ['src/blockchain/**/*', 'blockchain/**/*']
+
+api:
+  - any: ['src/api/**/*', 'api/**/*', 'backend/**/*']
+
+components:
+  - any: ['src/components/**/*']
+
+pages:
+  - any: ['src/pages/**/*']
+
+configuration:
+  - any: ['package.json', 'package-lock.json', 'tsconfig.json', '.eslintrc*', '.prettierrc*', 'workbox-config.js']
+
+dependencies:
+  - any: ['package.json', 'package-lock.json']

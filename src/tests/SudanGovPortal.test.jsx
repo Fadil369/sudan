@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import SudanGovPortal from '../pages/SudanGovPortal';
@@ -117,11 +117,13 @@ describe('SudanGovPortal', () => {
   });
 
   test('department cards are clickable', async () => {
-    render(
-      <TestWrapper>
-        <SudanGovPortal language="en" user={mockUser} />
-      </TestWrapper>
-    );
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <SudanGovPortal language="en" user={mockUser} />
+        </TestWrapper>
+      );
+    });
 
     const healthDepartment = screen.getByText('Health & Population Systems').closest('div[role="button"]');
     expect(healthDepartment).toBeInTheDocument();
@@ -214,11 +216,13 @@ describe('SudanGovPortal', () => {
   });
 
   test('navigation between sections works', async () => {
-    render(
-      <TestWrapper>
-        <SudanGovPortal language="en" user={mockUser} />
-      </TestWrapper>
-    );
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <SudanGovPortal language="en" user={mockUser} />
+        </TestWrapper>
+      );
+    });
 
     // Test tab navigation if present
     const tabs = screen.queryAllByRole('tab');
@@ -231,11 +235,13 @@ describe('SudanGovPortal', () => {
   });
 
   test('search functionality works', async () => {
-    render(
-      <TestWrapper>
-        <SudanGovPortal language="en" user={mockUser} />
-      </TestWrapper>
-    );
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <SudanGovPortal language="en" user={mockUser} />
+        </TestWrapper>
+      );
+    });
 
     const searchInput = screen.queryByPlaceholderText(/search/i);
     if (searchInput) {
@@ -251,11 +257,13 @@ describe('SudanGovPortal', () => {
 
 describe('SudanGovPortal Integration Tests', () => {
   test('loads and displays data correctly', async () => {
-    render(
-      <TestWrapper>
-        <SudanGovPortal language="en" />
-      </TestWrapper>
-    );
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <SudanGovPortal language="en" />
+        </TestWrapper>
+      );
+    });
 
     // Wait for any async data loading
     await waitFor(() => {
@@ -267,11 +275,13 @@ describe('SudanGovPortal Integration Tests', () => {
     // Mock console.error to avoid noise in tests
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    render(
-      <TestWrapper>
-        <SudanGovPortal language="en" />
-      </TestWrapper>
-    );
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <SudanGovPortal language="en" />
+        </TestWrapper>
+      );
+    });
 
     // Component should render even if there are errors
     expect(screen.getByText('Digital Government Portal')).toBeInTheDocument();
@@ -284,11 +294,13 @@ describe('SudanGovPortal Performance Tests', () => {
   test('renders within acceptable time', async () => {
     const startTime = performance.now();
     
-    render(
-      <TestWrapper>
-        <SudanGovPortal language="en" />
-      </TestWrapper>
-    );
+    await act(async () => {
+      render(
+        <TestWrapper>
+          <SudanGovPortal language="en" />
+        </TestWrapper>
+      );
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Digital Government Portal')).toBeInTheDocument();
