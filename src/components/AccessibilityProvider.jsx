@@ -27,7 +27,7 @@ import {
   Typography
 } from '@mui/material';
 
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
 
 // Accessibility Context
 const AccessibilityContext = createContext();
@@ -137,6 +137,29 @@ const AccessibilityProvider = ({ children, isRTL = false }) => {
       setAccessibilitySettings(prev => ({ ...prev, highContrast: true }));
     }
   }, []);
+
+  // Synchronous layout-phase re-read of localStorage.  In test environments
+  // (JSDOM + RTL act()) useLayoutEffect fires before render() returns, so any
+  // settings written to localStorage before render() are applied immediately.
+  useLayoutEffect(() => {
+    try {
+      const saved = localStorage.getItem('accessibility-settings');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Object.prototype.hasOwnProperty.call(parsed, 'screenReader')) {
+          parsed.screenReaderMode = parsed.screenReader;
+          delete parsed.screenReader;
+        }
+        if (Object.prototype.hasOwnProperty.call(parsed, 'colorBlindness')) {
+          parsed.colorBlindnessFilter = parsed.colorBlindness;
+          delete parsed.colorBlindness;
+        }
+        setAccessibilitySettings(prev => ({ ...prev, ...parsed }));
+      }
+    } catch (_) {
+      // Ignore parse errors
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* eslint-disable react-hooks/exhaustive-deps */
   // Save settings to localStorage
