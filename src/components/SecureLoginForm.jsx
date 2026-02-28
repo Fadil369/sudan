@@ -253,7 +253,7 @@ const SecureLoginForm = ({ onClose }) => {
       language: navigator.language,
       platform: navigator.platform,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      screen: `${screen.width}x${screen.height}`,
+      screen: `${window.screen.width}x${window.screen.height}`,
       canvas: canvas.toDataURL(),
       timestamp: Date.now()
     }));

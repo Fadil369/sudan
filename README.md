@@ -407,6 +407,23 @@ EXPOSE 3000
 CMD ["npm", "start"]
 ```
 
+### Cloudflare Pages + Workers Deployment
+This repository includes Cloudflare deployment scaffolding in:
+- `.github/workflows/deploy-cloudflare.yml`
+- `wrangler.toml`
+- `workers/api/index.js`
+
+Configure the following GitHub secrets before enabling deployment:
+- `CF_API_TOKEN`
+- `CF_ACCOUNT_ID`
+- `CF_PAGES_PROJECT`
+
+Configure Cloudflare resources referenced in `wrangler.toml`:
+- KV namespace (`CACHE_KV`)
+- D1 database (`APP_DB`)
+- R2 bucket (`ASSETS_R2`)
+- Durable Object (`SESSION_STORE`)
+
 ### Kubernetes Configuration
 ```yaml
 # Example K8s deployment configuration

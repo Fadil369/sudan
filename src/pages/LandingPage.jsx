@@ -24,6 +24,9 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+const MOBILE_BREAKPOINT = 960;
+const NAV_ANCHORS = ['Identity', 'Economic', 'Governance', 'Multimedia', 'Registry'];
+
 /* ─────────────────────────── Slide data ─────────────────────────── */
 const slides = [
   {
@@ -153,6 +156,7 @@ const SlidePresentation = ({ lang }) => {
 
   return (
     <section
+      id="Governance"
       style={{
         padding: '80px 0',
         background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)',
@@ -423,7 +427,18 @@ const SlidePresentation = ({ lang }) => {
 const LandingPage = () => {
   const [lang, setLang] = useState('ar');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < MOBILE_BREAKPOINT);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < MOBILE_BREAKPOINT;
+      setIsMobile(mobile);
+      if (!mobile) setIsMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const content = {
     en: {
@@ -591,26 +606,29 @@ const LandingPage = () => {
           {/* Desktop Nav */}
           <div
             style={{
-              display: 'flex',
+              display: isMobile ? 'none' : 'flex',
               alignItems: 'center',
               gap: 32,
             }}
           >
-            {t.nav.map((item) => (
-              <a
-                key={item}
-                href={`#${item}`}
-                style={{
-                  color: '#475569',
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  fontSize: 15,
-                  transition: 'color 0.2s',
-                }}
-              >
-                {item}
-              </a>
-            ))}
+            {t.nav.map((item, index) => {
+              const anchorTarget = NAV_ANCHORS[index] ?? encodeURIComponent(item);
+              return (
+                <a
+                  key={item}
+                  href={`#${anchorTarget}`}
+                  style={{
+                    color: '#475569',
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                    fontSize: 15,
+                    transition: 'color 0.2s',
+                  }}
+                >
+                  {item}
+                </a>
+              );
+            })}
             <button
               onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
               style={{
@@ -647,7 +665,7 @@ const LandingPage = () => {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             style={{
-              display: 'none',
+              display: isMobile ? 'block' : 'none',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -660,32 +678,29 @@ const LandingPage = () => {
         </div>
 
         {/* Mobile menu */}
-        {isMenuOpen && (
+        {isMobile && isMenuOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid #e2e8f0', padding: 16 }}>
-            {t.nav.map((item) => (
-              <button
-                key={item}
-                onClick={() => setIsMenuOpen(false)}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  padding: '12px 0',
-                  borderBottom: '1px solid #f1f5f9',
-                  borderLeft: 'none',
-                  borderRight: 'none',
-                  borderTop: 'none',
-                  background: 'none',
-                  color: '#334155',
-                  textAlign: 'start',
-                  textDecoration: 'none',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  fontSize: 15,
-                }}
-              >
-                {item}
-              </button>
-            ))}
+            {t.nav.map((item, index) => {
+              const anchorTarget = NAV_ANCHORS[index] ?? encodeURIComponent(item);
+              return (
+                <a
+                  key={item}
+                  href={`#${anchorTarget}`}
+                  onClick={() => setIsMenuOpen(false)}
+                  style={{
+                    display: 'block',
+                    padding: '12px 0',
+                    borderBottom: '1px solid #f1f5f9',
+                    color: '#334155',
+                    textDecoration: 'none',
+                    fontWeight: 500,
+                    textAlign: 'start',
+                  }}
+                >
+                  {item}
+                </a>
+              );
+            })}
             <button
               onClick={() => navigate('/portal')}
               style={{ ...btnPrimary, width: '100%', justifyContent: 'center', marginTop: 12 }}
@@ -698,6 +713,7 @@ const LandingPage = () => {
 
       {/* ── Hero ── */}
       <header
+        id="Identity"
         style={{
           position: 'relative',
           overflow: 'hidden',
@@ -793,7 +809,7 @@ const LandingPage = () => {
       </header>
 
       {/* ── Content / About ── */}
-      <section style={{ padding: '96px 24px' }}>
+      <section id="Economic" style={{ padding: '96px 24px' }}>
         <div
           style={{
             maxWidth: 1200,

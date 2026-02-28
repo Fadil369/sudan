@@ -640,6 +640,8 @@ const SudanGovPortal = ({ language, user } = {}) => {
     }
   };
 
+  const activeDepartment = governmentDepartments.find((department) => department.id === selectedDepartment);
+
   return (
     <Box
       data-testid="gov-portal-container"
@@ -995,10 +997,44 @@ const SudanGovPortal = ({ language, user } = {}) => {
                   variant="h4"
                   sx={{ color: '#111827', fontWeight: 700, mb: 3 }}
                 >
-                  {governmentDepartments.find(d => d.id === selectedDepartment)?.name || 'Department'}
+                  {activeDepartment?.name || 'Department'}
                 </Typography>
-                
-                {renderSelectedDepartment(selectedDepartment)}
+
+                {activeDepartment && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      gap: 1,
+                      mb: 2,
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <Chip
+                      label={activeDepartment.oidBranch}
+                      aria-label={`OID Branch: ${activeDepartment.oidBranch}`}
+                      size="small"
+                      sx={{
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        color: 'rgba(255,255,255,0.9)',
+                        fontFamily: 'monospace',
+                      }}
+                    />
+                    <Chip
+                      label={`${activeDepartment.services.length} ${isRTL ? 'خدمات' : 'services'}`}
+                      aria-label={`${activeDepartment.services.length} ${isRTL ? 'خدمات الوزارة' : 'ministry services'}`}
+                      size="small"
+                      sx={{
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        color: 'rgba(255,255,255,0.9)',
+                      }}
+                    />
+                  </Box>
+                )}
+
+                <Box sx={{ px: { xs: 0, md: 1 } }}>
+                  {renderSelectedDepartment(selectedDepartment)}
+                </Box>
               </Box>
             )}
           </Container>
