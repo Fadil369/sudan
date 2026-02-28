@@ -36,8 +36,8 @@ export async function onRequest(context) {
 
     return new Response(
       JSON.stringify({
-        error: 'Worker Unavailable',
-        message: error.message,
+        error: 'Service Unavailable',
+        message: 'Unable to process request at this time. Please try again later.',
         timestamp: new Date().toISOString(),
       }),
       {
