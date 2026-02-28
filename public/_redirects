@@ -4,5 +4,4 @@
 # SPA fallback - send all non-file requests to index.html
 /*    /index.html   200
 
-# API proxy (if using Pages Functions)
-/api/*  https://sudan-gov-api.workers.dev/api/:splat  200
+# API proxy handled by Cloudflare Pages Functions under functions/api/*
