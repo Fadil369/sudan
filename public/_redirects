@@ -1,0 +1,7 @@
+# Cloudflare Pages Redirects and Rewrites
+# https://developers.cloudflare.com/pages/platform/redirects/
+
+# SPA fallback - send all non-file requests to index.html
+/*    /index.html   200
+
+# API proxy handled by Cloudflare Pages Functions under functions/api/*
