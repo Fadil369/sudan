@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Buffer } from 'buffer';
+import process from 'process';
 import App from './App';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import auditLogger from './security/AuditLogger';
+
+// Polyfills for crypto-browserify
+window.Buffer = Buffer;
+window.process = process;
 
 // Initialize audit logging
 auditLogger.logSystemEvent('STARTUP', {
   version: '1.0.0',
-  environment: process.env.NODE_ENV || 'development',
+  environment: import.meta.env.MODE || 'development',
   timestamp: new Date().toISOString()
 });
 
@@ -39,7 +44,11 @@ window.addEventListener('error', (event) => {
   });
 });
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
+// Register service worker (handled by vite-plugin-pwa)
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // Silent fail - PWA is optional
+    });
+  });
+}

@@ -41,6 +41,7 @@
     "axios": "^1.4.0",
     "bcryptjs": "^3.0.2",
     "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.0",
@@ -59,9 +60,9 @@
     "react-dom": "^18.2.0",
     "react-qr-scanner": "^1.0.0-alpha.11",
     "react-router-dom": "^6.8.0",
-    "react-scripts": "5.0.1",
     "react-webcam": "^7.1.1",
     "socket.io-client": "^4.7.2",
+    "stream-browserify": "^3.0.0",
     "winston": "^3.17.0",
     "workbox-strategies": "^7.0.0",
     "workbox-sw": "^7.0.0"
@@ -82,6 +83,7 @@
     "@types/node": "^18.16.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^5.1.4",
     "babel-jest": "^29.5.0",
     "chromatic": "^6.19.0",
     "eslint": "^8.43.0",
@@ -98,6 +100,10 @@
     "lint-staged": "^16.2.7",
     "prettier": "^2.8.8",
     "typescript": "4.9.5",
+    "vite": "^7.3.1",
+    "vite-plugin-html": "^3.2.2",
+    "vite-plugin-pwa": "^1.2.0",
+    "vite-tsconfig-paths": "^6.1.1",
     "workbox-cli": "^7.3.0"
   },
   "overrides": {
@@ -108,9 +114,9 @@
     "resolve-url-loader": "5.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
-    "build:production": "CI=false GENERATE_SOURCEMAP=false react-scripts build",
+    "start": "vite",
+    "build": "vite build",
+    "build:production": "vite build --mode production",
     "build:sw": "workbox generateSW workbox-config.js",
     "test": "react-scripts test",
     "test:coverage": "npm test -- --coverage --watchAll=false",
@@ -133,9 +139,11 @@
     "d1:migrate": "wrangler d1 execute sudan-gov-main --file=./database/migrations/001_initial.sql",
     "d1:console": "wrangler d1 execute sudan-gov-main --command",
     "kv:list": "wrangler kv:key list --binding=CACHE",
-    "pages:dev": "wrangler pages dev build --compatibility-date=2024-01-01",
-    "pages:deploy": "wrangler pages deploy build --project-name=sudan-gov",
-    "build:pages": "CI=false GENERATE_SOURCEMAP=false react-scripts build"
+    "pages:dev": "wrangler pages dev dist --compatibility-date=2024-01-01",
+    "pages:deploy": "npm run build && wrangler pages deploy dist --project-name=sudan-gov",
+    "build:pages": "vite build --mode production",
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "browserslist": {
     "production": [
