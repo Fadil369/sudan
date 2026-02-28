@@ -32,12 +32,16 @@ export async function onRequest(context) {
       headers: response.headers,
     });
   } catch (error) {
-    console.error('[API Proxy Error]', error);
+    const isProd = env.ENVIRONMENT === 'production';
+    console.error('[API Proxy Error]', isProd ? error.message : error);
 
+    // Production: Generic error message
     return new Response(
       JSON.stringify({
-        error: 'Worker Unavailable',
-        message: error.message,
+        error: 'Service Unavailable',
+        message: isProd 
+          ? 'The service is temporarily unavailable. Please try again later.' 
+          : `Worker connection failed: ${error.message}`,
         timestamp: new Date().toISOString(),
       }),
       {

@@ -6,6 +6,7 @@
 export async function onRequestGet(context) {
   const { env } = context;
   const checks = {};
+  const isProd = env.ENVIRONMENT === 'production';
 
   // Check D1
   try {
@@ -13,7 +14,7 @@ export async function onRequestGet(context) {
     checks.d1 = result?.health === 1 ? 'healthy' : 'degraded';
   } catch (error) {
     checks.d1 = 'error';
-    checks.d1_error = error.message;
+    if (!isProd) checks.d1_error = error.message;
   }
 
   // Check KV (SESSIONS)
@@ -23,7 +24,7 @@ export async function onRequestGet(context) {
     checks.kv_sessions = value ? 'healthy' : 'degraded';
   } catch (error) {
     checks.kv_sessions = 'error';
-    checks.kv_sessions_error = error.message;
+    if (!isProd) checks.kv_sessions_error = error.message;
   }
 
   // Check R2 (DOCUMENTS)
@@ -36,24 +37,26 @@ export async function onRequestGet(context) {
     await env.DOCUMENTS.delete('health_check.txt');
   } catch (error) {
     checks.r2_documents = 'error';
-    checks.r2_documents_error = error.message;
+    if (!isProd) checks.r2_documents_error = error.message;
   }
 
   // Overall status
-  const allHealthy = Object.values(checks).every(
-    (status) => typeof status === 'string' && status === 'healthy'
+  const allHealthy = Object.entries(checks).every(
+    ([key, status]) => !key.endsWith('_error') && status === 'healthy'
   );
 
+  const responseBody = {
+    status: allHealthy ? 'healthy' : 'degraded',
+    timestamp: new Date().toISOString(),
+  };
+
+  // Only include detailed checks in non-production
+  if (!isProd) {
+    responseBody.checks = checks;
+  }
+
   return new Response(
-    JSON.stringify(
-      {
-        status: allHealthy ? 'healthy' : 'degraded',
-        timestamp: new Date().toISOString(),
-        checks,
-      },
-      null,
-      2
-    ),
+    JSON.stringify(responseBody, null, 2),
     {
       status: allHealthy ? 200 : 503,
       headers: {
