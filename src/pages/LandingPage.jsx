@@ -431,7 +431,11 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    const handleResize = () => {
+      const mobile = window.innerWidth < MOBILE_BREAKPOINT;
+      setIsMobile(mobile);
+      if (!mobile) setIsMenuOpen(false);
+    };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -674,7 +678,7 @@ const LandingPage = () => {
         </div>
 
         {/* Mobile menu */}
-        {isMenuOpen && (
+        {isMobile && isMenuOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid #e2e8f0', padding: 16 }}>
             {t.nav.map((item, index) => {
               const anchorTarget = NAV_ANCHORS[index] ?? encodeURIComponent(item);

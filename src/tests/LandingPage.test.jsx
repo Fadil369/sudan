@@ -50,4 +50,22 @@ describe('LandingPage mobile navigation', () => {
       expect(document.querySelector(anchor)).not.toBeNull();
     });
   });
+
+  test('closes mobile menu when resizing to desktop', async () => {
+    setViewport(500);
+    const user = userEvent.setup();
+
+    render(
+      <MemoryRouter>
+        <LandingPage />
+      </MemoryRouter>
+    );
+
+    await user.click(screen.getByRole('button', { name: /toggle menu/i }));
+    expect(screen.getByRole('link', { name: 'الهوية' })).toBeInTheDocument();
+
+    setViewport(1200);
+    setViewport(500);
+    expect(screen.queryByRole('link', { name: 'الهوية' })).not.toBeInTheDocument();
+  });
 });
