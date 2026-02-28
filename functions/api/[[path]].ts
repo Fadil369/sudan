@@ -3,7 +3,7 @@
  * Forwards all /api/* requests to the worker defined in wrangler.toml
  */
 
-const WORKER_URL = 'https://sudan-gov-api.workers.dev'; // Update after worker deployment
+const WORKER_URL = context.env.API_WORKER_URL; // Set API_WORKER_URL in Pages environment variables
 
 export async function onRequest(context) {
   const { request, params, env } = context;
