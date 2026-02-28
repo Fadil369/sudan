@@ -4,6 +4,14 @@
 
 PRAGMA journal_mode=WAL;
 
+-- ─── Migration Tracking ────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS _migrations (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  name       TEXT UNIQUE NOT NULL,
+  applied_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+INSERT OR IGNORE INTO _migrations (name) VALUES ('002_analytics');
+
 -- ─── Page Views / Traffic ─────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS page_views (
   id            TEXT PRIMARY KEY,

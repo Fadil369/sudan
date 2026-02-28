@@ -35,7 +35,7 @@ export class CitizenStreamDurableObject {
       }), { headers: { 'Content-Type': 'application/json' } });
     }
 
-    return new Response('WebSocket endpoint. Connect with ws://', { status: 400 });
+    return new Response('WebSocket endpoint. Connect using Upgrade: websocket header (wss://sudan-gov-api.workers.dev/api/stream)', { status: 426 });
   }
 
   _handleWebSocket(request) {

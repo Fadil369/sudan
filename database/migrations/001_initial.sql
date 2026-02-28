@@ -5,6 +5,15 @@
 PRAGMA journal_mode=WAL;
 PRAGMA foreign_keys=ON;
 
+-- ─── Migration Tracking ────────────────────────────────────────────────────────
+-- Ensures each migration file is only applied once (idempotent deploys)
+CREATE TABLE IF NOT EXISTS _migrations (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  name       TEXT UNIQUE NOT NULL,
+  applied_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+INSERT OR IGNORE INTO _migrations (name) VALUES ('001_initial');
+
 -- ─── Citizens ─────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS citizens (
   id            TEXT PRIMARY KEY,             -- OID-based unique identifier

@@ -14,7 +14,7 @@ export { SessionDurableObject } from './durable-objects/session.js';
 export { RateLimiterDurableObject } from './durable-objects/rate-limiter.js';
 export { CitizenStreamDurableObject } from './durable-objects/citizen-stream.js';
 
-const CACHE_TTL = 300;
+const CACHE_TTL = 300; // seconds (5 minutes)
 
 const CORS_HEADERS = (origin) => ({
   'Access-Control-Allow-Origin': origin || '*',
@@ -147,6 +147,9 @@ export default {
             const mod = await MINISTRY_MODULES[resource]();
             if (mod.default && typeof mod.default.fetch === 'function') {
               const res = await mod.default.fetch(request, env);
+              if (!res.ok) return { error: `Ministry module returned ${res.status}` };
+              const contentType = res.headers.get('Content-Type') || '';
+              if (!contentType.includes('application/json')) return { error: 'Ministry module returned non-JSON response' };
               return res.json();
             }
             if (typeof mod.getData === 'function') return mod.getData(subResource, env);
@@ -293,7 +296,7 @@ export default {
           response = errorResponse('API endpoint not found', 404);
       }
     } catch (err) {
-      console.error('[Worker] Error:', err.message);
+      console.error('[Worker] Error:', err);
       response = errorResponse('Internal server error', 500);
     }
 

@@ -8,8 +8,8 @@ export class RateLimiterDurableObject {
     this.env = env;
     // In-memory counters (reset on cold start)
     this.counters = new Map();
-    this.LIMIT = 100;           // requests per window
-    this.WINDOW_MS = 60_000;    // 1 minute
+    this.LIMIT = parseInt(env?.RATE_LIMIT || '100', 10);       // requests per window; configurable via RATE_LIMIT env var
+    this.WINDOW_MS = parseInt(env?.RATE_WINDOW_MS || '60000', 10); // window size in ms (default: 60000 = 1 minute); configurable via RATE_WINDOW_MS env var
   }
 
   async fetch(request) {
