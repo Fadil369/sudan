@@ -8,6 +8,16 @@ dist/
 .next/
 out/
 
+# Vite
+dist-ssr/
+*.local
+.vite/
+
+# Wrangler
+.wrangler/
+wrangler.toml.local
+.dev.vars
+
 # Environment
 .env
 .env.local
