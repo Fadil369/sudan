@@ -24,6 +24,9 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+const MOBILE_BREAKPOINT = 960;
+const NAV_ANCHORS = ['Identity', 'Economic', 'Governance', 'Multimedia', 'Registry'];
+
 /* ─────────────────────────── Slide data ─────────────────────────── */
 const slides = [
   {
@@ -153,6 +156,7 @@ const SlidePresentation = ({ lang }) => {
 
   return (
     <section
+      id="Governance"
       style={{
         padding: '80px 0',
         background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)',
@@ -423,11 +427,11 @@ const SlidePresentation = ({ lang }) => {
 const LandingPage = () => {
   const [lang, setLang] = useState('ar');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 960);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < MOBILE_BREAKPOINT);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 960);
+    const handleResize = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -603,10 +607,10 @@ const LandingPage = () => {
               gap: 32,
             }}
           >
-            {t.nav.map((item) => (
+            {t.nav.map((item, index) => (
               <a
                 key={item}
-                href={`#${item}`}
+                href={`#${NAV_ANCHORS[index]}`}
                 style={{
                   color: '#475569',
                   fontWeight: 500,
@@ -669,10 +673,10 @@ const LandingPage = () => {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid #e2e8f0', padding: 16 }}>
-            {t.nav.map((item) => (
+            {t.nav.map((item, index) => (
               <a
                 key={item}
-                href={`#${item}`}
+                href={`#${NAV_ANCHORS[index]}`}
                 style={{
                   display: 'block',
                   padding: '12px 0',
@@ -697,6 +701,7 @@ const LandingPage = () => {
 
       {/* ── Hero ── */}
       <header
+        id="Identity"
         style={{
           position: 'relative',
           overflow: 'hidden',
@@ -792,7 +797,7 @@ const LandingPage = () => {
       </header>
 
       {/* ── Content / About ── */}
-      <section style={{ padding: '96px 24px' }}>
+      <section id="Economic" style={{ padding: '96px 24px' }}>
         <div
           style={{
             maxWidth: 1200,

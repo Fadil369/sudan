@@ -42,8 +42,12 @@ describe('LandingPage mobile navigation', () => {
 
     await user.click(screen.getByRole('button', { name: /toggle menu/i }));
 
-    screen.getAllByRole('link').forEach((link) => {
-      expect(link).not.toHaveAttribute('href', '#');
+    const expectedAnchors = ['#Identity', '#Economic', '#Governance', '#Multimedia', '#Registry'];
+    const menuLinks = screen.getAllByRole('link').slice(0, expectedAnchors.length);
+
+    expectedAnchors.forEach((anchor, index) => {
+      expect(menuLinks[index]).toHaveAttribute('href', anchor);
+      expect(document.querySelector(anchor)).not.toBeNull();
     });
   });
 });
