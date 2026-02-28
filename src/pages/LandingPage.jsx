@@ -607,21 +607,24 @@ const LandingPage = () => {
               gap: 32,
             }}
           >
-            {t.nav.map((item, index) => (
-              <a
-                key={item}
-                href={`#${NAV_ANCHORS[index]}`}
-                style={{
-                  color: '#475569',
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  fontSize: 15,
-                  transition: 'color 0.2s',
-                }}
-              >
-                {item}
-              </a>
-            ))}
+            {t.nav.map((item, index) => {
+              const anchorTarget = NAV_ANCHORS[index] || NAV_ANCHORS[0];
+              return (
+                <a
+                  key={item}
+                  href={`#${anchorTarget}`}
+                  style={{
+                    color: '#475569',
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                    fontSize: 15,
+                    transition: 'color 0.2s',
+                  }}
+                >
+                  {item}
+                </a>
+              );
+            })}
             <button
               onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
               style={{
@@ -673,22 +676,25 @@ const LandingPage = () => {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid #e2e8f0', padding: 16 }}>
-            {t.nav.map((item, index) => (
-              <a
-                key={item}
-                href={`#${NAV_ANCHORS[index]}`}
-                style={{
-                  display: 'block',
-                  padding: '12px 0',
-                  borderBottom: '1px solid #f1f5f9',
-                  color: '#334155',
-                  textDecoration: 'none',
-                  fontWeight: 500,
-                }}
-              >
-                {item}
-              </a>
-            ))}
+            {t.nav.map((item, index) => {
+              const anchorTarget = NAV_ANCHORS[index] || NAV_ANCHORS[0];
+              return (
+                <a
+                  key={item}
+                  href={`#${anchorTarget}`}
+                  style={{
+                    display: 'block',
+                    padding: '12px 0',
+                    borderBottom: '1px solid #f1f5f9',
+                    color: '#334155',
+                    textDecoration: 'none',
+                    fontWeight: 500,
+                  }}
+                >
+                  {item}
+                </a>
+              );
+            })}
             <button
               onClick={() => navigate('/portal')}
               style={{ ...btnPrimary, width: '100%', justifyContent: 'center', marginTop: 12 }}

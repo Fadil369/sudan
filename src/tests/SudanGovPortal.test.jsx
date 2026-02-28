@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import SudanGovPortal from '../pages/SudanGovPortal';
 import { AccessibilityProvider } from '../components/AccessibilityProvider';
+import { MINISTRY_OIDS } from '../config/oidConfig';
 
 // Mock the AccessibilityProvider
 const MockAccessibilityProvider = ({ children }) => {
@@ -130,9 +131,9 @@ describe('SudanGovPortal', () => {
     
     if (healthDepartment) {
       fireEvent.click(healthDepartment);
-      // Should trigger navigation or modal
       await waitFor(() => {
-        // Add specific expectations based on implementation
+        expect(screen.getByText(MINISTRY_OIDS.health)).toBeInTheDocument();
+        expect(screen.getByText('5 services')).toBeInTheDocument();
       });
     }
   });

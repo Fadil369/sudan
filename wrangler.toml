@@ -1,0 +1,28 @@
+name = "sudan-portal-worker"
+main = "workers/api/index.js"
+compatibility_date = "2026-02-28"
+
+[vars]
+APP_NAME = "Sudan Government Portal API"
+APP_ENV = "production"
+
+[[kv_namespaces]]
+binding = "CACHE_KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[[d1_databases]]
+binding = "APP_DB"
+database_name = "sudan_portal"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "ASSETS_R2"
+bucket_name = "sudan-portal-assets"
+
+[[durable_objects.bindings]]
+name = "SESSION_STORE"
+class_name = "SessionStore"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["SessionStore"]
