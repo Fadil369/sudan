@@ -60,7 +60,7 @@ export async function onRequest(context) {
     return new Response(
       JSON.stringify({
         error: 'Internal Server Error',
-        message: error.message,
+        message: 'An unexpected error occurred. Please try again later.',
         timestamp: new Date().toISOString(),
       }),
       {
