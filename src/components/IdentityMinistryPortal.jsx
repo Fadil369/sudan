@@ -24,7 +24,7 @@ import {
 } from '@mui/material';
 import {
   Fingerprint,
-  Badge,
+  Badge as BadgeIcon,
   FamilyRestroom,
   Assignment,
   CheckCircle,
@@ -64,7 +64,7 @@ const IdentityMinistryPortal = ({ language = 'en' }) => {
       pending: 'Pending Applications',
       verified: 'Verified IDs',
       serviceItems: [
-        { id: 'digital_id', icon: <Badge />, label: 'Digital ID Registration', desc: 'Apply for or renew your national digital identity card', color: '#0ea5e9' },
+        { id: 'digital_id', icon: <BadgeIcon />, label: 'Digital ID Registration', desc: 'Apply for or renew your national digital identity card', color: '#0ea5e9' },
         { id: 'birth_cert', icon: <FamilyRestroom />, label: 'Birth Certificates', desc: 'Register births and obtain certified birth certificates', color: '#10b981' },
         { id: 'death_cert', icon: <Assignment />, label: 'Death Certificates', desc: 'Register deaths and obtain certified death certificates', color: '#6366f1' },
         { id: 'marriage', icon: <Verified />, label: 'Marriage Registration', desc: 'Register marriages and obtain marriage certificates', color: '#f59e0b' },
@@ -96,7 +96,7 @@ const IdentityMinistryPortal = ({ language = 'en' }) => {
       pending: 'طلب معلق',
       verified: 'هوية موثقة',
       serviceItems: [
-        { id: 'digital_id', icon: <Badge />, label: 'تسجيل الهوية الرقمية', desc: 'تقديم طلب أو تجديد بطاقة هويتك الوطنية الرقمية', color: '#0ea5e9' },
+        { id: 'digital_id', icon: <BadgeIcon />, label: 'تسجيل الهوية الرقمية', desc: 'تقديم طلب أو تجديد بطاقة هويتك الوطنية الرقمية', color: '#0ea5e9' },
         { id: 'birth_cert', icon: <FamilyRestroom />, label: 'شهادات الميلاد', desc: 'تسجيل المواليد والحصول على شهادات ميلاد معتمدة', color: '#10b981' },
         { id: 'death_cert', icon: <Assignment />, label: 'شهادات الوفاة', desc: 'تسجيل الوفيات والحصول على شهادات وفاة معتمدة', color: '#6366f1' },
         { id: 'marriage', icon: <Verified />, label: 'تسجيل الزواج', desc: 'تسجيل عقود الزواج والحصول على وثائق الزواج', color: '#f59e0b' },
