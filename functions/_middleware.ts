@@ -4,12 +4,18 @@
  */
 
 // CORS configuration
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*', // Update in production
+const ALLOWED_ORIGINS = [
+  '',
+  '',
+  ''
+];
+
+const CORS_HEADERS = (origin) => ({
+  'Access-Control-Allow-Origin': ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0],
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-OID-Token',
   'Access-Control-Max-Age': '86400',
-};
+});
 
 // Security headers
 const SECURITY_HEADERS = {
