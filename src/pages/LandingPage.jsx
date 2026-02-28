@@ -19,9 +19,6 @@ import {
   Building2,
   Landmark,
   Wheat,
-  Zap,
-  Users,
-  BarChart3,
   ArrowRight,
   ExternalLink,
 } from 'lucide-react';
@@ -426,7 +423,14 @@ const SlidePresentation = ({ lang }) => {
 const LandingPage = () => {
   const [lang, setLang] = useState('ar');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 960);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 960);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const content = {
     en: {
@@ -594,7 +598,7 @@ const LandingPage = () => {
           {/* Desktop Nav */}
           <div
             style={{
-              display: 'flex',
+              display: isMobile ? 'none' : 'flex',
               alignItems: 'center',
               gap: 32,
             }}
@@ -650,7 +654,7 @@ const LandingPage = () => {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             style={{
-              display: 'none',
+              display: isMobile ? 'block' : 'none',
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -668,7 +672,7 @@ const LandingPage = () => {
             {t.nav.map((item) => (
               <a
                 key={item}
-                href="#"
+                href={`#${item}`}
                 style={{
                   display: 'block',
                   padding: '12px 0',
