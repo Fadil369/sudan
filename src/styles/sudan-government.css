@@ -1,1389 +1,327 @@
-/* Sudan National Government Digital Portal - Premium Enhanced Styling */
+/* ─────────────────────────────────────────────────────────────────────────────
+   Sudan Digital Government Portal – Professional Design System
+   ─────────────────────────────────────────────────────────────────────────────
+   Palette:
+     --gov-navy   #1B3A5C   Primary authority colour
+     --gov-red    #C8102E   Sudan flag red — CTAs, emergency
+     --gov-green  #007A3D   Sudan flag green — success, health
+     --gov-bg     #F5F7FA   Page background (near-white)
+     --gov-surface #FFFFFF  Card / panel surface
+     --gov-border  #E5E7EB  Subtle border
+   ───────────────────────────────────────────────────────────────────────────── */
 
-/* CSS Variables for Sudan Design System */
 :root {
-  /* Sudan National Colors (Flag Colors) */
-  --sudan-red: #dc2626;
-  --sudan-white: #ffffff; 
-  --sudan-black: #000000;
-  --sudan-blue: #1e40af;
-  
-  /* Government Semantic Colors */
-  --gov-primary: #0ea5e9;
-  --gov-secondary: #6366f1;
-  --gov-success: #00e676;
-  --gov-warning: #f59e0b;
-  --gov-error: #ef4444;
-  --gov-info: #06b6d4;
-  
-  /* Premium Gradients */
-  --premium-gold: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
-  --premium-platinum: linear-gradient(135deg, #e5e4e2 0%, #c0c0c0 100%);
-  --premium-diamond: linear-gradient(135deg, #b9f2ff 0%, #89cff0 100%);
-  --premium-vip: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  
-  /* Glass Effects */
-  --glass-light: rgba(255, 255, 255, 0.1);
-  --glass-medium: rgba(255, 255, 255, 0.15);
-  --glass-heavy: rgba(255, 255, 255, 0.2);
-  --glass-blur: blur(20px);
-  
-  /* Shadows */
-  --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  --shadow-glow-primary: 0 0 40px rgba(14, 165, 233, 0.4);
-  --shadow-glow-success: 0 0 40px rgba(0, 230, 118, 0.4);
-  --shadow-glow-warning: 0 0 40px rgba(245, 158, 11, 0.4);
-  --shadow-glow-error: 0 0 40px rgba(239, 68, 68, 0.4);
-  
-  /* Animations */
-  --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  
-  /* Background Gradients */
-  --sudan-gradient-primary: linear-gradient(135deg, 
-    rgba(0, 0, 0, 0.95) 0%, 
-    rgba(15, 23, 42, 0.9) 25%,
-    rgba(30, 58, 138, 0.1) 50%,
-    rgba(220, 38, 38, 0.05) 75%,
-    rgba(0, 0, 0, 0.95) 100%);
-    
-  --sudan-gradient-sidebar: linear-gradient(180deg,
-    rgba(0, 0, 0, 0.98) 0%,
-    rgba(15, 23, 42, 0.95) 40%,
-    rgba(30, 58, 138, 0.1) 70%,
-    rgba(0, 0, 0, 0.98) 100%);
-    
-  --sudan-gradient-main: radial-gradient(ellipse at top,
-    rgba(14, 165, 233, 0.05) 0%,
-    transparent 50%),
-    radial-gradient(ellipse at bottom right,
-    rgba(220, 38, 38, 0.03) 0%,
-    transparent 50%),
-    linear-gradient(135deg,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(15, 23, 42, 0.95) 100%);
-    
-  --sudan-gradient-appbar: linear-gradient(90deg,
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(15, 23, 42, 0.9) 50%,
-    rgba(0, 0, 0, 0.95) 100%);
-    
-  --sudan-gradient-card: linear-gradient(135deg,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.04) 100%);
-    
+  /* Brand colours */
+  --gov-navy:        #1B3A5C;
+  --gov-navy-dark:   #0F2640;
+  --gov-navy-light:  #2D5A8E;
+  --gov-red:         #C8102E;
+  --gov-red-dark:    #9B0C22;
+  --gov-green:       #007A3D;
+
+  /* Surface & background */
+  --gov-bg:          #F5F7FA;
+  --gov-surface:     #FFFFFF;
+  --gov-border:      #E5E7EB;
+  --gov-border-dark: #D1D5DB;
+
+  /* Text */
+  --gov-text-primary:   #111827;
+  --gov-text-secondary: #6B7280;
+  --gov-text-muted:     #9CA3AF;
+
+  /* Status */
+  --gov-success: #007A3D;
+  --gov-warning: #B45309;
+  --gov-error:   #B91C1C;
+  --gov-info:    #1D4ED8;
+
+  /* Spacing (8px grid) */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* Radius */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  /* Elevation (flat-first approach) */
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.10);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+
+  /* Transition */
+  --t-fast:   all 0.15s ease;
+  --t-normal: all 0.22s ease;
+
   /* Typography */
-  --font-arabic: 'Noto Sans Arabic', 'Amiri', 'Tahoma', sans-serif;
-  --font-english: 'Inter', 'Roboto', 'Helvetica Neue', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', 'Monaco', monospace;
-  
-  /* Spacing System (8px base) */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-2xl: 48px;
-  --spacing-3xl: 64px;
-  
-  /* Border Radius */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.25);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.35);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.45);
-  
-  /* Government Service Colors */
-  --color-identity: #0ea5e9;
-  --color-health: #10b981;
-  --color-education: #6366f1;
-  --color-finance: #f59e0b;
-  --color-agriculture: #22c55e;
-  --color-energy: #eab308;
-  --color-infrastructure: #8b5cf6;
-  --color-justice: #dc2626;
-  --color-foreign: #059669;
-  --color-labor: #0891b2;
-  --color-social: #be185d;
-  
-  /* Biometric Colors */
-  --color-fingerprint: #0ea5e9;
-  --color-face: #10b981;
-  --color-iris: #f59e0b;
-  --color-voice: #a855f7;
+  --font-body: "Inter", "Cairo", "Noto Sans Arabic", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
-/* Global Styles */
-* {
-  box-sizing: border-box;
-}
+/* ── Reset / Base ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-english);
-  background: var(--sudan-gradient-primary);
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
+  font-family: var(--font-body);
+  background: var(--gov-bg);
+  color: var(--gov-text-primary);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
 }
 
-/* Arabic Language Support */
-[dir="rtl"] {
-  font-family: var(--font-arabic);
+/* ── Portal layout ──────────────────────────────────────────────────────────── */
+.gov-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--gov-bg);
 }
 
-[dir="rtl"] * {
-  text-align: right;
+/* ── Sidebar ────────────────────────────────────────────────────────────────── */
+.gov-sidebar {
+  width: 260px;
+  background: var(--gov-surface);
+  border-right: 1px solid var(--gov-border);
+  display: flex;
+  flex-direction: column;
 }
 
-/* Typography Enhancements */
-.arabic-text {
-  font-family: var(--font-arabic);
-  direction: rtl;
-  text-align: right;
+.gov-sidebar-header {
+  background: var(--gov-navy);
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  min-height: 72px;
 }
 
-.english-text {
-  font-family: var(--font-english);
-  direction: ltr;
-  text-align: left;
+.gov-sidebar-title {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.3;
 }
 
-.mono-text {
-  font-family: var(--font-mono);
+.gov-sidebar-subtitle {
+  color: rgba(255,255,255,0.65);
+  font-size: 0.75rem;
 }
 
-/* Enhanced Sudan Government Cards */
-.sudan-status-card {
-  background: var(--sudan-gradient-card);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-lg);
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
+/* ── Nav items ──────────────────────────────────────────────────────────────── */
+.gov-nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: var(--t-fast);
+  color: var(--gov-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.gov-nav-item:hover {
+  background: #F0F4F8;
+  color: var(--gov-navy);
+}
+
+.gov-nav-item.selected,
+.gov-nav-item[aria-selected="true"] {
+  background: #EEF2F7;
+  color: var(--gov-navy);
+  font-weight: 600;
+  border-left: 3px solid var(--gov-navy);
+}
+
+/* ── Top app bar ────────────────────────────────────────────────────────────── */
+.gov-appbar {
+  background: var(--gov-navy) !important;
+  border-bottom: 2px solid var(--gov-navy-dark) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+/* ── Cards ──────────────────────────────────────────────────────────────────── */
+.gov-card {
+  background: var(--gov-surface);
+  border: 1px solid var(--gov-border);
+  border-radius: var(--r-md);
+  box-shadow: none;
+  transition: var(--t-normal);
+}
+
+.gov-card:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.gov-stat-card {
+  background: var(--gov-surface);
+  border: 1px solid var(--gov-border);
+  border-radius: var(--r-md);
+  box-shadow: none;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.sudan-status-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #CE1126, #1E40AF, #059669);
-  opacity: 0.8;
+.gov-service-card {
+  background: var(--gov-surface);
+  border: 1px solid var(--gov-border);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: var(--t-normal);
+  box-shadow: none;
 }
 
-.sudan-status-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(206, 17, 38, 0.1) 0%, transparent 70%);
-  border-radius: 0 0 0 100px;
+.gov-service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
-.sudan-status-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 20px rgba(206, 17, 38, 0.2);
-  border-color: rgba(206, 17, 38, 0.4);
-}
-
-.sudan-status-card:hover::after {
-  background: radial-gradient(circle, rgba(206, 17, 38, 0.15) 0%, transparent 70%);
-}
-
+/* ── Department grid cards (portal dashboard) ────────────────────────────── */
 .sudan-department-card {
-  background: var(--sudan-gradient-card);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 2px solid transparent;
-  border-radius: var(--radius-lg);
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.sudan-department-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.02) 0%, 
-    transparent 50%);
-  pointer-events: none;
+  background: var(--gov-surface) !important;
+  border: 1px solid var(--gov-border) !important;
+  border-radius: var(--r-md) !important;
+  cursor: pointer;
+  transition: var(--t-normal);
+  box-shadow: none !important;
 }
 
 .sudan-department-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(14, 165, 233, 0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm) !important;
 }
 
-/* Quick Actions Card */
+/* ── Status / metric cards ────────────────────────────────────────────────── */
+.sudan-status-card {
+  background: var(--gov-surface) !important;
+  border: 1px solid var(--gov-border) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: none !important;
+}
+
+/* ── Quick action buttons ─────────────────────────────────────────────────── */
 .sudan-quick-actions {
-  background: linear-gradient(135deg,
-    rgba(220, 38, 38, 0.1) 0%,
-    rgba(0, 0, 0, 0.8) 25%,
-    rgba(30, 58, 138, 0.1) 75%,
-    rgba(0, 0, 0, 0.8) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-lg);
+  background: var(--gov-surface) !important;
+  border: 1px solid var(--gov-border) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: none !important;
 }
 
-/* Action Buttons */
 .sudan-action-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.9);
-  border-radius: var(--radius-md);
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
-  text-transform: none;
-  font-weight: 500;
+  border-color: var(--gov-navy) !important;
+  color: var(--gov-navy) !important;
+  font-weight: 600 !important;
 }
 
 .sudan-action-btn:hover {
-  background: rgba(14, 165, 233, 0.15);
-  border-color: rgba(14, 165, 233, 0.4);
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.2);
+  background: #EEF2F7 !important;
 }
 
 .sudan-action-btn.emergency {
-  border-color: rgba(239, 68, 68, 0.4);
-  color: #ef4444;
+  border-color: var(--gov-red) !important;
+  color: var(--gov-red) !important;
 }
 
 .sudan-action-btn.emergency:hover {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.6);
-  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+  background: #FEF2F2 !important;
 }
 
-/* Navigation Items */
-.sudan-nav-item {
-  border-radius: var(--radius-md);
-  margin-bottom: var(--spacing-xs);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.sudan-nav-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
+/* ── Tables ─────────────────────────────────────────────────────────────────── */
+.gov-table {
+  border-collapse: collapse;
   width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.1), 
-    transparent);
-  transition: left 0.5s ease;
 }
 
-.sudan-nav-item:hover::before {
-  left: 100%;
-}
-
-.sudan-nav-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateX(4px);
-}
-
-.sudan-nav-item.Mui-selected {
-  background: linear-gradient(90deg,
-    rgba(14, 165, 233, 0.2) 0%,
-    rgba(14, 165, 233, 0.1) 100%);
-  border-left: 3px solid var(--gov-primary);
-}
-
-[dir="rtl"] .sudan-nav-item.Mui-selected {
-  border-left: none;
-  border-right: 3px solid var(--gov-primary);
-}
-
-/* OID Integration Components */
-.oid-citizen-card {
-  background: linear-gradient(135deg,
-    rgba(14, 165, 233, 0.1) 0%,
-    rgba(99, 102, 241, 0.05) 50%,
-    rgba(0, 0, 0, 0.8) 100%);
-  backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid rgba(14, 165, 233, 0.3);
-  border-radius: var(--radius-xl);
-  position: relative;
-  overflow: hidden;
-}
-
-.oid-citizen-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, 
-    var(--color-identity), 
-    var(--color-health), 
-    var(--color-education));
-}
-
-.oid-biometric-card {
-  background: linear-gradient(135deg,
-    rgba(16, 185, 129, 0.1) 0%,
-    rgba(245, 158, 11, 0.05) 50%,
-    rgba(0, 0, 0, 0.8) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  border-radius: var(--radius-lg);
-}
-
-/* Biometric Status Indicators */
-.biometric-status-verified {
-  color: var(--gov-success);
-  background: rgba(0, 230, 118, 0.1);
-  border: 1px solid rgba(0, 230, 118, 0.3);
-}
-
-.biometric-status-pending {
-  color: var(--gov-warning);
-  background: rgba(245, 158, 11, 0.1);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-.biometric-status-failed {
-  color: var(--gov-error);
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-/* Priority Indicators */
-.priority-critical {
-  background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.2) 0%, 
-    rgba(220, 38, 127, 0.1) 100%);
-  border-left: 4px solid var(--gov-error);
-}
-
-.priority-high {
-  background: linear-gradient(135deg, 
-    rgba(245, 158, 11, 0.2) 0%, 
-    rgba(251, 191, 36, 0.1) 100%);
-  border-left: 4px solid var(--gov-warning);
-}
-
-.priority-medium {
-  background: linear-gradient(135deg, 
-    rgba(99, 102, 241, 0.2) 0%, 
-    rgba(139, 92, 246, 0.1) 100%);
-  border-left: 4px solid var(--gov-secondary);
-}
-
-/* Loading and Status Animations */
-@keyframes sudan-pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes sudan-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(14, 165, 233, 0.6);
-  }
-}
-
-@keyframes sudan-slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes sudan-shimmer {
-  0% {
-    background-position: -468px 0;
-  }
-  100% {
-    background-position: 468px 0;
-  }
-}
-
-/* Status Indicators */
-.status-online {
-  position: relative;
-}
-
-.status-online::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 8px;
-  height: 8px;
-  background: var(--gov-success);
-  border-radius: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.8);
-  animation: sudan-pulse 2s infinite;
-}
-
-.status-processing {
-  animation: sudan-pulse 1.5s infinite;
-  border-color: var(--gov-warning);
-}
-
-.status-error {
-  border-color: var(--gov-error);
-  background: rgba(239, 68, 68, 0.05);
-}
-
-/* Department Color Classes */
-.dept-identity { border-color: var(--color-identity); }
-.dept-health { border-color: var(--color-health); }
-.dept-education { border-color: var(--color-education); }
-.dept-finance { border-color: var(--color-finance); }
-.dept-agriculture { border-color: var(--color-agriculture); }
-.dept-energy { border-color: var(--color-energy); }
-.dept-infrastructure { border-color: var(--color-infrastructure); }
-.dept-justice { border-color: var(--color-justice); }
-.dept-foreign { border-color: var(--color-foreign); }
-.dept-labor { border-color: var(--color-labor); }
-.dept-social { border-color: var(--color-social); }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .sudan-department-card:hover {
-    transform: translateY(-2px) scale(1.01);
-  }
-  
-  .sudan-status-card:hover {
-    transform: translateY(-2px);
-  }
-  
-  .sudan-nav-item:hover {
-    transform: none;
-  }
-}
-
-/* Mobile-First Enhancements */
-@media (max-width: 480px) {
-  :root {
-    --spacing-sm: 6px;
-    --spacing-md: 12px;
-    --spacing-lg: 18px;
-    --spacing-xl: 24px;
-  }
-  
-  body {
-    font-size: 14px;
-  }
-  
-  .sudan-department-card {
-    margin-bottom: var(--spacing-md);
-  }
-}
-
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-  .sudan-status-card,
-  .sudan-department-card,
-  .oid-citizen-card,
-  .oid-biometric-card {
-    border-width: 2px;
-    border-color: rgba(255, 255, 255, 0.5);
-  }
-  
-  .sudan-action-btn {
-    border-width: 2px;
-    font-weight: 600;
-  }
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Print Styles */
-@media print {
-  .sudan-nav-item,
-  .sudan-action-btn {
-    background: white;
-    color: black;
-    border: 1px solid black;
-  }
-  
-  .sudan-status-card,
-  .sudan-department-card {
-    break-inside: avoid;
-    border: 1px solid black;
-    background: white;
-  }
-}
-
-/* Focus Indicators for Accessibility */
-.sudan-action-btn:focus,
-.sudan-nav-item:focus,
-button:focus,
-[role="button"]:focus {
-  outline: 2px solid var(--gov-primary);
-  outline-offset: 2px;
-}
-
-/* Screen Reader Only Content */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Custom Scrollbars */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: var(--radius-sm);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(14, 165, 233, 0.6);
-  border-radius: var(--radius-sm);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(14, 165, 233, 0.8);
-}
-
-/* Selection Styling */
-::selection {
-  background: rgba(14, 165, 233, 0.3);
-  color: white;
-}
-
-::-moz-selection {
-  background: rgba(14, 165, 233, 0.3);
-  color: white;
-}
-
-/* Enhanced Loading States & Interactions */
-.sudan-loading {
-  background: linear-gradient(90deg, 
-    rgba(255, 255, 255, 0.05) 25%, 
-    rgba(255, 255, 255, 0.15) 50%, 
-    rgba(255, 255, 255, 0.05) 75%);
-  background-size: 400% 100%;
-  animation: sudan-shimmer 1.5s infinite;
-}
-
-/* Skeleton Loading for Cards */
-.sudan-skeleton {
-  background: linear-gradient(90deg,
-    rgba(206, 17, 38, 0.08) 25%,
-    rgba(206, 17, 38, 0.15) 50%,
-    rgba(206, 17, 38, 0.08) 75%);
-  background-size: 200% 100%;
-  animation: sudan-skeleton-pulse 1.2s ease-in-out infinite;
-  border-radius: var(--radius-md);
-}
-
-@keyframes sudan-skeleton-pulse {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-/* Enhanced Loading Spinner */
-.sudan-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(206, 17, 38, 0.2);
-  border-top: 3px solid #CE1126;
-  border-radius: 50%;
-  animation: sudan-spin 1s linear infinite;
-  margin: 20px auto;
-}
-
-@keyframes sudan-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Interactive Progress Ring */
-.sudan-progress-ring {
-  position: relative;
-  width: 60px;
-  height: 60px;
-}
-
-.sudan-progress-ring svg {
-  transform: rotate(-90deg);
-  width: 100%;
-  height: 100%;
-}
-
-.sudan-progress-ring circle {
-  fill: none;
-  stroke-width: 4;
-  stroke-linecap: round;
-}
-
-.sudan-progress-ring .background {
-  stroke: rgba(255, 255, 255, 0.2);
-}
-
-.sudan-progress-ring .progress {
-  stroke: #CE1126;
-  stroke-dasharray: 188.5;
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.5s ease;
-}
-
-/* Modern Button Enhancements */
-.sudan-btn-modern {
-  position: relative;
-  overflow: hidden;
-  background: var(--gradient-primary);
-  border: none;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 12px;
+.gov-table th {
+  color: var(--gov-text-primary);
   font-weight: 600;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.sudan-btn-modern::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.sudan-btn-modern:hover::before {
-  left: 100%;
-}
-
-.sudan-btn-modern:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(206, 17, 38, 0.4);
-}
-
-.sudan-btn-modern:active {
-  transform: translateY(0);
-}
-
-/* Glass Panel Effect */
-.sudan-glass-panel {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.sudan-glass-panel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-}
-
-/* Sudan Flag Accent Line */
-.sudan-accent {
-  position: relative;
-}
-
-.sudan-accent::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, 
-    var(--sudan-red) 0%,
-    var(--sudan-white) 33%,
-    var(--sudan-black) 66%,
-    var(--sudan-blue) 100%);
-}
-
-/* Utility Classes */
-.text-gradient-primary {
-  background: linear-gradient(135deg, var(--gov-primary), var(--gov-secondary));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.glass-effect {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-effect-strong {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* Emergency/Critical Styling */
-.critical-alert {
-  background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.2) 0%, 
-    rgba(220, 38, 127, 0.1) 100%);
-  border: 2px solid var(--gov-error);
-  border-radius: var(--radius-lg);
-  animation: sudan-pulse 2s infinite;
-}
-
-.critical-alert::before {
-  content: '⚠️';
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 1.2rem;
-}
-
-[dir="rtl"] .critical-alert::before {
-  right: auto;
-  left: 8px;
-}
-
-/* ==================== PREMIUM FEATURES ==================== */
-
-/* VIP/Premium Badge */
-.premium-badge {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  background: var(--premium-gold);
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #1a1a1a;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+  letter-spacing: 0.04em;
+  padding: var(--sp-3) var(--sp-4);
+  background: #F9FAFB;
+  border-bottom: 2px solid var(--gov-border);
 }
 
-.premium-badge::before {
-  content: '★';
-  font-size: 0.65rem;
+.gov-table td {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--gov-border);
+  color: var(--gov-text-primary);
+  font-size: 0.9rem;
 }
 
-/* Animated Counter */
-.animated-counter {
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
+.gov-table tr:last-child td {
+  border-bottom: none;
 }
 
-@keyframes count-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-.animated-counter.updating {
-  animation: count-pulse 0.3s ease-in-out;
-}
-
-/* Premium Card with Glow */
-.premium-card {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.1) 0%, 
-    rgba(255, 255, 255, 0.05) 100%);
-  backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: var(--radius-xl);
-  position: relative;
-  overflow: hidden;
-  transition: var(--transition-smooth);
-}
-
-.premium-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--premium-gold);
-}
-
-.premium-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-glow-primary), 0 20px 40px rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 215, 0, 0.6);
-}
-
-/* Platinum Card */
-.platinum-card {
-  background: linear-gradient(135deg, 
-    rgba(229, 228, 226, 0.15) 0%, 
-    rgba(192, 192, 192, 0.1) 100%);
-  border: 1px solid rgba(192, 192, 192, 0.4);
-}
-
-.platinum-card::before {
-  background: var(--premium-platinum);
-}
-
-/* Diamond Card */
-.diamond-card {
-  background: linear-gradient(135deg, 
-    rgba(185, 242, 255, 0.15) 0%, 
-    rgba(137, 207, 240, 0.1) 100%);
-  border: 1px solid rgba(137, 207, 240, 0.4);
-}
-
-.diamond-card::before {
-  background: var(--premium-diamond);
-}
-
-/* VIP Section */
-.vip-section {
-  background: linear-gradient(135deg, 
-    rgba(102, 126, 234, 0.2) 0%, 
-    rgba(118, 75, 162, 0.2) 100%);
-  border: 2px solid;
-  border-image: var(--premium-vip) 1;
-  position: relative;
-}
-
-.vip-section::after {
-  content: 'VIP';
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 4px 8px;
-  background: var(--premium-vip);
-  border-radius: 4px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: white;
-  letter-spacing: 1px;
-}
-
-/* Neon Glow Effects */
-.neon-glow-primary {
-  box-shadow: 0 0 20px rgba(14, 165, 233, 0.5),
-              0 0 40px rgba(14, 165, 233, 0.3),
-              0 0 60px rgba(14, 165, 233, 0.1);
-}
-
-.neon-glow-success {
-  box-shadow: 0 0 20px rgba(0, 230, 118, 0.5),
-              0 0 40px rgba(0, 230, 118, 0.3),
-              0 0 60px rgba(0, 230, 118, 0.1);
-}
-
-.neon-glow-warning {
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.5),
-              0 0 40px rgba(245, 158, 11, 0.3),
-              0 0 60px rgba(245, 158, 11, 0.1);
-}
-
-.neon-glow-error {
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.5),
-              0 0 40px rgba(239, 68, 68, 0.3),
-              0 0 60px rgba(239, 68, 68, 0.1);
-}
-
-/* Floating Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.floating {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float-delay-1 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.float-delay-1 { animation: float-delay-1 3s ease-in-out 0.5s infinite; }
-
-@keyframes float-delay-2 {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.float-delay-2 { animation: float-delay-2 3s ease-in-out 1s infinite; }
-
-/* Particle Background Effect */
-.particle-bg {
-  position: relative;
-  overflow: hidden;
-}
-
-.particle-bg::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(220, 38, 38, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 30%);
-  pointer-events: none;
-  animation: particle-shift 20s ease-in-out infinite;
-}
-
-@keyframes particle-shift {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.1) rotate(5deg); }
-}
-
-/* 3D Card Tilt Effect */
-.tilt-card {
-  transform-style: preserve-3d;
-  perspective: 1000px;
-}
-
-.tilt-card:hover {
-  transform: rotateX(5deg) rotateY(-5deg);
-}
-
-/* Glass Morphism */
-.glass-morphism {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-}
-
-/* Gradient Text */
-.gradient-text {
-  background: linear-gradient(135deg, 
-    #CE1126 0%, 
-    #1E40AF 50%, 
-    #059669 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-weight: 700;
-}
-
-.gradient-text-gold {
-  background: linear-gradient(135deg, 
-    #ffd700 0%, 
-    #ffb347 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Interactive Map Effect */
-.map-highlight {
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.map-highlight:hover {
-  filter: brightness(1.3);
-  transform: scale(1.02);
-}
-
-.map-highlight::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.map-highlight:hover::after {
-  width: 200px;
-  height: 200px;
-  opacity: 0;
-}
-
-/* Notification Badge Animation */
-.notification-badge {
-  position: relative;
-}
-
-.notification-badge::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 10px;
-  height: 10px;
-  background: var(--gov-error);
-  border-radius: 50%;
-  border: 2px solid var(--sudan-black);
-  animation: notification-pulse 1.5s infinite;
-}
-
-@keyframes notification-pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-/* Premium Tooltip */
-.premium-tooltip {
-  position: relative;
-}
-
-.premium-tooltip::before {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-10px);
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 8px;
-  color: white;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-.premium-tooltip:hover::before {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(-15px);
-}
-
-/* Chart/Graph Styles */
-.chart-container {
-  position: relative;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.chart-bar {
-  background: linear-gradient(180deg, var(--gov-primary) 0%, rgba(14, 165, 233, 0.3) 100%);
-  border-radius: 4px 4px 0 0;
-  transition: all 0.3s ease;
-}
-
-.chart-bar:hover {
-  background: linear-gradient(180deg, #00e676 0%, rgba(0, 230, 118, 0.3) 100%);
-}
-
-/* Timeline Styles */
-.timeline-item {
-  position: relative;
-  padding-left: 30px;
-  margin-bottom: 20px;
-}
-
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: 8px;
-  top: 0;
-  bottom: -20px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--gov-primary), rgba(14, 165, 233, 0.3));
-}
-
-.timeline-item:last-child::before {
-  display: none;
-}
-
-.timeline-item::after {
-  content: '';
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 10px;
-  height: 10px;
-  background: var(--gov-primary);
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-}
-
-/* AI/Chat Widget Enhancement */
-.ai-chat-bubble {
-  max-width: 80%;
-  padding: 12px 16px;
-  border-radius: 16px;
-  margin-bottom: 8px;
-  position: relative;
-}
-
-.ai-chat-bubble.user {
-  background: linear-gradient(135deg, var(--gov-primary), var(--gov-secondary));
-  color: white;
-  margin-left: auto;
-  border-bottom-right-radius: 4px;
-}
-
-.ai-chat-bubble.assistant {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  margin-right: auto;
-  border-bottom-left-radius: 4px;
-}
-
-/* Biometric Animation */
-.biometric-scan {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: radial-gradient(circle, 
-    rgba(14, 165, 233, 0.1) 0%, 
-    transparent 70%);
-  overflow: hidden;
-}
-
-.biometric-scan::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, var(--gov-primary), transparent);
-  animation: scan 2s linear infinite;
-}
-
-@keyframes scan {
-  0% { top: 0; }
-  100% { top: 100%; }
-}
-
-/* Service Status Indicator */
-.status-indicator {
+/* ── Badges ──────────────────────────────────────────────────────────────── */
+.gov-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.status-dot.online {
-  background: var(--gov-success);
-  box-shadow: 0 0 10px var(--gov-success);
-  animation: status-glow 2s infinite;
-}
-
-.status-dot.offline {
-  background: var(--gov-error);
-}
-
-.status-dot.maintenance {
-  background: var(--gov-warning);
-  animation: status-glow 1s infinite;
-}
-
-@keyframes status-glow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-/* Data Table Enhancements */
-.data-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.data-table th {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 12px 16px;
-  text-align: left;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
-  border-bottom: 2px solid rgba(14, 165, 233, 0.3);
-}
-
-.data-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: background 0.2s ease;
-}
-
-.data-table tr:hover td {
-  background: rgba(14, 165, 233, 0.05);
-}
-
-/* Form Input Enhancement */
-.premium-input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.premium-input:focus {
-  outline: none;
-  border-color: var(--gov-primary);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.premium-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-/* Success/Error/Info Messages */
-.message-success {
-  background: linear-gradient(135deg, 
-    rgba(0, 230, 118, 0.2) 0%, 
-    rgba(0, 230, 118, 0.1) 100%);
-  border-left: 4px solid var(--gov-success);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-}
-
-.message-error {
-  background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.2) 0%, 
-    rgba(239, 68, 68, 0.1) 100%);
-  border-left: 4px solid var(--gov-error);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-}
-
-.message-info {
-  background: linear-gradient(135deg, 
-    rgba(14, 165, 233, 0.2) 0%, 
-    rgba(14, 165, 233, 0.1) 100%);
-  border-left: 4px solid var(--gov-primary);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-}
-
-.message-warning {
-  background: linear-gradient(135deg, 
-    rgba(245, 158, 11, 0.2) 0%, 
-    rgba(245, 158, 11, 0.1) 100%);
-  border-left: 4px solid var(--gov-warning);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-}
-
-/* QR Code Display */
-.qr-container {
-  background: white;
-  padding: 16px;
-  border-radius: var(--radius-lg);
-  display: inline-block;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-}
-
-/* Loading Dots */
-.loading-dots {
-  display: flex;
   gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
 }
 
-.loading-dots span {
-  width: 8px;
-  height: 8px;
-  background: var(--gov-primary);
-  border-radius: 50%;
-  animation: loading-bounce 1.4s infinite ease-in-out both;
+.gov-badge-status-online {
+  background: #DCFCE7;
+  color: #166534;
 }
 
-.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-@keyframes loading-bounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+.gov-badge-status-warning {
+  background: #FEF3C7;
+  color: #92400E;
 }
 
-/* Responsive Video Container */
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: var(--radius-lg);
+.gov-badge-status-error {
+  background: #FEE2E2;
+  color: #991B1B;
 }
 
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
+/* ── Alert strip ─────────────────────────────────────────────────────────── */
+.gov-alert-emergency {
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-left: 4px solid var(--gov-red);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  color: #991B1B;
+}
+
+/* ── Utilities ───────────────────────────────────────────────────────────── */
+.gov-mono { font-family: var(--font-mono); }
+.gov-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+/* ── RTL support ─────────────────────────────────────────────────────────── */
+[dir="rtl"] .gov-nav-item.selected,
+[dir="rtl"] .gov-nav-item[aria-selected="true"] {
+  border-left: none;
+  border-right: 3px solid var(--gov-navy);
+}
+
+[dir="rtl"] .gov-sidebar { border-right: none; border-left: 1px solid var(--gov-border); }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .gov-sidebar { display: none; }
+  .gov-layout  { flex-direction: column; }
+}
+
+/* ── Focus ring (accessibility) ──────────────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--gov-navy);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
 }

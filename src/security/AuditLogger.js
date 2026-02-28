@@ -201,6 +201,14 @@ class AuditLogger {
       return false;
     }
   }
+
+  logSystemEvent(event, details = {}) {
+    this.log('SYSTEM', event, details);
+  }
+
+  logError(error, details = {}) {
+    this.log('ERROR', error?.message || String(error), details);
+  }
 }
 
 // Singleton instance

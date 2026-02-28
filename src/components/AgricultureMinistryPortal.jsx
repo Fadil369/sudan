@@ -51,11 +51,11 @@ const AgricultureMinistryPortal = ({ language = 'en', user }) => {
       </Grid>
       
       <Grid item xs={12} md={6}>
-        <Card sx={{ height: '100%', backgroundColor: '#e8f5e8' }}>
+        <Card sx={{ height: '100%', bgcolor: '#DCFCE7', border: '1px solid #BBF7D0', borderTop: '3px solid #1D6330' }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <EcoIcon sx={{ fontSize: 40, color: '#2e7d32', mr: 2 }} />
-              <Typography variant="h4" color="#2e7d32">
+              <EcoIcon sx={{ fontSize: 36, color: '#1D6330', mr: 2 }} />
+              <Typography variant="h4" color="#1D6330" fontWeight={700}>
                 {agricultureData.totalFarmers.toLocaleString()}
               </Typography>
             </Box>
@@ -67,11 +67,11 @@ const AgricultureMinistryPortal = ({ language = 'en', user }) => {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Card sx={{ height: '100%', backgroundColor: '#fff8e1' }}>
+        <Card sx={{ height: '100%', bgcolor: '#FEF3C7', border: '1px solid #FDE68A', borderTop: '3px solid #7A5200' }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <LandIcon sx={{ fontSize: 40, color: '#f57c00', mr: 2 }} />
-              <Typography variant="h4" color="#f57c00">
+              <LandIcon sx={{ fontSize: 36, color: '#7A5200', mr: 2 }} />
+              <Typography variant="h4" color="#7A5200" fontWeight={700}>
                 {(agricultureData.registeredLand / 1000000).toFixed(1)}M
               </Typography>
             </Box>
@@ -91,7 +91,7 @@ const AgricultureMinistryPortal = ({ language = 'en', user }) => {
     <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
       <Paper elevation={3} sx={{ p: 3 }}>
         <Box display="flex" alignItems="center" mb={4}>
-          <AgricultureIcon sx={{ fontSize: 48, color: 'primary.main', mr: 2 }} />
+          <AgricultureIcon sx={{ fontSize: 40, color: '#1D6330', mr: 2 }} />
           <Box>
             <Typography 
               variant="h3" 
@@ -99,7 +99,7 @@ const AgricultureMinistryPortal = ({ language = 'en', user }) => {
               sx={{ 
                 fontSize: accessibility.fontSize === 'large' ? '3rem' : '2.5rem',
                 fontWeight: 'bold',
-                color: 'primary.main'
+                color: '#1D6330'
               }}
             >
               {isRTL ? 'وزارة الزراعة والثروة الحيوانية' : 'Ministry of Agriculture & Livestock'}

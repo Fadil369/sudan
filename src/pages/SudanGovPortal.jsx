@@ -72,11 +72,13 @@ const EducationMinistryPortal = React.lazy(() => import('../components/Education
 const FinanceMinistryPortal = React.lazy(() => import('../components/FinanceMinistryPortal'));
 const HealthMinistryPortal = React.lazy(() => import('../components/HealthMinistryPortal'));
 const EnergyMinistryPortal = React.lazy(() => import('../components/EnergyMinistryPortal'));
+const IdentityMinistryPortal = React.lazy(() => import('../components/IdentityMinistryPortal'));
 const InfrastructureMinistryPortal = React.lazy(() => import('../components/InfrastructureMinistryPortal'));
 const JusticeMinistryPortal = React.lazy(() => import('../components/JusticeMinistryPortal'));
 const ForeignAffairsMinistryPortal = React.lazy(() => import('../components/ForeignAffairsMinistryPortal'));
 const LaborMinistryPortal = React.lazy(() => import('../components/LaborMinistryPortal'));
 const SocialWelfareMinistryPortal = React.lazy(() => import('../components/SocialWelfareMinistryPortal'));
+const OidTreeIntegration = React.lazy(() => import('../components/OidTreeIntegration'));
 const ChatWidget = React.lazy(() => import('../components/ChatWidget'));
 const AnalyticsDashboard = React.lazy(() => import('../components/AnalyticsDashboard'));
 const FeedbackForm = React.lazy(() => import('../components/FeedbackForm'));
@@ -87,7 +89,7 @@ const governmentDepartments = [
       name: 'Citizen Identity & Civil Registry',
       nameShort: 'Civil Registry',
       icon: <Person />,
-      color: '#0ea5e9',
+      color: '#1B3A5C',
       priority: 'critical',
       oidBranch: MINISTRY_OIDS.identity,
       services: ['Digital ID Registration', 'Birth Certificates', 'Death Certificates', 'Marriage Registration', 'Biometric Services'],
@@ -98,7 +100,7 @@ const governmentDepartments = [
       name: 'Health & Population Systems',
       nameShort: 'Health',
       icon: <LocalHospital />,
-      color: '#10b981',
+      color: '#006B45',
       priority: 'critical',
       oidBranch: MINISTRY_OIDS.health,
       services: ['Medical Records', 'Hospital Management', 'Disease Surveillance', 'Vaccination Records', 'Telemedicine'],
@@ -109,7 +111,7 @@ const governmentDepartments = [
       name: 'Education Ministry',
       nameShort: 'Education',
       icon: <School />,
-      color: '#6366f1',
+      color: '#2B2FA8',
       priority: 'high',
       oidBranch: MINISTRY_OIDS.education,
       services: ['Student Registration', 'Digital Certificates', 'Online Learning', 'Teacher Management', 'Exam Systems'],
@@ -120,7 +122,7 @@ const governmentDepartments = [
       name: 'Finance & Economy',
       nameShort: 'Finance',
       icon: <AccountBalance />,
-      color: '#f59e0b',
+      color: '#7A4B0A',
       priority: 'critical',
       oidBranch: MINISTRY_OIDS.finance,
       services: ['Tax Collection', 'Government Payments', 'Budget Management', 'E-Procurement', 'Revenue Systems'],
@@ -131,7 +133,7 @@ const governmentDepartments = [
       name: 'Agriculture Ministry',
       nameShort: 'Agriculture',
       icon: <Agriculture />,
-      color: '#22c55e',
+      color: '#1D6330',
       priority: 'high',
       oidBranch: MINISTRY_OIDS.agriculture,
       services: ['Farmer Registration', 'Crop Monitoring', 'Subsidies Management', 'Market Information', 'Weather Services'],
@@ -142,7 +144,7 @@ const governmentDepartments = [
       name: 'Energy & Natural Resources',
       nameShort: 'Energy',
       icon: <ElectricBolt />,
-      color: '#eab308',
+      color: '#7A5200',
       priority: 'high',
       oidBranch: MINISTRY_OIDS.energy,
       services: ['Utility Management', 'Solar Systems', 'Mining Permits', 'Environmental Monitoring', 'Energy Efficiency'],
@@ -153,7 +155,7 @@ const governmentDepartments = [
       name: 'Infrastructure & Urban Planning',
       nameShort: 'Infrastructure',
       icon: <LocationCity />,
-      color: '#8b5cf6',
+      color: '#3D1F8C',
       priority: 'medium',
       oidBranch: MINISTRY_OIDS.infrastructure,
       services: ['Building Permits', 'Urban Planning', 'Road Management', 'Water Systems', 'Smart City'],
@@ -164,7 +166,7 @@ const governmentDepartments = [
       name: 'Justice & Legal Systems',
       nameShort: 'Justice',
       icon: <Gavel />,
-      color: '#dc2626',
+      color: '#8B1A1A',
       priority: 'medium',
       oidBranch: MINISTRY_OIDS.justice,
       services: ['Court Records', 'Legal Documentation', 'Case Management', 'Legal Aid', 'Dispute Resolution'],
@@ -175,7 +177,7 @@ const governmentDepartments = [
       name: 'Foreign Affairs',
       nameShort: 'Foreign Affairs',
       icon: <Public />,
-      color: '#059669',
+      color: '#055F4A',
       priority: 'medium',
       oidBranch: MINISTRY_OIDS.foreignAffairs,
       services: ['Passport Services', 'Visa Processing', 'Diplomatic Services', 'Travel Documentation', 'Consular Services'],
@@ -186,7 +188,7 @@ const governmentDepartments = [
       name: 'Labor & Employment',
       nameShort: 'Labor',
       icon: <Work />,
-      color: '#0891b2',
+      color: '#0D4A6B',
       priority: 'medium',
       oidBranch: MINISTRY_OIDS.labor,
       services: ['Job Matching', 'Skills Development', 'Labor Rights', 'Work Permits', 'Training Programs'],
@@ -197,7 +199,7 @@ const governmentDepartments = [
       name: 'Social Welfare',
       nameShort: 'Social Welfare',
       icon: <VolunteerActivism />,
-      color: '#be185d',
+      color: '#6B1841',
       priority: 'high',
       oidBranch: MINISTRY_OIDS.socialWelfare,
       services: ['Social Benefits', 'Cash Transfers', 'Disability Services', 'Elderly Care', 'Child Protection'],
@@ -208,7 +210,7 @@ const governmentDepartments = [
       name: 'Advanced Analytics',
       nameShort: 'Analytics',
       icon: <Analytics />,
-      color: '#ffffff',
+      color: '#374151',
       priority: 'system',
       oidBranch: `${OID_BRANCHES.digitalServices}.90`,
       services: ['System Insights', 'Predictive Analytics', 'Performance Metrics'],
@@ -219,7 +221,7 @@ const governmentDepartments = [
       name: 'Citizen Feedback',
       nameShort: 'Feedback',
       icon: <FeedbackIcon />,
-      color: '#4caf50',
+      color: '#1D6330',
       priority: 'medium',
       oidBranch: `${OID_BRANCHES.digitalServices}.91`,
       services: ['Submit Feedback', 'Track Feedback', 'View FAQs'],
@@ -331,10 +333,10 @@ const SudanGovPortal = ({ language, user } = {}) => {
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'critical': return '#ef4444';
-      case 'high': return '#f59e0b';
-      case 'medium': return '#6366f1';
-      default: return '#64748b';
+      case 'critical': return '#C8102E';
+      case 'high':     return '#B45309';
+      case 'medium':   return '#1B3A5C';
+      default:         return '#6B7280';
     }
   };
 
@@ -349,86 +351,65 @@ const SudanGovPortal = ({ language, user } = {}) => {
       sx={{
         height: '100%',
         cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        border: `2px solid transparent`,
-        background: `linear-gradient(135deg, ${department.color}10 0%, ${department.color}05 100%)`,
+        transition: 'all 0.2s ease',
+        backgroundColor: '#FFFFFF',
+        border: '1px solid #E5E7EB',
+        borderLeft: `4px solid ${department.color}`,
         '&:hover': {
-          transform: 'translateY(-4px)',
-          borderColor: department.color,
-          boxShadow: `0 12px 40px ${department.color}30`
-        }
+          transform: 'translateY(-2px)',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.10)',
+        },
       }}
       onClick={() => handleDepartmentChange(department.id)}
     >
-      <CardContent sx={{ p: 3 }}>
+      <CardContent sx={{ p: 2.5 }}>
         <Box display="flex" alignItems="flex-start" justifyContent="space-between" mb={2}>
           <Box
             sx={{
-              width: 60,
-              height: 60,
-              borderRadius: '16px',
-              background: `linear-gradient(135deg, ${department.color} 0%, ${department.color}80 100%)`,
+              width: 44,
+              height: 44,
+              borderRadius: '10px',
+              bgcolor: `${department.color}14`,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'white',
-              fontSize: '1.5rem'
+              color: department.color,
             }}
           >
             {department.icon}
           </Box>
-          <Box display="flex" flexDirection="column" alignItems="flex-end" gap={1}>
-            <Chip
-              label={department.priority}
-              size="small"
-              sx={{
-                backgroundColor: `${getPriorityColor(department.priority)}20`,
-                color: getPriorityColor(department.priority),
-                fontSize: '0.7rem',
-                fontWeight: 600
-              }}
-            />
-            <Typography
-              variant="caption"
-              sx={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                fontFamily: 'monospace',
-                fontSize: '0.7rem'
-              }}
-            >
-              {department.oidBranch}
-            </Typography>
-          </Box>
+          <Chip
+            label={department.priority}
+            size="small"
+            sx={{
+              bgcolor: `${getPriorityColor(department.priority)}12`,
+              color: getPriorityColor(department.priority),
+              fontSize: '0.65rem',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              height: 20,
+              borderRadius: 1,
+            }}
+          />
         </Box>
 
         <Typography
-          variant="h6"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.95)',
-            fontWeight: 600,
-            mb: 0.5,
-            fontSize: '1.1rem',
-            lineHeight: 1.3
-          }}
+          variant="subtitle1"
+          sx={{ color: '#111827', fontWeight: 700, mb: 0.5, lineHeight: 1.35 }}
         >
           {department.name}
         </Typography>
 
         <Typography
-          variant="body2"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.7)',
-            mb: 2,
-            fontSize: '0.85rem',
-            lineHeight: 1.4
-          }}
+          variant="caption"
+          sx={{ color: '#6B7280', display: 'block', mb: 1.5, lineHeight: 1.5 }}
         >
-          {department.services.slice(0, 3).join(' • ')}
+          {department.services.slice(0, 3).join(' · ')}
         </Typography>
 
-        {/* Department Metrics */}
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-          <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={0.75}>
+          <Typography variant="caption" sx={{ color: '#9CA3AF' }}>
             {isRTL ? 'المستخدمون النشطون' : 'Active Users'}
           </Typography>
           <Typography variant="caption" sx={{ color: department.color, fontWeight: 600 }}>
@@ -442,29 +423,19 @@ const SudanGovPortal = ({ language, user } = {}) => {
           sx={{
             height: 4,
             borderRadius: 2,
-            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-            '& .MuiLinearProgress-bar': {
-              backgroundColor: department.color,
-              borderRadius: 2
-            }
+            bgcolor: '#F3F4F6',
+            '& .MuiLinearProgress-bar': { bgcolor: department.color },
           }}
         />
 
-        <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
-          <Box display="flex" alignItems="center" gap={0.5}>
-            <Box
-              sx={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                backgroundColor: '#00e676'
-              }}
-            />
-            <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" mt={1.5}>
+          <Box display="flex" alignItems="center" gap={0.75}>
+            <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#007A3D' }} />
+            <Typography variant="caption" sx={{ color: '#6B7280' }}>
               {isRTL ? 'متاح' : 'Online'}
             </Typography>
           </Box>
-          <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+          <Typography variant="caption" sx={{ color: '#6B7280' }}>
             ★ {department.metrics.satisfaction}/5
           </Typography>
         </Box>
@@ -476,35 +447,35 @@ const SudanGovPortal = ({ language, user } = {}) => {
     <Grid container spacing={3}>
       {/* System Overview Cards */}
       <Grid item xs={12} md={3}>
-        <Card className="sudan-status-card">
+        <Card className="sudan-status-card" sx={{ borderTop: '3px solid #1B3A5C' }}>
           <CardContent sx={{ textAlign: 'center', p: 3 }}>
-            <Analytics sx={{ fontSize: 48, color: '#0ea5e9', mb: 1 }} />
-            <Typography variant="h4" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700 }}>
+            <Analytics sx={{ fontSize: 40, color: '#1B3A5C', mb: 1 }} />
+            <Typography variant="h4" sx={{ color: '#111827', fontWeight: 700 }}>
               {(governmentMetrics.citizensRegistered / 1000000).toFixed(1)}M
             </Typography>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="body2" sx={{ color: '#6B7280', mt: 0.5 }}>
               {isRTL ? 'مواطن نشط' : 'Active Citizens'}
             </Typography>
             <LinearProgress
               variant="determinate"
               value={(governmentMetrics.citizensRegistered / 45000000) * 100}
-              sx={{ mt: 2, height: 6, borderRadius: 3 }}
+              sx={{ mt: 2, height: 4, borderRadius: 2, bgcolor: '#F3F4F6', '& .MuiLinearProgress-bar': { bgcolor: '#1B3A5C' } }}
             />
           </CardContent>
         </Card>
       </Grid>
 
       <Grid item xs={12} md={3}>
-        <Card className="sudan-status-card">
+        <Card className="sudan-status-card" sx={{ borderTop: '3px solid #007A3D' }}>
           <CardContent sx={{ textAlign: 'center', p: 3 }}>
-            <CloudQueue sx={{ fontSize: 48, color: '#10b981', mb: 1 }} />
-            <Typography variant="h4" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700 }}>
+            <CloudQueue sx={{ fontSize: 40, color: '#007A3D', mb: 1 }} />
+            <Typography variant="h4" sx={{ color: '#111827', fontWeight: 700 }}>
               {(governmentMetrics.transactionsToday / 1000).toFixed(0)}K
             </Typography>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="body2" sx={{ color: '#6B7280', mt: 0.5 }}>
               {isRTL ? 'المعاملات اليومية' : 'Daily Transactions'}
             </Typography>
-            <Typography variant="caption" sx={{ color: '#00e676', mt: 1, display: 'block' }}>
+            <Typography variant="caption" sx={{ color: '#007A3D', mt: 1, display: 'block', fontWeight: 600 }}>
               {isRTL ? '↗ +15% من الأمس' : '↗ +15% from yesterday'}
             </Typography>
           </CardContent>
@@ -512,18 +483,18 @@ const SudanGovPortal = ({ language, user } = {}) => {
       </Grid>
 
       <Grid item xs={12} md={3}>
-        <Card className="sudan-status-card">
+        <Card className="sudan-status-card" sx={{ borderTop: '3px solid #1B3A5C' }}>
           <CardContent sx={{ textAlign: 'center', p: 3 }}>
-            <MonitorHeart sx={{ fontSize: 48, color: '#6366f1', mb: 1 }} />
-            <Typography variant="h4" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700 }}>
+            <MonitorHeart sx={{ fontSize: 40, color: '#1B3A5C', mb: 1 }} />
+            <Typography variant="h4" sx={{ color: '#111827', fontWeight: 700 }}>
               {governmentMetrics.systemUptime.toFixed(1)}%
             </Typography>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="body2" sx={{ color: '#6B7280', mt: 0.5 }}>
               {isRTL ? 'وقت التشغيل' : 'System Uptime'}
             </Typography>
-            <Box display="flex" alignItems="center" justifyContent="center" gap={1} mt={1}>
-              <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#00e676' }} />
-              <Typography variant="caption" sx={{ color: '#00e676' }}>
+            <Box display="flex" alignItems="center" justifyContent="center" gap={0.75} mt={1}>
+              <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#007A3D' }} />
+              <Typography variant="caption" sx={{ color: '#007A3D', fontWeight: 600 }}>
                 {isRTL ? 'صحي' : 'Healthy'}
               </Typography>
             </Box>
@@ -532,19 +503,19 @@ const SudanGovPortal = ({ language, user } = {}) => {
       </Grid>
 
       <Grid item xs={12} md={3}>
-        <Card className="sudan-status-card">
+        <Card className="sudan-status-card" sx={{ borderTop: '3px solid #B45309' }}>
           <CardContent sx={{ textAlign: 'center', p: 3 }}>
-            <TrendingUp sx={{ fontSize: 48, color: '#f59e0b', mb: 1 }} />
-            <Typography variant="h4" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700 }}>
+            <TrendingUp sx={{ fontSize: 40, color: '#B45309', mb: 1 }} />
+            <Typography variant="h4" sx={{ color: '#111827', fontWeight: 700 }}>
               {governmentMetrics.satisfactionScore.toFixed(1)}/5
             </Typography>
-            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="body2" sx={{ color: '#6B7280', mt: 0.5 }}>
               {isRTL ? 'رضا الخدمة' : 'Service Satisfaction'}
             </Typography>
             <Chip
               label={isRTL ? 'ممتاز' : 'Excellent'}
               size="small"
-              sx={{ mt: 1, backgroundColor: '#f59e0b20', color: '#f59e0b' }}
+              sx={{ mt: 1, bgcolor: '#FEF3C7', color: '#92400E', fontWeight: 600, height: 22, borderRadius: 1 }}
             />
           </CardContent>
         </Card>
@@ -552,19 +523,10 @@ const SudanGovPortal = ({ language, user } = {}) => {
 
       {/* Department Grid */}
       <Grid item xs={12}>
-        <Typography
-          variant="h5"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.95)',
-            fontWeight: 600,
-            mb: 3,
-            textAlign: 'center'
-          }}
-        >
+        <Typography variant="h6" sx={{ color: '#111827', fontWeight: 700, mb: 2.5 }}>
           {isRTL ? 'الوزارات والإدارات الحكومية' : 'Government Ministries & Departments'}
         </Typography>
-        
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
           {governmentDepartments.map((department) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={department.id}>
               {renderDepartmentCard(department)}
@@ -577,76 +539,47 @@ const SudanGovPortal = ({ language, user } = {}) => {
       <Grid item xs={12}>
         <Card className="sudan-quick-actions">
           <CardContent sx={{ p: 3 }}>
-            <Typography
-              variant="h6"
-              sx={{ color: 'rgba(255, 255, 255, 0.95)', mb: 2, fontWeight: 600 }}
-            >
+            <Typography variant="subtitle1" sx={{ color: '#111827', mb: 2, fontWeight: 700 }}>
               {isRTL ? 'الإجراءات السريعة' : 'Quick Actions'}
             </Typography>
-            
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<Emergency />}
-                  className="sudan-action-btn emergency"
-                  style={{ minHeight: '44px' }}
+                <Button fullWidth variant="outlined" startIcon={<Emergency />}
+                  className="sudan-action-btn emergency" style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
-                >
+                  onClick={() => handleDepartmentChange('identity')}>
                   {isRTL ? 'خدمات الطوارئ' : 'Emergency Services'}
                 </Button>
               </Grid>
-
               <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<Verified />}
-                  className="sudan-action-btn"
-                  style={{ minHeight: '44px' }}
+                <Button fullWidth variant="outlined" startIcon={<Verified />}
+                  className="sudan-action-btn" style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
-                >
+                  onClick={() => handleDepartmentChange('identity')}>
                   {isRTL ? 'التحقق من الهوية' : 'ID Verification'}
                 </Button>
               </Grid>
-
               <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<Analytics />}
-                  className="sudan-action-btn"
-                  style={{ minHeight: '44px' }}
+                <Button fullWidth variant="outlined" startIcon={<Analytics />}
+                  className="sudan-action-btn" style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
-                >
+                  onClick={() => handleDepartmentChange('identity')}>
                   {isRTL ? 'طلب وثيقة' : 'Document Request'}
                 </Button>
               </Grid>
-
               <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<AccountBalance />}
-                  className="sudan-action-btn"
-                  style={{ minHeight: '44px' }}
+                <Button fullWidth variant="outlined" startIcon={<AccountBalance />}
+                  className="sudan-action-btn" style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
-                >
+                  onClick={() => handleDepartmentChange('finance')}>
                   {isRTL ? 'خدمات الدفع' : 'Payment Services'}
                 </Button>
               </Grid>
-
               <Grid item xs={12} sm={6} md={3}>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<BiometricIcon />}
-                  className="sudan-action-btn"
-                  style={{ minHeight: '44px' }}
+                <Button fullWidth variant="outlined" startIcon={<BiometricIcon />}
+                  className="sudan-action-btn" style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
-                  onClick={() => setIsBiometricDialogOpen(true)}
-                >
+                  onClick={() => setIsBiometricDialogOpen(true)}>
                   {isRTL ? 'تسجيل الدخول بالبصمة' : 'Login with Biometrics'}
                 </Button>
               </Grid>
@@ -660,6 +593,8 @@ const SudanGovPortal = ({ language, user } = {}) => {
   const renderSelectedDepartment = (departmentId) => {
     const language = isRTL ? 'ar' : 'en';
     switch (departmentId) {
+      case 'identity':
+        return <IdentityMinistryPortal language={language} />;
       case 'health':
         return <HealthMinistryPortal language={language} />;
       case 'education':
@@ -680,6 +615,8 @@ const SudanGovPortal = ({ language, user } = {}) => {
         return <LaborMinistryPortal language={language} />;
       case 'social_welfare':
         return <SocialWelfareMinistryPortal language={language} />;
+      case 'oid_tree':
+        return <OidTreeIntegration language={language} user={user} />;
       case 'analytics':
         return <AnalyticsDashboard language={language} />;
       case 'feedback':
@@ -711,7 +648,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
       sx={{
         display: 'flex',
         minHeight: '100vh',
-        background: 'var(--sudan-gradient-primary)',
+        background: '#F5F7FA',
         direction: isRTL ? 'rtl' : 'ltr',
       }}
     >
@@ -722,18 +659,17 @@ const SudanGovPortal = ({ language, user } = {}) => {
           width: 280,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
-            width: 280,
+            width: 260,
             boxSizing: 'border-box',
-            background: 'var(--sudan-gradient-sidebar)',
-            backdropFilter: 'blur(20px)',
+            backgroundColor: '#FFFFFF',
             border: 'none',
-            borderRight: '1px solid rgba(255, 255, 255, 0.1)'
+            borderRight: '1px solid #E5E7EB',
           },
           display: { xs: 'none', md: 'block' }
         }}
       >
         {/* Logo and Header */}
-        <Box sx={{ p: 3, borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+        <Box sx={{ p: 3, background: '#1B3A5C', borderBottom: '1px solid #0F2640' }}>
           <Box display="flex" alignItems="center" gap={2}>
             <Avatar
               sx={{
@@ -772,11 +708,11 @@ const SudanGovPortal = ({ language, user } = {}) => {
             className="sudan-nav-item"
           >
             <ListItemIcon>
-              <Dashboard sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+              <Dashboard sx={{ color: '#1B3A5C' }} />
             </ListItemIcon>
             <ListItemText
               primary={isRTL ? 'لوحة المراقبة' : 'Dashboard'}
-              sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }}
+              sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }}
             />
           </ListItem>
 
@@ -788,15 +724,15 @@ const SudanGovPortal = ({ language, user } = {}) => {
             className="sudan-nav-item"
           >
             <ListItemIcon>
-              <AccountTree sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+              <AccountTree sx={{ color: '#1B3A5C' }} />
             </ListItemIcon>
             <ListItemText
               primary={isRTL ? 'شجرة المعرفات الذكية' : 'OID Tree'}
-              sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }}
+              sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }}
             />
           </ListItem>
 
-          <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+          <Divider sx={{ my: 1, borderColor: '#E5E7EB' }} />
 
           {governmentDepartments.map((department) => (
             <ListItem
@@ -812,7 +748,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
               </ListItemIcon>
               <ListItemText
                 primary={isRTL ? department.nameShort.ar : department.nameShort}
-                sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)', fontSize: '0.9rem' } }}
+                sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }}
               />
               <Chip
                 label={department.metrics ? `${Math.round(department.metrics.users / 10000) / 100}M` : ''}
@@ -827,37 +763,37 @@ const SudanGovPortal = ({ language, user } = {}) => {
             </ListItem>
           ))}
 
-          <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+          <Divider sx={{ my: 1, borderColor: '#E5E7EB' }} />
 
-          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item">
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
             <ListItemIcon>
-              <Settings sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+              <Settings sx={{ color: '#6B7280' }} />
             </ListItemIcon>
             <ListItemText
               primary={isRTL ? 'الإعدادات' : 'Settings'}
-              sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }}
+              sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }}
             />
           </ListItem>
 
-          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item">
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
             <ListItemIcon>
-              <Support sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+              <Support sx={{ color: '#6B7280' }} />
             </ListItemIcon>
             <ListItemText
               primary={isRTL ? 'الدعم الفني' : 'Support'}
-              sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }}
+              sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }}
             />
           </ListItem>
         </List>
 
         {/* System Status Footer */}
-        <Box sx={{ mt: 'auto', p: 2, borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-          <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)', display: 'block', mb: 1 }}>
+        <Box sx={{ mt: 'auto', p: 2, borderTop: '1px solid #E5E7EB' }}>
+          <Typography variant="caption" sx={{ color: '#9CA3AF', display: 'block', mb: 1 }}>
             {isRTL ? 'حالة النظام' : 'System Status'}
           </Typography>
           
           <Box display="flex" alignItems="center" gap={1} mb={1}>
-            <Box sx={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#00e676' }} />
+            <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#007A3D' }} />
             <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
               {isRTL ? 'النظام يعمل بشكل طبيعي' : 'All systems operational'}
             </Typography>
@@ -877,13 +813,54 @@ const SudanGovPortal = ({ language, user } = {}) => {
         sx={{
           display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
-            width: 280,
-            background: 'var(--sudan-gradient-sidebar)',
-            backdropFilter: 'blur(20px)'
+            width: 260,
+            backgroundColor: '#FFFFFF',
+            borderRight: '1px solid #E5E7EB',
           }
         }}
       >
-        {/* Same content as desktop sidebar */}
+        {/* Same navigation content as desktop sidebar */}
+        <Box sx={{ p: 3, background: '#1B3A5C', borderBottom: '1px solid #0F2640' }}>
+          <Box display="flex" alignItems="center" gap={2}>
+            <Avatar sx={{ width: 50, height: 50, background: '#1B3A5C', fontSize: '1.5rem' }}>
+              🇸🇩
+            </Avatar>
+            <Box>
+              <Typography variant="h6" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700, fontSize: '1.1rem' }}>
+                {isRTL ? 'جمهورية السودان' : 'Republic of Sudan'}
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)', display: 'block' }}>
+                {isRTL ? 'البوابة الحكومية الرقمية' : 'Digital Government Portal'}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <List sx={{ p: 2 }}>
+          <ListItem button style={{ minHeight: '44px' }} selected={selectedDepartment === 'dashboard'} onClick={() => handleDepartmentChange('dashboard')} className="sudan-nav-item">
+            <ListItemIcon><Dashboard sx={{ color: '#1B3A5C' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'لوحة المراقبة' : 'Dashboard'} sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }} />
+          </ListItem>
+          <ListItem button style={{ minHeight: '44px' }} selected={selectedDepartment === 'oid_tree'} onClick={() => handleDepartmentChange('oid_tree')} className="sudan-nav-item">
+            <ListItemIcon><AccountTree sx={{ color: '#1B3A5C' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'شجرة المعرفات الذكية' : 'OID Tree'} sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }} />
+          </ListItem>
+          <Divider sx={{ my: 1, borderColor: '#E5E7EB' }} />
+          {governmentDepartments.map((department) => (
+            <ListItem key={department.id} button style={{ minHeight: '44px' }} selected={selectedDepartment === department.id} onClick={() => handleDepartmentChange(department.id)} className="sudan-nav-item">
+              <ListItemIcon sx={{ color: department.color }}>{department.icon}</ListItemIcon>
+              <ListItemText primary={isRTL ? department.nameShort.ar : department.nameShort} sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }} />
+            </ListItem>
+          ))}
+          <Divider sx={{ my: 1, borderColor: '#E5E7EB' }} />
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
+            <ListItemIcon><Settings sx={{ color: '#6B7280' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'الإعدادات' : 'Settings'} sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }} />
+          </ListItem>
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
+            <ListItemIcon><Support sx={{ color: '#6B7280' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'الدعم الفني' : 'Support'} sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }} />
+          </ListItem>
+        </List>
       </Drawer>
 
       {/* Main Content Area */}
@@ -893,7 +870,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
         sx={{
           flexGrow: 1,
           minHeight: '100vh',
-          background: 'var(--sudan-gradient-main)'
+          backgroundColor: '#F5F7FA'
         }}
       >
         {/* Top App Bar */}
@@ -901,9 +878,8 @@ const SudanGovPortal = ({ language, user } = {}) => {
           position="sticky"
           elevation={0}
           sx={{
-            background: 'var(--sudan-gradient-appbar)',
-            backdropFilter: 'blur(20px)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+            backgroundColor: '#1B3A5C',
+            borderBottom: '2px solid #0F2640',
           }}
         >
           <Toolbar sx={{ px: { xs: 2, md: 4 } }}>
@@ -928,11 +904,13 @@ const SudanGovPortal = ({ language, user } = {}) => {
                 width: 400,
                 maxWidth: '50%',
                 '& .MuiOutlinedInput-root': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                  '& fieldset': { border: 'none' },
-                  '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.15)' }
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  borderRadius: 1.5,
+                  '& fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
+                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.16)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.35)' },
                 },
-                '& input': { color: 'rgba(255, 255, 255, 0.9)' }
+                '& input': { color: '#FFFFFF', '&::placeholder': { color: 'rgba(255,255,255,0.5)' } },
               }}
               InputProps={{
                 startAdornment: (
@@ -940,7 +918,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                     data-testid="search-button"
                     size="small"
                     style={{ minHeight: '44px' }}
-                    sx={{ color: 'rgba(255, 255, 255, 0.6)', mr: 0.5 }}
+                    sx={{ color: 'rgba(255,255,255,0.65)', mr: 0.5 }}
                     aria-label={isRTL ? 'بحث' : 'Search'}
                   >
                     <Search />
@@ -970,20 +948,20 @@ const SudanGovPortal = ({ language, user } = {}) => {
               />
 
               {/* Notifications */}
-              <IconButton style={{ minHeight: '44px' }} sx={{ color: 'rgba(255, 255, 255, 0.8)' }} aria-label="notifications">
+              <IconButton style={{ minHeight: '44px' }} sx={{ color: 'rgba(255,255,255,0.9)' }} aria-label="notifications">
                 <Badge badgeContent={notifications.length} color="error">
                   <Notifications />
                 </Badge>
               </IconButton>
 
               {/* System Status */}
-              <IconButton style={{ minHeight: '44px' }} sx={{ color: 'rgba(255, 255, 255, 0.8)' }} aria-label="system status">
+              <IconButton style={{ minHeight: '44px' }} sx={{ color: 'rgba(255,255,255,0.9)' }} aria-label="system status">
                 <MonitorHeart />
               </IconButton>
 
               {/* User Profile */}
               {user?.name && (
-                <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.85)', mr: 1 }}>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', mr: 1 }}>
                   {user.name}
                 </Typography>
               )}
@@ -991,7 +969,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                 sx={{
                   width: 36,
                   height: 36,
-                  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                  background: '#C8102E',
                   fontSize: '0.9rem'
                 }}
                 aria-label={user?.name || (userRole === 'citizen' ? 'Citizen' : 'User')}
@@ -1017,12 +995,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
               <Box>
                 <Typography
                   variant="h4"
-                  sx={{
-                    color: 'rgba(255, 255, 255, 0.95)',
-                    fontWeight: 600,
-                    mb: 3,
-                    textAlign: 'center'
-                  }}
+                  sx={{ color: '#111827', fontWeight: 700, mb: 3 }}
                 >
                   {activeDepartment?.name || 'Department'}
                 </Typography>
