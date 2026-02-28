@@ -13,7 +13,7 @@ export async function onRequestGet(context) {
     checks.d1 = result?.health === 1 ? 'healthy' : 'degraded';
   } catch (error) {
     checks.d1 = 'error';
-    checks.d1_error = error.message;
+    console.error('[D1 Health Check Error]', error);
   }
 
   // Check KV (SESSIONS)
