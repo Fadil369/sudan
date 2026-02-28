@@ -608,7 +608,7 @@ const LandingPage = () => {
             }}
           >
             {t.nav.map((item, index) => {
-              const anchorTarget = NAV_ANCHORS[index] || NAV_ANCHORS[0];
+              const anchorTarget = NAV_ANCHORS[index] ?? encodeURIComponent(item);
               return (
                 <a
                   key={item}
@@ -677,7 +677,7 @@ const LandingPage = () => {
         {isMenuOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid #e2e8f0', padding: 16 }}>
             {t.nav.map((item, index) => {
-              const anchorTarget = NAV_ANCHORS[index] || NAV_ANCHORS[0];
+              const anchorTarget = NAV_ANCHORS[index] ?? encodeURIComponent(item);
               return (
                 <a
                   key={item}

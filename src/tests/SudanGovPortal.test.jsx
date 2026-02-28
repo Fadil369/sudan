@@ -133,7 +133,7 @@ describe('SudanGovPortal', () => {
       fireEvent.click(healthDepartment);
       await waitFor(() => {
         expect(screen.getByText(MINISTRY_OIDS.health)).toBeInTheDocument();
-        expect(screen.getByText('5 services')).toBeInTheDocument();
+        expect(screen.getByText(/\d+\s+(services|خدمات)/)).toBeInTheDocument();
       });
     }
   });

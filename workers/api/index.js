@@ -1,3 +1,6 @@
+const CONFIG_LAST_CHECK_KEY = 'portal:config:lastCheck';
+const MAX_SESSION_BYTES = 4096;
+
 export class SessionStore {
   constructor(state) {
     this.state = state;
@@ -5,13 +8,33 @@ export class SessionStore {
 
   async fetch(request) {
     if (request.method === 'GET') {
-      const value = await this.state.storage.get('session') || null;
-      return Response.json({ session: value });
+      const value = (await this.state.storage.get('session')) || null;
+      try {
+        return Response.json({ session: value ? JSON.parse(value) : null });
+      } catch (error) {
+        return Response.json({ session: null });
+      }
     }
 
     if (request.method === 'POST') {
-      const payload = await request.json();
-      await this.state.storage.put('session', payload);
+      let payload;
+      try {
+        payload = await request.json();
+      } catch (error) {
+        return Response.json({ error: 'Invalid JSON payload' }, { status: 400 });
+      }
+
+      if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+        return Response.json({ error: 'Invalid session payload' }, { status: 400 });
+      }
+
+      const payloadJson = JSON.stringify(payload);
+      const payloadSize = new TextEncoder().encode(payloadJson).length;
+      if (payloadSize > MAX_SESSION_BYTES) {
+        return Response.json({ error: 'Session payload too large' }, { status: 413 });
+      }
+
+      await this.state.storage.put('session', payloadJson);
       return Response.json({ ok: true });
     }
 
@@ -37,14 +60,10 @@ export default {
     }
 
     if (pathname === '/api/config') {
-      const key = 'portal:config:lastCheck';
-      if (env.CACHE_KV) {
-        await env.CACHE_KV.put(key, new Date().toISOString());
-      }
       return Response.json({
         app: env.APP_NAME,
         environment: env.APP_ENV,
-        lastCheckKey: key,
+        configCacheKey: CONFIG_LAST_CHECK_KEY,
       });
     }
 

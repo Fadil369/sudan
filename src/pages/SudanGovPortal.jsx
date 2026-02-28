@@ -1039,6 +1039,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                   >
                     <Chip
                       label={activeDepartment.oidBranch}
+                      aria-label={`OID Branch: ${activeDepartment.oidBranch}`}
                       size="small"
                       sx={{
                         backgroundColor: 'rgba(59, 130, 246, 0.2)',
@@ -1048,6 +1049,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                     />
                     <Chip
                       label={`${activeDepartment.services.length} ${isRTL ? 'خدمات' : 'services'}`}
+                      aria-label={`${activeDepartment.services.length} ${isRTL ? 'خدمات الوزارة' : 'ministry services'}`}
                       size="small"
                       sx={{
                         backgroundColor: 'rgba(16, 185, 129, 0.2)',
