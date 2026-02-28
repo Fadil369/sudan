@@ -109,8 +109,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build && npm run build:sw",
-    "build:production": "CI=false GENERATE_SOURCEMAP=false react-scripts build && npm run build:sw",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build:production": "CI=false GENERATE_SOURCEMAP=false react-scripts build",
     "build:sw": "workbox generateSW workbox-config.js",
     "test": "react-scripts test",
     "test:coverage": "npm test -- --coverage --watchAll=false",
