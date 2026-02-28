@@ -72,11 +72,13 @@ const EducationMinistryPortal = React.lazy(() => import('../components/Education
 const FinanceMinistryPortal = React.lazy(() => import('../components/FinanceMinistryPortal'));
 const HealthMinistryPortal = React.lazy(() => import('../components/HealthMinistryPortal'));
 const EnergyMinistryPortal = React.lazy(() => import('../components/EnergyMinistryPortal'));
+const IdentityMinistryPortal = React.lazy(() => import('../components/IdentityMinistryPortal'));
 const InfrastructureMinistryPortal = React.lazy(() => import('../components/InfrastructureMinistryPortal'));
 const JusticeMinistryPortal = React.lazy(() => import('../components/JusticeMinistryPortal'));
 const ForeignAffairsMinistryPortal = React.lazy(() => import('../components/ForeignAffairsMinistryPortal'));
 const LaborMinistryPortal = React.lazy(() => import('../components/LaborMinistryPortal'));
 const SocialWelfareMinistryPortal = React.lazy(() => import('../components/SocialWelfareMinistryPortal'));
+const OidTreeIntegration = React.lazy(() => import('../components/OidTreeIntegration'));
 const ChatWidget = React.lazy(() => import('../components/ChatWidget'));
 const AnalyticsDashboard = React.lazy(() => import('../components/AnalyticsDashboard'));
 const FeedbackForm = React.lazy(() => import('../components/FeedbackForm'));
@@ -593,6 +595,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                   className="sudan-action-btn emergency"
                   style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
+                  onClick={() => handleDepartmentChange('identity')}
                 >
                   {isRTL ? 'خدمات الطوارئ' : 'Emergency Services'}
                 </Button>
@@ -606,6 +609,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                   className="sudan-action-btn"
                   style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
+                  onClick={() => handleDepartmentChange('identity')}
                 >
                   {isRTL ? 'التحقق من الهوية' : 'ID Verification'}
                 </Button>
@@ -619,6 +623,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                   className="sudan-action-btn"
                   style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
+                  onClick={() => handleDepartmentChange('identity')}
                 >
                   {isRTL ? 'طلب وثيقة' : 'Document Request'}
                 </Button>
@@ -632,6 +637,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
                   className="sudan-action-btn"
                   style={{ minHeight: '44px' }}
                   sx={{ py: 1.5, justifyContent: 'flex-start' }}
+                  onClick={() => handleDepartmentChange('finance')}
                 >
                   {isRTL ? 'خدمات الدفع' : 'Payment Services'}
                 </Button>
@@ -660,6 +666,8 @@ const SudanGovPortal = ({ language, user } = {}) => {
   const renderSelectedDepartment = (departmentId) => {
     const language = isRTL ? 'ar' : 'en';
     switch (departmentId) {
+      case 'identity':
+        return <IdentityMinistryPortal language={language} />;
       case 'health':
         return <HealthMinistryPortal language={language} />;
       case 'education':
@@ -680,6 +688,8 @@ const SudanGovPortal = ({ language, user } = {}) => {
         return <LaborMinistryPortal language={language} />;
       case 'social_welfare':
         return <SocialWelfareMinistryPortal language={language} />;
+      case 'oid_tree':
+        return <OidTreeIntegration language={language} user={user} />;
       case 'analytics':
         return <AnalyticsDashboard language={language} />;
       case 'feedback':
@@ -827,7 +837,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
 
           <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 
-          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item">
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
             <ListItemIcon>
               <Settings sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
             </ListItemIcon>
@@ -837,7 +847,7 @@ const SudanGovPortal = ({ language, user } = {}) => {
             />
           </ListItem>
 
-          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item">
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
             <ListItemIcon>
               <Support sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
             </ListItemIcon>
@@ -881,7 +891,48 @@ const SudanGovPortal = ({ language, user } = {}) => {
           }
         }}
       >
-        {/* Same content as desktop sidebar */}
+        {/* Same navigation content as desktop sidebar */}
+        <Box sx={{ p: 3, borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <Box display="flex" alignItems="center" gap={2}>
+            <Avatar sx={{ width: 50, height: 50, background: 'linear-gradient(135deg, #dc2626 0%, #000000 50%, #ffffff 100%)', fontSize: '1.5rem' }}>
+              🇸🇩
+            </Avatar>
+            <Box>
+              <Typography variant="h6" sx={{ color: 'rgba(255, 255, 255, 0.95)', fontWeight: 700, fontSize: '1.1rem' }}>
+                {isRTL ? 'جمهورية السودان' : 'Republic of Sudan'}
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)', display: 'block' }}>
+                {isRTL ? 'البوابة الحكومية الرقمية' : 'Digital Government Portal'}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <List sx={{ p: 2 }}>
+          <ListItem button style={{ minHeight: '44px' }} selected={selectedDepartment === 'dashboard'} onClick={() => handleDepartmentChange('dashboard')} className="sudan-nav-item">
+            <ListItemIcon><Dashboard sx={{ color: 'rgba(255, 255, 255, 0.7)' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'لوحة المراقبة' : 'Dashboard'} sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }} />
+          </ListItem>
+          <ListItem button style={{ minHeight: '44px' }} selected={selectedDepartment === 'oid_tree'} onClick={() => handleDepartmentChange('oid_tree')} className="sudan-nav-item">
+            <ListItemIcon><AccountTree sx={{ color: 'rgba(255, 255, 255, 0.7)' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'شجرة المعرفات الذكية' : 'OID Tree'} sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }} />
+          </ListItem>
+          <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+          {governmentDepartments.map((department) => (
+            <ListItem key={department.id} button style={{ minHeight: '44px' }} selected={selectedDepartment === department.id} onClick={() => handleDepartmentChange(department.id)} className="sudan-nav-item">
+              <ListItemIcon sx={{ color: department.color }}>{department.icon}</ListItemIcon>
+              <ListItemText primary={isRTL ? department.nameShort.ar : department.nameShort} sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)', fontSize: '0.9rem' } }} />
+            </ListItem>
+          ))}
+          <Divider sx={{ my: 1, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
+            <ListItemIcon><Settings sx={{ color: 'rgba(255, 255, 255, 0.7)' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'الإعدادات' : 'Settings'} sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }} />
+          </ListItem>
+          <ListItem button style={{ minHeight: '44px' }} className="sudan-nav-item" onClick={() => handleDepartmentChange('feedback')}>
+            <ListItemIcon><Support sx={{ color: 'rgba(255, 255, 255, 0.7)' }} /></ListItemIcon>
+            <ListItemText primary={isRTL ? 'الدعم الفني' : 'Support'} sx={{ '& .MuiTypography-root': { color: 'rgba(255, 255, 255, 0.9)' } }} />
+          </ListItem>
+        </List>
       </Drawer>
 
       {/* Main Content Area */}

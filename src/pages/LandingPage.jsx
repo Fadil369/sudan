@@ -19,9 +19,6 @@ import {
   Building2,
   Landmark,
   Wheat,
-  Zap,
-  Users,
-  BarChart3,
   ArrowRight,
   ExternalLink,
 } from 'lucide-react';
@@ -666,20 +663,28 @@ const LandingPage = () => {
         {isMenuOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid #e2e8f0', padding: 16 }}>
             {t.nav.map((item) => (
-              <a
+              <button
                 key={item}
-                href="#"
+                onClick={() => setIsMenuOpen(false)}
                 style={{
                   display: 'block',
+                  width: '100%',
                   padding: '12px 0',
                   borderBottom: '1px solid #f1f5f9',
+                  borderLeft: 'none',
+                  borderRight: 'none',
+                  borderTop: 'none',
+                  background: 'none',
                   color: '#334155',
+                  textAlign: 'start',
                   textDecoration: 'none',
                   fontWeight: 500,
+                  cursor: 'pointer',
+                  fontSize: 15,
                 }}
               >
                 {item}
-              </a>
+              </button>
             ))}
             <button
               onClick={() => navigate('/portal')}
