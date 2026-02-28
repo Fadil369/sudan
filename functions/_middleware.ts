@@ -5,7 +5,7 @@
 
 // CORS configuration
 const ALLOWED_ORIGINS = [
-  '',
+  'Access-Control-Allow-Origin': context.env.CORS_ORIGIN || 'https://your-production-domain.com', // Update in production
   '',
   ''
 ];
