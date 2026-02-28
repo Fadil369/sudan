@@ -1,63 +1,175 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  Paper,
-  Typography,
-  Grid,
+  Box,
   Card,
   CardContent,
-  Box,
-  CircularProgress
+  Typography,
+  Grid,
+  Button,
+  LinearProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Snackbar,
+  Alert
 } from '@mui/material';
+import {
+  School,
+  MenuBook,
+  People,
+  EmojiEvents,
+  Assignment,
+  CheckCircle,
+  Download,
+  Search,
+  Science
+} from '@mui/icons-material';
 
 const EducationMinistryPortal = ({ language = 'en' }) => {
   const isRTL = language === 'ar';
-  const [educationData, setEducationData] = useState(null);
+  const [serviceDialog, setServiceDialog] = useState(null);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMsg, setSnackMsg] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/education');
-        const data = await response.json();
-        setEducationData(data);
-      } catch (error) {
-        console.error('Error fetching education data:', error);
-      }
-    };
+  const t = {
+    en: {
+      title: 'Ministry of Education & Higher Education',
+      subtitle: 'OID: 1.3.6.1.4.1.61026.3',
+      schools: 'Schools Nationwide', students: 'Enrolled Students', teachers: 'Qualified Teachers', universities: 'Universities',
+      services: 'Educational Services',
+      serviceItems: [
+        { id: 'cert_verify', icon: <EmojiEvents />, label: 'Certificate Verification', desc: 'Verify authenticity of educational certificates and degrees', color: '#0ea5e9' },
+        { id: 'enrollment', icon: <School />, label: 'School Enrollment', desc: 'Enroll children in public schools for the upcoming academic year', color: '#10b981' },
+        { id: 'exam_results', icon: <Assignment />, label: 'Exam Results', desc: 'Access Sudan Certificate and Basic Education exam results', color: '#6366f1' },
+        { id: 'scholarship', icon: <EmojiEvents />, label: 'Scholarships', desc: 'Apply for government scholarships and study grants', color: '#f59e0b' },
+        { id: 'transcript', icon: <MenuBook />, label: 'Academic Transcripts', desc: 'Request official academic transcripts from institutions', color: '#ec4899' },
+        { id: 'teacher_reg', icon: <People />, label: 'Teacher Registration', desc: 'Register as a certified teacher or renew your teaching license', color: '#22c55e' },
+        { id: 'uni_apply', icon: <Science />, label: 'University Admission', desc: 'Apply for undergraduate or postgraduate university programmes', color: '#a855f7' },
+        { id: 'distance', icon: <MenuBook />, label: 'Distance Learning', desc: 'Access online and distance learning programmes', color: '#ef4444' },
+      ],
+      apply: 'Apply Now',
+      download: 'Download Form',
+      close: 'Close',
+    },
+    ar: {
+      title: 'وزارة التربية والتعليم والتعليم العالي',
+      subtitle: 'المعرف: 1.3.6.1.4.1.61026.3',
+      schools: 'المدارس في الوطن', students: 'الطلاب الملتحقون', teachers: 'المعلمون المؤهلون', universities: 'الجامعات',
+      services: 'الخدمات التعليمية',
+      serviceItems: [
+        { id: 'cert_verify', icon: <EmojiEvents />, label: 'التحقق من الشهادات', desc: 'التحقق من صحة الشهادات والدرجات العلمية', color: '#0ea5e9' },
+        { id: 'enrollment', icon: <School />, label: 'التسجيل المدرسي', desc: 'تسجيل الأطفال في المدارس الحكومية للعام الدراسي القادم', color: '#10b981' },
+        { id: 'exam_results', icon: <Assignment />, label: 'نتائج الامتحانات', desc: 'الاطلاع على نتائج شهادة السودان والتعليم الأساسي', color: '#6366f1' },
+        { id: 'scholarship', icon: <EmojiEvents />, label: 'المنح الدراسية', desc: 'التقدم للمنح الحكومية وبدلات الدراسة', color: '#f59e0b' },
+        { id: 'transcript', icon: <MenuBook />, label: 'كشف الدرجات', desc: 'طلب كشوف الدرجات الأكاديمية الرسمية من المؤسسات', color: '#ec4899' },
+        { id: 'teacher_reg', icon: <People />, label: 'تسجيل المعلمين', desc: 'التسجيل كمعلم معتمد أو تجديد رخصة التدريس', color: '#22c55e' },
+        { id: 'uni_apply', icon: <Science />, label: 'القبول الجامعي', desc: 'التقدم لبرامج البكالوريوس أو الدراسات العليا', color: '#a855f7' },
+        { id: 'distance', icon: <MenuBook />, label: 'التعلم عن بعد', desc: 'الوصول إلى برامج التعلم الإلكتروني والتعليم عن بعد', color: '#ef4444' },
+      ],
+      apply: 'قدّم الآن',
+      download: 'تنزيل النموذج',
+      close: 'إغلاق',
+    },
+  };
+  const txt = t[language] || t.en;
 
-    fetchData();
-  }, []);
+  const stats = [
+    { label: txt.schools, value: '17,420', color: '#0ea5e9', progress: 87 },
+    { label: txt.students, value: '10.2M', color: '#10b981', progress: 68 },
+    { label: txt.teachers, value: '285K', color: '#f59e0b', progress: 74 },
+    { label: txt.universities, value: '75', color: '#a855f7', progress: 90 },
+  ];
+
+  const handleApply = (service) => {
+    setServiceDialog(null);
+    setSnackMsg(isRTL
+      ? `تم استلام طلبك لـ "${service}". الرقم المرجعي سيُرسَل عبر الرسائل.`
+      : `Your application for "${service}" was received. Reference number will be sent via SMS.`);
+    setSnackOpen(true);
+  };
 
   return (
     <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
-      <Paper elevation={3} sx={{ p: 3 }}>
-        <Typography variant="h4" gutterBottom>
-          {isRTL ? 'بوابة وزارة التربية والتعليم' : 'Ministry of Education Portal'}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, mb: 1 }}>
+          {txt.title}
         </Typography>
-        {educationData ? (
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5">{educationData.schools}</Typography>
-                  <Typography variant="h6" color="text.secondary">{isRTL ? 'المدارس' : 'Schools'}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card>
-                <CardContent>
-                  <Typography variant="h5">{educationData.students}</Typography>
-                  <Typography variant="h6" color="text.secondary">{isRTL ? 'الطلاب' : 'Students'}</Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace' }}>
+          {txt.subtitle}
+        </Typography>
+      </Box>
+
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        {stats.map((s) => (
+          <Grid item xs={6} md={3} key={s.label}>
+            <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              <CardContent>
+                <Typography variant="h4" sx={{ color: s.color, fontWeight: 700 }}>{s.value}</Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>{s.label}</Typography>
+                <LinearProgress variant="determinate" value={s.progress}
+                  sx={{ height: 6, borderRadius: 3, bgcolor: 'rgba(255,255,255,0.1)', '& .MuiLinearProgress-bar': { bgcolor: s.color } }} />
+              </CardContent>
+            </Card>
           </Grid>
-        ) : (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
-            <CircularProgress />
-          </Box>
-        )}
-      </Paper>
+        ))}
+      </Grid>
+
+      <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.95)', mb: 2, fontWeight: 600 }}>{txt.services}</Typography>
+      <Grid container spacing={2}>
+        {txt.serviceItems.map((service) => (
+          <Grid item xs={12} sm={6} md={3} key={service.id}>
+            <Card
+              sx={{
+                background: `linear-gradient(135deg, ${service.color}15 0%, ${service.color}05 100%)`,
+                border: `1px solid ${service.color}30`, cursor: 'pointer',
+                transition: 'all 0.2s', '&:hover': { transform: 'translateY(-2px)', borderColor: service.color },
+              }}
+              onClick={() => setServiceDialog(service)}
+            >
+              <CardContent>
+                <Box sx={{ color: service.color, mb: 1 }}>{service.icon}</Box>
+                <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, mb: 0.5 }}>{service.label}</Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem' }}>{service.desc}</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      <Dialog open={!!serviceDialog} onClose={() => setServiceDialog(null)} maxWidth="sm" fullWidth>
+        {serviceDialog && <>
+          <DialogTitle>{serviceDialog.label}</DialogTitle>
+          <DialogContent>
+            <Typography sx={{ mb: 2 }}>{serviceDialog.desc}</Typography>
+            <List dense>
+              {[
+                isRTL ? 'بطاقة هوية سارية' : 'Valid national ID',
+                isRTL ? 'وثائق داعمة ذات صلة' : 'Relevant supporting documents',
+                isRTL ? 'صورة شخصية حديثة' : 'Recent passport photo',
+              ].map((item, i) => (
+                <ListItem key={i} sx={{ py: 0.5 }}>
+                  <ListItemIcon sx={{ minWidth: 32 }}><CheckCircle fontSize="small" color="success" /></ListItemIcon>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setServiceDialog(null)}>{txt.close}</Button>
+            <Button variant="outlined" startIcon={<Download />} onClick={() => { setServiceDialog(null); setSnackMsg(isRTL ? 'جار تنزيل النموذج...' : 'Downloading form...'); setSnackOpen(true); }}>{txt.download}</Button>
+            <Button variant="contained" startIcon={<Search />} onClick={() => handleApply(serviceDialog.label)}>{txt.apply}</Button>
+          </DialogActions>
+        </>}
+      </Dialog>
+
+      <Snackbar open={snackOpen} autoHideDuration={5000} onClose={() => setSnackOpen(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert severity="success" onClose={() => setSnackOpen(false)}>{snackMsg}</Alert>
+      </Snackbar>
     </Box>
   );
 };
