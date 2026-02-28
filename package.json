@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Sudan National Digital Identity System - OID-based government portal",
   "private": true,
-  "homepage": "https://Fadil369.github.io/sudan",
+  "homepage": "https://sudan-gov.pages.dev",
   "author": {
     "name": "Sudan Digital Transformation Initiative",
     "email": "digital@sd.brainsait.com",
@@ -126,7 +126,16 @@
     "analyze": "npm run build && npx serve -s build",
     "prepare": "husky install",
     "precommit": "lint-staged",
-    "validate": "npm run lint:check && npm run format:check && npm run typecheck && npm run test:ci"
+    "validate": "npm run lint:check && npm run format:check && npm run typecheck && npm run test:ci",
+    "worker:dev": "wrangler dev api/index.js",
+    "worker:deploy": "wrangler deploy",
+    "worker:tail": "wrangler tail",
+    "d1:migrate": "wrangler d1 execute sudan-gov-main --file=./database/migrations/001_initial.sql",
+    "d1:console": "wrangler d1 execute sudan-gov-main --command",
+    "kv:list": "wrangler kv:key list --binding=CACHE",
+    "pages:dev": "wrangler pages dev build --compatibility-date=2024-01-01",
+    "pages:deploy": "wrangler pages deploy build --project-name=sudan-gov",
+    "build:pages": "CI=false GENERATE_SOURCEMAP=false react-scripts build"
   },
   "browserslist": {
     "production": [

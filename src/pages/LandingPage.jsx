@@ -19,9 +19,6 @@ import {
   Building2,
   Landmark,
   Wheat,
-  Zap,
-  Users,
-  BarChart3,
   ArrowRight,
   ExternalLink,
 } from 'lucide-react';
@@ -41,7 +38,7 @@ const slides = [
     descriptionAr:
       'هويات رقمية معتمدة بالقياسات الحيوية لكل مواطن سوداني، مرتبطة بنطاق OID موحد.',
     oid: '1.3.6.1.4.1.61026.2',
-    color: '#6366f1',
+    color: '#1B3A5C',
     stat: '42M+',
     statLabel: 'Citizens',
     statLabelAr: 'مواطن',
@@ -58,7 +55,7 @@ const slides = [
     descriptionAr:
       'سجلات صحية إلكترونية متكاملة عبر المستشفيات والعيادات لمراقبة الأوبئة.',
     oid: '1.3.6.1.4.1.61026.5',
-    color: '#10b981',
+    color: '#007A3D',
     stat: '8,500+',
     statLabel: 'Facilities',
     statLabelAr: 'منشأة',
@@ -75,7 +72,7 @@ const slides = [
     descriptionAr:
       'تتبع شفاف لتراخيص التعدين والأصول الاقتصادية ومخصصات مياه النيل.',
     oid: '1.3.6.1.4.1.61026.4',
-    color: '#f59e0b',
+    color: '#7A4B0A',
     stat: '$12B+',
     statLabel: 'Assets Tracked',
     statLabelAr: 'أصول مُتتبَّعة',
@@ -92,7 +89,7 @@ const slides = [
     descriptionAr:
       'رقمنة شاملة لجميع الوزارات الحكومية عبر بوابة مواطن واحدة.',
     oid: '1.3.6.1.4.1.61026.1',
-    color: '#3b82f6',
+    color: '#1B3A5C',
     stat: '11',
     statLabel: 'Ministries',
     statLabelAr: 'وزارة',
@@ -109,7 +106,7 @@ const slides = [
     descriptionAr:
       'مراقبة ذكية لمشروع الجزيرة الزراعي بأجهزة استشعار وبيانات أقمار اصطناعية.',
     oid: '1.3.6.1.4.1.61026.6',
-    color: '#84cc16',
+    color: '#1D6330',
     stat: '2.2M',
     statLabel: 'Feddan',
     statLabelAr: 'فدان',
@@ -126,7 +123,7 @@ const slides = [
     descriptionAr:
       'تحليلات مدعومة بالذكاء الاصطناعي لتوقع الطلب والكشف عن الاحتيال.',
     oid: '1.3.6.1.4.1.61026.8',
-    color: '#ec4899',
+    color: '#1B3A5C',
     stat: '99.9%',
     statLabel: 'Uptime',
     statLabelAr: 'وقت التشغيل',
@@ -522,7 +519,7 @@ const LandingPage = () => {
     alignItems: 'center',
     gap: 8,
     padding: '14px 28px',
-    background: '#2563eb',
+    background: '#1B3A5C',
     color: '#fff',
     border: 'none',
     borderRadius: 12,
@@ -666,20 +663,28 @@ const LandingPage = () => {
         {isMenuOpen && (
           <div style={{ background: '#fff', borderTop: '1px solid #e2e8f0', padding: 16 }}>
             {t.nav.map((item) => (
-              <a
+              <button
                 key={item}
-                href="#"
+                onClick={() => setIsMenuOpen(false)}
                 style={{
                   display: 'block',
+                  width: '100%',
                   padding: '12px 0',
                   borderBottom: '1px solid #f1f5f9',
+                  borderLeft: 'none',
+                  borderRight: 'none',
+                  borderTop: 'none',
+                  background: 'none',
                   color: '#334155',
+                  textAlign: 'start',
                   textDecoration: 'none',
                   fontWeight: 500,
+                  cursor: 'pointer',
+                  fontSize: 15,
                 }}
               >
                 {item}
-              </a>
+              </button>
             ))}
             <button
               onClick={() => navigate('/portal')}
@@ -723,9 +728,9 @@ const LandingPage = () => {
                 gap: 8,
                 padding: '6px 16px',
                 borderRadius: 999,
-                background: 'rgba(99,102,241,0.2)',
-                border: '1px solid rgba(99,102,241,0.4)',
-                color: '#a5b4fc',
+                background: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.25)',
+                color: 'rgba(255,255,255,0.85)',
                 fontSize: 13,
                 fontWeight: 700,
                 marginBottom: 24,
@@ -766,7 +771,7 @@ const LandingPage = () => {
                 { value: '99.9%', label: lang === 'ar' ? 'وقت التشغيل' : 'Uptime' },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <div style={{ fontSize: '2rem', fontWeight: 900, color: '#6366f1' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 900, color: '#1B3A5C' }}>
                     {stat.value}
                   </div>
                   <div style={{ color: '#64748b', fontSize: 13, fontWeight: 500 }}>{stat.label}</div>
@@ -808,12 +813,12 @@ const LandingPage = () => {
                 gap: 6,
                 padding: '4px 14px',
                 borderRadius: 999,
-                background: '#eff6ff',
-                color: '#2563eb',
+                background: '#EEF2F7',
+                color: '#1B3A5C',
                 fontSize: 12,
                 fontWeight: 700,
                 marginBottom: 16,
-                border: '1px solid #bfdbfe',
+                border: '1px solid #D1D9E0',
               }}
             >
               <Cpu size={13} />
@@ -831,7 +836,7 @@ const LandingPage = () => {
                 gap: 10,
               }}
             >
-              <Info size={24} color="#2563eb" />
+              <Info size={24} color="#1B3A5C" />
               {t.corePurpose}
             </h2>
             <p style={{ color: '#475569', lineHeight: 1.8, marginBottom: 20, fontSize: '1rem' }}>
@@ -841,11 +846,11 @@ const LandingPage = () => {
               style={{
                 fontWeight: 600,
                 color: '#1e293b',
-                borderLeft: '4px solid #2563eb',
+                borderLeft: '4px solid #C8102E',
                 paddingLeft: 16,
                 margin: '0 0 32px',
                 lineHeight: 1.6,
-                ...(t.dir === 'rtl' ? { borderLeft: 'none', borderRight: '4px solid #2563eb', paddingLeft: 0, paddingRight: 16 } : {}),
+                ...(t.dir === 'rtl' ? { borderLeft: 'none', borderRight: '4px solid #C8102E', paddingLeft: 0, paddingRight: 16 } : {}),
               }}
             >
               {t.founderVision}
@@ -867,7 +872,7 @@ const LandingPage = () => {
                     boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
                   }}
                 >
-                  <Icon size={24} color="#2563eb" style={{ marginBottom: 12 }} />
+                  <Icon size={24} color="#1B3A5C" style={{ marginBottom: 12 }} />
                   <div style={{ fontWeight: 700, fontSize: 13, fontFamily: 'monospace', color: '#1e293b', marginBottom: 4 }}>
                     {oid}
                   </div>
@@ -894,7 +899,7 @@ const LandingPage = () => {
               color: '#94a3b8',
             }}
           >
-            <Globe size={80} color="#6366f1" strokeWidth={1} />
+            <Globe size={80} color="#1B3A5C" strokeWidth={1} />
             <div style={{ fontSize: 14, textAlign: 'center', color: '#475569' }}>
               {lang === 'ar' ? 'السودان الرقمي' : 'Digital Sudan'}
             </div>
@@ -916,7 +921,7 @@ const LandingPage = () => {
               style={{
                 width: 80,
                 height: 4,
-                background: '#6366f1',
+                background: '#C8102E',
                 margin: '0 auto',
                 borderRadius: 2,
               }}
@@ -943,7 +948,7 @@ const LandingPage = () => {
                   color: '#e2e8f0',
                 }}
               >
-                <Play size={20} color="#6366f1" />
+                <Play size={20} color="#1B3A5C" />
                 {t.videoLabel}
               </h3>
               <div
@@ -994,7 +999,7 @@ const LandingPage = () => {
                   color: '#e2e8f0',
                 }}
               >
-                <Volume2 size={20} color="#6366f1" />
+                <Volume2 size={20} color="#1B3A5C" />
                 {t.audioLabel}
               </h3>
               <div
@@ -1146,7 +1151,7 @@ const LandingPage = () => {
                       style={{
                         padding: '14px 24px',
                         fontFamily: 'monospace',
-                        color: '#2563eb',
+                        color: '#1B3A5C',
                         fontSize: 13,
                         fontWeight: 600,
                       }}
@@ -1209,7 +1214,7 @@ const LandingPage = () => {
               : 'Access the comprehensive digital government portal of the Republic of Sudan.'}
           </p>
           <button
-            style={{ ...btnPrimary, background: '#fff', color: '#2563eb', fontSize: 16 }}
+            style={{ ...btnPrimary, background: '#fff', color: '#1B3A5C', fontSize: 16 }}
             onClick={() => navigate('/portal')}
           >
             {t.enterPortal}
