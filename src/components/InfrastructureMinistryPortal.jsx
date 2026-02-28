@@ -51,11 +51,11 @@ const InfrastructureMinistryPortal = ({ language = 'en' }) => {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Card sx={{ height: '100%', backgroundColor: '#f3e5f5' }}>
+        <Card sx={{ height: '100%', bgcolor: '#F3E8FF', border: '1px solid #DDD6FE', borderTop: '3px solid #3D1F8C' }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <RoadIcon sx={{ fontSize: 40, color: '#8e24aa', mr: 2 }} />
-              <Typography variant="h4" color="#8e24aa">
+              <RoadIcon sx={{ fontSize: 36, color: '#3D1F8C', mr: 2 }} />
+              <Typography variant="h4" color="#3D1F8C" fontWeight={700}>
                 {infrastructureData.roadNetwork.toLocaleString()} km
               </Typography>
             </Box>
@@ -67,11 +67,11 @@ const InfrastructureMinistryPortal = ({ language = 'en' }) => {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Card sx={{ height: '100%', backgroundColor: '#e1f5fe' }}>
+        <Card sx={{ height: '100%', bgcolor: '#EFF6FF', border: '1px solid #BFDBFE', borderTop: '3px solid #1B3A5C' }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <LocationIcon sx={{ fontSize: 40, color: '#0277bd', mr: 2 }} />
-              <Typography variant="h4" color="#0277bd">
+              <LocationIcon sx={{ fontSize: 36, color: '#1B3A5C', mr: 2 }} />
+              <Typography variant="h4" color="#1B3A5C" fontWeight={700}>
                 {infrastructureData.bridges.toLocaleString()}
               </Typography>
             </Box>
@@ -88,7 +88,7 @@ const InfrastructureMinistryPortal = ({ language = 'en' }) => {
     <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
       <Paper elevation={3} sx={{ p: 3 }}>
         <Box display="flex" alignItems="center" mb={4}>
-          <InfrastructureIcon sx={{ fontSize: 48, color: 'primary.main', mr: 2 }} />
+          <InfrastructureIcon sx={{ fontSize: 40, color: '#3D1F8C', mr: 2 }} />
           <Box>
             <Typography
               variant="h3"
@@ -96,7 +96,7 @@ const InfrastructureMinistryPortal = ({ language = 'en' }) => {
               sx={{
                 fontSize: accessibility.fontSize === 'large' ? '3rem' : '2.5rem',
                 fontWeight: 'bold',
-                color: 'primary.main'
+                color: '#3D1F8C'
               }}
             >
               {isRTL ? 'وزارة البنية التحتية' : 'Ministry of Infrastructure'}

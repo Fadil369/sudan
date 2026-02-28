@@ -43,14 +43,14 @@ const EducationMinistryPortal = ({ language = 'en' }) => {
       schools: 'Schools Nationwide', students: 'Enrolled Students', teachers: 'Qualified Teachers', universities: 'Universities',
       services: 'Educational Services',
       serviceItems: [
-        { id: 'cert_verify', icon: <EmojiEvents />, label: 'Certificate Verification', desc: 'Verify authenticity of educational certificates and degrees', color: '#0ea5e9' },
-        { id: 'enrollment', icon: <School />, label: 'School Enrollment', desc: 'Enroll children in public schools for the upcoming academic year', color: '#10b981' },
-        { id: 'exam_results', icon: <Assignment />, label: 'Exam Results', desc: 'Access Sudan Certificate and Basic Education exam results', color: '#6366f1' },
-        { id: 'scholarship', icon: <EmojiEvents />, label: 'Scholarships', desc: 'Apply for government scholarships and study grants', color: '#f59e0b' },
-        { id: 'transcript', icon: <MenuBook />, label: 'Academic Transcripts', desc: 'Request official academic transcripts from institutions', color: '#ec4899' },
-        { id: 'teacher_reg', icon: <People />, label: 'Teacher Registration', desc: 'Register as a certified teacher or renew your teaching license', color: '#22c55e' },
-        { id: 'uni_apply', icon: <Science />, label: 'University Admission', desc: 'Apply for undergraduate or postgraduate university programmes', color: '#a855f7' },
-        { id: 'distance', icon: <MenuBook />, label: 'Distance Learning', desc: 'Access online and distance learning programmes', color: '#ef4444' },
+        { id: 'cert_verify', icon: <EmojiEvents />, label: 'Certificate Verification', desc: 'Verify authenticity of educational certificates and degrees', color: '#2B2FA8' },
+        { id: 'enrollment', icon: <School />, label: 'School Enrollment', desc: 'Enroll children in public schools for the upcoming academic year', color: '#2B2FA8' },
+        { id: 'exam_results', icon: <Assignment />, label: 'Exam Results', desc: 'Access Sudan Certificate and Basic Education exam results', color: '#2B2FA8' },
+        { id: 'scholarship', icon: <EmojiEvents />, label: 'Scholarships', desc: 'Apply for government scholarships and study grants', color: '#2B2FA8' },
+        { id: 'transcript', icon: <MenuBook />, label: 'Academic Transcripts', desc: 'Request official academic transcripts from institutions', color: '#2B2FA8' },
+        { id: 'teacher_reg', icon: <People />, label: 'Teacher Registration', desc: 'Register as a certified teacher or renew your teaching license', color: '#2B2FA8' },
+        { id: 'uni_apply', icon: <Science />, label: 'University Admission', desc: 'Apply for undergraduate or postgraduate university programmes', color: '#2B2FA8' },
+        { id: 'distance', icon: <MenuBook />, label: 'Distance Learning', desc: 'Access online and distance learning programmes', color: '#2B2FA8' },
       ],
       apply: 'Apply Now',
       download: 'Download Form',
@@ -62,14 +62,14 @@ const EducationMinistryPortal = ({ language = 'en' }) => {
       schools: 'المدارس في الوطن', students: 'الطلاب الملتحقون', teachers: 'المعلمون المؤهلون', universities: 'الجامعات',
       services: 'الخدمات التعليمية',
       serviceItems: [
-        { id: 'cert_verify', icon: <EmojiEvents />, label: 'التحقق من الشهادات', desc: 'التحقق من صحة الشهادات والدرجات العلمية', color: '#0ea5e9' },
-        { id: 'enrollment', icon: <School />, label: 'التسجيل المدرسي', desc: 'تسجيل الأطفال في المدارس الحكومية للعام الدراسي القادم', color: '#10b981' },
-        { id: 'exam_results', icon: <Assignment />, label: 'نتائج الامتحانات', desc: 'الاطلاع على نتائج شهادة السودان والتعليم الأساسي', color: '#6366f1' },
-        { id: 'scholarship', icon: <EmojiEvents />, label: 'المنح الدراسية', desc: 'التقدم للمنح الحكومية وبدلات الدراسة', color: '#f59e0b' },
-        { id: 'transcript', icon: <MenuBook />, label: 'كشف الدرجات', desc: 'طلب كشوف الدرجات الأكاديمية الرسمية من المؤسسات', color: '#ec4899' },
-        { id: 'teacher_reg', icon: <People />, label: 'تسجيل المعلمين', desc: 'التسجيل كمعلم معتمد أو تجديد رخصة التدريس', color: '#22c55e' },
-        { id: 'uni_apply', icon: <Science />, label: 'القبول الجامعي', desc: 'التقدم لبرامج البكالوريوس أو الدراسات العليا', color: '#a855f7' },
-        { id: 'distance', icon: <MenuBook />, label: 'التعلم عن بعد', desc: 'الوصول إلى برامج التعلم الإلكتروني والتعليم عن بعد', color: '#ef4444' },
+        { id: 'cert_verify', icon: <EmojiEvents />, label: 'التحقق من الشهادات', desc: 'التحقق من صحة الشهادات والدرجات العلمية', color: '#2B2FA8' },
+        { id: 'enrollment', icon: <School />, label: 'التسجيل المدرسي', desc: 'تسجيل الأطفال في المدارس الحكومية للعام الدراسي القادم', color: '#2B2FA8' },
+        { id: 'exam_results', icon: <Assignment />, label: 'نتائج الامتحانات', desc: 'الاطلاع على نتائج شهادة السودان والتعليم الأساسي', color: '#2B2FA8' },
+        { id: 'scholarship', icon: <EmojiEvents />, label: 'المنح الدراسية', desc: 'التقدم للمنح الحكومية وبدلات الدراسة', color: '#2B2FA8' },
+        { id: 'transcript', icon: <MenuBook />, label: 'كشف الدرجات', desc: 'طلب كشوف الدرجات الأكاديمية الرسمية من المؤسسات', color: '#2B2FA8' },
+        { id: 'teacher_reg', icon: <People />, label: 'تسجيل المعلمين', desc: 'التسجيل كمعلم معتمد أو تجديد رخصة التدريس', color: '#2B2FA8' },
+        { id: 'uni_apply', icon: <Science />, label: 'القبول الجامعي', desc: 'التقدم لبرامج البكالوريوس أو الدراسات العليا', color: '#2B2FA8' },
+        { id: 'distance', icon: <MenuBook />, label: 'التعلم عن بعد', desc: 'الوصول إلى برامج التعلم الإلكتروني والتعليم عن بعد', color: '#2B2FA8' },
       ],
       apply: 'قدّم الآن',
       download: 'تنزيل النموذج',
@@ -79,10 +79,10 @@ const EducationMinistryPortal = ({ language = 'en' }) => {
   const txt = t[language] || t.en;
 
   const stats = [
-    { label: txt.schools, value: '17,420', color: '#0ea5e9', progress: 87 },
-    { label: txt.students, value: '10.2M', color: '#10b981', progress: 68 },
-    { label: txt.teachers, value: '285K', color: '#f59e0b', progress: 74 },
-    { label: txt.universities, value: '75', color: '#a855f7', progress: 90 },
+    { label: txt.schools, value: '17,420', color: '#2B2FA8', progress: 87 },
+    { label: txt.students, value: '10.2M', color: '#2B2FA8', progress: 68 },
+    { label: txt.teachers, value: '285K', color: '#2B2FA8', progress: 74 },
+    { label: txt.universities, value: '75', color: '#2B2FA8', progress: 90 },
   ];
 
   const handleApply = (service) => {
@@ -96,10 +96,10 @@ const EducationMinistryPortal = ({ language = 'en' }) => {
   return (
     <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, mb: 1 }}>
+        <Typography variant="h4" sx={{ color: '#111827', fontWeight: 700, mb: 1 }}>
           {txt.title}
         </Typography>
-        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace' }}>
+        <Typography variant="body2" sx={{ color: '#6B7280', fontFamily: 'monospace' }}>
           {txt.subtitle}
         </Typography>
       </Box>
@@ -107,10 +107,10 @@ const EducationMinistryPortal = ({ language = 'en' }) => {
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {stats.map((s) => (
           <Grid item xs={6} md={3} key={s.label}>
-            <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #E5E7EB' }}>
               <CardContent>
                 <Typography variant="h4" sx={{ color: s.color, fontWeight: 700 }}>{s.value}</Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>{s.label}</Typography>
+                <Typography variant="body2" sx={{ color: '#6B7280', mb: 1 }}>{s.label}</Typography>
                 <LinearProgress variant="determinate" value={s.progress}
                   sx={{ height: 6, borderRadius: 3, bgcolor: 'rgba(255,255,255,0.1)', '& .MuiLinearProgress-bar': { bgcolor: s.color } }} />
               </CardContent>
@@ -119,7 +119,7 @@ const EducationMinistryPortal = ({ language = 'en' }) => {
         ))}
       </Grid>
 
-      <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.95)', mb: 2, fontWeight: 600 }}>{txt.services}</Typography>
+      <Typography variant="h6" sx={{ color: '#111827', mb: 2, fontWeight: 600 }}>{txt.services}</Typography>
       <Grid container spacing={2}>
         {txt.serviceItems.map((service) => (
           <Grid item xs={12} sm={6} md={3} key={service.id}>
@@ -133,8 +133,8 @@ const EducationMinistryPortal = ({ language = 'en' }) => {
             >
               <CardContent>
                 <Box sx={{ color: service.color, mb: 1 }}>{service.icon}</Box>
-                <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, mb: 0.5 }}>{service.label}</Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem' }}>{service.desc}</Typography>
+                <Typography variant="subtitle2" sx={{ color: '#111827', fontWeight: 600, mb: 0.5 }}>{service.label}</Typography>
+                <Typography variant="body2" sx={{ color: '#6B7280', fontSize: '0.78rem' }}>{service.desc}</Typography>
               </CardContent>
             </Card>
           </Grid>

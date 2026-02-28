@@ -22,12 +22,12 @@ const JusticeMinistryPortal = ({ language = 'en' }) => {
       courts: 'Courts Nationwide', cases: 'Cases This Year', resolved: 'Resolution Rate', lawyers: 'Licensed Lawyers',
       services: 'Legal Services',
       serviceItems: [
-        { id: 'case_status', icon: <Assignment />, label: 'Case Status Lookup', desc: 'Track the status of your court case by case number', color: '#0ea5e9' },
-        { id: 'legal_aid', icon: <People />, label: 'Legal Aid Application', desc: 'Apply for free legal representation if you cannot afford a lawyer', color: '#10b981' },
-        { id: 'birth_reg', icon: <Article />, label: 'Document Authentication', desc: 'Authenticate official documents for legal use', color: '#6366f1' },
-        { id: 'court_fees', icon: <Security />, label: 'Court Fee Payment', desc: 'Pay court filing fees and service charges online', color: '#f59e0b' },
-        { id: 'notary', icon: <LibraryBooks />, label: 'Notary Services', desc: 'Access notary public services for legal documents', color: '#ec4899' },
-        { id: 'legal_db', icon: <LibraryBooks />, label: 'Legal Database', desc: 'Access Sudan legal codes, regulations, and court precedents', color: '#22c55e' },
+        { id: 'case_status', icon: <Assignment />, label: 'Case Status Lookup', desc: 'Track the status of your court case by case number', color: '#8B1A1A' },
+        { id: 'legal_aid', icon: <People />, label: 'Legal Aid Application', desc: 'Apply for free legal representation if you cannot afford a lawyer', color: '#8B1A1A' },
+        { id: 'birth_reg', icon: <Article />, label: 'Document Authentication', desc: 'Authenticate official documents for legal use', color: '#8B1A1A' },
+        { id: 'court_fees', icon: <Security />, label: 'Court Fee Payment', desc: 'Pay court filing fees and service charges online', color: '#8B1A1A' },
+        { id: 'notary', icon: <LibraryBooks />, label: 'Notary Services', desc: 'Access notary public services for legal documents', color: '#8B1A1A' },
+        { id: 'legal_db', icon: <LibraryBooks />, label: 'Legal Database', desc: 'Access Sudan legal codes, regulations, and court precedents', color: '#8B1A1A' },
       ],
       apply: 'Apply Now',
       download: 'Download Form',
@@ -39,12 +39,12 @@ const JusticeMinistryPortal = ({ language = 'en' }) => {
       courts: 'المحاكم الوطنية', cases: 'القضايا هذا العام', resolved: 'معدل الحسم', lawyers: 'المحامون المرخصون',
       services: 'الخدمات القانونية',
       serviceItems: [
-        { id: 'case_status', icon: <Assignment />, label: 'متابعة القضية', desc: 'تتبع حالة قضيتك في المحكمة برقم القضية', color: '#0ea5e9' },
-        { id: 'legal_aid', icon: <People />, label: 'طلب المساعدة القانونية', desc: 'التقدم للتمثيل القانوني المجاني إذا لم تستطع تحمّل تكاليف محامٍ', color: '#10b981' },
-        { id: 'birth_reg', icon: <Article />, label: 'توثيق الوثائق', desc: 'توثيق الوثائق الرسمية للاستخدام القانوني', color: '#6366f1' },
-        { id: 'court_fees', icon: <Security />, label: 'دفع رسوم المحكمة', desc: 'دفع رسوم التقاضي والخدمات القضائية إلكترونياً', color: '#f59e0b' },
-        { id: 'notary', icon: <LibraryBooks />, label: 'خدمات كاتب العدل', desc: 'الوصول إلى خدمات كاتب العدل للوثائق القانونية', color: '#ec4899' },
-        { id: 'legal_db', icon: <LibraryBooks />, label: 'قاعدة البيانات القانونية', desc: 'الوصول إلى قوانين السودان واللوائح وسوابق المحاكم', color: '#22c55e' },
+        { id: 'case_status', icon: <Assignment />, label: 'متابعة القضية', desc: 'تتبع حالة قضيتك في المحكمة برقم القضية', color: '#8B1A1A' },
+        { id: 'legal_aid', icon: <People />, label: 'طلب المساعدة القانونية', desc: 'التقدم للتمثيل القانوني المجاني إذا لم تستطع تحمّل تكاليف محامٍ', color: '#8B1A1A' },
+        { id: 'birth_reg', icon: <Article />, label: 'توثيق الوثائق', desc: 'توثيق الوثائق الرسمية للاستخدام القانوني', color: '#8B1A1A' },
+        { id: 'court_fees', icon: <Security />, label: 'دفع رسوم المحكمة', desc: 'دفع رسوم التقاضي والخدمات القضائية إلكترونياً', color: '#8B1A1A' },
+        { id: 'notary', icon: <LibraryBooks />, label: 'خدمات كاتب العدل', desc: 'الوصول إلى خدمات كاتب العدل للوثائق القانونية', color: '#8B1A1A' },
+        { id: 'legal_db', icon: <LibraryBooks />, label: 'قاعدة البيانات القانونية', desc: 'الوصول إلى قوانين السودان واللوائح وسوابق المحاكم', color: '#8B1A1A' },
       ],
       apply: 'قدّم الآن',
       download: 'تنزيل النموذج',
@@ -54,10 +54,10 @@ const JusticeMinistryPortal = ({ language = 'en' }) => {
   const txt = t[language] || t.en;
 
   const stats = [
-    { label: txt.courts, value: '439', color: '#0ea5e9', progress: 80 },
-    { label: txt.cases, value: '38,500', color: '#f59e0b', progress: 65 },
-    { label: txt.resolved, value: '85.7%', color: '#10b981', progress: 86 },
-    { label: txt.lawyers, value: '12,500', color: '#a855f7', progress: 72 },
+    { label: txt.courts, value: '439', color: '#8B1A1A', progress: 80 },
+    { label: txt.cases, value: '38,500', color: '#8B1A1A', progress: 65 },
+    { label: txt.resolved, value: '85.7%', color: '#8B1A1A', progress: 86 },
+    { label: txt.lawyers, value: '12,500', color: '#8B1A1A', progress: 72 },
   ];
 
   const handleApply = (svc) => {
@@ -69,16 +69,16 @@ const JusticeMinistryPortal = ({ language = 'en' }) => {
   return (
     <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, mb: 1 }}>{txt.title}</Typography>
-        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace' }}>{txt.subtitle}</Typography>
+        <Typography variant="h4" sx={{ color: '#111827', fontWeight: 700, mb: 1 }}>{txt.title}</Typography>
+        <Typography variant="body2" sx={{ color: '#6B7280', fontFamily: 'monospace' }}>{txt.subtitle}</Typography>
       </Box>
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {stats.map((s) => (
           <Grid item xs={6} md={3} key={s.label}>
-            <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid #E5E7EB' }}>
               <CardContent>
                 <Typography variant="h4" sx={{ color: s.color, fontWeight: 700 }}>{s.value}</Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>{s.label}</Typography>
+                <Typography variant="body2" sx={{ color: '#6B7280', mb: 1 }}>{s.label}</Typography>
                 <LinearProgress variant="determinate" value={s.progress}
                   sx={{ height: 6, borderRadius: 3, bgcolor: 'rgba(255,255,255,0.1)', '& .MuiLinearProgress-bar': { bgcolor: s.color } }} />
               </CardContent>
@@ -86,15 +86,15 @@ const JusticeMinistryPortal = ({ language = 'en' }) => {
           </Grid>
         ))}
       </Grid>
-      <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.95)', mb: 2, fontWeight: 600 }}>{txt.services}</Typography>
+      <Typography variant="h6" sx={{ color: '#111827', mb: 2, fontWeight: 600 }}>{txt.services}</Typography>
       <Grid container spacing={2}>
         {txt.serviceItems.map((service) => (
           <Grid item xs={12} sm={6} md={4} key={service.id}>
             <Card sx={{ background: `linear-gradient(135deg, ${service.color}15, ${service.color}05)`, border: `1px solid ${service.color}30`, cursor: 'pointer', transition: 'all 0.2s', '&:hover': { transform: 'translateY(-2px)', borderColor: service.color } }} onClick={() => setServiceDialog(service)}>
               <CardContent>
                 <Box sx={{ color: service.color, mb: 1 }}>{service.icon}</Box>
-                <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, mb: 0.5 }}>{service.label}</Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem' }}>{service.desc}</Typography>
+                <Typography variant="subtitle2" sx={{ color: '#111827', fontWeight: 600, mb: 0.5 }}>{service.label}</Typography>
+                <Typography variant="body2" sx={{ color: '#6B7280', fontSize: '0.78rem' }}>{service.desc}</Typography>
               </CardContent>
             </Card>
           </Grid>

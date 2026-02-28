@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Box, Card, CardContent, Typography, Grid, Button, TextField,
-  LinearProgress, Alert, Snackbar, Divider, List, ListItem,
+  Alert, Snackbar, Divider, List, ListItem,
   ListItemIcon, ListItemText, Dialog, DialogTitle, DialogContent,
   DialogActions, Chip, Tab, Tabs, Paper, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, Stepper, Step,
@@ -11,54 +11,17 @@ import {
   LocalHospital, MedicalServices, Vaccines, HealthAndSafety,
   MonitorHeart, CrisisAlert, Person, Phone, VideoCall, Science,
   Medication, FamilyRestroom, CheckCircle, Download, Search,
-  CalendarMonth, Star, ArrowForward, Warning, Info,
+  CalendarMonth, Warning, Info,
 } from '@mui/icons-material';
+import { GovStatCard, GovServiceCard, GOV_NAVY, GOV_RED } from './GovCard';
+
+/* Health ministry primary colour and secondary colours */
+const H  = '#006B45';   /* health green */
+const N  = GOV_NAVY;    /* navy (admin) */
+const ER = GOV_RED;     /* emergency red */
 
 function TabPanel({ children, value, index }) {
   return value === index ? <Box sx={{ pt: 3 }}>{children}</Box> : null;
-}
-
-function StatCard({ value, label, color, progress, icon }) {
-  return (
-    <Card sx={{ background: `linear-gradient(135deg, ${color}18 0%, ${color}06 100%)`, border: `1px solid ${color}30`, height: '100%' }}>
-      <CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, gap: 1 }}>
-          <Box sx={{ color, opacity: 0.8 }}>{icon}</Box>
-          <Typography variant="h4" sx={{ color, fontWeight: 700 }}>{value}</Typography>
-        </Box>
-        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1.5 }}>{label}</Typography>
-        {progress !== undefined && (
-          <LinearProgress variant="determinate" value={progress}
-            sx={{ height: 5, borderRadius: 3, bgcolor: 'rgba(255,255,255,0.1)', '& .MuiLinearProgress-bar': { bgcolor: color } }} />
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-function ServiceCard({ service, onClick }) {
-  return (
-    <Card onClick={onClick} sx={{
-      background: `linear-gradient(135deg, ${service.color}15 0%, ${service.color}05 100%)`,
-      border: `1px solid ${service.color}30`, cursor: 'pointer', transition: 'all 0.2s ease', height: '100%',
-      '&:hover': { transform: 'translateY(-3px)', boxShadow: `0 8px 24px ${service.color}25`, borderColor: service.color },
-    }}>
-      <CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1 }}>
-          <Box sx={{ color: service.color, fontSize: 32 }}>{service.icon}</Box>
-          {service.badge && (
-            <Chip label={service.badge} size="small" sx={{ bgcolor: `${service.color}20`, color: service.color, fontWeight: 700, fontSize: '0.65rem' }} />
-          )}
-        </Box>
-        <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, mb: 0.5 }}>{service.label}</Typography>
-        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem', lineHeight: 1.5 }}>{service.desc}</Typography>
-        <Box sx={{ mt: 1.5, display: 'flex', alignItems: 'center', gap: 0.5, color: service.color }}>
-          <Typography variant="caption" sx={{ fontWeight: 600 }}>{service.cta || 'Apply Now'}</Typography>
-          <ArrowForward sx={{ fontSize: 12 }} />
-        </Box>
-      </CardContent>
-    </Card>
-  );
 }
 
 const HealthMinistryPortal = ({ language = 'en' }) => {
@@ -112,37 +75,37 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
   };
 
   const serviceItems = [
-    { id: 'appointment', icon: <CalendarMonth />, label: isRTL ? 'حجز موعد' : 'Book Hospital Appointment', desc: isRTL ? 'حجز مواعيد في 680+ منشأة معتمدة' : 'Schedule appointments at 680+ accredited facilities', color: '#0ea5e9', badge: isRTL ? 'مجاني (NHIF)' : 'Free w/ NHIF', cta: isRTL ? 'احجز' : 'Book Now' },
-    { id: 'telemedicine', icon: <VideoCall />, label: isRTL ? 'استشارة عن بُعد' : 'Telemedicine Consultation', desc: isRTL ? 'استشر طبيباً عبر الإنترنت — متوسط انتظار 18 دقيقة' : 'Online doctor consultation — avg. 18 min wait', color: '#10b981', badge: isRTL ? 'متاح 24/7' : 'Online 24/7', cta: isRTL ? 'ابدأ' : 'Start' },
-    { id: 'nhif_enroll', icon: <HealthAndSafety />, label: isRTL ? 'التسجيل في التأمين الصحي' : 'NHIF Enrollment', desc: isRTL ? 'التسجيل في الصندوق القومي للتأمين الصحي' : 'Enroll in the National Health Insurance Fund', color: '#6366f1', badge: isRTL ? 'إلزامي 2025' : 'Mandatory 2025', cta: isRTL ? 'سجّل' : 'Enroll' },
-    { id: 'vaccine', icon: <Vaccines />, label: isRTL ? 'حجز تطعيم' : 'Vaccination Appointment', desc: isRTL ? 'مواعيد تطعيم للأطفال والبالغين' : 'EPI vaccines for children and adults (COVID, Flu, YF)', color: '#f59e0b', badge: isRTL ? 'مجاني' : 'Free', cta: isRTL ? 'احجز' : 'Book' },
-    { id: 'records', icon: <MedicalServices />, label: isRTL ? 'السجلات الطبية' : 'Medical Records Request', desc: isRTL ? 'طلب نسخ معتمدة من التاريخ الطبي ونتائج المختبر' : 'Request certified medical records, discharge summaries, lab results', color: '#a855f7', cta: isRTL ? 'اطلب' : 'Request' },
-    { id: 'lab', icon: <Science />, label: isRTL ? 'المختبرات والتشخيص' : 'Laboratory & Diagnostics', desc: isRTL ? 'حجز الفحوصات المخبرية والتصوير الطبي' : 'Book blood tests, PCR, imaging at public health labs', color: '#ec4899', cta: isRTL ? 'احجز' : 'Book Test' },
-    { id: 'medicine', icon: <Medication />, label: isRTL ? 'الأدوية الأساسية' : 'Essential Medicines', desc: isRTL ? 'التحقق من توافر الأدوية المدعومة' : 'Check subsidized medicine availability at nearby pharmacies', color: '#22c55e', cta: isRTL ? 'تحقق' : 'Check' },
-    { id: 'maternal', icon: <FamilyRestroom />, label: isRTL ? 'صحة الأم والطفل' : 'Maternal & Child Health', desc: isRTL ? 'التسجيل للرعاية السابقة للولادة والولادة الآمنة' : 'Antenatal care, safe delivery, and postnatal follow-up', color: '#f97316', cta: isRTL ? 'سجّل' : 'Register' },
-    { id: 'mental', icon: <MonitorHeart />, label: isRTL ? 'الصحة النفسية' : 'Mental Health Services', desc: isRTL ? 'إرشاد نفسي وبرامج إعادة التأهيل' : 'Counselling, psychiatric consultations, rehabilitation', color: '#64748b', cta: isRTL ? 'احصل على الدعم' : 'Get Support' },
-    { id: 'chronic', icon: <MedicalServices />, label: isRTL ? 'إدارة الأمراض المزمنة' : 'Chronic Disease Management', desc: isRTL ? 'إدارة السكري وارتفاع الضغط والربو' : 'Care plans for diabetes, hypertension, asthma, and more', color: '#0284c7', cta: isRTL ? 'التسجيل' : 'Enroll' },
-    { id: 'emergency_ref', icon: <CrisisAlert />, label: isRTL ? 'الإحالة الطارئة' : 'Emergency Referral', desc: isRTL ? 'خطاب إحالة ذو أولوية إلى مستشفيات الرعاية الثالثية' : 'Priority referral letters to tertiary hospitals', color: '#dc2626', badge: isRTL ? 'طارئ' : 'Urgent', cta: isRTL ? 'احصل على إحالة' : 'Get Referral' },
-    { id: 'organ', icon: <LocalHospital />, label: isRTL ? 'التبرع بالأعضاء' : 'Organ Donor Registration', desc: isRTL ? 'التسجيل كمتبرع بالأعضاء واستلام البطاقة' : 'Register as an organ donor and receive your donor card', color: '#7c3aed', cta: isRTL ? 'سجّل' : 'Register' },
+    { id: 'appointment', icon: <CalendarMonth />, label: isRTL ? 'حجز موعد' : 'Book Hospital Appointment', desc: isRTL ? 'حجز مواعيد في 680+ منشأة معتمدة' : 'Schedule appointments at 680+ accredited facilities', color: H, badge: isRTL ? 'مجاني (NHIF)' : 'Free w/ NHIF', cta: isRTL ? 'احجز' : 'Book Now' },
+    { id: 'telemedicine', icon: <VideoCall />, label: isRTL ? 'استشارة عن بُعد' : 'Telemedicine Consultation', desc: isRTL ? 'استشر طبيباً عبر الإنترنت — متوسط انتظار 18 دقيقة' : 'Online doctor consultation — avg. 18 min wait', color: H, badge: isRTL ? 'متاح 24/7' : 'Online 24/7', cta: isRTL ? 'ابدأ' : 'Start' },
+    { id: 'nhif_enroll', icon: <HealthAndSafety />, label: isRTL ? 'التسجيل في التأمين الصحي' : 'NHIF Enrollment', desc: isRTL ? 'التسجيل في الصندوق القومي للتأمين الصحي' : 'Enroll in the National Health Insurance Fund', color: N, badge: isRTL ? 'إلزامي 2025' : 'Mandatory 2025', cta: isRTL ? 'سجّل' : 'Enroll' },
+    { id: 'vaccine', icon: <Vaccines />, label: isRTL ? 'حجز تطعيم' : 'Vaccination Appointment', desc: isRTL ? 'مواعيد تطعيم للأطفال والبالغين' : 'EPI vaccines for children and adults (COVID, Flu, YF)', color: H, badge: isRTL ? 'مجاني' : 'Free', cta: isRTL ? 'احجز' : 'Book' },
+    { id: 'records', icon: <MedicalServices />, label: isRTL ? 'السجلات الطبية' : 'Medical Records Request', desc: isRTL ? 'طلب نسخ معتمدة من التاريخ الطبي ونتائج المختبر' : 'Request certified medical records, discharge summaries, lab results', color: N, cta: isRTL ? 'اطلب' : 'Request' },
+    { id: 'lab', icon: <Science />, label: isRTL ? 'المختبرات والتشخيص' : 'Laboratory & Diagnostics', desc: isRTL ? 'حجز الفحوصات المخبرية والتصوير الطبي' : 'Book blood tests, PCR, imaging at public health labs', color: H, cta: isRTL ? 'احجز' : 'Book Test' },
+    { id: 'medicine', icon: <Medication />, label: isRTL ? 'الأدوية الأساسية' : 'Essential Medicines', desc: isRTL ? 'التحقق من توافر الأدوية المدعومة' : 'Check subsidized medicine availability at nearby pharmacies', color: H, cta: isRTL ? 'تحقق' : 'Check' },
+    { id: 'maternal', icon: <FamilyRestroom />, label: isRTL ? 'صحة الأم والطفل' : 'Maternal & Child Health', desc: isRTL ? 'التسجيل للرعاية السابقة للولادة والولادة الآمنة' : 'Antenatal care, safe delivery, and postnatal follow-up', color: H, cta: isRTL ? 'سجّل' : 'Register' },
+    { id: 'mental', icon: <MonitorHeart />, label: isRTL ? 'الصحة النفسية' : 'Mental Health Services', desc: isRTL ? 'إرشاد نفسي وبرامج إعادة التأهيل' : 'Counselling, psychiatric consultations, rehabilitation', color: N, cta: isRTL ? 'احصل على الدعم' : 'Get Support' },
+    { id: 'chronic', icon: <MedicalServices />, label: isRTL ? 'إدارة الأمراض المزمنة' : 'Chronic Disease Management', desc: isRTL ? 'إدارة السكري وارتفاع الضغط والربو' : 'Care plans for diabetes, hypertension, asthma, and more', color: H, cta: isRTL ? 'التسجيل' : 'Enroll' },
+    { id: 'emergency_ref', icon: <CrisisAlert />, label: isRTL ? 'الإحالة الطارئة' : 'Emergency Referral', desc: isRTL ? 'خطاب إحالة ذو أولوية إلى مستشفيات الرعاية الثالثية' : 'Priority referral letters to tertiary hospitals', color: ER, badge: isRTL ? 'طارئ' : 'Urgent', cta: isRTL ? 'احصل على إحالة' : 'Get Referral' },
+    { id: 'organ', icon: <LocalHospital />, label: isRTL ? 'التبرع بالأعضاء' : 'Organ Donor Registration', desc: isRTL ? 'التسجيل كمتبرع بالأعضاء واستلام البطاقة' : 'Register as an organ donor and receive your donor card', color: N, cta: isRTL ? 'سجّل' : 'Register' },
   ];
 
   const overviewStats = [
-    { value: '735', label: isRTL ? 'المستشفيات والمرافق' : 'Hospitals & Facilities', color: '#0ea5e9', progress: 78, icon: <LocalHospital /> },
-    { value: '37,500', label: isRTL ? 'الأسرة الطبية' : 'Hospital Beds', color: '#10b981', progress: 62, icon: <MedicalServices /> },
-    { value: '18,500', label: isRTL ? 'الأطباء المسجلون' : 'Registered Doctors', color: '#f59e0b', progress: 44, icon: <Person /> },
-    { value: '38,400', label: isRTL ? 'الطاقم التمريضي' : 'Nursing Staff', color: '#a855f7', progress: 65, icon: <HealthAndSafety /> },
-    { value: '12M+', label: isRTL ? 'مشتركو التأمين الصحي' : 'NHIF Enrollees', color: '#6366f1', progress: 28, icon: <HealthAndSafety /> },
-    { value: '28.5%', label: isRTL ? 'التغطية الصحية' : 'Health Coverage', color: '#ec4899', progress: 29, icon: <MonitorHeart /> },
-    { value: '5,840', label: isRTL ? 'وحدات الرعاية الأولية' : 'PHC Units', color: '#22c55e', progress: 82, icon: <LocalHospital /> },
-    { value: '285K', label: isRTL ? 'استشارات طبية عن بُعد' : 'Teleconsultations (2024)', color: '#f97316', progress: 71, icon: <VideoCall /> },
+    { value: '735', label: isRTL ? 'المستشفيات والمرافق' : 'Hospitals & Facilities', color: H, progress: 78, icon: <LocalHospital /> },
+    { value: '37,500', label: isRTL ? 'الأسرة الطبية' : 'Hospital Beds', color: H, progress: 62, icon: <MedicalServices /> },
+    { value: '18,500', label: isRTL ? 'الأطباء المسجلون' : 'Registered Doctors', color: H, progress: 44, icon: <Person /> },
+    { value: '38,400', label: isRTL ? 'الطاقم التمريضي' : 'Nursing Staff', color: N, progress: 65, icon: <HealthAndSafety /> },
+    { value: '12M+', label: isRTL ? 'مشتركو التأمين الصحي' : 'NHIF Enrollees', color: N, progress: 28, icon: <HealthAndSafety /> },
+    { value: '28.5%', label: isRTL ? 'التغطية الصحية' : 'Health Coverage', color: H, progress: 29, icon: <MonitorHeart /> },
+    { value: '5,840', label: isRTL ? 'وحدات الرعاية الأولية' : 'PHC Units', color: H, progress: 82, icon: <LocalHospital /> },
+    { value: '285K', label: isRTL ? 'استشارات طبية عن بُعد' : 'Teleconsultations (2024)', color: H, progress: 71, icon: <VideoCall /> },
   ];
 
   const diseaseAlerts = [
-    { disease: 'Malaria', region: isRTL ? 'جميع الولايات' : 'All States', status: 'endemic', color: '#f97316' },
-    { disease: 'Dengue Fever', region: isRTL ? 'البحر الأحمر، كسلا' : 'Red Sea, Kassala', status: 'outbreak', color: '#dc2626' },
-    { disease: 'Cholera', region: isRTL ? 'دارفور، كردفان' : 'Darfur, Kordofan', status: 'alert', color: '#f59e0b' },
-    { disease: 'Tuberculosis', region: isRTL ? 'على المستوى الوطني' : 'Nationwide', status: 'endemic', color: '#f97316' },
-    { disease: 'Leishmaniasis', region: isRTL ? 'القضارف، النيل الأزرق' : 'Gedaref, Blue Nile', status: 'endemic', color: '#f97316' },
+    { disease: 'Malaria', region: isRTL ? 'جميع الولايات' : 'All States', status: 'endemic', color: H },
+    { disease: 'Dengue Fever', region: isRTL ? 'البحر الأحمر، كسلا' : 'Red Sea, Kassala', status: 'outbreak', color: ER },
+    { disease: 'Cholera', region: isRTL ? 'دارفور، كردفان' : 'Darfur, Kordofan', status: 'alert', color: H },
+    { disease: 'Tuberculosis', region: isRTL ? 'على المستوى الوطني' : 'Nationwide', status: 'endemic', color: H },
+    { disease: 'Leishmaniasis', region: isRTL ? 'القضارف، النيل الأزرق' : 'Gedaref, Blue Nile', status: 'endemic', color: H },
   ];
 
   const vaccineRows = [
@@ -248,7 +211,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
           </Box>
         </Box>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
-          {[{ label: isRTL ? 'متصل' : 'Online', color: '#10b981' }, { label: '★ 4.4/5', color: '#f59e0b' }, { label: isRTL ? 'عالي الأهمية' : 'High Priority', color: '#ef4444' }].map(c => (
+          {[{ label: isRTL ? 'متصل' : 'Online', color: H }, { label: '★ 4.4/5', color: H }, { label: isRTL ? 'عالي الأهمية' : 'High Priority', color: '#ef4444' }].map(c => (
             <Chip key={c.label} label={c.label} size="small" sx={{ bgcolor: `${c.color}20`, color: c.color, fontWeight: 700, border: `1px solid ${c.color}40` }} />
           ))}
         </Box>
@@ -257,7 +220,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
       {/* Tabs */}
       <Box sx={{ borderBottom: '1px solid rgba(255,255,255,0.1)', mb: 0 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} variant="scrollable" scrollButtons="auto"
-          sx={{ '& .MuiTab-root': { color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'none', fontSize: '0.88rem' }, '& .Mui-selected': { color: '#0ea5e9' }, '& .MuiTabs-indicator': { bgcolor: '#0ea5e9' } }}>
+          sx={{ '& .MuiTab-root': { color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'none', fontSize: '0.88rem' }, '& .Mui-selected': { color: H }, '& .MuiTabs-indicator': { bgcolor: H } }}>
           {txt.tabs.map((t, i) => <Tab key={i} label={t} />)}
         </Tabs>
       </Box>
@@ -265,7 +228,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
       {/* Tab 0 — Overview */}
       <TabPanel value={activeTab} index={0}>
         <Grid container spacing={2} sx={{ mb: 4 }}>
-          {overviewStats.map(s => <Grid item xs={6} sm={4} md={3} key={s.label}><StatCard {...s} /></Grid>)}
+          {overviewStats.map(s => <Grid item xs={6} sm={4} md={3} key={s.label}><GovStatCard {...s} /></Grid>)}
         </Grid>
         <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 700, mb: 2 }}>{txt.diseaseAlert}</Typography>
         <Grid container spacing={2} sx={{ mb: 4 }}>
@@ -290,19 +253,19 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
             <TextField placeholder={isRTL ? 'مثال: 102-456-789' : 'e.g. 102-456-789'} value={nhifSearch} onChange={e => setNhifSearch(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleNhifSearch()} size="small"
               sx={{ flex: 1, minWidth: 200, '& .MuiOutlinedInput-root': { color: 'rgba(255,255,255,0.9)', '& fieldset': { borderColor: 'rgba(255,255,255,0.2)' } } }} />
-            <Button variant="contained" startIcon={<Search />} onClick={handleNhifSearch} sx={{ bgcolor: '#6366f1', '&:hover': { bgcolor: '#4f46e5' } }}>{txt.nhifBtn}</Button>
+            <Button variant="contained" startIcon={<Search />} onClick={handleNhifSearch} sx={{ bgcolor: N, '&:hover': { bgcolor: '#4f46e5' } }}>{txt.nhifBtn}</Button>
           </Box>
           {nhifResult && (
             <Box sx={{ mt: 2, p: 2, background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                <CheckCircle sx={{ color: '#10b981' }} />
-                <Typography variant="subtitle2" sx={{ color: '#10b981', fontWeight: 700 }}>{isRTL ? 'مشترك نشط' : 'Active Member'}</Typography>
+                <CheckCircle sx={{ color: H }} />
+                <Typography variant="subtitle2" sx={{ color: H, fontWeight: 700 }}>{isRTL ? 'مشترك نشط' : 'Active Member'}</Typography>
               </Box>
               <Grid container spacing={1}>
                 {[[isRTL ? 'رقم العضوية' : 'Member ID', nhifResult.memberId], [isRTL ? 'الخطة' : 'Plan', nhifResult.plan], [isRTL ? 'تاريخ الانتهاء' : 'Expiry', nhifResult.expiryDate], [isRTL ? 'المنشآت المعتمدة' : 'Facilities', nhifResult.facilities]].map(([k, v]) => (
                   <Grid item xs={6} key={k}>
                     <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>{k}</Typography>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>{v}</Typography>
+                    <Typography variant="body2" sx={{ color: '#111827', fontWeight: 600 }}>{v}</Typography>
                   </Grid>
                 ))}
               </Grid>
@@ -317,7 +280,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
         <Grid container spacing={2}>
           {serviceItems.map(service => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={service.id}>
-              <ServiceCard service={service} onClick={() => setServiceDialog(service)} />
+              <GovServiceCard service={service} onClick={() => setServiceDialog(service)} />
             </Grid>
           ))}
         </Grid>
@@ -328,7 +291,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <Paper sx={{ p: 3, background: 'rgba(14,165,233,0.08)', border: '1px solid rgba(14,165,233,0.2)', borderRadius: 2 }}>
-              <Typography variant="h6" sx={{ color: '#0ea5e9', fontWeight: 700, mb: 2 }}>{isRTL ? 'حجز موعد جديد' : 'Book New Appointment'}</Typography>
+              <Typography variant="h6" sx={{ color: H, fontWeight: 700, mb: 2 }}>{isRTL ? 'حجز موعد جديد' : 'Book New Appointment'}</Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <FormControl fullWidth size="small">
@@ -354,7 +317,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
                     sx={{ '& .MuiOutlinedInput-root': { color: 'rgba(255,255,255,0.9)', '& fieldset': { borderColor: 'rgba(255,255,255,0.2)' } } }} />
                 </Grid>
                 <Grid item xs={12}>
-                  <Button fullWidth variant="contained" startIcon={<CalendarMonth />} sx={{ bgcolor: '#0ea5e9', '&:hover': { bgcolor: '#0284c7' } }}
+                  <Button fullWidth variant="contained" startIcon={<CalendarMonth />} sx={{ bgcolor: H, '&:hover': { bgcolor: H } }}
                     onClick={() => {
                       if (!aptSpecialty || !aptHospital || !aptDate) { showSnack(isRTL ? 'يرجى ملء جميع الحقول' : 'Please fill all fields', 'warning'); return; }
                       showSnack(isRTL ? `تم حجز الموعد! APT-${Date.now().toString().slice(-6)}` : `Appointment booked! Ref: APT-${Date.now().toString().slice(-6)}`);
@@ -381,14 +344,14 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
           <Grid item xs={12} md={5}>
             <Paper sx={{ p: 3, background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                <VideoCall sx={{ color: '#10b981', fontSize: 32 }} />
-                <Typography variant="h6" sx={{ color: '#10b981', fontWeight: 700 }}>{isRTL ? 'استشارة طبية فورية' : 'Instant Medical Consultation'}</Typography>
+                <VideoCall sx={{ color: H, fontSize: 32 }} />
+                <Typography variant="h6" sx={{ color: H, fontWeight: 700 }}>{isRTL ? 'استشارة طبية فورية' : 'Instant Medical Consultation'}</Typography>
               </Box>
               <Grid container spacing={1} sx={{ mb: 2 }}>
                 {[[isRTL ? 'متوسط الانتظار' : 'Avg. Wait', '18 min'], [isRTL ? 'الأطباء المتاحون' : 'Doctors Online', '1,840'], [isRTL ? 'اللغات' : 'Languages', 'AR / EN'], [isRTL ? 'التكلفة' : 'Cost', isRTL ? 'مجاني (NHIF)' : 'Free (NHIF)']].map(([k, v]) => (
                   <Grid item xs={6} key={k}>
                     <Box sx={{ p: 1.5, background: 'rgba(16,185,129,0.1)', borderRadius: 1.5, textAlign: 'center' }}>
-                      <Typography variant="h6" sx={{ color: '#10b981', fontWeight: 700 }}>{v}</Typography>
+                      <Typography variant="h6" sx={{ color: H, fontWeight: 700 }}>{v}</Typography>
                       <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>{k}</Typography>
                     </Box>
                   </Grid>
@@ -401,7 +364,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
                   {specialties.map(s => <MenuItem key={s} value={s}>{s}</MenuItem>)}
                 </Select>
               </FormControl>
-              <Button fullWidth variant="contained" startIcon={<VideoCall />} sx={{ bgcolor: '#10b981', '&:hover': { bgcolor: '#059669' } }}
+              <Button fullWidth variant="contained" startIcon={<VideoCall />} sx={{ bgcolor: H, '&:hover': { bgcolor: '#059669' } }}
                 onClick={() => { if (!teleSpecialty) { showSnack(isRTL ? 'يرجى اختيار التخصص' : 'Please select a specialty', 'warning'); return; } showSnack(isRTL ? 'جاري الاتصال...' : 'Connecting to a doctor...'); }}>
                 {txt.startConsult}
               </Button>
@@ -418,13 +381,13 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
                     sx={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', '&:hover': { borderColor: '#10b981', background: 'rgba(16,185,129,0.08)' } }}>
                     <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 }, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Box>
-                        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>{sp}</Typography>
+                        <Typography variant="body2" sx={{ color: '#111827', fontWeight: 600 }}>{sp}</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-                          <Star sx={{ fontSize: 12, color: '#f59e0b' }} />
+                          <span style={{ color: H }}>★</span>
                           <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>4.{Math.floor(4 + Math.random() * 1)}/5 · {isRTL ? 'متاح' : 'Available'}</Typography>
                         </Box>
                       </Box>
-                      <Chip label={isRTL ? 'اتصل' : 'Connect'} size="small" sx={{ bgcolor: 'rgba(16,185,129,0.15)', color: '#10b981', cursor: 'pointer' }} />
+                      <Chip label={isRTL ? 'اتصل' : 'Connect'} size="small" sx={{ bgcolor: 'rgba(16,185,129,0.15)', color: H, cursor: 'pointer' }} />
                     </CardContent>
                   </Card>
                 </Grid>
@@ -443,8 +406,8 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ color: '#f59e0b', fontWeight: 700, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>{isRTL ? 'التطعيم' : 'Vaccine'}</TableCell>
-                    <TableCell sx={{ color: '#f59e0b', fontWeight: 700, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>{isRTL ? 'الموعد' : 'When'}</TableCell>
+                    <TableCell sx={{ color: H, fontWeight: 700 }}>{isRTL ? 'التطعيم' : 'Vaccine'}</TableCell>
+                    <TableCell sx={{ color: H, fontWeight: 700 }}>{isRTL ? 'الموعد' : 'When'}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -457,7 +420,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button variant="outlined" startIcon={<CalendarMonth />} fullWidth sx={{ mt: 2, borderColor: '#f59e0b', color: '#f59e0b' }}
+            <Button variant="outlined" startIcon={<CalendarMonth />} fullWidth sx={{ mt: 2, borderColor: '#f59e0b', color: H }}
               onClick={() => showSnack(isRTL ? 'جاري حجز موعد التطعيم...' : 'Booking vaccination appointment...')}>
               {isRTL ? 'احجز موعد تطعيم' : 'Book Vaccination Appointment'}
             </Button>
@@ -468,8 +431,8 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
               <List dense>
                 {[{ label: isRTL ? 'ملخص سجل الصحة' : 'Health Summary Record', icon: <MedicalServices /> }, { label: isRTL ? 'نتائج المختبر' : 'Lab Results', icon: <Science /> }, { label: isRTL ? 'ملخص الخروج' : 'Discharge Summary', icon: <LocalHospital /> }, { label: isRTL ? 'سجل التطعيمات' : 'Vaccination History', icon: <Vaccines /> }, { label: isRTL ? 'الوصفات الطبية' : 'Prescription History', icon: <Medication /> }].map((r, i) => (
                   <ListItem key={i} divider={i < 4} sx={{ borderColor: 'rgba(255,255,255,0.06)' }}
-                    secondaryAction={<Button size="small" startIcon={<Download />} sx={{ color: '#a855f7' }} onClick={() => showSnack(isRTL ? 'جاري تنزيل السجل...' : 'Downloading record...')}>{isRTL ? 'تنزيل' : 'Download'}</Button>}>
-                    <ListItemIcon sx={{ minWidth: 36, color: '#a855f7' }}>{r.icon}</ListItemIcon>
+                    secondaryAction={<Button size="small" startIcon={<Download />} sx={{ color: N }} onClick={() => showSnack(isRTL ? 'جاري تنزيل السجل...' : 'Downloading record...')}>{isRTL ? 'تنزيل' : 'Download'}</Button>}>
+                    <ListItemIcon sx={{ minWidth: 36, color: N }}>{r.icon}</ListItemIcon>
                     <ListItemText primary={<Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>{r.label}</Typography>} />
                   </ListItem>
                 ))}
@@ -510,10 +473,10 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
               <Card sx={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 1.5, '&:last-child': { pb: 1.5 } }}>
                   <Box>
-                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>{h}</Typography>
+                    <Typography variant="body2" sx={{ color: '#111827', fontWeight: 600 }}>{h}</Typography>
                     <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)' }}>{[2.1, 5.8, 3.4, 4.2][i]} km · 24/7</Typography>
                   </Box>
-                  <Button size="small" variant="contained" sx={{ bgcolor: '#dc2626', '&:hover': { bgcolor: '#b91c1c' } }}
+                  <Button size="small" variant="contained" sx={{ bgcolor: ER, '&:hover': { bgcolor: '#b91c1c' } }}
                     onClick={() => showSnack(isRTL ? 'جاري فتح الخريطة...' : 'Opening map...', 'info')}>
                     {isRTL ? 'الاتجاهات' : 'Directions'}
                   </Button>

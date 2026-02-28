@@ -72,11 +72,11 @@ const EnergyMinistryPortal = ({ language = 'en', user }) => {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Card sx={{ height: '100%', backgroundColor: '#e3f2fd' }}>
+        <Card sx={{ height: '100%', bgcolor: '#EFF6FF', border: '1px solid #BFDBFE', borderTop: '3px solid #7A5200' }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <PowerIcon sx={{ fontSize: 40, color: '#1e88e5', mr: 2 }} />
-              <Typography variant="h4" color="#1e88e5">
+              <PowerIcon sx={{ fontSize: 36, color: '#7A5200', mr: 2 }} />
+              <Typography variant="h4" color="#7A5200" fontWeight={700}>
                 {energyData.totalGeneration.toLocaleString()}
               </Typography>
             </Box>
@@ -88,11 +88,11 @@ const EnergyMinistryPortal = ({ language = 'en', user }) => {
       </Grid>
 
       <Grid item xs={12} md={6}>
-        <Card sx={{ height: '100%', backgroundColor: '#fff3e0' }}>
+        <Card sx={{ height: '100%', bgcolor: '#FEF3C7', border: '1px solid #FDE68A', borderTop: '3px solid #B45309' }}>
           <CardContent>
             <Box display="flex" alignItems="center" mb={2}>
-              <PowerIcon sx={{ fontSize: 40, color: '#fb8c00', mr: 2, transform: 'rotate(180deg)' }} />
-              <Typography variant="h4" color="#fb8c00">
+              <PowerIcon sx={{ fontSize: 36, color: '#B45309', mr: 2, transform: 'rotate(180deg)' }} />
+              <Typography variant="h4" color="#B45309" fontWeight={700}>
                 {energyData.totalConsumption.toLocaleString()}
               </Typography>
             </Box>
@@ -109,7 +109,7 @@ const EnergyMinistryPortal = ({ language = 'en', user }) => {
     <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
       <Paper elevation={3} sx={{ p: 3 }}>
         <Box display="flex" alignItems="center" mb={4}>
-          <EnergyIcon sx={{ fontSize: 48, color: 'primary.main', mr: 2 }} />
+          <EnergyIcon sx={{ fontSize: 40, color: '#7A5200', mr: 2 }} />
           <Box>
             <Typography
               variant="h3"
