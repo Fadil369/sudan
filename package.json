@@ -225,5 +225,6 @@
     "bracketSpacing": true,
     "arrowParens": "always",
     "endOfLine": "lf"
-  }
+  },
+  "type": "module"
 }
