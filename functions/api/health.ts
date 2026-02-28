@@ -1,11 +1,27 @@
+import type { D1Database, KVNamespace, R2Bucket, EventContext } from '@cloudflare/workers-types';
+
 /**
  * Health check endpoint
  * Tests connectivity to D1, KV, R2, and Durable Objects
  */
 
-export async function onRequestGet(context) {
+interface Env {
+  DB: D1Database;
+  SESSIONS: KVNamespace;
+  DOCUMENTS: R2Bucket;
+}
+
+interface HealthChecks {
+  d1?: string;
+  kv_sessions?: string;
+  kv_sessions_error?: string;
+  r2_documents?: string;
+  r2_documents_error?: string;
+}
+
+export async function onRequestGet(context: EventContext<Env, any, any>) {
   const { env } = context;
-  const checks = {};
+  const checks: HealthChecks = {};
 
   // Check D1
   try {
