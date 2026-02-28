@@ -207,7 +207,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
           </Box>
           <Box>
             <Typography variant="h4" sx={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, lineHeight: 1.2 }}>{txt.title}</Typography>
-            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace' }}>{txt.oid}</Typography>
+            <Typography variant="body2" sx={{ color: '#9CA3AF', fontFamily: 'monospace' }}>{txt.oid}</Typography>
           </Box>
         </Box>
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
@@ -220,7 +220,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
       {/* Tabs */}
       <Box sx={{ borderBottom: '1px solid rgba(255,255,255,0.1)', mb: 0 }}>
         <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} variant="scrollable" scrollButtons="auto"
-          sx={{ '& .MuiTab-root': { color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'none', fontSize: '0.88rem' }, '& .Mui-selected': { color: H }, '& .MuiTabs-indicator': { bgcolor: H } }}>
+          sx={{ '& .MuiTab-root': { fontWeight: 500 }, '& .Mui-selected': { color: H }, '& .MuiTabs-indicator': { bgcolor: H } }}>
           {txt.tabs.map((t, i) => <Tab key={i} label={t} />)}
         </Tabs>
       </Box>
@@ -240,7 +240,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
                     <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 700 }}>{d.disease}</Typography>
                     <Chip label={d.status} size="small" sx={{ bgcolor: `${d.color}25`, color: d.color, fontWeight: 700, fontSize: '0.65rem' }} />
                   </Box>
-                  <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>{d.region}</Typography>
+                  <Typography variant="caption" sx={{ color: '#9CA3AF' }}>{d.region}</Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -256,7 +256,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
             <Button variant="contained" startIcon={<Search />} onClick={handleNhifSearch} sx={{ bgcolor: N, '&:hover': { bgcolor: '#4f46e5' } }}>{txt.nhifBtn}</Button>
           </Box>
           {nhifResult && (
-            <Box sx={{ mt: 2, p: 2, background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', borderRadius: 1.5 }}>
+            <Box sx={{ mt: 2, p: 2, background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 1.5 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                 <CheckCircle sx={{ color: H }} />
                 <Typography variant="subtitle2" sx={{ color: H, fontWeight: 700 }}>{isRTL ? 'مشترك نشط' : 'Active Member'}</Typography>
@@ -264,8 +264,8 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
               <Grid container spacing={1}>
                 {[[isRTL ? 'رقم العضوية' : 'Member ID', nhifResult.memberId], [isRTL ? 'الخطة' : 'Plan', nhifResult.plan], [isRTL ? 'تاريخ الانتهاء' : 'Expiry', nhifResult.expiryDate], [isRTL ? 'المنشآت المعتمدة' : 'Facilities', nhifResult.facilities]].map(([k, v]) => (
                   <Grid item xs={6} key={k}>
-                    <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>{k}</Typography>
-                    <Typography variant="body2" sx={{ color: '#111827', fontWeight: 600 }}>{v}</Typography>
+                    <Typography variant="caption" sx={{ color: '#9CA3AF' }}>{k}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>{v}</Typography>
                   </Grid>
                 ))}
               </Grid>
@@ -342,7 +342,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
       <TabPanel value={activeTab} index={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={5}>
-            <Paper sx={{ p: 3, background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 2 }}>
+            <Paper sx={{ p: 3, bgcolor: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: 2 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
                 <VideoCall sx={{ color: H, fontSize: 32 }} />
                 <Typography variant="h6" sx={{ color: H, fontWeight: 700 }}>{isRTL ? 'استشارة طبية فورية' : 'Instant Medical Consultation'}</Typography>
@@ -350,9 +350,9 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
               <Grid container spacing={1} sx={{ mb: 2 }}>
                 {[[isRTL ? 'متوسط الانتظار' : 'Avg. Wait', '18 min'], [isRTL ? 'الأطباء المتاحون' : 'Doctors Online', '1,840'], [isRTL ? 'اللغات' : 'Languages', 'AR / EN'], [isRTL ? 'التكلفة' : 'Cost', isRTL ? 'مجاني (NHIF)' : 'Free (NHIF)']].map(([k, v]) => (
                   <Grid item xs={6} key={k}>
-                    <Box sx={{ p: 1.5, background: 'rgba(16,185,129,0.1)', borderRadius: 1.5, textAlign: 'center' }}>
+                    <Box sx={{ p: 1.5, bgcolor: '#DCFCE7', borderRadius: 1.5, textAlign: 'center' }}>
                       <Typography variant="h6" sx={{ color: H, fontWeight: 700 }}>{v}</Typography>
-                      <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>{k}</Typography>
+                      <Typography variant="caption" sx={{ color: '#9CA3AF' }}>{k}</Typography>
                     </Box>
                   </Grid>
                 ))}
@@ -378,16 +378,16 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
               {specialties.map(sp => (
                 <Grid item xs={12} sm={6} key={sp}>
                   <Card onClick={() => { setTeleSpecialty(sp); showSnack(isRTL ? 'جاري الاتصال...' : 'Connecting...'); }}
-                    sx={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', '&:hover': { borderColor: '#10b981', background: 'rgba(16,185,129,0.08)' } }}>
+                    sx={{ background: '#FAFAFA', border: '1px solid #E5E7EB', cursor: 'pointer', '&:hover': { borderColor: H, background: '#F0FDF4' } }}>
                     <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 }, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Box>
                         <Typography variant="body2" sx={{ color: '#111827', fontWeight: 600 }}>{sp}</Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
-                          <span style={{ color: H }}>★</span>
-                          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>4.{Math.floor(4 + Math.random() * 1)}/5 · {isRTL ? 'متاح' : 'Available'}</Typography>
+                          <Box component="span" sx={{ color: H, fontSize: '0.85rem', lineHeight: 1 }}>★</Box>
+                          <Typography variant="caption" sx={{ color: '#6B7280' }}>4.{Math.floor(4 + Math.random() * 1)}/5 · {isRTL ? 'متاح' : 'Available'}</Typography>
                         </Box>
                       </Box>
-                      <Chip label={isRTL ? 'اتصل' : 'Connect'} size="small" sx={{ bgcolor: 'rgba(16,185,129,0.15)', color: H, cursor: 'pointer' }} />
+                      <Chip label={isRTL ? 'اتصل' : 'Connect'} size="small" sx={{ bgcolor: '#DCFCE7', color: H, cursor: 'pointer' }} />
                     </CardContent>
                   </Card>
                 </Grid>
@@ -414,7 +414,7 @@ const HealthMinistryPortal = ({ language = 'en' }) => {
                   {vaccineRows.map(v => (
                     <TableRow key={v.vaccine}>
                       <TableCell sx={{ color: 'rgba(255,255,255,0.8)', borderBottom: '1px solid rgba(255,255,255,0.06)', fontSize: '0.78rem' }}>{v.vaccine}</TableCell>
-                      <TableCell sx={{ color: 'rgba(255,255,255,0.5)', borderBottom: '1px solid rgba(255,255,255,0.06)', fontSize: '0.78rem' }}>{v.when}</TableCell>
+                      <TableCell sx={{ color: '#6B7280', fontSize: '0.78rem' }}>{v.when}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
