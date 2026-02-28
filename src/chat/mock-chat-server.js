@@ -1,6 +1,32 @@
-import { EventEmitter } from 'events';
+class SimpleEmitter {
+  constructor() {
+    this.listeners = new Map();
+  }
 
-class MockSocket extends EventEmitter {
+  on(event, listener) {
+    const existing = this.listeners.get(event) || [];
+    existing.push(listener);
+    this.listeners.set(event, existing);
+    return this;
+  }
+
+  off(event, listener) {
+    const existing = this.listeners.get(event) || [];
+    this.listeners.set(
+      event,
+      existing.filter((currentListener) => currentListener !== listener)
+    );
+    return this;
+  }
+
+  emit(event, ...args) {
+    const existing = this.listeners.get(event) || [];
+    existing.forEach((listener) => listener(...args));
+    return existing.length > 0;
+  }
+}
+
+class MockSocket extends SimpleEmitter {
   constructor() {
     super();
     this.connected = true;
@@ -12,7 +38,7 @@ class MockSocket extends EventEmitter {
   }
 }
 
-class MockChatServer extends EventEmitter {
+class MockChatServer extends SimpleEmitter {
   constructor() {
     super();
     this.sockets = [];

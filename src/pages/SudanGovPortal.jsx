@@ -229,10 +229,10 @@ const governmentDepartments = [
     }
   ];
 
-const SudanGovPortal = ({ language, user } = {}) => {
+const SudanGovPortal = ({ language, user, defaultTab } = {}) => {
   const [isRTL, setIsRTL] = useState(language === 'ar');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState('dashboard');
+  const [selectedDepartment, setSelectedDepartment] = useState(defaultTab || 'dashboard');
   const [userRole] = useState('citizen'); // citizen, official, admin - setUserRole available for future use
   // const [currentTab, setCurrentTab] = useState(0); // Available for future tabbed interface
   const [searchQuery, setSearchQuery] = useState('');
@@ -249,6 +249,13 @@ const SudanGovPortal = ({ language, user } = {}) => {
     satisfactionScore: 4.7,
     systemUptime: 99.8
   });
+
+  // Update selectedDepartment when defaultTab prop changes
+  useEffect(() => {
+    if (defaultTab) {
+      setSelectedDepartment(defaultTab);
+    }
+  }, [defaultTab]);
 
   // Sync isRTL with language prop changes
   useEffect(() => {

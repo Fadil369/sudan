@@ -1,89 +1,120 @@
-import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import LandingPage from './pages/LandingPage';
-import SudanGovPortal from './pages/SudanGovPortal';
-import AuthProvider from './components/AuthProvider';
-import SecureErrorBoundary from './components/SecureErrorBoundary';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider, createTheme, CssBaseline, CircularProgress, Box } from '@mui/material';
+import { AccessibilityProvider } from './components/AccessibilityProvider';
 
-/* ── Sudan Digital Government – Professional Light Theme ────────────────────
-   Colour palette uses the Republic of Sudan flag colours:
-     Primary navy  #1B3A5C  (authority & structure)
-     Accent red    #C8102E  (flag red, CTA, emergency)
-     Accent green  #007A3D  (flag green, success)
-   All surfaces are white/near-white; no gradients, no glass effects.
- ─────────────────────────────────────────────────────────────────────────── */
+// Lazy load pages for better performance
+const LandingPage = lazy(() => import('./pages/LandingPage'));
+const SudanGovPortal = lazy(() => import('./pages/SudanGovPortal'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+
+// Loading fallback component
+const PageLoader = () => (
+  <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    minHeight="100vh"
+    bgcolor="background.default"
+  >
+    <CircularProgress size={60} />
+  </Box>
+);
+
+// Sudan Government Theme
 const theme = createTheme({
   palette: {
-    mode: 'light',
-    primary:    { main: '#1B3A5C', dark: '#0F2640', light: '#2D5A8E', contrastText: '#fff' },
-    secondary:  { main: '#C8102E', dark: '#9B0C22', contrastText: '#fff' },
-    success:    { main: '#007A3D' },
-    warning:    { main: '#B45309' },
-    error:      { main: '#B91C1C' },
-    background: { default: '#F5F7FA', paper: '#FFFFFF' },
-    text:       { primary: '#111827', secondary: '#6B7280', disabled: '#9CA3AF' },
-    divider:    '#E5E7EB',
+    primary: {
+      main: '#1976d2', // Blue
+      light: '#42a5f5',
+      dark: '#1565c0',
+    },
+    secondary: {
+      main: '#388e3c', // Green
+      light: '#66bb6a',
+      dark: '#2e7d32',
+    },
+    error: {
+      main: '#d32f2f',
+    },
+    background: {
+      default: '#f5f5f5',
+      paper: '#ffffff',
+    },
   },
   typography: {
-    fontFamily: '"Inter", "Cairo", "Noto Sans Arabic", system-ui, -apple-system, sans-serif',
-    h1: { fontWeight: 700 },
-    h2: { fontWeight: 700 },
-    h3: { fontWeight: 600 },
-    h4: { fontWeight: 600 },
-    h5: { fontWeight: 600 },
-    h6: { fontWeight: 600 },
-    button: { textTransform: 'none', fontWeight: 600 },
-  },
-  shape: { borderRadius: 6 },
-  components: {
-    MuiCssBaseline: { styleOverrides: { body: { backgroundColor: '#F5F7FA' } } },
-    MuiCard: {
-      defaultProps: { elevation: 0 },
-      styleOverrides: { root: { border: '1px solid #E5E7EB', borderRadius: 8, boxShadow: 'none' } },
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h1: {
+      fontSize: '2.5rem',
+      fontWeight: 600,
     },
+    h2: {
+      fontSize: '2rem',
+      fontWeight: 600,
+    },
+    h3: {
+      fontSize: '1.75rem',
+      fontWeight: 500,
+    },
+  },
+  components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none', fontWeight: 600, borderRadius: 6,
-          boxShadow: 'none', '&:hover': { boxShadow: 'none' },
+          textTransform: 'none',
+          borderRadius: 8,
         },
       },
     },
-    MuiChip:         { styleOverrides: { root: { borderRadius: 4, fontWeight: 500 } } },
-    MuiLinearProgress: { styleOverrides: { root: { borderRadius: 4 } } },
-    MuiTab:          { styleOverrides: { root: { textTransform: 'none', fontWeight: 500 } } },
-    MuiTableCell:    { styleOverrides: { head: { fontWeight: 600, color: '#374151' } } },
-    MuiPaper:        { defaultProps: { elevation: 0 }, styleOverrides: { root: { border: '1px solid #E5E7EB' } } },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        },
+      },
+    },
   },
 });
 
-const App = () => (
-  <SecureErrorBoundary>
+function App() {
+  return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Routes>
-          {/* Landing page — default entry point */}
-          <Route path="/" element={<LandingPage />} />
-
-          {/* Government portal — full-featured portal app */}
-          <Route
-            path="/portal"
-            element={
-              <AuthProvider>
-                <SudanGovPortal />
-              </AuthProvider>
-            }
-          />
-
-          {/* Catch-all: redirect to landing */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
+      <AccessibilityProvider>
+        <BrowserRouter>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/portal" element={<SudanGovPortal />} />
+              <Route path="/login" element={<LoginPage />} />
+              
+              {/* Protected Routes */}
+              <Route path="/dashboard" element={<DashboardPage />} />
+              
+              {/* Ministry Routes */}
+              <Route path="/portal/health" element={<SudanGovPortal defaultTab="health" />} />
+              <Route path="/portal/education" element={<SudanGovPortal defaultTab="education" />} />
+              <Route path="/portal/finance" element={<SudanGovPortal defaultTab="finance" />} />
+              <Route path="/portal/justice" element={<SudanGovPortal defaultTab="justice" />} />
+              <Route path="/portal/foreign-affairs" element={<SudanGovPortal defaultTab="foreign_affairs" />} />
+              <Route path="/portal/labor" element={<SudanGovPortal defaultTab="labor" />} />
+              <Route path="/portal/social-welfare" element={<SudanGovPortal defaultTab="social_welfare" />} />
+              <Route path="/portal/agriculture" element={<SudanGovPortal defaultTab="agriculture" />} />
+              <Route path="/portal/energy" element={<SudanGovPortal defaultTab="energy" />} />
+              <Route path="/portal/infrastructure" element={<SudanGovPortal defaultTab="infrastructure" />} />
+              <Route path="/portal/identity" element={<SudanGovPortal defaultTab="identity" />} />
+              
+              {/* 404 Redirect */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </AccessibilityProvider>
     </ThemeProvider>
-  </SecureErrorBoundary>
-);
+  );
+}
 
 export default App;
