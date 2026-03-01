@@ -129,14 +129,14 @@ jobs:
 
       - name: Deploy Worker to production
         if: github.ref == 'refs/heads/main'
-        run: wrangler deploy
+        run: wrangler deploy --config workers.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Deploy Worker to staging (PR preview)
         if: github.event_name == 'pull_request'
-        run: wrangler deploy --env staging
+        run: wrangler deploy --config workers.toml --env staging
         continue-on-error: true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
