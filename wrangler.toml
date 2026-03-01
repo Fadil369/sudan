@@ -106,5 +106,5 @@ ENVIRONMENT = "preview"
 CORS_ORIGIN = "*"
 
 # ─── Routes ───────────────────────────────────────────────────────────────────
-# Handled by Cloudflare Pages Functions or Worker routes
-# routes = [{ pattern = "sudan.elfadil.com/api/*", zone_name = "elfadil.com" }]
+# API Worker handles /api/* on the production domain
+routes = [{ pattern = "sudan.elfadil.com/api/*", zone_name = "elfadil.com" }]
