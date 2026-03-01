@@ -75,16 +75,19 @@ jobs:
       - name: Deploy to Cloudflare Pages
         id: deploy
         run: |
-          OUTPUT=$(wrangler pages deploy dist \
-            --project-name="${{ secrets.CF_PAGES_PROJECT || 'sudan-gov' }}" \
-            --branch="${{ github.ref == 'refs/heads/main' && 'main' || github.head_ref }}" \
-            --commit-hash="${{ github.sha }}" 2>&1)
-          echo "$OUTPUT"
-          URL=$(echo "$OUTPUT" | grep -oP 'https://[^\s]+\.pages\.dev' | head -1 || true)
+          set -o pipefail
+          wrangler pages deploy dist \
+            --project-name="${CF_PAGES_PROJECT}" \
+            --branch="${DEPLOY_BRANCH}" \
+            --commit-hash="${{ github.sha }}" \
+            2>&1 | tee "${RUNNER_TEMP}/cf-pages-output.txt"
+          URL=$(grep -oP 'https://[^\s]+\.pages\.dev' "${RUNNER_TEMP}/cf-pages-output.txt" | head -1 || true)
           echo "deployment-url=${URL}" >> "$GITHUB_OUTPUT"
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CF_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || secrets.CF_ACCOUNT_ID }}
+          CF_PAGES_PROJECT: ${{ secrets.CF_PAGES_PROJECT || 'sudan-gov' }}
+          DEPLOY_BRANCH: ${{ github.ref == 'refs/heads/main' && 'main' || github.head_ref }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Comment PR with preview URL
         if: github.event_name == 'pull_request'
@@ -128,15 +131,16 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: wrangler deploy
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CF_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Deploy Worker to staging (PR preview)
         if: github.event_name == 'pull_request'
         run: wrangler deploy --env staging
+        continue-on-error: true
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CF_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Apply D1 Migrations (production only)
         if: github.ref == 'refs/heads/main'
@@ -145,8 +149,8 @@ jobs:
           wrangler d1 execute sudan-gov-analytics --file=./database/migrations/002_analytics.sql --remote
         continue-on-error: true
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || secrets.CF_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || secrets.CF_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
   # ── Post-deploy health check ─────────────────────────────────────────────────
   health-check:
