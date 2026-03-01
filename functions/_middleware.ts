@@ -5,13 +5,13 @@
 
 // CORS configuration - PRODUCTION READY
 const ALLOWED_ORIGINS = [
-  'https://sudan-gov.pages.dev',
-  'https://portal.gov.sd', // Update with actual production domain
+  'https://sudan.elfadil.com',
+  'https://portal.sudan.elfadil.com',
 ];
 
 function getCorsHeaders(origin) {
   const isAllowed = ALLOWED_ORIGINS.includes(origin) || 
-                    (origin && origin.endsWith('.pages.dev')); // Preview deployments
+                    (origin && origin.endsWith('.sudan.elfadil.com')); // Subdomain deployments
   
   return {
     'Access-Control-Allow-Origin': isAllowed ? origin : ALLOWED_ORIGINS[0],
@@ -29,7 +29,7 @@ const SECURITY_HEADERS = {
   'X-XSS-Protection': '1; mode=block',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
-  'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.pages.dev wss://*.pages.dev",
+  'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.sudan.elfadil.com wss://*.sudan.elfadil.com https://*.workers.dev",
 };
 
 export async function onRequest(context) {

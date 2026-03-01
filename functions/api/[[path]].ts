@@ -3,20 +3,21 @@
  * Forwards all /api/* requests to the worker defined in wrangler.toml
  */
 
-const WORKER_URL = 'https://sudan-gov-api.workers.dev'; // Update after worker deployment
-
 export async function onRequest(context) {
   const { request, params, env } = context;
+
+  // Worker URL from env (set in Cloudflare Pages settings) or fallback
+  const workerBaseUrl = env.WORKER_URL || 'https://api.sudan.elfadil.com';
 
   // Extract the path after /api/
   const path = params.path ? params.path.join('/') : '';
   const url = new URL(request.url);
 
   // Build worker URL
-  const workerUrl = new URL(`/api/${path}${url.search}`, WORKER_URL);
+  const targetUrl = new URL(`/api/${path}${url.search}`, workerBaseUrl);
 
   // Forward request to worker
-  const workerRequest = new Request(workerUrl, {
+  const workerRequest = new Request(targetUrl, {
     method: request.method,
     headers: request.headers,
     body: request.method !== 'GET' && request.method !== 'HEAD' ? await request.blob() : undefined,

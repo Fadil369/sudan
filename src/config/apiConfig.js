@@ -4,15 +4,15 @@
 export const API_CONFIG = {
   // Base URLs for different environments
   BASE_URLS: {
-    development: 'https://dev-api.sd.brainsait.com/v1',
-    staging: 'https://staging-api.sd.brainsait.com/v1',
-    production: 'https://api.sd.brainsait.com/v1'
+    development: 'https://dev-api.sudan.elfadil.com/v1',
+    staging: 'https://staging-api.sudan.elfadil.com/v1',
+    production: 'https://api.sudan.elfadil.com/v1'
   },
 
   // Ministry-specific API endpoints
   MINISTRY_ENDPOINTS: {
     health: {
-      baseUrl: 'https://health-api.sd.brainsait.com',
+      baseUrl: 'https://health.sudan.elfadil.com',
       version: 'v2',
       endpoints: {
         records: '/records',
@@ -24,7 +24,7 @@ export const API_CONFIG = {
       }
     },
     education: {
-      baseUrl: 'https://education-api.sd.brainsait.com',
+      baseUrl: 'https://education.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         records: '/academic-records',
@@ -35,7 +35,7 @@ export const API_CONFIG = {
       }
     },
     interior: {
-      baseUrl: 'https://interior-api.sd.brainsait.com',
+      baseUrl: 'https://interior.sudan.elfadil.com',
       version: 'v2',
       endpoints: {
         identity: '/identity',
@@ -47,7 +47,7 @@ export const API_CONFIG = {
       }
     },
     finance: {
-      baseUrl: 'https://finance-api.sd.brainsait.com',
+      baseUrl: 'https://finance.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         taxRecords: '/tax-records',
@@ -58,7 +58,7 @@ export const API_CONFIG = {
       }
     },
     energy: {
-      baseUrl: 'https://energy-api.sd.brainsait.com',
+      baseUrl: 'https://energy.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         consumption: '/consumption',
@@ -69,7 +69,7 @@ export const API_CONFIG = {
       }
     },
     infrastructure: {
-      baseUrl: 'https://infrastructure-api.sd.brainsait.com',
+      baseUrl: 'https://infrastructure.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         projects: '/projects',
@@ -79,7 +79,7 @@ export const API_CONFIG = {
       }
     },
     justice: {
-      baseUrl: 'https://justice-api.sd.brainsait.com',
+      baseUrl: 'https://justice.sudan.elfadil.com',
       version: 'v2',
       endpoints: {
         cases: '/legal-cases',
@@ -94,7 +94,7 @@ export const API_CONFIG = {
   // External service integrations
   EXTERNAL_SERVICES: {
     centralBank: {
-      baseUrl: 'https://api.cbos.sd.brainsait.com',
+      baseUrl: 'https://cbos.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         bankingInfo: '/banking-info',
@@ -103,7 +103,7 @@ export const API_CONFIG = {
       }
     },
     nationalStatistics: {
-      baseUrl: 'https://api.cbs.sd.brainsait.com',
+      baseUrl: 'https://cbs.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         census: '/census-data',
@@ -112,7 +112,7 @@ export const API_CONFIG = {
       }
     },
     sudanPost: {
-      baseUrl: 'https://api.sudanpost.sd.brainsait.com',
+      baseUrl: 'https://post.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         addressVerification: '/address/verify',
@@ -121,7 +121,7 @@ export const API_CONFIG = {
       }
     },
     telecommunications: {
-      baseUrl: 'https://api.telecom.sd.brainsait.com',
+      baseUrl: 'https://telecom.sudan.elfadil.com',
       version: 'v1',
       endpoints: {
         phoneVerification: '/phone/verify',
@@ -133,7 +133,7 @@ export const API_CONFIG = {
 
   // Biometric service configuration
   BIOMETRIC_SERVICES: {
-    baseUrl: 'https://biometric-api.sd.brainsait.com',
+    baseUrl: 'https://biometric.sudan.elfadil.com',
     version: 'v2',
     endpoints: {
       fingerprint: {
@@ -171,7 +171,7 @@ export const API_CONFIG = {
 
   // Document management configuration
   DOCUMENT_SERVICES: {
-    baseUrl: 'https://documents-api.sd.brainsait.com',
+    baseUrl: 'https://documents.sudan.elfadil.com',
     version: 'v1',
     endpoints: {
       upload: '/documents/upload',
@@ -194,9 +194,9 @@ export const API_CONFIG = {
     chaincode: 'sudan-identity-chaincode',
     mspId: 'SudanGovMSP',
     endpoints: {
-      peer: 'grpc://peer0.sd.brainsait.com:7051',
-      orderer: 'grpc://orderer.sd.brainsait.com:7050',
-      ca: 'https://ca.sd.brainsait.com'
+      peer: 'grpc://peer0.sudan.elfadil.com:7051',
+      orderer: 'grpc://orderer.sudan.elfadil.com:7050',
+      ca: 'https://ca.sudan.elfadil.com'
     }
   },
 
@@ -221,9 +221,9 @@ export const API_CONFIG = {
     },
     cors: {
       origin: [
-        'https://sd.brainsait.com',
-        'https://portal.sd.brainsait.com',
-        'https://staging.sd.brainsait.com'
+        'https://sudan.elfadil.com',
+        'https://portal.sudan.elfadil.com',
+        'https://staging.sudan.elfadil.com'
       ]
     }
   },
@@ -231,7 +231,7 @@ export const API_CONFIG = {
   // Cache configuration
   CACHE_CONFIG: {
     redis: {
-      host: process.env.REACT_APP_REDIS_HOST || 'redis.sd.brainsait.com',
+      host: process.env.REACT_APP_REDIS_HOST || 'redis.sudan.elfadil.com',
       port: process.env.REACT_APP_REDIS_PORT || 6379,
       ttl: {
         shortTerm: 300,    // 5 minutes
@@ -262,7 +262,7 @@ export const API_CONFIG = {
     },
     tracing: {
       jaeger: {
-        endpoint: 'http://jaeger.sd.brainsait.com:14268/api/traces'
+        endpoint: 'http://jaeger.sudan.elfadil.com:14268/api/traces'
       }
     }
   },
@@ -270,7 +270,7 @@ export const API_CONFIG = {
   // Message queue configuration
   MESSAGING_CONFIG: {
     rabbitmq: {
-      url: process.env.REACT_APP_RABBITMQ_URL || 'amqp://messaging.sd.brainsait.com',
+      url: process.env.REACT_APP_RABBITMQ_URL || 'amqp://messaging.sudan.elfadil.com',
       exchanges: {
         identity: 'sudan.identity.events',
         notifications: 'sudan.notifications',
@@ -288,13 +288,13 @@ export const API_CONFIG = {
   NOTIFICATION_CONFIG: {
     sms: {
       provider: 'sudan-telecom',
-      endpoint: 'https://sms-api.sd.brainsait.com/v1',
+      endpoint: 'https://sms.sudan.elfadil.com/v1',
       sender: 'SUDAN-GOV'
     },
     email: {
       provider: 'sudan-mail',
-      endpoint: 'https://email-api.sd.brainsait.com/v1',
-      sender: 'noreply@sd.brainsait.com'
+      endpoint: 'https://email.sudan.elfadil.com/v1',
+      sender: 'noreply@sudan.elfadil.com'
     },
     push: {
       fcm: {

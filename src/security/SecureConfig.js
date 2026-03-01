@@ -230,11 +230,11 @@ class SecureConfig {
   buildCSPHeader() {
     const baseCSP = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://cdn.sd.brainsait.com",
+      "script-src 'self' 'unsafe-inline' https://cdn.sudan.elfadil.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https:",
-      "connect-src 'self' https://api.sd.brainsait.com https://api.brainsait.com",
+      "connect-src 'self' https://api.sudan.elfadil.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'"
