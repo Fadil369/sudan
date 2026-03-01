@@ -514,14 +514,14 @@ async function removeOfflineAction(id) {
 
 function isAllowedExternalDomain(origin) {
   const allowedDomains = [
-    'https://api.sd.brainsait.com',
-    'https://health-api.sd.brainsait.com',
-    'https://education-api.sd.brainsait.com',
-    'https://interior-api.sd.brainsait.com',
-    'https://finance-api.sd.brainsait.com',
-    'https://energy-api.sd.brainsait.com',
-    'https://infrastructure-api.sd.brainsait.com',
-    'https://justice-api.sd.brainsait.com',
+    'https://api.sudan.elfadil.com',
+    'https://health.sudan.elfadil.com',
+    'https://education.sudan.elfadil.com',
+    'https://interior.sudan.elfadil.com',
+    'https://finance.sudan.elfadil.com',
+    'https://energy.sudan.elfadil.com',
+    'https://infrastructure.sudan.elfadil.com',
+    'https://justice.sudan.elfadil.com',
     'https://fonts.googleapis.com',
     'https://fonts.gstatic.com'
   ];

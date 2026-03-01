@@ -36,7 +36,7 @@ jobs:
         env:
           CI: false
           VITE_OID_ROOT: '1.3.6.1.4.1.61026'
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || '/api' }}
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'https://api.sudan.elfadil.com' }}
           VITE_APP_VERSION: '1.0.0'
           NODE_ENV: production
 
@@ -123,8 +123,8 @@ jobs:
       - name: Check pages deployment
         run: |
           sleep 30
-          curl -f https://sudan-2rs.pages.dev/ || echo "Pages not ready yet"
+          curl -f https://sudan.elfadil.com/ || echo "Pages not ready yet"
 
       - name: Check worker API
         run: |
-          curl -f https://sudan-gov-api.workers.dev/api/health || echo "Worker API check"
+          curl -f https://api.sudan.elfadil.com/api/health || echo "Worker API check"

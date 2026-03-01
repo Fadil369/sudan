@@ -7,7 +7,7 @@ export async function onRequest(context) {
   const { request, params, env } = context;
 
   // Worker URL from env (set in Cloudflare Pages settings) or fallback
-  const workerBaseUrl = env.WORKER_URL || 'https://sudan-gov-api.workers.dev';
+  const workerBaseUrl = env.WORKER_URL || 'https://api.sudan.elfadil.com';
 
   // Extract the path after /api/
   const path = params.path ? params.path.join('/') : '';

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Sudan National Digital Identity System - OID-based government portal",
   "private": true,
-  "homepage": "https://sudan-2rs.pages.dev",
+  "homepage": "https://sudan.elfadil.com",
   "author": {
     "name": "Sudan Digital Transformation Initiative",
-    "email": "digital@sd.brainsait.com",
-    "url": "https://sd.brainsait.com"
+    "email": "digital@sudan.elfadil.com",
+    "url": "https://sudan.elfadil.com"
   },
   "license": "MIT",
   "repository": {

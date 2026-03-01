@@ -285,7 +285,7 @@ export const securityHeaders = helmet({
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://api.sd.brainsait.com", "wss://chat.sd.brainsait.com"],
+      connectSrc: ["'self'", "https://api.sudan.elfadil.com", "wss://chat.sudan.elfadil.com"],
       frameSrc: ["'none'"],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
@@ -392,9 +392,9 @@ export const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests from Sudan government domains
     const allowedOrigins = [
-      'https://portal.sd.brainsait.com',
-      'https://app.sd.brainsait.com',
-      'https://api.sd.brainsait.com'
+      'https://portal.sudan.elfadil.com',
+      'https://app.sudan.elfadil.com',
+      'https://api.sudan.elfadil.com'
     ];
     
     // Allow localhost in development

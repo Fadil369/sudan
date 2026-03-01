@@ -12,7 +12,7 @@ module.exports = async () => {
   process.env.REACT_APP_OID_BASE = '1.3.6.1.4.1.61026';
   process.env.REACT_APP_API_BASE_URL = 'https://api.test.sd.brainsait.com/v1';
   process.env.REACT_APP_BLOCKCHAIN_NETWORK = 'sudan-testnet';
-  process.env.REACT_APP_BIOMETRIC_SERVICE_URL = 'https://biometric.test.sd.brainsait.com';
+  process.env.REACT_APP_BIOMETRIC_SERVICE_URL = 'https://biometric.test.sudan.elfadil.com';
   process.env.REACT_APP_ENCRYPTION_KEY = 'test-encryption-key-32-characters';
 
   // Increase test timeout for slower CI environments (guarded in case jest isn't available here)
