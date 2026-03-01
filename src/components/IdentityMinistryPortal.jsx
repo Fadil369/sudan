@@ -1,428 +1,713 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
+  Grid,
+  Typography,
+  Paper,
+  Tabs,
+  Tab,
+  Avatar,
+  Chip,
+  Button,
   Card,
   CardContent,
-  Typography,
-  Grid,
-  Button,
-  Chip,
-  TextField,
-  LinearProgress,
-  Alert,
-  Snackbar,
-  Divider,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
+  Divider,
+  TextField,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  Paper
+  Alert,
 } from '@mui/material';
 import {
   Fingerprint,
-  Badge as BadgeIcon,
-  FamilyRestroom,
-  Assignment,
-  CheckCircle,
-  Search,
-  Download,
-  PersonAdd,
+  Badge,
+  Security,
   Verified,
-  Warning,
-  Phone,
-  LocalHospital,
-  Security
+  QrCode2,
+  AccountTree,
+  Lock,
+  CameraAlt,
+  Download,
+  Upload,
+  Shield,
+  PrivacyTip,
+  AdminPanelSettings,
 } from '@mui/icons-material';
+import PremiumServiceCard from './shared/PremiumServiceCard';
+import PremiumStatsCard from './shared/PremiumStatsCard';
 
-const IdentityMinistryPortal = ({ language = 'en' }) => {
+export default function IdentityMinistryPortal({ language = 'en' }) {
   const isRTL = language === 'ar';
+  const [currentTab, setCurrentTab] = useState(0);
+  const [biometricDialog, setBiometricDialog] = useState(false);
 
-  const [searchNID, setSearchNID] = useState('');
-  const [searchResult, setSearchResult] = useState(null);
-  const [searchLoading, setSearchLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  const [serviceDialogOpen, setServiceDialogOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState(null);
-  const [emergencyDialogOpen, setEmergencyDialogOpen] = useState(false);
+  const identityProfile = {
+    name: 'Ahmed Mohammed Ali',
+    oid: '1.3.6.1.4.1.61026.1.1.123456',
+    nationalId: 'SDN-2024-001234',
+    status: 'Verified',
+    issuedDate: '2024-01-15',
+    expiryDate: '2034-01-15',
+    biometricStatus: 'Enrolled',
+    securityLevel: 'High',
+    avatar: '👤',
+  };
 
-  const t = {
-    en: {
-      title: 'Citizen Identity & Civil Registry',
-      subtitle: 'National Identity Management System — OID: 1.3.6.1.4.1.61026.2',
-      searchLabel: 'Search by National ID Number',
-      searchBtn: 'Search Registry',
-      services: 'Available Services',
-      stats: 'Registry Statistics',
-      emergency: 'Emergency Contacts',
-      registered: 'Registered Citizens',
-      pending: 'Pending Applications',
-      verified: 'Verified IDs',
-      serviceItems: [
-        { id: 'digital_id', icon: <BadgeIcon />, label: 'Digital ID Registration', desc: 'Apply for or renew your national digital identity card', color: '#0ea5e9' },
-        { id: 'birth_cert', icon: <FamilyRestroom />, label: 'Birth Certificates', desc: 'Register births and obtain certified birth certificates', color: '#10b981' },
-        { id: 'death_cert', icon: <Assignment />, label: 'Death Certificates', desc: 'Register deaths and obtain certified death certificates', color: '#6366f1' },
-        { id: 'marriage', icon: <Verified />, label: 'Marriage Registration', desc: 'Register marriages and obtain marriage certificates', color: '#f59e0b' },
-        { id: 'biometric', icon: <Fingerprint />, label: 'Biometric Enrollment', desc: 'Enroll fingerprints and biometric data for secure ID', color: '#ec4899' },
-        { id: 'address', icon: <CheckCircle />, label: 'Address Update', desc: 'Update your registered address in the national registry', color: '#22c55e' },
-      ],
-      emergencyNumbers: [
-        { label: 'Police', number: '999', icon: <Security /> },
-        { label: 'Ambulance', number: '998', icon: <LocalHospital /> },
-        { label: 'Civil Registry Hotline', number: '0155-000-1001', icon: <Phone /> },
-      ],
-      searchPlaceholder: 'e.g. 102-456-789',
-      applyNow: 'Apply Now',
-      download: 'Download Form',
-      notFound: 'No record found for this ID number.',
-      found: 'Record found',
-      close: 'Close',
-      contactHotline: 'Contact Civil Registry Hotline',
+  const identityStats = {
+    verifications: 847,
+    documents: 12,
+    accessLogs: 234,
+    securityScore: 95,
+  };
+
+  const linkedDocuments = [
+    {
+      type: 'Passport',
+      number: 'P12345678',
+      status: 'Active',
+      expiry: '2030-06-15',
+      color: '#2563eb',
+      icon: '🛂',
     },
-    ar: {
-      title: 'هوية المواطن وسجل الأحوال المدنية',
-      subtitle: 'نظام إدارة الهوية الوطنية — OID: 1.3.6.1.4.1.61026.2',
-      searchLabel: 'البحث برقم الهوية الوطنية',
-      searchBtn: 'بحث في السجل',
-      services: 'الخدمات المتاحة',
-      stats: 'إحصاءات السجل',
-      emergency: 'أرقام الطوارئ',
-      registered: 'مواطن مسجل',
-      pending: 'طلب معلق',
-      verified: 'هوية موثقة',
-      serviceItems: [
-        { id: 'digital_id', icon: <BadgeIcon />, label: 'تسجيل الهوية الرقمية', desc: 'تقديم طلب أو تجديد بطاقة هويتك الوطنية الرقمية', color: '#0ea5e9' },
-        { id: 'birth_cert', icon: <FamilyRestroom />, label: 'شهادات الميلاد', desc: 'تسجيل المواليد والحصول على شهادات ميلاد معتمدة', color: '#10b981' },
-        { id: 'death_cert', icon: <Assignment />, label: 'شهادات الوفاة', desc: 'تسجيل الوفيات والحصول على شهادات وفاة معتمدة', color: '#6366f1' },
-        { id: 'marriage', icon: <Verified />, label: 'تسجيل الزواج', desc: 'تسجيل عقود الزواج والحصول على وثائق الزواج', color: '#f59e0b' },
-        { id: 'biometric', icon: <Fingerprint />, label: 'التسجيل البيومتري', desc: 'تسجيل بصمات الأصابع والبيانات الحيوية للهوية الآمنة', color: '#ec4899' },
-        { id: 'address', icon: <CheckCircle />, label: 'تحديث العنوان', desc: 'تحديث عنوانك المسجل في السجل الوطني', color: '#22c55e' },
-      ],
-      emergencyNumbers: [
-        { label: 'الشرطة', number: '999', icon: <Security /> },
-        { label: 'الإسعاف', number: '998', icon: <LocalHospital /> },
-        { label: 'خط ساخن للأحوال المدنية', number: '0155-000-1001', icon: <Phone /> },
-      ],
-      searchPlaceholder: 'مثال: 102-456-789',
-      applyNow: 'تقديم الطلب الآن',
-      download: 'تنزيل النموذج',
-      notFound: 'لم يتم العثور على سجل لرقم الهوية هذا.',
-      found: 'تم العثور على السجل',
-      close: 'إغلاق',
-      contactHotline: 'اتصل بالخط الساخن للأحوال المدنية',
+    {
+      type: 'Driver License',
+      number: 'DL-2024-5678',
+      status: 'Active',
+      expiry: '2029-03-20',
+      color: '#16a34a',
+      icon: '🚗',
     },
-  };
+    {
+      type: 'Health Insurance',
+      number: 'HI-2024-9012',
+      status: 'Active',
+      expiry: '2026-12-31',
+      color: '#7c3aed',
+      icon: '🏥',
+    },
+  ];
 
-  const txt = t[language] || t.en;
+  const recentActivity = [
+    {
+      action: 'Identity Verification',
+      service: 'Banking Portal',
+      timestamp: '2026-03-01 14:30',
+      status: 'Success',
+      location: 'Khartoum',
+    },
+    {
+      action: 'Document Access',
+      service: 'Education Ministry',
+      timestamp: '2026-02-28 10:15',
+      status: 'Success',
+      location: 'Khartoum',
+    },
+    {
+      action: 'Biometric Scan',
+      service: 'Health Ministry',
+      timestamp: '2026-02-27 16:45',
+      status: 'Success',
+      location: 'Khartoum',
+    },
+  ];
 
-  const handleSearch = () => {
-    if (!searchNID.trim()) return;
-    setSearchLoading(true);
-    setSearchResult(null);
-
-    // Simulate API call with realistic delay
-    setTimeout(() => {
-      setSearchLoading(false);
-      if (searchNID.length >= 6) {
-        setSearchResult({
-          found: true,
-          name: isRTL ? 'أحمد محمد عبدالله' : 'Ahmed Mohamed Abdullah',
-          nid: searchNID,
-          status: isRTL ? 'موثق' : 'Verified',
-          dob: '1985-03-15',
-          state: isRTL ? 'الخرطوم' : 'Khartoum',
-        });
-      } else {
-        setSearchResult({ found: false });
-      }
-    }, 1200);
-  };
-
-  const handleServiceClick = (service) => {
-    setSelectedService(service);
-    setServiceDialogOpen(true);
-  };
-
-  const handleServiceApply = () => {
-    setServiceDialogOpen(false);
-    setSnackbarMessage(
-      isRTL
-        ? `تم استلام طلبك لخدمة "${selectedService?.label}". سيتم التواصل معك خلال 3-5 أيام عمل.`
-        : `Your application for "${selectedService?.label}" has been received. You will be contacted within 3-5 business days.`
-    );
-    setSnackbarSeverity('success');
-    setSnackbarOpen(true);
-  };
+  const services = [
+    {
+      title: isRTL ? 'البطاقة الوطنية' : 'National ID Card',
+      description: isRTL
+        ? 'إصدار وتجديد البطاقة الوطنية الرقمية'
+        : 'Issue and renew digital national identity card',
+      icon: Badge,
+      color: '#1976d2',
+      featured: true,
+      badge: identityProfile.status,
+      stats: [
+        { value: 'Active', label: isRTL ? 'الحالة' : 'Status' },
+        { value: '10y', label: isRTL ? 'صالحة' : 'Valid' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'عرض البطاقة' : 'View Card',
+          onClick: () => {},
+        },
+        {
+          label: isRTL ? 'تنزيل' : 'Download',
+          onClick: () => {},
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'البصمة الحيوية' : 'Biometric Data',
+      description: isRTL
+        ? 'إدارة بصمات الأصابع والوجه والقزحية'
+        : 'Manage fingerprint, facial, and iris biometrics',
+      icon: Fingerprint,
+      color: '#7c3aed',
+      featured: true,
+      badge: identityProfile.biometricStatus,
+      stats: [
+        { value: '3/3', label: isRTL ? 'مسجلة' : 'Enrolled' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'إدارة البصمات' : 'Manage',
+          onClick: () => setCurrentTab(1),
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'شجرة المعرفات OID' : 'OID Hierarchy',
+      description: isRTL
+        ? 'عرض وإدارة شجرة المعرفات الوطنية'
+        : 'View and manage national OID hierarchy',
+      icon: AccountTree,
+      color: '#16a34a',
+      stats: [
+        { value: identityProfile.oid.split('.').length, label: isRTL ? 'مستويات' : 'Levels' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'عرض الشجرة' : 'View Tree',
+          onClick: () => {},
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'التحقق الرقمي' : 'Digital Verification',
+      description: isRTL
+        ? 'التحقق من هويتك للخدمات الحكومية'
+        : 'Verify your identity for government services',
+      icon: Verified,
+      color: '#2563eb',
+      stats: [
+        { value: identityStats.verifications, label: isRTL ? 'تحقق' : 'Verified' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'توليد QR' : 'Generate QR',
+          onClick: () => {},
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'الأمان والخصوصية' : 'Security & Privacy',
+      description: isRTL
+        ? 'إدارة إعدادات الأمان والخصوصية'
+        : 'Manage security settings and privacy controls',
+      icon: Security,
+      color: '#dc2626',
+      badge: identityProfile.securityLevel,
+      stats: [
+        { value: `${identityStats.securityScore}%`, label: isRTL ? 'الأمان' : 'Score' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'الإعدادات' : 'Settings',
+          onClick: () => setCurrentTab(3),
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'الوثائق المرتبطة' : 'Linked Documents',
+      description: isRTL
+        ? 'إدارة الوثائق المرتبطة بهويتك'
+        : 'Manage documents linked to your identity',
+      icon: AdminPanelSettings,
+      color: '#ea580c',
+      stats: [
+        { value: linkedDocuments.length, label: isRTL ? 'وثيقة' : 'Docs' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'عرض الكل' : 'View All',
+          onClick: () => setCurrentTab(2),
+        },
+      ],
+    },
+  ];
 
   return (
-    <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
-      {/* Header */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" sx={{ color: 'rgba(255,255,255,0.95)', fontWeight: 700, mb: 1 }}>
-          {txt.title}
-        </Typography>
-        <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'monospace' }}>
-          {txt.subtitle}
-        </Typography>
-      </Box>
-
-      {/* Stats Row */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {[
-          { label: txt.registered, value: '42,156,890', color: '#0ea5e9', progress: 93 },
-          { label: txt.verified, value: '38,902,445', color: '#10b981', progress: 85 },
-          { label: txt.pending, value: '14,230', color: '#f59e0b', progress: 12 },
-        ].map((stat) => (
-          <Grid item xs={12} md={4} key={stat.label}>
-            <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
-              <CardContent>
-                <Typography variant="h4" sx={{ color: stat.color, fontWeight: 700 }}>
-                  {stat.value}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
-                  {stat.label}
-                </Typography>
-                <LinearProgress
-                  variant="determinate"
-                  value={stat.progress}
-                  sx={{
-                    height: 6,
-                    borderRadius: 3,
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                    '& .MuiLinearProgress-bar': { backgroundColor: stat.color }
-                  }}
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* ID Search */}
-      <Card sx={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', mb: 4 }}>
-        <CardContent>
-          <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.95)', mb: 2 }}>
-            {txt.searchLabel}
-          </Typography>
-          <Box display="flex" gap={2} flexWrap="wrap">
-            <TextField
-              size="small"
-              placeholder={txt.searchPlaceholder}
-              value={searchNID}
-              onChange={(e) => setSearchNID(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              sx={{
-                flex: 1,
-                minWidth: 200,
-                '& .MuiOutlinedInput-root': {
-                  backgroundColor: 'rgba(255,255,255,0.08)',
-                  '& fieldset': { borderColor: 'rgba(255,255,255,0.2)' },
-                },
-                '& input': { color: 'rgba(255,255,255,0.9)' }
-              }}
-            />
-            <Button
-              variant="contained"
-              startIcon={<Search />}
-              onClick={handleSearch}
-              disabled={searchLoading}
-              sx={{ minHeight: 44 }}
-            >
-              {txt.searchBtn}
-            </Button>
-          </Box>
-
-          {searchLoading && <LinearProgress sx={{ mt: 2 }} />}
-
-          {searchResult && (
-            <Box sx={{ mt: 2 }}>
-              {searchResult.found ? (
-                <Alert severity="success" icon={<CheckCircle />}>
-                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                    {txt.found}: {searchResult.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    NID: {searchResult.nid} | {isRTL ? 'الولاية' : 'State'}: {searchResult.state} |{' '}
-                    <Chip label={searchResult.status} size="small" color="success" sx={{ ml: 0.5 }} />
-                  </Typography>
-                </Alert>
-              ) : (
-                <Alert severity="warning" icon={<Warning />}>
-                  {txt.notFound}
-                </Alert>
-              )}
-            </Box>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Services Grid */}
-      <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.95)', mb: 2, fontWeight: 600 }}>
-        {txt.services}
-      </Typography>
-      <Grid container spacing={2} sx={{ mb: 4 }}>
-        {txt.serviceItems.map((service) => (
-          <Grid item xs={12} sm={6} md={4} key={service.id}>
-            <Card
-              sx={{
-                background: `linear-gradient(135deg, ${service.color}15 0%, ${service.color}05 100%)`,
-                border: `1px solid ${service.color}30`,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  transform: 'translateY(-2px)',
-                  borderColor: service.color,
-                  boxShadow: `0 8px 24px ${service.color}25`,
-                }
-              }}
-              onClick={() => handleServiceClick(service)}
-            >
-              <CardContent>
-                <Box sx={{ color: service.color, mb: 1 }}>{service.icon}</Box>
-                <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, mb: 0.5 }}>
-                  {service.label}
-                </Typography>
-                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem' }}>
-                  {service.desc}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Emergency Section */}
+    <Box>
+      {/* Hero Section */}
       <Paper
+        elevation={0}
         sx={{
-          p: 3,
-          background: 'rgba(239,68,68,0.1)',
-          border: '1px solid rgba(239,68,68,0.3)',
-          borderRadius: 2
+          p: 4,
+          mb: 4,
+          borderRadius: 3,
+          background: 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)',
+          color: 'white',
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: -120,
+            right: -120,
+            width: 350,
+            height: 350,
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.1)',
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            bottom: -80,
+            left: -80,
+            width: 250,
+            height: 250,
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.05)',
+          },
         }}
       >
-        <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" gap={2}>
-          <Box>
-            <Typography variant="h6" sx={{ color: '#ef4444', fontWeight: 700, mb: 1 }}>
-              🚨 {txt.emergency}
-            </Typography>
-            <Box display="flex" gap={2} flexWrap="wrap">
-              {txt.emergencyNumbers.map((e) => (
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={5}>
+            <Box display="flex" alignItems="center" gap={3} mb={2}>
+              <Avatar
+                sx={{
+                  width: 100,
+                  height: 100,
+                  fontSize: '3.5rem',
+                  bgcolor: 'rgba(255,255,255,0.2)',
+                  border: '3px solid rgba(255,255,255,0.3)',
+                }}
+              >
+                {identityProfile.avatar}
+              </Avatar>
+              <Box>
+                <Typography variant="h4" sx={{ fontWeight: 800, mb: 1 }}>
+                  {identityProfile.name}
+                </Typography>
+                <Typography variant="body1" sx={{ opacity: 0.9, mb: 1, fontFamily: 'monospace' }}>
+                  {identityProfile.nationalId}
+                </Typography>
                 <Chip
-                  key={e.number}
-                  icon={e.icon}
-                  label={`${e.label}: ${e.number}`}
-                  sx={{ backgroundColor: 'rgba(239,68,68,0.2)', color: '#fca5a5', fontWeight: 600 }}
+                  icon={<Verified />}
+                  label={identityProfile.status}
+                  sx={{
+                    bgcolor: '#16a34a',
+                    color: 'white',
+                    fontWeight: 700,
+                  }}
                 />
-              ))}
+              </Box>
             </Box>
-          </Box>
+            <Paper
+              elevation={0}
+              sx={{
+                p: 2,
+                bgcolor: 'rgba(255,255,255,0.15)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: 2,
+              }}
+            >
+              <Typography variant="caption" sx={{ opacity: 0.8, display: 'block', mb: 0.5 }}>
+                {isRTL ? 'معرف OID الوطني' : 'National OID'}
+              </Typography>
+              <Typography variant="body2" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>
+                {identityProfile.oid}
+              </Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} md={7}>
+            <Grid container spacing={2}>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'التحققات' : 'Verifications'}
+                  value={identityStats.verifications}
+                  icon={Verified}
+                  color="#16a34a"
+                  variant="gradient"
+                  trend={{ value: '+12%', direction: 'up' }}
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'الأمان' : 'Security'}
+                  value={`${identityStats.securityScore}%`}
+                  icon={Shield}
+                  color="#7c3aed"
+                  variant="gradient"
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'الوثائق' : 'Documents'}
+                  value={identityStats.documents}
+                  icon={Badge}
+                  color="#2563eb"
+                  variant="gradient"
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'النشاط' : 'Activity'}
+                  value={identityStats.accessLogs}
+                  subtitle={isRTL ? 'سجل' : 'Logs'}
+                  icon={Lock}
+                  color="#ea580c"
+                  variant="gradient"
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* Quick Actions */}
+      <Grid container spacing={2} mb={4}>
+        <Grid item xs={12} sm={4}>
           <Button
-            variant="outlined"
-            color="error"
-            startIcon={<Phone />}
-            onClick={() => setEmergencyDialogOpen(true)}
-            sx={{ minHeight: 44 }}
+            fullWidth
+            variant="contained"
+            size="large"
+            startIcon={<QrCode2 />}
+            sx={{
+              py: 2,
+              borderRadius: 3,
+              background: 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)',
+              fontWeight: 700,
+            }}
           >
-            {txt.contactHotline}
+            {isRTL ? 'توليد كود QR' : 'Generate QR Code'}
           </Button>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Button
+            fullWidth
+            variant="outlined"
+            size="large"
+            startIcon={<Download />}
+            sx={{
+              py: 2,
+              borderRadius: 3,
+              borderWidth: 2,
+              fontWeight: 700,
+              '&:hover': { borderWidth: 2 },
+            }}
+          >
+            {isRTL ? 'تنزيل البطاقة' : 'Download ID Card'}
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <Button
+            fullWidth
+            variant="outlined"
+            size="large"
+            startIcon={<CameraAlt />}
+            onClick={() => setBiometricDialog(true)}
+            sx={{
+              py: 2,
+              borderRadius: 3,
+              borderWidth: 2,
+              fontWeight: 700,
+              '&:hover': { borderWidth: 2 },
+            }}
+          >
+            {isRTL ? 'تحديث البصمة' : 'Update Biometric'}
+          </Button>
+        </Grid>
+      </Grid>
+
+      {/* Main Tabs */}
+      <Paper elevation={0} sx={{ borderRadius: 3, mb: 3 }}>
+        <Tabs
+          value={currentTab}
+          onChange={(e, v) => setCurrentTab(v)}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{
+            borderBottom: 1,
+            borderColor: 'divider',
+            '& .MuiTab-root': {
+              textTransform: 'none',
+              fontWeight: 600,
+              fontSize: '1rem',
+            },
+          }}
+        >
+          <Tab label={isRTL ? 'نظرة عامة' : 'Overview'} />
+          <Tab label={isRTL ? 'البصمات الحيوية' : 'Biometrics'} />
+          <Tab label={isRTL ? 'الوثائق المرتبطة' : 'Linked Documents'} />
+          <Tab label={isRTL ? 'الأمان' : 'Security'} />
+          <Tab label={isRTL ? 'سجل النشاط' : 'Activity Log'} />
+        </Tabs>
+
+        <Box p={3}>
+          {/* Overview Tab */}
+          {currentTab === 0 && (
+            <Grid container spacing={3}>
+              {services.map((service, idx) => (
+                <Grid item xs={12} sm={6} md={4} key={idx}>
+                  <PremiumServiceCard {...service} language={language} />
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {/* Biometrics Tab */}
+          {currentTab === 1 && (
+            <Box>
+              <Alert severity="success" sx={{ mb: 3 }}>
+                {isRTL
+                  ? 'جميع البصمات الحيوية مسجلة ونشطة'
+                  : 'All biometric data enrolled and active'}
+              </Alert>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <Card sx={{ textAlign: 'center', p: 3, borderRadius: 3, border: '2px solid #e5e7eb' }}>
+                    <Typography sx={{ fontSize: '4rem', mb: 2 }}>👆</Typography>
+                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
+                      {isRTL ? 'بصمة الإصبع' : 'Fingerprint'}
+                    </Typography>
+                    <Chip label={isRTL ? 'مسجلة' : 'Enrolled'} color="success" sx={{ mb: 2 }} />
+                    <Typography variant="caption" color="text.secondary" display="block" mb={2}>
+                      {isRTL ? 'آخر تحديث: 2024-01-15' : 'Last updated: 2024-01-15'}
+                    </Typography>
+                    <Button variant="outlined" size="small">
+                      {isRTL ? 'إعادة المسح' : 'Re-scan'}
+                    </Button>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <Card sx={{ textAlign: 'center', p: 3, borderRadius: 3, border: '2px solid #e5e7eb' }}>
+                    <Typography sx={{ fontSize: '4rem', mb: 2 }}>😊</Typography>
+                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
+                      {isRTL ? 'التعرف على الوجه' : 'Facial Recognition'}
+                    </Typography>
+                    <Chip label={isRTL ? 'مسجلة' : 'Enrolled'} color="success" sx={{ mb: 2 }} />
+                    <Typography variant="caption" color="text.secondary" display="block" mb={2}>
+                      {isRTL ? 'آخر تحديث: 2024-01-15' : 'Last updated: 2024-01-15'}
+                    </Typography>
+                    <Button variant="outlined" size="small">
+                      {isRTL ? 'إعادة المسح' : 'Re-scan'}
+                    </Button>
+                  </Card>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <Card sx={{ textAlign: 'center', p: 3, borderRadius: 3, border: '2px solid #e5e7eb' }}>
+                    <Typography sx={{ fontSize: '4rem', mb: 2 }}>👁️</Typography>
+                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
+                      {isRTL ? 'مسح القزحية' : 'Iris Scan'}
+                    </Typography>
+                    <Chip label={isRTL ? 'مسجلة' : 'Enrolled'} color="success" sx={{ mb: 2 }} />
+                    <Typography variant="caption" color="text.secondary" display="block" mb={2}>
+                      {isRTL ? 'آخر تحديث: 2024-01-15' : 'Last updated: 2024-01-15'}
+                    </Typography>
+                    <Button variant="outlined" size="small">
+                      {isRTL ? 'إعادة المسح' : 'Re-scan'}
+                    </Button>
+                  </Card>
+                </Grid>
+              </Grid>
+            </Box>
+          )}
+
+          {/* Linked Documents Tab */}
+          {currentTab === 2 && (
+            <Box>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+                {isRTL ? 'الوثائق المرتبطة بهويتك' : 'Documents Linked to Your Identity'}
+              </Typography>
+
+              <Grid container spacing={2}>
+                {linkedDocuments.map((doc, idx) => (
+                  <Grid item xs={12} md={6} key={idx}>
+                    <Paper
+                      elevation={0}
+                      sx={{
+                        p: 3,
+                        borderRadius: 3,
+                        border: `2px solid ${doc.color}30`,
+                        background: `linear-gradient(135deg, ${doc.color}05 0%, #ffffff 100%)`,
+                      }}
+                    >
+                      <Box display="flex" alignItems="start" gap={2}>
+                        <Typography sx={{ fontSize: '3rem' }}>{doc.icon}</Typography>
+                        <Box flex={1}>
+                          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                            {doc.type}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary" gutterBottom>
+                            {doc.number}
+                          </Typography>
+                          <Box display="flex" gap={1} mt={2}>
+                            <Chip label={doc.status} color="success" size="small" />
+                            <Chip label={`Expires: ${doc.expiry}`} size="small" variant="outlined" />
+                          </Box>
+                        </Box>
+                        <Button size="small" variant="outlined">
+                          {isRTL ? 'عرض' : 'View'}
+                        </Button>
+                      </Box>
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+
+          {/* Security Tab */}
+          {currentTab === 3 && (
+            <Box>
+              <Alert severity="info" sx={{ mb: 3 }}>
+                {isRTL
+                  ? 'درجة الأمان الخاصة بك عالية. واصل الممارسات الجيدة!'
+                  : 'Your security score is high. Keep up the good practices!'}
+              </Alert>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid #e5e7eb' }}>
+                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
+                      {isRTL ? 'إعدادات الخصوصية' : 'Privacy Settings'}
+                    </Typography>
+                    <Divider sx={{ my: 2 }} />
+                    <List>
+                      <ListItem>
+                        <ListItemText
+                          primary={isRTL ? 'مشاركة البيانات مع الوزارات' : 'Data sharing with ministries'}
+                          secondary={isRTL ? 'السماح للوزارات بالوصول لبياناتك' : 'Allow ministries to access your data'}
+                        />
+                        <Chip label={isRTL ? 'مفعل' : 'Enabled'} color="success" size="small" />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          primary={isRTL ? 'التحقق ثنائي العامل' : 'Two-factor authentication'}
+                          secondary={isRTL ? 'طبقة أمان إضافية' : 'Extra security layer'}
+                        />
+                        <Chip label={isRTL ? 'مفعل' : 'Enabled'} color="success" size="small" />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          primary={isRTL ? 'إشعارات الوصول' : 'Access notifications'}
+                          secondary={isRTL ? 'تنبيهات عند استخدام هويتك' : 'Alerts when identity is used'}
+                        />
+                        <Chip label={isRTL ? 'مفعل' : 'Enabled'} color="success" size="small" />
+                      </ListItem>
+                    </List>
+                  </Paper>
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Paper elevation={0} sx={{ p: 3, borderRadius: 3, border: '1px solid #e5e7eb' }}>
+                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>
+                      {isRTL ? 'إدارة كلمة المرور' : 'Password Management'}
+                    </Typography>
+                    <Divider sx={{ my: 2 }} />
+                    <TextField
+                      fullWidth
+                      type="password"
+                      label={isRTL ? 'كلمة المرور الحالية' : 'Current Password'}
+                      margin="normal"
+                    />
+                    <TextField
+                      fullWidth
+                      type="password"
+                      label={isRTL ? 'كلمة المرور الجديدة' : 'New Password'}
+                      margin="normal"
+                    />
+                    <TextField
+                      fullWidth
+                      type="password"
+                      label={isRTL ? 'تأكيد كلمة المرور' : 'Confirm Password'}
+                      margin="normal"
+                    />
+                    <Button variant="contained" fullWidth sx={{ mt: 2 }}>
+                      {isRTL ? 'تحديث كلمة المرور' : 'Update Password'}
+                    </Button>
+                  </Paper>
+                </Grid>
+              </Grid>
+            </Box>
+          )}
+
+          {/* Activity Log Tab */}
+          {currentTab === 4 && (
+            <Box>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+                {isRTL ? 'آخر الأنشطة' : 'Recent Activity'}
+              </Typography>
+
+              <List>
+                {recentActivity.map((activity, idx) => (
+                  <Box key={idx}>
+                    <ListItem
+                      sx={{
+                        bgcolor: '#f9fafb',
+                        borderRadius: 2,
+                        mb: 2,
+                        border: '1px solid #e5e7eb',
+                      }}
+                    >
+                      <ListItemText
+                        primary={
+                          <Box display="flex" alignItems="center" gap={2}>
+                            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                              {activity.action}
+                            </Typography>
+                            <Chip
+                              label={activity.status}
+                              size="small"
+                              color={activity.status === 'Success' ? 'success' : 'error'}
+                            />
+                          </Box>
+                        }
+                        secondary={
+                          <Box mt={1}>
+                            <Typography variant="body2" color="text.secondary">
+                              {activity.service} • {activity.location}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary">
+                              {activity.timestamp}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                    </ListItem>
+                  </Box>
+                ))}
+              </List>
+            </Box>
+          )}
         </Box>
       </Paper>
 
-      {/* Service Application Dialog */}
-      <Dialog open={serviceDialogOpen} onClose={() => setServiceDialogOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          {selectedService?.label}
+      {/* Biometric Dialog */}
+      <Dialog open={biometricDialog} onClose={() => setBiometricDialog(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 700 }}>
+          {isRTL ? 'تحديث البصمة الحيوية' : 'Update Biometric Data'}
         </DialogTitle>
         <DialogContent>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            {selectedService?.desc}
-          </Typography>
-          <Divider sx={{ my: 2 }} />
+          <Alert severity="info" sx={{ mb: 2 }}>
+            {isRTL
+              ? 'يرجى زيارة أقرب مركز خدمات لتحديث بصماتك الحيوية'
+              : 'Please visit the nearest service center to update your biometric data'}
+          </Alert>
           <Typography variant="body2" color="text.secondary">
             {isRTL
-              ? 'ستحتاج إلى إحضار: بطاقة الهوية الوطنية الحالية، صورة شخصية حديثة، وأي وثائق داعمة ذات صلة.'
-              : 'You will need to bring: Current national ID card, a recent passport photo, and any relevant supporting documents.'}
+              ? 'يمكنك حجز موعد أو العثور على أقرب مركز خدمات من خلال الزر أدناه'
+              : 'You can book an appointment or find the nearest service center using the button below'}
           </Typography>
-          <List dense>
-            {[
-              isRTL ? 'بطاقة هوية سارية المفعول' : 'Valid identification card',
-              isRTL ? 'دليل الإقامة' : 'Proof of residence',
-              isRTL ? 'صورة شخصية (4×6 سم)' : 'Passport photo (4×6 cm)',
-            ].map((item, i) => (
-              <ListItem key={i} sx={{ py: 0.5 }}>
-                <ListItemIcon sx={{ minWidth: 32 }}>
-                  <CheckCircle fontSize="small" color="success" />
-                </ListItemIcon>
-                <ListItemText primary={item} />
-              </ListItem>
-            ))}
-          </List>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setServiceDialogOpen(false)}>{txt.close}</Button>
-          <Button
-            variant="outlined"
-            startIcon={<Download />}
-            onClick={() => {
-              setServiceDialogOpen(false);
-              setSnackbarMessage(isRTL ? 'جار تنزيل النموذج...' : 'Downloading form...');
-              setSnackbarSeverity('info');
-              setSnackbarOpen(true);
-            }}
-          >
-            {txt.download}
+        <DialogActions sx={{ p: 3 }}>
+          <Button onClick={() => setBiometricDialog(false)}>
+            {isRTL ? 'إلغاء' : 'Cancel'}
           </Button>
-          <Button
-            variant="contained"
-            startIcon={<PersonAdd />}
-            onClick={handleServiceApply}
-          >
-            {txt.applyNow}
+          <Button variant="contained">
+            {isRTL ? 'حجز موعد' : 'Book Appointment'}
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* Emergency Contact Dialog */}
-      <Dialog open={emergencyDialogOpen} onClose={() => setEmergencyDialogOpen(false)}>
-        <DialogTitle sx={{ color: '#ef4444' }}>
-          🚨 {txt.emergency}
-        </DialogTitle>
-        <DialogContent>
-          <List>
-            {txt.emergencyNumbers.map((e) => (
-              <ListItem key={e.number}>
-                <ListItemIcon sx={{ color: '#ef4444' }}>{e.icon}</ListItemIcon>
-                <ListItemText
-                  primary={e.label}
-                  secondary={e.number}
-                  secondaryTypographyProps={{ sx: { fontSize: '1.2rem', fontWeight: 700, color: '#ef4444' } }}
-                />
-              </ListItem>
-            ))}
-          </List>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setEmergencyDialogOpen(false)}>{txt.close}</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={5000}
-        onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert severity={snackbarSeverity} onClose={() => setSnackbarOpen(false)}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </Box>
   );
-};
-
-export default IdentityMinistryPortal;
+}

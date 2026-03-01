@@ -1,151 +1,584 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  Box, Typography, Grid, Button,
-  Dialog, DialogTitle, DialogContent, DialogActions,
-  List, ListItem, ListItemIcon, ListItemText, Snackbar, Alert,
-  Chip, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Box,
+  Grid,
+  Typography,
+  Paper,
+  Tabs,
+  Tab,
+  Button,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Chip,
+  LinearProgress,
+  Avatar,
+  Divider,
 } from '@mui/material';
 import {
-  AccountBalance, TrendingUp, CurrencyExchange, Receipt,
-  Savings, Assessment, Business, CheckCircle, Download, Search,
-  AttachMoney, PieChart, ShowChart,
+  AccountBalance,
+  TrendingUp,
+  Payment,
+  Receipt,
+  Assessment,
+  PieChart,
+  Download,
+  CreditCard,
+  AccountBalanceWallet,
+  MonetizationOn,
 } from '@mui/icons-material';
-import { GovStatCard, GovServiceCard } from './GovCard';
+import PremiumServiceCard from './shared/PremiumServiceCard';
+import PremiumStatsCard from './shared/PremiumStatsCard';
 
-
-
-
-
-const FinanceMinistryPortal = ({ language = 'en' }) => {
+export default function FinanceMinistryPortal({ language = 'en' }) {
   const isRTL = language === 'ar';
-  const [serviceDialog, setServiceDialog] = useState(null);
-  const [snackOpen, setSnackOpen] = useState(false);
-  const [snackMsg, setSnackMsg] = useState('');
+  const [currentTab, setCurrentTab] = useState(0);
 
-  const showSnack = (msg) => { setSnackMsg(msg); setSnackOpen(true); };
+  const financeStats = {
+    balance: '125,450',
+    taxesPaid: '45,200',
+    pendingPayments: 2,
+    budgetUtilization: 68,
+  };
 
-  const serviceItems = [
-    { id: 'tax', icon: <Receipt />, label: isRTL ? 'الإقرار الضريبي' : 'Tax Return Filing', desc: isRTL ? 'تقديم الإقرار الضريبي السنوي إلكترونياً' : 'File annual income and corporate tax returns online', color: '#7A4B0A', cta: isRTL ? 'قدّم الآن' : 'File Now' },
-    { id: 'customs', icon: <Business />, label: isRTL ? 'الجمارك والاستيراد' : 'Customs & Import Duties', desc: isRTL ? 'حساب الرسوم الجمركية وتسوية الدفع' : 'Calculate customs duties and settle import payments', color: '#7A4B0A', cta: isRTL ? 'احسب الرسوم' : 'Calculate' },
-    { id: 'budget', icon: <PieChart />, label: isRTL ? 'الميزانية الوطنية' : 'National Budget Portal', desc: isRTL ? 'الاطلاع على ميزانية الدولة وتقارير الإنفاق' : 'View the national budget, allocations and spending reports', color: '#7A4B0A', cta: isRTL ? 'استعرض' : 'View' },
-    { id: 'subsidy', icon: <Savings />, label: isRTL ? 'طلب دعم حكومي' : 'Government Subsidy Application', desc: isRTL ? 'التقدم للحصول على دعم الوقود أو الغذاء أو الزراعة' : 'Apply for fuel, food or agriculture subsidies', color: '#7A4B0A', cta: isRTL ? 'قدّم الآن' : 'Apply' },
-    { id: 'forex', icon: <CurrencyExchange />, label: isRTL ? 'الصرف الأجنبي' : 'Foreign Exchange', desc: isRTL ? 'أسعار الصرف الرسمية وإجراءات تحويل العملات' : 'Official exchange rates and foreign currency transfer procedures', color: '#7A4B0A', cta: isRTL ? 'تحقق من الأسعار' : 'Check Rates' },
-    { id: 'debt', icon: <Assessment />, label: isRTL ? 'إدارة الدين العام' : 'Public Debt Management', desc: isRTL ? 'بيانات الدين العام والسندات الحكومية' : 'Public debt statistics, government bonds and sukuk issuances', color: '#7A4B0A', cta: isRTL ? 'اطلع على البيانات' : 'View Data' },
-    { id: 'investment', icon: <TrendingUp />, label: isRTL ? 'بيئة الاستثمار' : 'Investment Environment', desc: isRTL ? 'الحوافز الاستثمارية والإعفاءات الضريبية للمستثمرين' : 'Tax incentives, free zones and investor facilitation services', color: '#7A4B0A', cta: isRTL ? 'استكشف' : 'Explore' },
-    { id: 'micropay', icon: <AttachMoney />, label: isRTL ? 'المدفوعات الحكومية' : 'Government Payments', desc: isRTL ? 'سداد المخالفات والرسوم والغرامات الحكومية' : 'Pay fines, fees, levies and government charges online', color: '#7A4B0A', cta: isRTL ? 'ادفع الآن' : 'Pay Now' },
+  const recentTransactions = [
+    {
+      description: 'Income Tax Payment - Q1 2026',
+      amount: '-15,500',
+      date: '2026-02-28',
+      status: 'Completed',
+      type: 'tax',
+      color: '#dc2626',
+    },
+    {
+      description: 'VAT Refund',
+      amount: '+2,340',
+      date: '2026-02-15',
+      status: 'Completed',
+      type: 'refund',
+      color: '#16a34a',
+    },
+    {
+      description: 'Business License Fee',
+      amount: '-850',
+      date: '2026-02-01',
+      status: 'Completed',
+      type: 'fee',
+      color: '#7c3aed',
+    },
   ];
 
-  const economicData = [
-    { label: isRTL ? 'الناتج المحلي الإجمالي' : 'GDP (2024 est.)', value: '$167.5B', change: '+3.2%', up: true },
-    { label: isRTL ? 'التضخم' : 'Inflation Rate', value: '63.3%', change: '-12.4%', up: false },
-    { label: isRTL ? 'احتياطيات النقد الأجنبي' : 'FX Reserves', value: '$1.8B', change: '+8.1%', up: true },
-    { label: isRTL ? 'عجز الميزانية' : 'Budget Deficit', value: '3.6% GDP', change: '-0.8%', up: true },
-    { label: isRTL ? 'إيرادات النفط' : 'Oil Revenue', value: '$2.1B', change: '+5.3%', up: true },
-    { label: isRTL ? 'التحويلات' : 'Remittances', value: '$2.4B', change: '+18.5%', up: true },
+  const budgetBreakdown = [
+    { category: 'Income Tax', amount: 15500, percentage: 52, color: '#2563eb' },
+    { category: 'VAT', amount: 8900, percentage: 30, color: '#16a34a' },
+    { category: 'Business Fees', amount: 3200, percentage: 11, color: '#7c3aed' },
+    { category: 'Other', amount: 2100, percentage: 7, color: '#ea580c' },
   ];
 
-  const stats = [
-    { value: '$167.5B', label: isRTL ? 'الناتج المحلي الإجمالي' : 'GDP (est. 2024)', color: '#7A4B0A', progress: 68, icon: <ShowChart /> },
-    { value: '63.3%', label: isRTL ? 'معدل التضخم' : 'Inflation Rate', color: '#7A4B0A', progress: 63, icon: <TrendingUp /> },
-    { value: '48.5B SDG', label: isRTL ? 'ميزانية الدولة' : 'State Budget (SDG)', color: '#7A4B0A', progress: 72, icon: <AccountBalance /> },
-    { value: '$2.4B', label: isRTL ? 'تحويلات المغتربين' : 'Diaspora Remittances', color: '#7A4B0A', progress: 80, icon: <CurrencyExchange /> },
+  const upcomingPayments = [
+    {
+      title: 'Property Tax - 2026',
+      amount: '12,500',
+      dueDate: '2026-04-30',
+      status: 'Due Soon',
+      color: '#ea580c',
+    },
+    {
+      title: 'Vehicle Registration',
+      amount: '450',
+      dueDate: '2026-05-15',
+      status: 'Upcoming',
+      color: '#2563eb',
+    },
+  ];
+
+  const services = [
+    {
+      title: isRTL ? 'دفع الضرائب' : 'Tax Payment',
+      description: isRTL
+        ? 'دفع ضرائب الدخل والشركات إلكترونياً'
+        : 'Pay income and corporate taxes electronically',
+      icon: Payment,
+      color: '#7c3aed',
+      featured: true,
+      stats: [
+        { value: `${financeStats.taxesPaid} SDG`, label: isRTL ? 'مدفوع 2026' : 'Paid 2026' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'دفع الآن' : 'Pay Now',
+          onClick: () => {},
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'الإقرار الضريبي' : 'Tax Returns',
+      description: isRTL
+        ? 'تقديم وعرض الإقرارات الضريبية'
+        : 'Submit and view tax return declarations',
+      icon: Receipt,
+      color: '#2563eb',
+      badge: isRTL ? 'مطلوب' : 'Due',
+      actions: [
+        {
+          label: isRTL ? 'تقديم الإقرار' : 'File Return',
+          onClick: () => {},
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'المحفظة المالية' : 'Financial Wallet',
+      description: isRTL
+        ? 'عرض رصيدك والمعاملات المالية'
+        : 'View your balance and financial transactions',
+      icon: AccountBalanceWallet,
+      color: '#16a34a',
+      stats: [
+        { value: `${financeStats.balance} SDG`, label: isRTL ? 'الرصيد' : 'Balance' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'عرض المحفظة' : 'View Wallet',
+          onClick: () => setCurrentTab(1),
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'الميزانية الشخصية' : 'Budget Planner',
+      description: isRTL
+        ? 'تخطيط وتتبع ميزانيتك الشخصية'
+        : 'Plan and track your personal budget',
+      icon: PieChart,
+      color: '#ea580c',
+      featured: true,
+      stats: [
+        { value: `${financeStats.budgetUtilization}%`, label: isRTL ? 'مستخدم' : 'Utilized' },
+      ],
+      actions: [
+        {
+          label: isRTL ? 'عرض الميزانية' : 'View Budget',
+          onClick: () => setCurrentTab(2),
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'التقارير المالية' : 'Financial Reports',
+      description: isRTL
+        ? 'تحميل التقارير والبيانات المالية'
+        : 'Download financial reports and statements',
+      icon: Assessment,
+      color: '#0891b2',
+      actions: [
+        {
+          label: isRTL ? 'تنزيل التقارير' : 'Download',
+          onClick: () => {},
+        },
+      ],
+    },
+    {
+      title: isRTL ? 'القروض والتمويل' : 'Loans & Financing',
+      description: isRTL
+        ? 'التقدم للحصول على قروض حكومية'
+        : 'Apply for government loans and financing',
+      icon: MonetizationOn,
+      color: '#dc2626',
+      badge: isRTL ? '3 متاحة' : '3 Available',
+      actions: [
+        {
+          label: isRTL ? 'عرض العروض' : 'View Offers',
+          onClick: () => {},
+        },
+      ],
+    },
   ];
 
   return (
-    <Box sx={{ p: 3, direction: isRTL ? 'rtl' : 'ltr' }}>
-      {/* Header */}
-      <Box sx={{ mb: 3 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-          <Box sx={{ width: 48, height: 48, borderRadius: 2, background: '#7A4B0A', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <AccountBalance sx={{ color: '#fff', fontSize: 28 }} />
-          </Box>
-          <Box>
-            <Typography variant="h4" sx={{ color: '#111827', fontWeight: 700, lineHeight: 1.2 }}>
-              {isRTL ? 'وزارة المالية والتخطيط الاقتصادي' : 'Ministry of Finance & Economic Planning'}
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#9CA3AF', fontFamily: 'monospace' }}>OID: 1.3.6.1.4.1.61026.4.1.6</Typography>
-          </Box>
-        </Box>
-      </Box>
-
-      {/* Key Stats */}
-      <Grid container spacing={2} sx={{ mb: 4 }}>
-        {stats.map(s => <Grid item xs={6} md={3} key={s.label}><GovStatCard {...s} /></Grid>)}
-      </Grid>
-
-      {/* Economic Indicators Table */}
-      <Typography variant="h6" sx={{ color: '#111827', fontWeight: 700, mb: 2 }}>
-        {isRTL ? 'المؤشرات الاقتصادية' : 'Economic Indicators'}
-      </Typography>
-      <TableContainer component={Paper} sx={{ background: '#F9FAFB', border: '1px solid #E5E7EB', mb: 4 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              {[isRTL ? 'المؤشر' : 'Indicator', isRTL ? 'القيمة' : 'Value', isRTL ? 'التغير' : 'Change'].map(h => (
-                <TableCell key={h} sx={{ color: '#7A4B0A', fontWeight: 700, borderBottom: '1px solid #E5E7EB' }}>{h}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {economicData.map(row => (
-              <TableRow key={row.label}>
-                <TableCell sx={{ color: '#374151', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>{row.label}</TableCell>
-                <TableCell sx={{ color: '#111827', fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.06)', fontFamily: 'monospace' }}>{row.value}</TableCell>
-                <TableCell sx={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <Chip label={row.change} size="small" sx={{ bgcolor: row.up ? '#DCFCE7' : '#FEE2E2', color: row.up ? '#166534' : '#991B1B', fontWeight: 700, fontSize: '0.72rem' }} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* Services Grid */}
-      <Typography variant="h6" sx={{ color: '#111827', fontWeight: 700, mb: 2 }}>
-        {isRTL ? 'الخدمات المالية والضريبية' : 'Financial & Tax Services'}
-      </Typography>
-      <Grid container spacing={2}>
-        {serviceItems.map(service => (
-          <Grid item xs={12} sm={6} md={3} key={service.id}>
-            <GovServiceCard service={service} onClick={() => setServiceDialog(service)} />
+    <Box>
+      {/* Hero Section */}
+      <Paper
+        elevation={0}
+        sx={{
+          p: 4,
+          mb: 4,
+          borderRadius: 3,
+          background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
+          color: 'white',
+          position: 'relative',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: -100,
+            right: -100,
+            width: 300,
+            height: 300,
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.1)',
+          },
+        }}
+      >
+        <Grid container spacing={3} alignItems="center">
+          <Grid item xs={12} md={4}>
+            <Box display="flex" alignItems="center" gap={2} mb={2}>
+              <Avatar sx={{ width: 64, height: 64, bgcolor: 'rgba(255,255,255,0.2)' }}>
+                <AccountBalance sx={{ fontSize: 36 }} />
+              </Avatar>
+              <Box>
+                <Typography variant="h4" sx={{ fontWeight: 800 }}>
+                  {isRTL ? 'وزارة المالية' : 'Ministry of Finance'}
+                </Typography>
+                <Typography variant="body1" sx={{ opacity: 0.9 }}>
+                  {isRTL ? 'الخدمات المالية الرقمية' : 'Digital Financial Services'}
+                </Typography>
+              </Box>
+            </Box>
+            <Chip
+              label="1.3.6.1.4.1.61026.1.4"
+              sx={{
+                bgcolor: 'rgba(255,255,255,0.2)',
+                color: 'white',
+                fontFamily: 'monospace',
+                fontWeight: 600,
+              }}
+            />
           </Grid>
-        ))}
+
+          <Grid item xs={12} md={8}>
+            <Grid container spacing={2}>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'الرصيد' : 'Balance'}
+                  value={financeStats.balance}
+                  subtitle="SDG"
+                  icon={AccountBalanceWallet}
+                  color="#16a34a"
+                  variant="gradient"
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'الضرائب المدفوعة' : 'Taxes Paid'}
+                  value={financeStats.taxesPaid}
+                  subtitle="SDG 2026"
+                  icon={Payment}
+                  color="#7c3aed"
+                  variant="gradient"
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'مدفوعات معلقة' : 'Pending'}
+                  value={financeStats.pendingPayments}
+                  subtitle={isRTL ? 'فاتورة' : 'Bills'}
+                  icon={Receipt}
+                  color="#ea580c"
+                  variant="gradient"
+                />
+              </Grid>
+              <Grid item xs={6} sm={3}>
+                <PremiumStatsCard
+                  title={isRTL ? 'الميزانية' : 'Budget'}
+                  value={`${financeStats.budgetUtilization}%`}
+                  icon={PieChart}
+                  color="#2563eb"
+                  variant="gradient"
+                  progress={{ value: financeStats.budgetUtilization, label: 'Used' }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Paper>
+
+      {/* Quick Actions */}
+      <Grid container spacing={2} mb={4}>
+        <Grid item xs={12} sm={6} md={3}>
+          <Button
+            fullWidth
+            variant="contained"
+            size="large"
+            startIcon={<Payment />}
+            sx={{
+              py: 2,
+              borderRadius: 3,
+              background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)',
+              fontWeight: 700,
+            }}
+          >
+            {isRTL ? 'دفع الضرائب' : 'Pay Taxes'}
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Button
+            fullWidth
+            variant="outlined"
+            size="large"
+            startIcon={<Receipt />}
+            sx={{
+              py: 2,
+              borderRadius: 3,
+              borderWidth: 2,
+              fontWeight: 700,
+              '&:hover': { borderWidth: 2 },
+            }}
+          >
+            {isRTL ? 'تقديم إقرار' : 'File Return'}
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Button
+            fullWidth
+            variant="outlined"
+            size="large"
+            startIcon={<Download />}
+            sx={{
+              py: 2,
+              borderRadius: 3,
+              borderWidth: 2,
+              fontWeight: 700,
+              '&:hover': { borderWidth: 2 },
+            }}
+          >
+            {isRTL ? 'التقارير' : 'Reports'}
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Button
+            fullWidth
+            variant="outlined"
+            size="large"
+            startIcon={<CreditCard />}
+            sx={{
+              py: 2,
+              borderRadius: 3,
+              borderWidth: 2,
+              fontWeight: 700,
+              '&:hover': { borderWidth: 2 },
+            }}
+          >
+            {isRTL ? 'طرق الدفع' : 'Payment Methods'}
+          </Button>
+        </Grid>
       </Grid>
 
-      {/* Service Dialog */}
-      <Dialog open={!!serviceDialog} onClose={() => setServiceDialog(null)} maxWidth="sm" fullWidth>
-        {serviceDialog && (
-          <>
-            <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Box sx={{ color: serviceDialog.color }}>{serviceDialog.icon}</Box>
-              {serviceDialog.label}
-            </DialogTitle>
-            <DialogContent dividers>
-              <Typography sx={{ mb: 2 }}>{serviceDialog.desc}</Typography>
-              <Alert severity="info" sx={{ mb: 2 }}>{isRTL ? 'المستندات المطلوبة:' : 'Required documents:'}</Alert>
-              <List dense>
-                {[isRTL ? 'بطاقة هوية وطنية سارية' : 'Valid national ID', isRTL ? 'الرقم الضريبي (إن وجد)' : 'Tax identification number', isRTL ? 'المستندات المالية الداعمة' : 'Supporting financial documents'].map((item, i) => (
-                  <ListItem key={i}><ListItemIcon sx={{ minWidth: 28 }}><CheckCircle fontSize="small" color="success" /></ListItemIcon><ListItemText primary={item} /></ListItem>
+      {/* Main Tabs */}
+      <Paper elevation={0} sx={{ borderRadius: 3, mb: 3 }}>
+        <Tabs
+          value={currentTab}
+          onChange={(e, v) => setCurrentTab(v)}
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{
+            borderBottom: 1,
+            borderColor: 'divider',
+            '& .MuiTab-root': {
+              textTransform: 'none',
+              fontWeight: 600,
+              fontSize: '1rem',
+            },
+          }}
+        >
+          <Tab label={isRTL ? 'نظرة عامة' : 'Overview'} />
+          <Tab label={isRTL ? 'المعاملات' : 'Transactions'} />
+          <Tab label={isRTL ? 'الميزانية' : 'Budget'} />
+          <Tab label={isRTL ? 'المدفوعات القادمة' : 'Upcoming Payments'} />
+        </Tabs>
+
+        <Box p={3}>
+          {/* Overview Tab */}
+          {currentTab === 0 && (
+            <Grid container spacing={3}>
+              {services.map((service, idx) => (
+                <Grid item xs={12} sm={6} md={4} key={idx}>
+                  <PremiumServiceCard {...service} language={language} />
+                </Grid>
+              ))}
+            </Grid>
+          )}
+
+          {/* Transactions Tab */}
+          {currentTab === 1 && (
+            <Box>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+                <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                  {isRTL ? 'المعاملات الأخيرة' : 'Recent Transactions'}
+                </Typography>
+                <Button variant="outlined" startIcon={<Download />}>
+                  {isRTL ? 'تصدير' : 'Export'}
+                </Button>
+              </Box>
+
+              <List>
+                {recentTransactions.map((transaction, idx) => (
+                  <Box key={idx}>
+                    <ListItem
+                      sx={{
+                        bgcolor: '#f9fafb',
+                        borderRadius: 2,
+                        mb: 2,
+                        border: '1px solid #e5e7eb',
+                        '&:hover': {
+                          bgcolor: '#f3f4f6',
+                        },
+                      }}
+                    >
+                      <Avatar
+                        sx={{
+                          bgcolor: `${transaction.color}15`,
+                          color: transaction.color,
+                          mr: 2,
+                        }}
+                      >
+                        {transaction.amount.startsWith('-') ? <TrendingUp sx={{ transform: 'rotate(180deg)' }} /> : <TrendingUp />}
+                      </Avatar>
+                      <ListItemText
+                        primary={
+                          <Box display="flex" alignItems="center" justifyContent="space-between">
+                            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                              {transaction.description}
+                            </Typography>
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                fontWeight: 800,
+                                color: transaction.amount.startsWith('-') ? '#dc2626' : '#16a34a',
+                              }}
+                            >
+                              {transaction.amount} SDG
+                            </Typography>
+                          </Box>
+                        }
+                        secondary={
+                          <Box display="flex" gap={1} mt={1}>
+                            <Chip label={transaction.status} size="small" color="success" />
+                            <Chip label={transaction.date} size="small" variant="outlined" />
+                          </Box>
+                        }
+                      />
+                    </ListItem>
+                  </Box>
                 ))}
               </List>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setServiceDialog(null)}>{isRTL ? 'إغلاق' : 'Close'}</Button>
-              <Button variant="outlined" startIcon={<Download />} onClick={() => { setServiceDialog(null); showSnack(isRTL ? 'جاري تنزيل النموذج...' : 'Downloading form...'); }}>{isRTL ? 'تنزيل النموذج' : 'Download Form'}</Button>
-              <Button variant="contained" startIcon={<Search />} sx={{ bgcolor: serviceDialog.color }}
-                onClick={() => { setServiceDialog(null); showSnack(isRTL ? `تم تسجيل طلبك. REF-${Date.now().toString().slice(-6)}` : `Application registered. REF-${Date.now().toString().slice(-6)}`); }}>
-                {serviceDialog.cta || (isRTL ? 'تأكيد' : 'Confirm')}
-              </Button>
-            </DialogActions>
-          </>
-        )}
-      </Dialog>
+            </Box>
+          )}
 
-      <Snackbar open={snackOpen} autoHideDuration={5000} onClose={() => setSnackOpen(false)} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-        <Alert severity="success" onClose={() => setSnackOpen(false)} sx={{ width: '100%' }}>{snackMsg}</Alert>
-      </Snackbar>
+          {/* Budget Tab */}
+          {currentTab === 2 && (
+            <Box>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+                {isRTL ? 'تفصيل الميزانية 2026' : 'Budget Breakdown 2026'}
+              </Typography>
+
+              <Grid container spacing={3}>
+                {budgetBreakdown.map((item, idx) => (
+                  <Grid item xs={12} md={6} key={idx}>
+                    <Card
+                      sx={{
+                        p: 3,
+                        borderRadius: 3,
+                        border: `2px solid ${item.color}20`,
+                        background: `linear-gradient(135deg, ${item.color}05 0%, #ffffff 100%)`,
+                      }}
+                    >
+                      <Box display="flex" justifyContent="space-between" alignItems="start" mb={2}>
+                        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                          {item.category}
+                        </Typography>
+                        <Typography variant="h5" sx={{ fontWeight: 800, color: item.color }}>
+                          {item.amount.toLocaleString()} SDG
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <Box display="flex" justifyContent="space-between" mb={1}>
+                          <Typography variant="caption" color="text.secondary">
+                            {item.percentage}% {isRTL ? 'من الإجمالي' : 'of total'}
+                          </Typography>
+                        </Box>
+                        <LinearProgress
+                          variant="determinate"
+                          value={item.percentage}
+                          sx={{
+                            height: 8,
+                            borderRadius: 4,
+                            bgcolor: `${item.color}20`,
+                            '& .MuiLinearProgress-bar': {
+                              borderRadius: 4,
+                              bgcolor: item.color,
+                            },
+                          }}
+                        />
+                      </Box>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+
+          {/* Upcoming Payments Tab */}
+          {currentTab === 3 && (
+            <Box>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 700, mb: 3 }}>
+                {isRTL ? 'المدفوعات القادمة' : 'Upcoming Payments'}
+              </Typography>
+
+              <Grid container spacing={2}>
+                {upcomingPayments.map((payment, idx) => (
+                  <Grid item xs={12} md={6} key={idx}>
+                    <Paper
+                      elevation={0}
+                      sx={{
+                        p: 3,
+                        borderRadius: 3,
+                        border: `2px solid ${payment.color}30`,
+                        '&:hover': {
+                          borderColor: payment.color,
+                          boxShadow: `0 4px 12px ${payment.color}20`,
+                        },
+                      }}
+                    >
+                      <Box display="flex" justifyContent="space-between" alignItems="start" mb={2}>
+                        <Box>
+                          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                            {payment.title}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {isRTL ? 'تاريخ الاستحقاق' : 'Due'}: {payment.dueDate}
+                          </Typography>
+                        </Box>
+                        <Chip
+                          label={payment.status}
+                          sx={{
+                            bgcolor: `${payment.color}15`,
+                            color: payment.color,
+                            fontWeight: 700,
+                          }}
+                        />
+                      </Box>
+                      <Divider sx={{ my: 2 }} />
+                      <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <Typography variant="h5" sx={{ fontWeight: 800, color: payment.color }}>
+                          {payment.amount} SDG
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          sx={{
+                            background: `linear-gradient(135deg, ${payment.color} 0%, ${payment.color}dd 100%)`,
+                          }}
+                        >
+                          {isRTL ? 'دفع الآن' : 'Pay Now'}
+                        </Button>
+                      </Box>
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          )}
+        </Box>
+      </Paper>
     </Box>
   );
-};
-
-export default FinanceMinistryPortal;
+}
