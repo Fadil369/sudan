@@ -1,330 +1,464 @@
 # Cloudflare Deployment Guide
 
-Complete guide for deploying the Sudan Digital Government Portal to Cloudflare.
+Complete guide for deploying Sudan Digital Government Portal to Cloudflare Pages + Workers.
 
-## Prerequisites
+---
 
-- Cloudflare account
-- Domain (optional, can use `.pages.dev` subdomain)
-- GitHub repository connected
-- Wrangler CLI installed: `npm install -g wrangler`
+## 🚀 Quick Deploy
 
-## 1. Cloudflare Pages Setup
+### Prerequisites
 
-### Option A: Connect GitHub (Recommended)
+1. **Cloudflare Account** - Sign up at https://dash.cloudflare.com
+2. **API Token** - Generate with Pages:Edit and Workers:Edit permissions
+3. **GitHub Secrets** - Configure in repository settings
 
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → **Pages**
-2. Click **Create a project** → **Connect to Git**
-3. Select your repository: `Fadil369/sudan`
-4. Configure build settings:
-   - **Production branch:** `main`
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Root directory:** `/`
-   - **Environment variables:** (see below)
+---
 
-### Option B: Direct Upload (Manual)
+## 📋 Step-by-Step Deployment
+
+### Step 1: Get Cloudflare Credentials
+
+#### 1.1 Get Account ID
+```bash
+# Login to Cloudflare dashboard
+# Navigate to: Account > Overview
+# Copy your Account ID (right sidebar)
+```
+
+#### 1.2 Create API Token
+```bash
+# Go to: Account > API Tokens > Create Token
+# Use template: "Edit Cloudflare Workers"
+# OR create custom token with:
+#   - Account.Cloudflare Pages: Edit
+#   - Account.Cloudflare Workers Scripts: Edit
+#   - Account.D1: Edit (for database)
+#   - Account.Workers KV Storage: Edit
+#   - Account.Workers R2 Storage: Edit
+```
+
+---
+
+### Step 2: Configure GitHub Secrets
+
+Go to: **Repository Settings > Secrets and variables > Actions > New repository secret**
+
+Add these secrets:
 
 ```bash
-# Login to Cloudflare
-wrangler login
+CLOUDFLARE_API_TOKEN=your_api_token_here
+CLOUDFLARE_ACCOUNT_ID=your_account_id_here
+```
+
+Optional secrets:
+```bash
+CF_PAGES_PROJECT=sudan-gov  # Default: sudan-gov
+REACT_APP_API_URL=https://your-worker-url.workers.dev/api
+```
+
+---
+
+### Step 3: Create Cloudflare Resources
+
+#### 3.1 Create Pages Project
+
+**Option A: Via Dashboard**
+```
+1. Login to Cloudflare Dashboard
+2. Go to Pages
+3. Create Project > Connect to Git
+4. Select: Fadil369/sudan repository
+5. Build settings:
+   - Framework: Vite
+   - Build command: npm run build
+   - Build output: dist
+   - Node version: 22
+6. Click "Save and Deploy"
+```
+
+**Option B: Via CLI**
+```bash
+cd /Users/fadil369/sudan/sudan-main
 
 # Build locally
 npm run build
 
-# Deploy
-wrangler pages deploy dist --project-name=sudan-gov
+# Deploy to Pages
+npx wrangler pages deploy dist --project-name=sudan-gov
 ```
 
-## 2. Environment Variables (Pages)
-
-Set in Cloudflare Dashboard → Pages → Your Project → Settings → Environment Variables
-
-### Production
-
-```
-VITE_API_BASE_URL=https://sudan-gov-api.workers.dev
-VITE_API_VERSION=v1
-VITE_OID_ROOT=1.3.6.1.4.1.61026
-VITE_APP_NAME=Sudan Digital Government Portal
-VITE_ENABLE_BIOMETRIC=true
-VITE_ENABLE_OFFLINE=true
-VITE_ENABLE_PWA=true
-```
-
-### Preview (optional, same as production)
-
-## 3. Cloudflare Worker Setup
-
-The Worker handles `/api/*` endpoints.
-
-### Deploy Worker
+#### 3.2 Create Worker
 
 ```bash
-# Login (if not already)
-wrangler login
+# Deploy worker (API backend)
+npx wrangler deploy
 
-# Deploy
-npm run worker:deploy
+# This creates: sudan-gov-api.{your-subdomain}.workers.dev
 ```
 
-### Update Worker URL
-
-After deployment, update these files with your actual worker URL:
-
-1. **functions/api/[[path]].ts**
-   ```typescript
-   const WORKER_URL = 'https://sudan-gov-api.YOURSUBDOMAIN.workers.dev';
-   ```
-
-2. **public/_redirects**
-   ```
-   /api/*  https://sudan-gov-api.YOURSUBDOMAIN.workers.dev/api/:splat  200
-   ```
-
-3. Rebuild and redeploy:
-   ```bash
-   git add -A
-   git commit -m "Update worker URL"
-   git push
-   ```
-
-## 4. KV Namespaces
-
-Create KV namespaces for data storage:
+#### 3.3 Create D1 Databases
 
 ```bash
-# Create production namespaces
-wrangler kv:namespace create "SESSIONS"
-wrangler kv:namespace create "CACHE"
-wrangler kv:namespace create "OID_REGISTRY"
-wrangler kv:namespace create "CITIZEN_PROFILES"
+# Create main database
+npx wrangler d1 create sudan-gov-main
 
-# Create preview namespaces
-wrangler kv:namespace create "SESSIONS" --preview
-wrangler kv:namespace create "CACHE" --preview
-wrangler kv:namespace create "OID_REGISTRY" --preview
-wrangler kv:namespace create "CITIZEN_PROFILES" --preview
+# Create analytics database
+npx wrangler d1 create sudan-gov-analytics
+
+# Copy the database IDs and update wrangler.toml
 ```
 
-Update `wrangler.toml` with the IDs returned:
+#### 3.4 Create KV Namespaces
+
+```bash
+# Create KV namespaces
+npx wrangler kv:namespace create "SESSIONS"
+npx wrangler kv:namespace create "CACHE"
+npx wrangler kv:namespace create "OID_REGISTRY"
+npx wrangler kv:namespace create "CITIZEN_PROFILES"
+
+# Copy the IDs and update wrangler.toml
+```
+
+#### 3.5 Create R2 Buckets
+
+```bash
+# Create R2 bucket for documents
+npx wrangler r2 bucket create sudan-gov-documents
+
+# Update wrangler.toml with bucket name
+```
+
+---
+
+### Step 4: Update Configuration
+
+#### 4.1 Update `wrangler.toml`
+
+Replace placeholder IDs with real ones:
 
 ```toml
+name = "sudan-gov-api"
+main = "api/index.js"
+compatibility_date = "2024-01-01"
+
+# Replace with your actual IDs
 [[kv_namespaces]]
 binding = "SESSIONS"
-id = "YOUR_SESSIONS_ID"
-preview_id = "YOUR_SESSIONS_PREVIEW_ID"
+id = "your_sessions_kv_id"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "your_cache_kv_id"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sudan-gov-main"
+database_id = "your_d1_database_id"
+
+[[r2_buckets]]
+binding = "DOCUMENTS"
+bucket_name = "sudan-gov-documents"
 ```
 
-## 5. D1 Database
-
-Create D1 databases:
+#### 4.2 Set Environment Variables (Secrets)
 
 ```bash
-# Create production database
-wrangler d1 create sudan-gov-main
-wrangler d1 create sudan-gov-analytics
+# Set JWT secret
+npx wrangler secret put JWT_SECRET
+# Enter a strong random string (32+ characters)
 
-# Update wrangler.toml with IDs
-# Then run migrations
-npm run d1:migrate
+# Set encryption key
+npx wrangler secret put ENCRYPTION_KEY
+# Enter another strong random string
+
+# Set admin API key (optional)
+npx wrangler secret put ADMIN_API_KEY
+# Enter admin access key
 ```
 
-## 6. R2 Storage
+---
 
-Create R2 buckets:
+### Step 5: Deploy Everything
+
+#### 5.1 Commit and Push
 
 ```bash
-wrangler r2 bucket create sudan-gov-documents
-wrangler r2 bucket create sudan-gov-media
-wrangler r2 bucket create sudan-gov-audit-logs
+cd /Users/fadil369/sudan/sudan-main
 
-# Preview buckets
-wrangler r2 bucket create sudan-gov-documents-preview
-wrangler r2 bucket create sudan-gov-media-preview
-wrangler r2 bucket create sudan-gov-audit-logs-preview
+# Commit workflow fixes
+git add .github/workflows/deploy-cloudflare.yml
+git commit -m "🔧 Fix Cloudflare deployment workflow"
+git push origin main
 ```
 
-## 7. Secrets
-
-Set sensitive secrets (never commit these):
-
-### Worker Secrets
+#### 5.2 Watch GitHub Actions
 
 ```bash
-wrangler secret put JWT_SECRET
-wrangler secret put ENCRYPTION_KEY
-wrangler secret put BIOMETRIC_API_KEY
-wrangler secret put PAYMENT_GATEWAY_KEY
-wrangler secret put SMS_API_KEY
-wrangler secret put EMAIL_API_KEY
-wrangler secret put BLOCKCHAIN_NODE_URL
+# Monitor deployment
+gh run watch
+
+# Or check in browser:
+# https://github.com/Fadil369/sudan/actions
 ```
 
-### Pages Secrets
+#### 5.3 Manual Deploy (if needed)
 
 ```bash
-wrangler pages secret put JWT_SECRET --project-name=sudan-gov
-# Repeat for all secrets
+# Build frontend
+npm run build
+
+# Deploy Pages
+npx wrangler pages deploy dist --project-name=sudan-gov
+
+# Deploy Worker
+npx wrangler deploy
+
+# Run migrations
+npx wrangler d1 execute sudan-gov-main --file=./database/migrations/001_initial.sql --remote
 ```
 
-## 8. Durable Objects
+---
 
-Durable Objects require paid Workers plan.
+## 🧪 Testing Deployment
 
-1. Enable in dashboard: Workers & Pages → Your Worker → Settings → Durable Objects
-2. Bindings are already configured in `wrangler.toml`
-3. Deploy worker: `npm run worker:deploy`
-
-## 9. Custom Domain (Optional)
-
-### Add Domain to Pages
-
-1. Cloudflare Dashboard → Pages → Your Project → Custom Domains
-2. Click **Set up a custom domain**
-3. Enter your domain (e.g., `portal.gov.sd`)
-4. Follow DNS instructions
-5. Wait for SSL certificate provisioning (~5 min)
-
-### Update CORS
-
-Update `wrangler.toml`:
-
-```toml
-[vars]
-CORS_ORIGIN = "https://portal.gov.sd"
-```
-
-Redeploy worker: `npm run worker:deploy`
-
-## 10. Bindings in Pages Functions
-
-Update Pages bindings in Cloudflare Dashboard:
-
-1. Pages → Your Project → Settings → Functions
-2. Add bindings:
-   - **KV Namespace bindings:** SESSIONS, CACHE, OID_REGISTRY, CITIZEN_PROFILES
-   - **D1 Database bindings:** DB, ANALYTICS_DB
-   - **R2 Bucket bindings:** DOCUMENTS, MEDIA, AUDIT_LOGS
-   - **Durable Object bindings:** SESSION_DO, RATE_LIMITER, CITIZEN_STREAM
-
-## 11. Verify Deployment
-
-### Test Pages
+### Test Pages (Frontend)
 
 ```bash
-curl https://sudan-gov.pages.dev
+# Your Pages URL will be:
+https://sudan-gov.pages.dev
+
+# Test routes:
+https://sudan-gov.pages.dev/
+https://sudan-gov.pages.dev/portal
+https://sudan-gov.pages.dev/portal/health
+https://sudan-gov.pages.dev/portal/education
+https://sudan-gov.pages.dev/portal/identity
+https://sudan-gov.pages.dev/portal/finance
+https://sudan-gov.pages.dev/login
+https://sudan-gov.pages.dev/dashboard
 ```
 
-### Test Worker
+### Test Worker (Backend API)
 
 ```bash
-curl https://sudan-gov-api.YOURSUBDOMAIN.workers.dev/api/health
+# Health check
+curl https://sudan-gov-api.{your-subdomain}.workers.dev/api/health
+
+# Expected response:
+{
+  "status": "healthy",
+  "timestamp": "2026-03-01T19:57:00.000Z",
+  "checks": {
+    "d1": "healthy",
+    "kv_sessions": "healthy",
+    "r2_documents": "healthy"
+  }
+}
 ```
 
-### Test Pages Functions
+### Run Integration Tests
 
 ```bash
-curl https://sudan-gov.pages.dev/api/health
+# In browser console (on deployed Pages URL)
+await window.cloudflareTests.runIntegrationTests()
+
+# Expected:
+# ✓ Pages deployment detected
+# ✓ Worker API reachable
+# ✓ D1 database operational
+# ✓ KV namespaces operational
+# ✓ R2 storage operational
 ```
 
-## 12. Monitoring
+---
 
-### Analytics
+## 🔄 Continuous Deployment
 
-- Dashboard → Pages → Your Project → Analytics
-- Real-time visitors, bandwidth, requests
+Once set up, every push to `main` triggers:
+
+1. ✅ Build React app (Node 22.x)
+2. ✅ Deploy to Cloudflare Pages
+3. ✅ Deploy Worker API
+4. ✅ Run D1 migrations
+5. ✅ Health check
+
+**Auto-deploy enabled!** Just push to main and Cloudflare handles the rest.
+
+---
+
+## 🐛 Troubleshooting
+
+### Issue: "API Token not found"
+
+**Solution:**
+```bash
+# Check GitHub secrets are set
+gh secret list
+
+# Add if missing
+gh secret set CLOUDFLARE_API_TOKEN
+gh secret set CLOUDFLARE_ACCOUNT_ID
+```
+
+### Issue: "Wrangler requires Node 20+"
+
+**Solution:** Already fixed in workflow (uses Node 22.x now)
+
+### Issue: "Directory 'build' not found"
+
+**Solution:** Already fixed (changed to `dist`)
+
+### Issue: "KV namespace not found"
+
+**Solution:**
+```bash
+# Create KV namespaces
+npx wrangler kv:namespace create "SESSIONS"
+
+# Update wrangler.toml with the returned ID
+```
+
+### Issue: "D1 database not found"
+
+**Solution:**
+```bash
+# Create database
+npx wrangler d1 create sudan-gov-main
+
+# Update wrangler.toml with database_id
+```
+
+---
+
+## 📊 Monitor Deployment
+
+### Cloudflare Dashboard
+
+```
+Pages: https://dash.cloudflare.com/pages
+Workers: https://dash.cloudflare.com/workers
+D1: https://dash.cloudflare.com/d1
+```
+
+### GitHub Actions
+
+```bash
+# Watch latest run
+gh run watch
+
+# List recent runs
+gh run list --limit 5
+
+# View specific run
+gh run view <run-id> --log
+```
 
 ### Logs
 
 ```bash
-# Worker logs
-npm run worker:tail
+# Stream Worker logs
+npx wrangler tail
 
-# Or via Wrangler
-wrangler tail sudan-gov-api
+# View Pages deployment logs
+# Go to Cloudflare Dashboard > Pages > Deployment
 ```
-
-### Error Tracking
-
-Consider integrating:
-- Sentry (error tracking)
-- Cloudflare Web Analytics (privacy-friendly)
-
-## 13. CI/CD (Automatic Deployments)
-
-Already configured via GitHub integration!
-
-- **Push to `main`** → Deploys to production
-- **Push to any branch** → Creates preview deployment
-- **Pull requests** → Automatic preview comments
-
-## Troubleshooting
-
-### Build Fails
-
-```bash
-# Check build locally
-npm run build
-
-# Check logs in Cloudflare Dashboard
-```
-
-### API not working
-
-1. Verify worker is deployed: `wrangler deployments list`
-2. Check worker URL in `functions/api/[[path]].ts`
-3. Verify CORS settings in worker
-
-### Bindings not available
-
-1. Check Pages Settings → Functions → Bindings
-2. Verify IDs in `wrangler.toml`
-3. Redeploy after changes
-
-### Environment variables not working
-
-- Client vars need `VITE_` prefix
-- Set in Pages dashboard (not `.env` for production)
-- Rebuild after changes
-
-## Cost Estimate
-
-### Free Plan (Suitable for MVP/Demo)
-- Pages: Unlimited sites, 500 builds/month
-- Workers: 100,000 requests/day
-- KV: 100,000 reads/day, 1,000 writes/day
-- D1: 100,000 rows read/day, 1GB storage
-- R2: 10GB storage, 1M reads/month
-
-### Paid Plan (Production)
-- Workers Paid: $5/month (10M requests)
-- R2: $0.015/GB/month storage
-- D1: Based on usage
-- Durable Objects: $0.15/million requests
-
-## Security Checklist
-
-- [ ] All secrets set (not committed)
-- [ ] CORS restricted to production domain
-- [ ] CSP headers configured (in `_headers`)
-- [ ] Rate limiting enabled (via Durable Objects)
-- [ ] SSL/TLS enabled (automatic on Cloudflare)
-- [ ] API authentication implemented
-- [ ] Audit logging active
-
-## Next Steps
-
-1. Complete initial deployment
-2. Configure custom domain
-3. Set up monitoring/alerts
-4. Load test with realistic data
-5. Security audit
-6. User acceptance testing
 
 ---
 
-**Support:**
-- Cloudflare Docs: https://developers.cloudflare.com
-- Wrangler Docs: https://developers.cloudflare.com/workers/wrangler
-- Community Discord: https://discord.gg/cloudflaredev
+## 🎯 Custom Domain (Optional)
+
+### Add Custom Domain to Pages
+
+```
+1. Cloudflare Dashboard > Pages > sudan-gov
+2. Custom domains > Set up a custom domain
+3. Enter: portal.sudan.gov (or your domain)
+4. Cloudflare will add DNS records automatically
+5. Wait for SSL certificate (usually <5 minutes)
+```
+
+### Add Custom Domain to Worker
+
+```
+1. Cloudflare Dashboard > Workers > sudan-gov-api
+2. Triggers > Add Custom Domain
+3. Enter: api.sudan.gov
+4. DNS records added automatically
+```
+
+---
+
+## 📝 Environment Variables
+
+### Pages Environment Variables
+
+```bash
+# Set in Cloudflare Dashboard > Pages > Settings > Environment variables
+
+VITE_API_BASE_URL=https://api.sudan.gov
+VITE_ENVIRONMENT=production
+```
+
+### Worker Secrets
+
+```bash
+# Set via Wrangler CLI
+npx wrangler secret put JWT_SECRET
+npx wrangler secret put ENCRYPTION_KEY
+npx wrangler secret put ADMIN_API_KEY
+
+# Or in Dashboard > Workers > sudan-gov-api > Settings > Variables
+```
+
+---
+
+## ✅ Deployment Checklist
+
+Before going live:
+
+- [ ] GitHub secrets configured (API token, Account ID)
+- [ ] Cloudflare Pages project created
+- [ ] Worker deployed successfully
+- [ ] D1 databases created and migrated
+- [ ] KV namespaces created and bound
+- [ ] R2 bucket created and bound
+- [ ] Secrets set (JWT_SECRET, etc.)
+- [ ] Health check returns healthy
+- [ ] Integration tests pass
+- [ ] All ministry portals accessible
+- [ ] Custom domains configured (optional)
+- [ ] SSL certificates active
+
+---
+
+## 🚀 Quick Commands
+
+```bash
+# Build locally
+npm run build
+
+# Deploy Pages
+npx wrangler pages deploy dist --project-name=sudan-gov
+
+# Deploy Worker
+npx wrangler deploy
+
+# Stream logs
+npx wrangler tail
+
+# List deployments
+npx wrangler deployments list
+
+# Run migrations
+npx wrangler d1 execute sudan-gov-main --file=./database/migrations/001_initial.sql --remote
+
+# Test health
+curl https://sudan-gov-api.workers.dev/api/health
+```
+
+---
+
+**Status:** Ready to deploy! 🎉
+**Estimated Time:** 10-15 minutes for full setup
+**Support:** See Cloudflare docs at https://developers.cloudflare.com
