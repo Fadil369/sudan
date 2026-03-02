@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline, CircularProgress, Box } from '@mui/material';
 import { AccessibilityProvider } from './components/AccessibilityProvider';
+import './styles/sudan-government.css';
 
 // Lazy load pages for better performance
 const LandingPage = lazy(() => import('./pages/LandingPage'));
@@ -24,28 +25,28 @@ const PageLoader = () => (
 );
 
 // Sudan Government Theme
-const theme = createTheme({
+export const appTheme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2', // Blue
-      light: '#42a5f5',
-      dark: '#1565c0',
+      main: '#1B3A5C',
+      light: '#2D5A8E',
+      dark: '#0F2640',
     },
     secondary: {
-      main: '#388e3c', // Green
-      light: '#66bb6a',
-      dark: '#2e7d32',
+      main: '#007A3D',
+      light: '#2E9F63',
+      dark: '#005A2D',
     },
     error: {
-      main: '#d32f2f',
+      main: '#C8102E',
     },
     background: {
-      default: '#f5f5f5',
+      default: '#F5F7FA',
       paper: '#ffffff',
     },
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Inter", "Cairo", "Noto Sans Arabic", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
       fontSize: '2.5rem',
       fontWeight: 600,
@@ -64,7 +65,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: 8,
+          borderRadius: 10,
+          fontWeight: 600,
         },
       },
     },
@@ -72,7 +74,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          boxShadow: '0 2px 8px rgba(15, 38, 64, 0.08)',
         },
       },
     },
@@ -81,7 +83,7 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={appTheme}>
       <CssBaseline />
       <AccessibilityProvider>
         <BrowserRouter>

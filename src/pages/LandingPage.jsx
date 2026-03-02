@@ -564,10 +564,10 @@ const LandingPage = () => {
     <div
       style={{
         minHeight: '100vh',
-        background: '#f8fafc',
+        background: '#F5F7FA',
         color: '#0f172a',
         fontFamily:
-          "'Outfit', 'Noto Sans Arabic', system-ui, -apple-system, sans-serif",
+          "'Inter', 'Cairo', 'Noto Sans Arabic', system-ui, -apple-system, sans-serif",
         direction: t.dir,
       }}
     >
@@ -590,7 +590,7 @@ const LandingPage = () => {
               style={{
                 width: 42,
                 height: 42,
-                background: '#2563eb',
+                background: '#1B3A5C',
                 borderRadius: 12,
                 display: 'flex',
                 alignItems: 'center',
