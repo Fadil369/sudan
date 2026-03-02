@@ -7,11 +7,45 @@ Responses are in JSON format.
 
 ---
 
+## Implementation Snapshot (Current Build & Worker Logic)
+
+The production code currently runs a Cloudflare Worker from `/api/index.js` (configured in `workers.toml`) and the frontend calls `import.meta.env.VITE_API_BASE_URL || '/api'`.
+
+- **Frontend build/runtime API base**
+  - `VITE_API_BASE_URL` (fallback: `/api`)
+  - Used in:
+    - `src/pages/LoginPage.jsx`
+    - `src/pages/DashboardPage.jsx`
+    - `src/utils/cloudflareIntegration.js`
+- **Worker route prefix**: `/api/*` (see `api/index.js` and `workers.toml` route pattern)
+- **Health endpoint (live in code)**: `GET /api/health` (also supports `GET /health`)
+
+### Live Endpoints in `api/index.js`
+
+| Method | Endpoint | Notes |
+|---|---|---|
+| GET | `/api/health` | Returns API status, environment, CF metadata, and binding availability |
+| POST | `/api/citizen/search` | Body: `{ "nationalId": "..." }` |
+| POST | `/api/documents/upload` | Multipart upload (`file`, `citizenId`, `docType`) to R2 |
+| GET | `/api/documents/{key}` | Fetch document object by key |
+| POST | `/api/services/request` | Create service request (`ministry`, `serviceType`, optional `citizenId`, `notes`) |
+| GET | `/api/analytics/dashboard` | Returns dashboard stats (uses cache + D1 analytics when present) |
+| GET | `/api/oid/{oid}` | Resolve OID from KV/D1 |
+| POST | `/api/auth/session` | Creates session token (`username`, `password`) |
+| POST | `/api/auth/logout` | Deletes current session token |
+| Any | `/api/{ministry}` | Ministry datasets (`health`, `education`, `finance`, `agriculture`, `energy`, `infrastructure`, `justice`, `labor`, `social_welfare`, `foreign_affairs`, `mining`) |
+| Any | `/api/stream/*` | Durable Object citizen stream proxy (when configured) |
+
+> **Important:** Some sections below describe broader platform target APIs. For implementation and integration with the current deployed build, use the snapshot above as source of truth.
+
+---
+
 ## Table of Contents
 
 1. [Authentication & Common Headers](#authentication--common-headers)
-2. [Error Handling](#error-handling)
-3. [Core Modules](#core-modules)
+2. [Implementation Snapshot (Current Build & Worker Logic)](#implementation-snapshot-current-build--worker-logic)
+3. [Error Handling](#error-handling)
+4. [Core Modules](#core-modules)
    - [OID Service](#oid-service)
    - [Identity Service](#identity-service)
    - [Agency Integration Service](#agency-integration-service)
@@ -26,7 +60,7 @@ Responses are in JSON format.
    - [Access Control Engine](#access-control-engine)
    - [Integration Orchestrator](#integration-orchestrator)
    - [Performance Monitor](#performance-monitor)
-4. [Resource Modules](#resource-modules)
+5. [Resource Modules](#resource-modules)
    - [Nile Water Management](#nile-water-management)
    - [Farming & Agriculture](#farming--agriculture)
    - [Gold & Treasures Management](#gold--treasures-management)
