@@ -287,10 +287,23 @@ export default {
             response = jsonResponse({ success: true, token: sessionToken, expiresAt: session.expiresAt }, 201, corsHeaders);
           } else if (subResource === 'biometric' && method === 'POST') {
             const body = await request.json().catch(() => ({}));
-            const { credentialId, assertion } = body;
+            const { credentialId } = body;
+            if (!credentialId) { response = errorResponse('credentialId required', 400); break; }
+            // Look up the user associated with this credential
+            let userId = null;
+            if (env.DB) {
+              const row = await env.DB.prepare(
+                'SELECT user_id FROM webauthn_credentials WHERE credential_id = ?'
+              ).bind(credentialId).first().catch(() => null);
+              if (row) userId = row.user_id;
+            }
+            if (!userId) { response = errorResponse('Unknown credential', 401); break; }
+            // NOTE: Full WebAuthn assertion signature verification requires the stored
+            // public key and challenge replay checks. This placeholder validates credential
+            // ownership only; production deployments must add cryptographic verification.
             const sessionToken = generateId();
             const session = {
-              token: sessionToken, userId: credentialId || 'biometric-user', createdAt: nowISO(),
+              token: sessionToken, userId, createdAt: nowISO(),
               expiresAt: new Date(Date.now() + 8 * 3600 * 1000).toISOString(),
               authMethod: 'biometric',
             };
