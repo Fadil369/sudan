@@ -11,6 +11,7 @@
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.sudan.elfadil.com wss://*.sudan.elfadil.com https://*.workers.dev; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
 
 /api/*
+  Access-Control-Allow-Origin: https://sudan.elfadil.com
   Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
   Access-Control-Allow-Headers: Content-Type, Authorization, X-OID-Token
   Cache-Control: no-cache, no-store, must-revalidate
@@ -29,6 +30,6 @@
 
 /sw.js
   Cache-Control: no-cache, no-store, must-revalidate
-  
+
 /manifest.json
   Cache-Control: public, max-age=86400

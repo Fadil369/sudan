@@ -16,8 +16,18 @@ export { CitizenStreamDurableObject } from './durable-objects/citizen-stream.js'
 
 const CACHE_TTL = 300; // seconds (5 minutes)
 
-const CORS_HEADERS = (origin) => ({
-  'Access-Control-Allow-Origin': origin || '*',
+const ALLOWED_ORIGINS = new Set([
+  'https://sudan.elfadil.com',
+  'https://portal.sudan.elfadil.com',
+]);
+
+function isOriginAllowed(origin, corsOriginEnv) {
+  if (corsOriginEnv === '*') return true;
+  return ALLOWED_ORIGINS.has(origin) || (origin && origin.endsWith('.sudan.elfadil.com'));
+}
+
+const CORS_HEADERS = (origin, corsOriginEnv) => ({
+  'Access-Control-Allow-Origin': isOriginAllowed(origin, corsOriginEnv) ? (origin || ALLOWED_ORIGINS.values().next().value) : ALLOWED_ORIGINS.values().next().value,
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Request-ID',
   'Access-Control-Max-Age': '86400',
@@ -105,7 +115,7 @@ export default {
     const path = url.pathname;
     const method = request.method;
     const origin = request.headers.get('Origin') || '';
-    const corsHeaders = CORS_HEADERS(env.CORS_ORIGIN === '*' ? '*' : origin);
+    const corsHeaders = CORS_HEADERS(origin, env.CORS_ORIGIN);
 
     if (method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders });

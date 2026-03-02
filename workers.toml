@@ -94,5 +94,7 @@ ENVIRONMENT = "staging"
 CORS_ORIGIN = "https://staging.sudan.elfadil.com"
 
 # ─── Routes ───────────────────────────────────────────────────────────────────
-# API Worker handles /api/* on the production domain
-routes = [{ pattern = "sudan.elfadil.com/api/*", zone_name = "elfadil.com" }]
+# API Worker handles requests on the api.sudan.elfadil.com subdomain.
+# CF Pages Functions at functions/api/[[path]].ts proxy sudan.elfadil.com/api/* here.
+# DNS prerequisite: add an orange-cloud A/CNAME record for api.sudan.elfadil.com in Cloudflare.
+routes = [{ pattern = "api.sudan.elfadil.com/*", zone_name = "elfadil.com" }]
