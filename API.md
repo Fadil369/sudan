@@ -1,9 +1,9 @@
 # API Documentation – Sudan Government Digital Unified System (SGDUS)
 
-This document provides detailed API specifications for all SGDUS modules.  
-Base URL: `https://api.sgdus.gov.sd/v1`  
-All endpoints require authentication via Bearer token (JWT) unless otherwise specified.  
-Responses are in JSON format.
+This document provides detailed API specifications for SGDUS modules.  
+Current frontend build default API base: `/api` (or `VITE_API_BASE_URL` when provided).  
+Authentication requirements vary by endpoint (for example, health is public while session/logout are auth-related).  
+Responses are JSON unless explicitly noted otherwise.
 
 ---
 
@@ -77,7 +77,7 @@ The production code currently runs a Cloudflare Worker from `/api/index.js` (con
 - **Accept**: `application/json`
 
 Tokens are obtained via the `/auth/login` endpoint (see Identity Service).  
-Token expiry is 7 days by default.
+In the current Worker implementation, tokens are issued by `POST /api/auth/session` and expire after 8 hours.
 
 ---
 
