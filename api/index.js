@@ -271,10 +271,11 @@ export default {
         }
 
         case 'auth': {
-          if (subResource === 'session' && method === 'POST') {
+          if ((subResource === 'session' || subResource === 'login') && method === 'POST') {
             const body = await request.json().catch(() => ({}));
-            const { username, password } = body;
-            if (!username || !password) { response = errorResponse('username and password required'); break; }
+            const username = body.username || body.oid;
+            const { password } = body;
+            if (!username || !password) { response = errorResponse('username/oid and password required'); break; }
             const sessionToken = generateId();
             const session = {
               token: sessionToken, userId: username, createdAt: nowISO(),
@@ -284,10 +285,59 @@ export default {
               await env.SESSIONS.put(`session:${sessionToken}`, JSON.stringify(session), { expirationTtl: 8 * 3600 });
             }
             response = jsonResponse({ success: true, token: sessionToken, expiresAt: session.expiresAt }, 201, corsHeaders);
+          } else if (subResource === 'biometric' && method === 'POST') {
+            const body = await request.json().catch(() => ({}));
+            const { credentialId } = body;
+            if (!credentialId) { response = errorResponse('credentialId required', 400); break; }
+            // Look up the user associated with this credential
+            let userId = null;
+            if (env.DB) {
+              const row = await env.DB.prepare(
+                'SELECT user_id FROM webauthn_credentials WHERE credential_id = ?'
+              ).bind(credentialId).first().catch(() => null);
+              if (row) userId = row.user_id;
+            }
+            if (!userId) { response = errorResponse('Unknown credential', 401); break; }
+            // NOTE: Full WebAuthn assertion signature verification requires the stored
+            // public key and challenge replay checks. This placeholder validates credential
+            // ownership only; production deployments must add cryptographic verification.
+            const sessionToken = generateId();
+            const session = {
+              token: sessionToken, userId, createdAt: nowISO(),
+              expiresAt: new Date(Date.now() + 8 * 3600 * 1000).toISOString(),
+              authMethod: 'biometric',
+            };
+            if (env.SESSIONS) {
+              await env.SESSIONS.put(`session:${sessionToken}`, JSON.stringify(session), { expirationTtl: 8 * 3600 });
+            }
+            response = jsonResponse({ success: true, token: sessionToken, expiresAt: session.expiresAt, authMethod: 'biometric' }, 201, corsHeaders);
           } else if (subResource === 'logout' && method === 'POST') {
             const session = await getSession(env, request);
             if (session && env.SESSIONS) await env.SESSIONS.delete(`session:${session.token}`);
             response = jsonResponse({ success: true }, 200, corsHeaders);
+          } else { response = errorResponse('Not found', 404); }
+          break;
+        }
+
+        case 'user': {
+          if (subResource === 'profile' && method === 'GET') {
+            const session = await getSession(env, request);
+            if (!session) { response = errorResponse('Unauthorized', 401); break; }
+            let profile = null;
+            if (env.CITIZEN_PROFILES) {
+              profile = await env.CITIZEN_PROFILES.get(`user:${session.userId}`, { type: 'json' });
+            }
+            if (env.DB && !profile) {
+              profile = await env.DB.prepare(
+                'SELECT id, national_id, oid, full_name_ar, full_name_en, state, status FROM citizens WHERE national_id = ? OR oid = ?'
+              ).bind(session.userId, session.userId).first();
+            }
+            response = jsonResponse({
+              success: true,
+              userId: session.userId,
+              profile: profile || { userId: session.userId },
+              session: { createdAt: session.createdAt, expiresAt: session.expiresAt },
+            }, 200, corsHeaders);
           } else { response = errorResponse('Not found', 404); }
           break;
         }
