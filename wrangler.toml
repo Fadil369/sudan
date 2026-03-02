@@ -67,10 +67,6 @@ name = "CITIZEN_STREAM"
 class_name = "CitizenStreamDurableObject"
 script_name = "sudan-gov-api"
 
-[[migrations]]
-tag = "v1"
-new_classes = ["SessionDurableObject", "RateLimiterDurableObject", "CitizenStreamDurableObject"]
-
 # ─── Environment Variables ────────────────────────────────────────────────────
 [vars]
 ENVIRONMENT = "production"
