@@ -21,6 +21,7 @@ import {
   Wheat,
   ArrowRight,
   ExternalLink,
+  BookOpen,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -119,8 +120,8 @@ const slides = [
     icon: BrainCircuit,
     tag: 'AI & Analytics',
     tagAr: 'الذكاء الاصطناعي',
-    title: 'BRAINSAIT Intelligence Layer',
-    titleAr: 'طبقة الذكاء برينسيت',
+    title: 'BrainSAIT Intelligence Layer',
+    titleAr: 'طبقة الذكاء برينسايت',
     description:
       'Machine-learning powered analytics on national data streams — predicting service demand, detecting fraud, and optimising resource allocation in real time.',
     descriptionAr:
@@ -443,12 +444,12 @@ const LandingPage = () => {
   const content = {
     en: {
       dir: 'ltr',
-      brand: 'BRAINSAIT',
+      brand: 'BrainSAIT',
       nav: ['Identity', 'Economic', 'Governance', 'Multimedia', 'Registry'],
       heroTitle: 'Unified Digital Sovereign System',
       heroSub:
         'Empowering Sudan through automated, integrated, and technology-driven solutions.',
-      poweredBy: 'Powered by BRAINSAIT LTD',
+      poweredBy: 'Powered by BrainSAIT LTD',
       founderVision:
         'Pioneering the intersection of healthcare, business, and technology through collective brainpower.',
       oidRoot: 'Root OID: 1.3.6.1.4.1.61026',
@@ -472,7 +473,7 @@ const LandingPage = () => {
         { id: '.6.05', name: 'Gezira Farm Allocations', type: 'Agriculture', status: 'Syncing' },
       ],
       textBlock:
-        "BRAINSAIT LTD delivers high-scale government digital systems that consolidate national identity, economic assets, healthcare records, and infrastructure into a unified platform. Utilizing our unique OID root, we ensure every asset—from a citizen's health profile to a Nile water allocation—is uniquely identifiable and secure.",
+        "BrainSAIT LTD delivers high-scale government digital systems that consolidate national identity, economic assets, healthcare records, and infrastructure into a unified platform. Utilizing our unique OID root, we ensure every asset—from a citizen's health profile to a Nile water allocation—is uniquely identifiable and secure.",
       audioLabel: 'National Anthem / Official Briefing',
       videoLabel: 'System Architecture Overview',
       enterPortal: 'Enter Government Portal',
@@ -485,7 +486,7 @@ const LandingPage = () => {
       heroTitle: 'النظام الرقمي السيادي الموحد',
       heroSub:
         'تمكين السودان من خلال حلول مؤتمتة، متكاملة، ومدفوعة بالتقنية الحديثة.',
-      poweredBy: 'بدعم من شركة برينسيت المحدودة',
+      poweredBy: 'بدعم من شركة برينسايت المحدودة',
       founderVision:
         'ريادة التقاطع بين الرعاية الصحية والأعمال والتقنية من خلال قوة العقل الجماعي.',
       oidRoot: 'معرف الجذر: 1.3.6.1.4.1.61026',
@@ -509,7 +510,7 @@ const LandingPage = () => {
         { id: '.6.05', name: 'مخصصات مزارع الجزيرة', type: 'زراعة', status: 'مزامنة' },
       ],
       textBlock:
-        'تقدم شركة برينسيت المحدودة أنظمة رقمية حكومية واسعة النطاق توحد الهوية الوطنية، الأصول الاقتصادية، السجلات الصحية، والبنية التحتية في منصة واحدة. باستخدام جذر OID الفريد الخاص بنا، نضمن أن يكون كل أصل - من الملف الصحي للمواطن إلى مخصصات مياه النيل - قابلاً للتعريف والتأمين بشكل فريد.',
+        'تقدم شركة برينسايت المحدودة أنظمة رقمية حكومية واسعة النطاق توحد الهوية الوطنية، الأصول الاقتصادية، السجلات الصحية، والبنية التحتية في منصة واحدة. باستخدام جذر OID الفريد الخاص بنا، نضمن أن يكون كل أصل - من الملف الصحي للمواطن إلى مخصصات مياه النيل - قابلاً للتعريف والتأمين بشكل فريد.',
       audioLabel: 'النشيد الوطني / الإيجاز الرسمي',
       videoLabel: 'نظرة عامة على بنية النظام',
       enterPortal: 'دخول البوابة الحكومية',
@@ -630,6 +631,27 @@ const LandingPage = () => {
               );
             })}
             <button
+              onClick={() => navigate('/docs')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '8px 16px',
+                borderRadius: 999,
+                background: '#eff6ff',
+                border: '1px solid #bfdbfe',
+                fontWeight: 600,
+                fontSize: 13,
+                cursor: 'pointer',
+                color: '#1e40af',
+                transition: 'background 0.2s',
+              }}
+              aria-label={lang === 'en' ? 'Documentation' : 'الوثائق'}
+            >
+              <BookOpen size={15} />
+              {lang === 'en' ? 'Docs' : 'الوثائق'}
+            </button>
+            <button
               onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}
               style={{
                 display: 'flex',
@@ -701,6 +723,28 @@ const LandingPage = () => {
                 </a>
               );
             })}
+            <button
+              onClick={() => { setIsMenuOpen(false); navigate('/docs'); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                width: '100%',
+                padding: '12px 0',
+                borderBottom: '1px solid #f1f5f9',
+                background: 'none',
+                border: 'none',
+                color: '#1e40af',
+                fontWeight: 600,
+                fontSize: 15,
+                cursor: 'pointer',
+                textAlign: 'start',
+              }}
+              aria-label={lang === 'en' ? 'Documentation' : 'الوثائق'}
+            >
+              <BookOpen size={16} />
+              {lang === 'en' ? 'Docs & Manuals' : 'الوثائق والأدلة'}
+            </button>
             <button
               onClick={() => navigate('/portal')}
               style={{ ...btnPrimary, width: '100%', justifyContent: 'center', marginTop: 12 }}
@@ -1236,6 +1280,28 @@ const LandingPage = () => {
             {t.enterPortal}
             <ChevronRight size={20} />
           </button>
+          <button
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '12px 24px',
+              borderRadius: 999,
+              background: 'transparent',
+              border: '2px solid rgba(255,255,255,0.5)',
+              color: '#fff',
+              fontWeight: 600,
+              fontSize: 15,
+              cursor: 'pointer',
+              marginLeft: 12,
+              transition: 'border-color 0.2s',
+            }}
+            onClick={() => navigate('/docs')}
+            aria-label={lang === 'en' ? 'Documentation & Manuals' : 'الوثائق والأدلة'}
+          >
+            <BookOpen size={18} />
+            {lang === 'en' ? 'Docs & Manuals' : 'الوثائق والأدلة'}
+          </button>
         </div>
       </section>
 
@@ -1286,6 +1352,7 @@ const LandingPage = () => {
           <div style={{ display: 'flex', gap: 20 }}>
             <Globe size={20} color="#94a3b8" style={{ cursor: 'pointer' }} />
             <ShieldCheck size={20} color="#94a3b8" style={{ cursor: 'pointer' }} />
+            <BookOpen size={20} color="#94a3b8" style={{ cursor: 'pointer' }} onClick={() => navigate('/docs')} aria-label="Documentation" />
             <Layout size={20} color="#94a3b8" style={{ cursor: 'pointer' }} />
           </div>
         </div>

@@ -8,6 +8,7 @@ const LandingPage = lazy(() => import('./pages/LandingPage'));
 const SudanGovPortal = lazy(() => import('./pages/SudanGovPortal'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const DocumentationHub = lazy(() => import('./components/DocumentationHub'));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -91,6 +92,9 @@ function App() {
               <Route path="/portal" element={<SudanGovPortal />} />
               <Route path="/login" element={<LoginPage />} />
               
+              {/* Documentation */}
+              <Route path="/docs" element={<DocumentationHub />} />
+
               {/* Protected Routes */}
               <Route path="/dashboard" element={<DashboardPage />} />
               
