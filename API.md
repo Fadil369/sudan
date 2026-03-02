@@ -32,7 +32,10 @@ The production code currently runs a Cloudflare Worker from `/api/index.js` (con
 | GET | `/api/analytics/dashboard` | Returns dashboard stats (uses cache + D1 analytics when present) |
 | GET | `/api/oid/{oid}` | Resolve OID from KV/D1 |
 | POST | `/api/auth/session` | Creates session token (`username`, `password`) |
+| POST | `/api/auth/login` | Alias for `/auth/session`; also accepts `oid` as user identifier |
+| POST | `/api/auth/biometric` | Biometric (WebAuthn) authentication; returns session token |
 | POST | `/api/auth/logout` | Deletes current session token |
+| GET | `/api/user/profile` | Returns authenticated user profile (requires Bearer token) |
 | Any | `/api/{ministry}` | Ministry datasets (`health`, `education`, `finance`, `agriculture`, `energy`, `infrastructure`, `justice`, `labor`, `social_welfare`, `foreign_affairs`, `mining`) |
 | Any | `/api/stream/*` | Durable Object citizen stream proxy (when configured) |
 
@@ -42,31 +45,31 @@ The production code currently runs a Cloudflare Worker from `/api/index.js` (con
 
 ## Table of Contents
 
-1. [Authentication & Common Headers](#authentication--common-headers)
-2. [Implementation Snapshot (Current Build & Worker Logic)](#implementation-snapshot-current-build--worker-logic)
-3. [Error Handling](#error-handling)
-4. [Core Modules](#core-modules)
-   - [OID Service](#oid-service)
-   - [Identity Service](#identity-service)
-   - [Agency Integration Service](#agency-integration-service)
-   - [USSD Service](#ussd-service)
-   - [Audit Service](#audit-service)
-   - [Data Quality Engine](#data-quality-engine)
-   - [Fraud Detection System](#fraud-detection-system)
-   - [Reporting & Analytics Engine](#reporting--analytics-engine)
-   - [Compliance & Audit Engine](#compliance--audit-engine)
-   - [Backup & Recovery System](#backup--recovery-system)
-   - [Notification System](#notification-system)
-   - [Access Control Engine](#access-control-engine)
-   - [Integration Orchestrator](#integration-orchestrator)
-   - [Performance Monitor](#performance-monitor)
-5. [Resource Modules](#resource-modules)
-   - [Nile Water Management](#nile-water-management)
-   - [Farming & Agriculture](#farming--agriculture)
-   - [Gold & Treasures Management](#gold--treasures-management)
-   - [Red Sea & Ports Management](#red-sea--ports-management)
-   - [Education Management](#education-management)
-   - [Healthcare Management](#healthcare-management)
+- [Authentication & Common Headers](#authentication--common-headers)
+- [Implementation Snapshot (Current Build & Worker Logic)](#implementation-snapshot-current-build--worker-logic)
+- [Error Handling](#error-handling)
+- [Core Modules](#core-modules)
+  - [OID Service](#oid-service)
+  - [Identity Service](#identity-service)
+  - [Agency Integration Service](#agency-integration-service)
+  - [USSD Service](#ussd-service)
+  - [Audit Service](#audit-service)
+  - [Data Quality Engine](#data-quality-engine)
+  - [Fraud Detection System](#fraud-detection-system)
+  - [Reporting & Analytics Engine](#reporting--analytics-engine)
+  - [Compliance & Audit Engine](#compliance--audit-engine)
+  - [Backup & Recovery System](#backup--recovery-system)
+  - [Notification System](#notification-system)
+  - [Access Control Engine](#access-control-engine)
+  - [Integration Orchestrator](#integration-orchestrator)
+  - [Performance Monitor](#performance-monitor)
+- [Resource Modules](#resource-modules)
+  - [Nile Water Management](#nile-water-management)
+  - [Farming & Agriculture](#farming--agriculture)
+  - [Gold & Treasures Management](#gold--treasures-management)
+  - [Red Sea & Ports Management](#red-sea--ports-management)
+  - [Education Management](#education-management)
+  - [Healthcare Management](#healthcare-management)
 
 ---
 

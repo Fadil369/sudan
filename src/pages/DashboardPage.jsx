@@ -58,7 +58,7 @@ export default function DashboardPage() {
       
       if (response.ok) {
         const data = await response.json();
-        results.backend = data.status === 'healthy' ? 'healthy' : 'degraded';
+        results.backend = (data.status === 'ok' || data.status === 'healthy') ? 'healthy' : 'degraded';
       } else {
         results.backend = 'error';
       }
