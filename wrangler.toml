@@ -1,6 +1,6 @@
 name = "sudan-gov"
 pages_build_output_dir = "dist"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 # ─── Environment Variables ────────────────────────────────────────────────────

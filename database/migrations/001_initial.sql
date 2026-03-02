@@ -1,9 +1,7 @@
 -- Sudan Digital Government Portal - D1 Main Database Schema
 -- Migration 001: Initial Schema
 -- Cloudflare D1 (SQLite-compatible)
-
-PRAGMA journal_mode=WAL;
-PRAGMA foreign_keys=ON;
+-- Note: PRAGMA journal_mode and foreign_keys not supported by D1; removed.
 
 -- ─── Migration Tracking ────────────────────────────────────────────────────────
 -- Ensures each migration file is only applied once (idempotent deploys)

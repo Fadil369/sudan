@@ -1,8 +1,7 @@
 -- Sudan Digital Government Portal - D1 Analytics Database Schema
 -- Migration 002: Analytics Schema
 -- Cloudflare D1 (SQLite-compatible)
-
-PRAGMA journal_mode=WAL;
+-- Note: PRAGMA journal_mode not supported by D1; removed.
 
 -- ─── Migration Tracking ────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS _migrations (

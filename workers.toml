@@ -1,28 +1,28 @@
 name = "sudan-gov-api"
 main = "api/index.js"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 # ─── KV Namespaces ────────────────────────────────────────────────────────────
 [[kv_namespaces]]
 binding = "SESSIONS"
-id = "sessions_kv_id"
-preview_id = "sessions_kv_preview_id"
+id = "1cfe518ae20e48429a21fc3512a1678d"
+preview_id = "894b04654f9740bb82d7e469fe70631d"
 
 [[kv_namespaces]]
 binding = "CACHE"
-id = "cache_kv_id"
-preview_id = "cache_kv_preview_id"
+id = "fa6d76cae83141028cad92d4f22a8888"
+preview_id = "40ca3ed8977b459f971f5867b9d6d3a9"
 
 [[kv_namespaces]]
 binding = "OID_REGISTRY"
-id = "oid_registry_kv_id"
-preview_id = "oid_registry_kv_preview_id"
+id = "07ea6ec79f2f46ebbc8076a2000fcfa9"
+preview_id = "07ea6ec79f2f46ebbc8076a2000fcfa9"
 
 [[kv_namespaces]]
 binding = "CITIZEN_PROFILES"
-id = "citizen_profiles_kv_id"
-preview_id = "citizen_profiles_kv_preview_id"
+id = "9778fed50d8347c28822778f50e5f908"
+preview_id = "00fb520d32e14a9582e3b6dcbb6411b5"
 
 # ─── R2 Buckets ───────────────────────────────────────────────────────────────
 [[r2_buckets]]
@@ -44,12 +44,12 @@ preview_bucket_name = "sudan-gov-audit-logs-preview"
 [[d1_databases]]
 binding = "DB"
 database_name = "sudan-gov-main"
-database_id = "sudan-gov-main-db-id"
+database_id = "9db027b4-fb6b-44e3-af3f-ef4838d4077b"
 
 [[d1_databases]]
 binding = "ANALYTICS_DB"
 database_name = "sudan-gov-analytics"
-database_id = "sudan-gov-analytics-db-id"
+database_id = "f53995cb-6b96-4b33-9749-95c37cf3205b"
 
 # ─── Durable Objects ──────────────────────────────────────────────────────────
 [[durable_objects.bindings]]
