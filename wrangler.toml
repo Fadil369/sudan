@@ -3,70 +3,6 @@ pages_build_output_dir = "dist"
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
-# ─── KV Namespaces ────────────────────────────────────────────────────────────
-[[kv_namespaces]]
-binding = "SESSIONS"
-id = "sessions_kv_id"
-preview_id = "sessions_kv_preview_id"
-
-[[kv_namespaces]]
-binding = "CACHE"
-id = "cache_kv_id"
-preview_id = "cache_kv_preview_id"
-
-[[kv_namespaces]]
-binding = "OID_REGISTRY"
-id = "oid_registry_kv_id"
-preview_id = "oid_registry_kv_preview_id"
-
-[[kv_namespaces]]
-binding = "CITIZEN_PROFILES"
-id = "citizen_profiles_kv_id"
-preview_id = "citizen_profiles_kv_preview_id"
-
-# ─── R2 Buckets ───────────────────────────────────────────────────────────────
-[[r2_buckets]]
-binding = "DOCUMENTS"
-bucket_name = "sudan-gov-documents"
-preview_bucket_name = "sudan-gov-documents-preview"
-
-[[r2_buckets]]
-binding = "MEDIA"
-bucket_name = "sudan-gov-media"
-preview_bucket_name = "sudan-gov-media-preview"
-
-[[r2_buckets]]
-binding = "AUDIT_LOGS"
-bucket_name = "sudan-gov-audit-logs"
-preview_bucket_name = "sudan-gov-audit-logs-preview"
-
-# ─── D1 SQL Databases ─────────────────────────────────────────────────────────
-[[d1_databases]]
-binding = "DB"
-database_name = "sudan-gov-main"
-database_id = "sudan-gov-main-db-id"
-
-[[d1_databases]]
-binding = "ANALYTICS_DB"
-database_name = "sudan-gov-analytics"
-database_id = "sudan-gov-analytics-db-id"
-
-# ─── Durable Objects ──────────────────────────────────────────────────────────
-[[durable_objects.bindings]]
-name = "SESSION_DO"
-class_name = "SessionDurableObject"
-script_name = "sudan-gov-api"
-
-[[durable_objects.bindings]]
-name = "RATE_LIMITER"
-class_name = "RateLimiterDurableObject"
-script_name = "sudan-gov-api"
-
-[[durable_objects.bindings]]
-name = "CITIZEN_STREAM"
-class_name = "CitizenStreamDurableObject"
-script_name = "sudan-gov-api"
-
 # ─── Environment Variables ────────────────────────────────────────────────────
 [vars]
 ENVIRONMENT = "production"
@@ -77,9 +13,6 @@ API_VERSION = "v1"
 LOG_LEVEL = "info"
 
 # ─── Preview environment (CF Pages preview deployments) ───────────────────────
-# Note: Wrangler does not inherit top-level bindings/vars into named environments,
-# so all bindings are repeated here for preview deployments.
-[env.preview]
 [env.preview.vars]
 ENVIRONMENT = "preview"
 OID_ROOT = "1.3.6.1.4.1.61026"
@@ -87,63 +20,3 @@ APP_NAME = "Sudan Digital Government Portal"
 CORS_ORIGIN = "*"
 API_VERSION = "v1"
 LOG_LEVEL = "info"
-
-[[env.preview.kv_namespaces]]
-binding = "SESSIONS"
-id = "sessions_kv_id"
-preview_id = "sessions_kv_preview_id"
-
-[[env.preview.kv_namespaces]]
-binding = "CACHE"
-id = "cache_kv_id"
-preview_id = "cache_kv_preview_id"
-
-[[env.preview.kv_namespaces]]
-binding = "OID_REGISTRY"
-id = "oid_registry_kv_id"
-preview_id = "oid_registry_kv_preview_id"
-
-[[env.preview.kv_namespaces]]
-binding = "CITIZEN_PROFILES"
-id = "citizen_profiles_kv_id"
-preview_id = "citizen_profiles_kv_preview_id"
-
-[[env.preview.r2_buckets]]
-binding = "DOCUMENTS"
-bucket_name = "sudan-gov-documents"
-preview_bucket_name = "sudan-gov-documents-preview"
-
-[[env.preview.r2_buckets]]
-binding = "MEDIA"
-bucket_name = "sudan-gov-media"
-preview_bucket_name = "sudan-gov-media-preview"
-
-[[env.preview.r2_buckets]]
-binding = "AUDIT_LOGS"
-bucket_name = "sudan-gov-audit-logs"
-preview_bucket_name = "sudan-gov-audit-logs-preview"
-
-[[env.preview.d1_databases]]
-binding = "DB"
-database_name = "sudan-gov-main"
-database_id = "sudan-gov-main-db-id"
-
-[[env.preview.d1_databases]]
-binding = "ANALYTICS_DB"
-database_name = "sudan-gov-analytics"
-database_id = "sudan-gov-analytics-db-id"
-
-[[env.preview.durable_objects.bindings]]
-name = "SESSION_DO"
-class_name = "SessionDurableObject"
-script_name = "sudan-gov-api-staging"
-
-[[env.preview.durable_objects.bindings]]
-name = "RATE_LIMITER"
-class_name = "RateLimiterDurableObject"
-script_name = "sudan-gov-api-staging"
-
-[[env.preview.durable_objects.bindings]]
-name = "CITIZEN_STREAM"
-class_name = "CitizenStreamDurableObject"
-script_name = "sudan-gov-api-staging"
