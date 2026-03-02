@@ -1,7 +1,11 @@
 # SGDUS User Manuals
 
+**Powered by BrainSAIT | برينسايت**
+
 This folder contains user manuals for the Sudan Government Digital Unified System (SGDUS), provided in both Arabic and English.  
 The manuals are designed to help citizens, businesses, and government staff understand and use the system effectively.
+
+> 🌐 **Interactive Documentation Hub:** These manuals are also available as a premium, searchable, bilingual in-app experience at the [`/docs`](#/docs) route. Navigate to the Documentation Hub from the landing page via the **Docs** button in the navigation bar, or directly at `/docs`.
 
 ---
 
@@ -26,7 +30,7 @@ The manuals are designed to help citizens, businesses, and government staff unde
 
 ---
 
-**Note:** These manuals are part of the SGDUS documentation and are updated as the system evolves. For the latest version, refer to the official SGDUS portal.
+**Note:** These manuals are part of the SGDUS documentation by BrainSAIT (برينسايت) and are updated as the system evolves. For the latest version, refer to the official SGDUS portal or the integrated Documentation Hub.
 
 ---
 
@@ -825,3 +829,19 @@ The dashboard is divided into sections based on your permissions. Common section
 ---
 
 These manuals provide comprehensive guidance for each user group. They should be adapted as the system evolves and translated accurately by a native Arabic speaker for official use.
+
+---
+
+## 🚀 In-App Documentation Hub
+
+All manual content above is integrated into the SGDUS web application as an interactive **Documentation Hub** accessible at the `/docs` route. Features include:
+
+- **Premium searchable interface** — filter sections in real-time
+- **Bilingual support** — toggle between English and Arabic (with full RTL)
+- **Audience-specific tabs** — Citizens, Businesses, Government Staff
+- **Quick-start sidebar** — key actions at a glance with direct links
+- **Accordion navigation** — expandable sections with color-coded chapter numbers
+- **Responsive design** — works on desktop, tablet, and mobile
+- **Integrated from Landing Page** — accessible via the "Docs" button in the navigation bar and the CTA section
+
+Built with Material-UI components, following the BrainSAIT (برينسايت) government design system.
