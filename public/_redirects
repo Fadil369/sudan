@@ -2,3 +2,6 @@
 # https://developers.cloudflare.com/pages/platform/redirects/
 
 # API proxy handled by Cloudflare Pages Functions under functions/api/*
+
+# SPA fallback — serve index.html for all routes not matching a static file
+/* /index.html 200

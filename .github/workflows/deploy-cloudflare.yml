@@ -129,18 +129,76 @@ jobs:
 
       - name: Deploy Worker to production
         if: github.ref == 'refs/heads/main'
-        run: wrangler deploy --config workers.toml
+        run: |
+          # Substitute placeholder binding IDs with real values from secrets (if provided)
+          # Using | as sed delimiter to avoid conflicts with special characters in IDs
+          if [ -n "$KV_SESSIONS_ID" ]; then
+            sed -i "s|sessions_kv_id|$KV_SESSIONS_ID|g" workers.toml
+          fi
+          if [ -n "$KV_CACHE_ID" ]; then
+            sed -i "s|cache_kv_id|$KV_CACHE_ID|g" workers.toml
+          fi
+          if [ -n "$KV_OID_REGISTRY_ID" ]; then
+            sed -i "s|oid_registry_kv_id|$KV_OID_REGISTRY_ID|g" workers.toml
+          fi
+          if [ -n "$KV_CITIZEN_PROFILES_ID" ]; then
+            sed -i "s|citizen_profiles_kv_id|$KV_CITIZEN_PROFILES_ID|g" workers.toml
+          fi
+          if [ -n "$D1_MAIN_DB_ID" ]; then
+            sed -i "s|sudan-gov-main-db-id|$D1_MAIN_DB_ID|g" workers.toml
+          fi
+          if [ -n "$D1_ANALYTICS_DB_ID" ]; then
+            sed -i "s|sudan-gov-analytics-db-id|$D1_ANALYTICS_DB_ID|g" workers.toml
+          fi
+          wrangler deploy --config workers.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          KV_SESSIONS_ID: ${{ secrets.KV_SESSIONS_ID }}
+          KV_CACHE_ID: ${{ secrets.KV_CACHE_ID }}
+          KV_OID_REGISTRY_ID: ${{ secrets.KV_OID_REGISTRY_ID }}
+          KV_CITIZEN_PROFILES_ID: ${{ secrets.KV_CITIZEN_PROFILES_ID }}
+          D1_MAIN_DB_ID: ${{ secrets.D1_MAIN_DB_ID }}
+          D1_ANALYTICS_DB_ID: ${{ secrets.D1_ANALYTICS_DB_ID }}
 
       - name: Deploy Worker to staging (PR preview)
         if: github.event_name == 'pull_request'
-        run: wrangler deploy --config workers.toml --env staging
+        run: |
+          # Substitute placeholder binding IDs with staging values from secrets (if provided)
+          # Using | as sed delimiter to avoid conflicts with special characters in IDs
+          if [ -n "$KV_SESSIONS_ID" ]; then
+            sed -i "s|sessions_kv_id|$KV_SESSIONS_ID|g" workers.toml
+            sed -i "s|sessions_kv_preview_id|$KV_SESSIONS_ID|g" workers.toml
+          fi
+          if [ -n "$KV_CACHE_ID" ]; then
+            sed -i "s|cache_kv_id|$KV_CACHE_ID|g" workers.toml
+            sed -i "s|cache_kv_preview_id|$KV_CACHE_ID|g" workers.toml
+          fi
+          if [ -n "$KV_OID_REGISTRY_ID" ]; then
+            sed -i "s|oid_registry_kv_id|$KV_OID_REGISTRY_ID|g" workers.toml
+            sed -i "s|oid_registry_kv_preview_id|$KV_OID_REGISTRY_ID|g" workers.toml
+          fi
+          if [ -n "$KV_CITIZEN_PROFILES_ID" ]; then
+            sed -i "s|citizen_profiles_kv_id|$KV_CITIZEN_PROFILES_ID|g" workers.toml
+            sed -i "s|citizen_profiles_kv_preview_id|$KV_CITIZEN_PROFILES_ID|g" workers.toml
+          fi
+          if [ -n "$D1_MAIN_DB_ID" ]; then
+            sed -i "s|sudan-gov-main-db-id|$D1_MAIN_DB_ID|g" workers.toml
+          fi
+          if [ -n "$D1_ANALYTICS_DB_ID" ]; then
+            sed -i "s|sudan-gov-analytics-db-id|$D1_ANALYTICS_DB_ID|g" workers.toml
+          fi
+          wrangler deploy --config workers.toml --env staging
         continue-on-error: true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          KV_SESSIONS_ID: ${{ secrets.KV_SESSIONS_STAGING_ID || secrets.KV_SESSIONS_ID }}
+          KV_CACHE_ID: ${{ secrets.KV_CACHE_STAGING_ID || secrets.KV_CACHE_ID }}
+          KV_OID_REGISTRY_ID: ${{ secrets.KV_OID_REGISTRY_STAGING_ID || secrets.KV_OID_REGISTRY_ID }}
+          KV_CITIZEN_PROFILES_ID: ${{ secrets.KV_CITIZEN_PROFILES_STAGING_ID || secrets.KV_CITIZEN_PROFILES_ID }}
+          D1_MAIN_DB_ID: ${{ secrets.D1_MAIN_STAGING_DB_ID || secrets.D1_MAIN_DB_ID }}
+          D1_ANALYTICS_DB_ID: ${{ secrets.D1_ANALYTICS_STAGING_DB_ID || secrets.D1_ANALYTICS_DB_ID }}
 
       - name: Apply D1 Migrations (production only)
         if: github.ref == 'refs/heads/main'
