@@ -136,14 +136,14 @@ database_id = "sudan-gov-analytics-db-id"
 [[env.preview.durable_objects.bindings]]
 name = "SESSION_DO"
 class_name = "SessionDurableObject"
-script_name = "sudan-gov-api"
+script_name = "sudan-gov-api-staging"
 
 [[env.preview.durable_objects.bindings]]
 name = "RATE_LIMITER"
 class_name = "RateLimiterDurableObject"
-script_name = "sudan-gov-api"
+script_name = "sudan-gov-api-staging"
 
 [[env.preview.durable_objects.bindings]]
 name = "CITIZEN_STREAM"
 class_name = "CitizenStreamDurableObject"
-script_name = "sudan-gov-api"
+script_name = "sudan-gov-api-staging"
