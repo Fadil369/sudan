@@ -357,10 +357,11 @@ export const securityHeaders = (req, res, next) => {
 };
 
 /**
- * Generate unique request ID
+ * Generate unique request ID using cryptographically secure random (OWASP A02)
  */
 const generateRequestId = () => {
-  return 'req_' + Date.now() + '_' + Math.random().toString(36).substring(2, 15);
+  const randomPart = crypto.randomUUID().replace(/-/g, '').substring(0, 16);
+  return 'req_' + Date.now() + '_' + randomPart;
 };
 
 /**

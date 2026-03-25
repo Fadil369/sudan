@@ -621,7 +621,8 @@ class MonitoringService {
   getSessionId() {
     let sessionId = sessionStorage.getItem('sudan-session-id');
     if (!sessionId) {
-      sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      // Use cryptographically secure random ID (OWASP A02)
+      sessionId = `session_${Date.now()}_${crypto.randomUUID().replace(/-/g, '')}`;
       sessionStorage.setItem('sudan-session-id', sessionId);
     }
     return sessionId;

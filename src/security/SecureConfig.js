@@ -39,9 +39,19 @@ class SecureConfig {
    * Derive encryption key from environment and runtime data
    */
   deriveEncryptionKey() {
-    const baseKey = process.env.REACT_APP_ENCRYPTION_KEY || 'development-key-not-secure';
+    // Never use a hardcoded fallback key in derivation (OWASP A02)
+    let baseKey = process.env.REACT_APP_ENCRYPTION_KEY;
+    if (!baseKey) {
+      const arr = new Uint8Array(32);
+      crypto.getRandomValues(arr);
+      baseKey = Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
+      if (typeof window !== 'undefined') {
+        console.warn('[SECURITY] REACT_APP_ENCRYPTION_KEY not set — using ephemeral dev key.');
+      }
+    }
     const runtimeSalt = `${this.environment}-${Date.now()}`;
-    return CryptoJS.PBKDF2(baseKey, runtimeSalt, { keySize: 256/32, iterations: 1000 });
+    // PBKDF2 with 100,000 iterations per OWASP recommendation (A02)
+    return CryptoJS.PBKDF2(baseKey, runtimeSalt, { keySize: 256/32, iterations: 100000 });
   }
 
   /**
