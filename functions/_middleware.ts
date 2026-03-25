@@ -7,11 +7,13 @@
 const ALLOWED_ORIGINS = [
   'https://sudan.elfadil.com',
   'https://portal.sudan.elfadil.com',
+  'https://sudan-gov.pages.dev',
 ];
 
 function getCorsHeaders(origin) {
-  const isAllowed = ALLOWED_ORIGINS.includes(origin) || 
-                    (origin && origin.endsWith('.sudan.elfadil.com')); // Subdomain deployments
+  const isAllowed = ALLOWED_ORIGINS.includes(origin) ||
+                    (origin && origin.endsWith('.sudan.elfadil.com')) ||
+                    (origin && origin.endsWith('.sudan-gov.pages.dev')); // Pages preview + production domains
   
   return {
     'Access-Control-Allow-Origin': isAllowed ? origin : ALLOWED_ORIGINS[0],
@@ -35,9 +37,11 @@ const SECURITY_HEADERS = {
 export async function onRequest(context) {
   const { request, next, env } = context;
   const origin = request.headers.get('Origin');
+  const pathname = new URL(request.url).pathname;
+  const isApiRequest = pathname.startsWith('/api/');
 
   // Handle OPTIONS (preflight)
-  if (request.method === 'OPTIONS') {
+  if (request.method === 'OPTIONS' && isApiRequest) {
     return new Response(null, {
       headers: getCorsHeaders(origin),
     });
@@ -53,13 +57,30 @@ export async function onRequest(context) {
     // Continue to next handler
     const response = await next();
 
+    // SPA routing: if a non-API, non-asset path returns 404, serve index.html.
+    // This replaces the "/* /index.html 200" _redirects rule which Wrangler v3
+    // incorrectly flags as an infinite loop and silently discards.
+    if (
+      response.status === 404 &&
+      !isApiRequest &&
+      !pathname.includes('.')  // skip file-extension paths (real 404s)
+    ) {
+      const indexReq = new Request(new URL('/index.html', request.url).toString());
+      const indexRes = await (context as any).env.ASSETS.fetch(indexReq);
+      const spaHeaders = new Headers(indexRes.headers);
+      Object.entries(SECURITY_HEADERS).forEach(([k, v]) => spaHeaders.set(k, v));
+      return new Response(indexRes.body, { status: 200, headers: spaHeaders });
+    }
+
     // Add security headers to all responses
     const headers = new Headers(response.headers);
     
-    // Add CORS headers
-    Object.entries(getCorsHeaders(origin)).forEach(([key, value]) => {
-      headers.set(key, value);
-    });
+    // CORS is only needed for API endpoints. Avoid attaching CORS to static assets.
+    if (isApiRequest) {
+      Object.entries(getCorsHeaders(origin)).forEach(([key, value]) => {
+        headers.set(key, value);
+      });
+    }
     
     // Add security headers
     Object.entries(SECURITY_HEADERS).forEach(([key, value]) => {
@@ -89,7 +110,7 @@ export async function onRequest(context) {
         status: 500,
         headers: {
           'Content-Type': 'application/json',
-          ...getCorsHeaders(origin),
+          ...(isApiRequest ? getCorsHeaders(origin) : {}),
         },
       }
     );
