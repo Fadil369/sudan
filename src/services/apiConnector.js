@@ -8,12 +8,32 @@ import ministryIntegrationService from './ministryIntegrationService';
 import monitoringService from './monitoringService';
 import auditLogger from '../security/AuditLogger';
 
+function trimTrailingSlash(value) {
+  return value ? value.replace(/\/$/, '') : value;
+}
+
+function resolveApiBaseUrl() {
+  const explicitBaseUrl = trimTrailingSlash(
+    import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || ''
+  );
+
+  if (explicitBaseUrl) {
+    return explicitBaseUrl;
+  }
+
+  if (typeof window !== 'undefined') {
+    const { hostname } = window.location;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return 'http://localhost:8000/api';
+    }
+  }
+
+  return '/api';
+}
+
 class APIConnector {
   constructor() {
-    this.baseURL =
-      import.meta.env.VITE_API_BASE_URL ||
-      import.meta.env.VITE_API_URL ||
-      '/api';
+    this.baseURL = resolveApiBaseUrl();
     this.authToken = null; // Never seed from stale storage; always read live below
     this.isProduction = import.meta.env.PROD;
     this.mockData = import.meta.env.VITE_MOCK_DATA === 'true';
@@ -1331,6 +1351,24 @@ class APIConnector {
     } catch (error) {
       throw error;
     }
+  }
+
+  // Register a citizen through the implemented identity service contract
+  async registerCitizen(citizenData) {
+    const response = await this.api.post('/identity/register', citizenData);
+    return response.data;
+  }
+
+  // Resolve OID metadata through the implemented OID service contract
+  async resolveOid(oid) {
+    const response = await this.api.get(`/v1/oid/${encodeURIComponent(oid)}`);
+    return response.data;
+  }
+
+  // Local platform health for the routed /api surface
+  async getApiHealth() {
+    const response = await this.api.get('/health');
+    return response.data;
   }
 }
 

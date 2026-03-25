@@ -84,6 +84,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^5.1.4",
+    "@vitest/coverage-v8": "^4.0.18",
     "@vitest/ui": "^4.0.18",
     "babel-jest": "^29.5.0",
     "chromatic": "^6.19.0",
@@ -101,7 +102,7 @@
     "jsdom": "^28.1.0",
     "lint-staged": "^16.2.7",
     "prettier": "^2.8.8",
-    "typescript": "4.9.5",
+    "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-pwa": "^1.2.0",
@@ -141,6 +142,7 @@
     "worker:dev": "wrangler dev --config workers.toml",
     "worker:deploy": "wrangler deploy --config workers.toml",
     "worker:tail": "wrangler tail --config workers.toml",
+    "smoke:identity-oid": "bash ./scripts/smoke-identity-oid.sh",
     "d1:migrate": "wrangler d1 execute sudan-gov-main --config workers.toml --file=./database/migrations/001_initial.sql --remote",
     "d1:migrate:analytics": "wrangler d1 execute brainsait-unified-api --config workers.toml --file=./database/migrations/002_analytics.sql --remote",
     "d1:console": "wrangler d1 execute sudan-gov-main --config workers.toml --command",
@@ -219,14 +221,22 @@
       "plugin:react-hooks/recommended",
       "plugin:jsx-a11y/recommended"
     ],
-    "plugins": ["react", "react-hooks", "jsx-a11y"],
+    "plugins": [
+      "react",
+      "react-hooks",
+      "jsx-a11y"
+    ],
     "parserOptions": {
       "ecmaVersion": "latest",
       "sourceType": "module",
-      "ecmaFeatures": { "jsx": true }
+      "ecmaFeatures": {
+        "jsx": true
+      }
     },
     "settings": {
-      "react": { "version": "detect" }
+      "react": {
+        "version": "detect"
+      }
     },
     "rules": {
       "react/react-in-jsx-scope": "off",

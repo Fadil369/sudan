@@ -290,20 +290,29 @@ app.post('/api/identity/register',
 // Login
 app.post('/api/identity/login',
     [
-        body('nationalId').isString().notEmpty(),
+        body().custom((value) => {
+            const hasNationalId = typeof value?.nationalId === 'string' && value.nationalId.trim().length > 0;
+            const hasOid = typeof value?.oid === 'string' && value.oid.trim().length > 0;
+            if (!hasNationalId && !hasOid) {
+                throw new Error('Either nationalId or oid is required');
+            }
+            return true;
+        }),
         body('password').isString().notEmpty()
     ],
     validateRequest,
     async (req, res) => {
         try {
-            const { nationalId, password } = req.body;
+            const nationalId = typeof req.body.nationalId === 'string' ? req.body.nationalId.trim() : null;
+            const oid = typeof req.body.oid === 'string' ? req.body.oid.trim() : null;
+            const { password } = req.body;
             
             // Get citizen
             const result = await pool.query(
                 `SELECT c.*, uc.password_hash FROM citizens c
                  JOIN user_credentials uc ON c.oid = uc.user_id
-                 WHERE c.national_id = $1 AND c.status = 'active'`,
-                [nationalId]
+                 WHERE (c.national_id = $1 OR c.oid = $2) AND c.status = 'active'`,
+                [nationalId, oid]
             );
             
             if (result.rows.length === 0) {
@@ -331,7 +340,7 @@ app.post('/api/identity/login',
                 [citizen.oid]
             );
             
-            logger.info(`Login: ${nationalId}`);
+            logger.info(`Login: ${oid || nationalId}`);
             
             res.json({
                 success: true,

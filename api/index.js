@@ -48,6 +48,31 @@ function errorResponse(message, status = 400) {
 function nowISO() { return new Date().toISOString(); }
 function generateId() { return crypto.randomUUID(); }
 
+function buildUpstreamUrl(requestUrl, upstreamBaseUrl) {
+  const incoming = new URL(requestUrl);
+  const base = `${upstreamBaseUrl || ''}`.replace(/\/$/, '');
+  const hasApiSuffix = /\/api$/.test(base);
+  const pathname = incoming.pathname === '/api' ? '' : incoming.pathname.replace(/^\/api/, '');
+  return new URL(`${hasApiSuffix ? '' : '/api'}${pathname}${incoming.search}`, `${base}/`);
+}
+
+async function proxyToUpstream(request, upstreamBaseUrl, corsHeaders) {
+  const targetUrl = buildUpstreamUrl(request.url, upstreamBaseUrl);
+  const proxied = new Request(targetUrl, {
+    method: request.method,
+    headers: request.headers,
+    body: request.method !== 'GET' && request.method !== 'HEAD' ? await request.blob() : undefined,
+  });
+  const response = await fetch(proxied);
+  const headers = new Headers(response.headers);
+  Object.entries(corsHeaders).forEach(([key, value]) => headers.set(key, value));
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 /** Convert a hex string (from PBKDF2 output) to a Uint8Array. */
 function hexToBytes(hex) {
   const bytes = new Uint8Array(hex.length / 2);
@@ -125,6 +150,7 @@ export default {
     const method = request.method;
     const origin = request.headers.get('Origin') || '';
     const corsHeaders = CORS_HEADERS(origin, env.CORS_ORIGIN);
+    const upstreamBaseUrl = env.UPSTREAM_API_BASE_URL || env.API_BASE_URL || '';
 
     if (method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders });
@@ -135,6 +161,7 @@ export default {
       return jsonResponse({
         status: 'ok', service: 'Sudan Digital Government API', version: '1.0.0',
         environment: env.ENVIRONMENT || 'production', timestamp: nowISO(),
+        upstreamConfigured: Boolean(upstreamBaseUrl),
         cf: { colo: request.cf?.colo, country: request.cf?.country },
         bindings: {
           kv_sessions: !!env.SESSIONS, kv_cache: !!env.CACHE,
@@ -142,6 +169,15 @@ export default {
           d1_main: !!env.DB, d1_analytics: !!env.ANALYTICS_DB,
           do_session: !!env.SESSION_DO, do_ratelimit: !!env.RATE_LIMITER,
         },
+      }, 200, corsHeaders);
+    }
+
+    if (path === '/api/config') {
+      return jsonResponse({
+        app: env.APP_NAME,
+        environment: env.ENVIRONMENT || 'production',
+        apiVersion: env.API_VERSION || 'v1',
+        upstreamConfigured: Boolean(upstreamBaseUrl),
       }, 200, corsHeaders);
     }
 
@@ -402,11 +438,19 @@ export default {
         }
 
         default:
-          response = errorResponse('API endpoint not found', 404);
+          if (upstreamBaseUrl) {
+            response = await proxyToUpstream(request, upstreamBaseUrl, corsHeaders);
+          } else {
+            response = errorResponse('API endpoint not found', 404);
+          }
       }
     } catch (err) {
       console.error('[Worker] Error:', err);
-      response = errorResponse('Internal server error', 500);
+      if (upstreamBaseUrl && path.startsWith('/api/')) {
+        response = errorResponse(`Upstream API unavailable: ${err instanceof Error ? err.message : 'Unknown proxy error'}`, 502);
+      } else {
+        response = errorResponse('Internal server error', 500);
+      }
     }
 
     const duration = Date.now() - startTime;

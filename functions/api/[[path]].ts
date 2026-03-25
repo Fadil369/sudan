@@ -6,25 +6,25 @@
 export async function onRequest(context) {
   const { request, params, env } = context;
 
-  // Worker URL from env (set in Cloudflare Pages settings) or fallback
-  const workerBaseUrl = env.WORKER_URL || 'https://sudan-gov-api.brainsait-fadil.workers.dev';
+  const upstreamBaseUrl = env.API_BASE_URL || env.WORKER_URL || 'https://sudan-gov-api.brainsait-fadil.workers.dev';
 
   // Extract the path after /api/
   const path = params.path ? params.path.join('/') : '';
   const url = new URL(request.url);
 
-  // Build worker URL
-  const targetUrl = new URL(`/api/${path}${url.search}`, workerBaseUrl);
+  const base = upstreamBaseUrl.replace(/\/$/, '');
+  const upstreamHasApiPrefix = /\/api$/.test(base);
+  const targetPath = path ? `${upstreamHasApiPrefix ? '' : '/api'}/${path}` : `${upstreamHasApiPrefix ? '' : '/api'}`;
+  const targetUrl = new URL(`${targetPath}${url.search}`, `${base}/`);
 
-  // Forward request to worker
-  const workerRequest = new Request(targetUrl, {
+  const proxyRequest = new Request(targetUrl, {
     method: request.method,
     headers: request.headers,
     body: request.method !== 'GET' && request.method !== 'HEAD' ? await request.blob() : undefined,
   });
 
   try {
-    const response = await fetch(workerRequest);
+    const response = await fetch(proxyRequest);
 
     // Return worker response
     return new Response(response.body, {
@@ -42,7 +42,7 @@ export async function onRequest(context) {
         error: 'Service Unavailable',
         message: isProd 
           ? 'The service is temporarily unavailable. Please try again later.' 
-          : `Worker connection failed: ${error.message}`,
+          : `API proxy connection failed: ${error.message}`,
         timestamp: new Date().toISOString(),
       }),
       {

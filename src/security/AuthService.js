@@ -15,6 +15,16 @@ function base64UrlDecode(str) {
   return atob(str.replace(/-/g, '+').replace(/_/g, '/'));
 }
 
+function decodeJwtPayloadUnsafe(token) {
+  try {
+    const parts = `${token}`.split('.');
+    if (parts.length !== 3) return null;
+    return JSON.parse(base64UrlDecode(parts[1]));
+  } catch (_) {
+    return null;
+  }
+}
+
 // Simple JWT implementation for browser
 class BrowserJWT {
   static sign(payload, secret, options = {}) {
@@ -144,6 +154,21 @@ class AuthService {
     }
   }
 
+  _shouldUseDirectIdentityApi(apiUrl) {
+    const explicitMode = import.meta.env.VITE_AUTH_PROVIDER;
+    if (explicitMode === 'identity-service') return true;
+    if (explicitMode === 'worker') return false;
+
+    if (typeof window !== 'undefined') {
+      const { hostname } = window.location;
+      if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return true;
+      }
+    }
+
+    return apiUrl.includes('localhost:8000');
+  }
+
   /**
    * Authenticate against the Cloudflare Worker.
    * Supports password credentials and biometric (WebAuthn credential ID).
@@ -163,6 +188,59 @@ class AuthService {
       const data = await res.json();
       workerToken = data.token;
       expiresAt = data.expiresAt;
+    } else if (this._shouldUseDirectIdentityApi(apiUrl)) {
+      if (!credentials.password) throw new Error('Password required');
+      if (!credentials.oid && !credentials.nationalId && !credentials.username) {
+        throw new Error('OID or national ID required');
+      }
+
+      const loginRes = await fetch(`${apiUrl}/identity/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          oid: credentials.oid || credentials.username || null,
+          nationalId: credentials.nationalId || null,
+          password: credentials.password,
+        }),
+      });
+
+      if (!loginRes.ok) throw new Error('Invalid credentials');
+      const loginData = await loginRes.json();
+
+      const tokenPayload = decodeJwtPayloadUnsafe(loginData.token);
+      const citizen = loginData.citizen || {};
+      const user = {
+        id: citizen.oid || tokenPayload?.oid || credentials.oid || credentials.username || credentials.nationalId,
+        username: citizen.oid || tokenPayload?.oid || credentials.oid || credentials.username || credentials.nationalId,
+        role: tokenPayload?.role || 'citizen',
+        permissions: [],
+        ministryId: null,
+      };
+
+      const expTimestamp = tokenPayload?.exp || Math.floor(Date.now() / 1000) + 86400;
+
+      try {
+        sessionStorage.setItem(
+          '_session_state',
+          JSON.stringify({
+            token: loginData.token,
+            userId: user.id,
+            username: user.username,
+            role: user.role,
+            permissions: user.permissions,
+            ministryId: user.ministryId,
+            exp: expTimestamp,
+            authBackend: 'identity-service',
+            nationalId: citizen.nationalId || tokenPayload?.nationalId || credentials.nationalId || null,
+          })
+        );
+      } catch (_) {}
+
+      return {
+        success: true,
+        user,
+        tokens: { accessToken: loginData.token, refreshToken: loginData.token },
+      };
     } else {
       if (!credentials.oid && !credentials.username) throw new Error('OID or username required');
       if (!credentials.password) throw new Error('Password required');
@@ -233,13 +311,15 @@ class AuthService {
     const token = tokens?.accessToken || tokens?.refreshToken;
     if (token) {
       this.blacklistToken(token);
-      try {
-        const apiUrl = this._getApiUrl();
-        await fetch(`${apiUrl}/auth/logout`, {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        });
-      } catch (_) {}
+      const apiUrl = this._getApiUrl();
+      if (!this._shouldUseDirectIdentityApi(apiUrl)) {
+        try {
+          await fetch(`${apiUrl}/auth/logout`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          });
+        } catch (_) {}
+      }
     }
     try { sessionStorage.removeItem('_session_state'); } catch (_) {}
   }
@@ -251,6 +331,19 @@ class AuthService {
   async refreshTokens(refreshToken) {
     if (!refreshToken) throw new Error('No refresh token provided');
     const apiUrl = this._getApiUrl();
+    if (this._shouldUseDirectIdentityApi(apiUrl)) {
+      const profileRes = await fetch(`${apiUrl}/identity/profile`, {
+        headers: { Authorization: `Bearer ${refreshToken}` },
+      });
+      if (!profileRes.ok) throw new Error('Session expired or invalid');
+
+      const stored = JSON.parse(sessionStorage.getItem('_session_state') || '{}');
+      const tokenPayload = decodeJwtPayloadUnsafe(refreshToken);
+      stored.exp = tokenPayload?.exp || Math.floor(Date.now() / 1000) + 86400;
+      sessionStorage.setItem('_session_state', JSON.stringify(stored));
+      return { success: true, tokens: { accessToken: refreshToken, refreshToken } };
+    }
+
     const profileRes = await fetch(`${apiUrl}/user/profile`, {
       headers: { Authorization: `Bearer ${refreshToken}` },
     });

@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom';
-import 'jest-canvas-mock';
+import { vi } from 'vitest';
+
+const jest = globalThis.jest || vi;
+globalThis.jest = jest;
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
