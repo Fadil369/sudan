@@ -554,7 +554,7 @@ const CitizenFeedbackSystem = ({ citizenData }) => {
       <Grid item xs={12} sm={6} md={3}>
         <Card>
           <CardContent sx={{ textAlign: 'center' }}>
-            <ScheduleIcon sx={{ fontSize: 40, color: 'warning.main', mb: 1 }} />
+            <PendingIcon sx={{ fontSize: 40, color: 'warning.main', mb: 1 }} />
             <Typography variant="h4" color="warning.main">
               {analytics.avgResponseTime}
             </Typography>

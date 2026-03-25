@@ -212,7 +212,7 @@ const InfrastructurePortal = ({ citizenData }) => {
     switch (status) {
       case 'completed': return <CompleteIcon />;
       case 'ongoing': return <PendingIcon />;
-      case 'planned': return <ScheduleIcon />;
+      case 'planned': return <PendingIcon />;
       case 'delayed': return <WarningIcon />;
       default: return <PendingIcon />;
     }

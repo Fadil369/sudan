@@ -569,7 +569,9 @@ const BiometricAuthSystem = ({ citizenData, onAuthComplete, onAuthError }) => {
                   {voicePhrases[isRTL ? 'ar' : 'en'][0]}
                 </Typography>
               </Paper>
-              <audio ref={audioRef} controls style={{ display: 'none' }} />
+              <audio ref={audioRef} controls style={{ display: 'none' }}>
+                <track kind="captions" />
+              </audio>
             </Box>
           )}
           

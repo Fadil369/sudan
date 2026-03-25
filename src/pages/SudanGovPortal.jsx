@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, Suspense, startTransition } from 'react';
 import {
   AccountTree,
   Dashboard,
@@ -323,7 +323,9 @@ const SudanGovPortal = ({ language, user, defaultTab } = {}) => {
   }, []);
 
   const toggleChat = () => {
-    setIsChatOpen(!isChatOpen);
+    startTransition(() => {
+      setIsChatOpen(!isChatOpen);
+    });
   };
 
   const handleBiometricRegister = async () => {

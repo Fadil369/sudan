@@ -136,7 +136,7 @@ const JusticePortal = ({ citizenData }) => {
     { 
       type: 'family', 
       name: 'قضايا الأحوال الشخصية / Family Law', 
-      icon: <Person />, 
+      icon: <LawyerIcon />,
       cases: 1876, 
       color: 'info' 
     },

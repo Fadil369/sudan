@@ -2,9 +2,29 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { vi } from 'vitest';
 import SudanGovPortal from '../pages/SudanGovPortal';
 import { AccessibilityProvider } from '../components/AccessibilityProvider';
 import { MINISTRY_OIDS } from '../config/oidConfig';
+
+const { registerBiometricMock, authenticateBiometricMock } = vi.hoisted(() => ({
+  registerBiometricMock: vi.fn(async (username) => ({ success: true, message: `Registered ${username}` })),
+  authenticateBiometricMock: vi.fn(async (username) => ({ success: true, message: `Authenticated ${username}` })),
+}));
+
+vi.mock('../api/biometric-api', () => ({
+  registerBiometric: registerBiometricMock,
+  authenticateBiometric: authenticateBiometricMock,
+}));
+
+vi.mock('../components/ChatWidget', () => ({
+  default: ({ onClose }) => (
+    <div>
+      <span>Chat Widget Mock</span>
+      <button type="button" onClick={onClose}>Close Chat</button>
+    </div>
+  ),
+}));
 
 // Mock the AccessibilityProvider
 const MockAccessibilityProvider = ({ children }) => {
@@ -50,6 +70,8 @@ describe('SudanGovPortal', () => {
   beforeEach(() => {
     // Clear any previous test state
     jest.clearAllMocks();
+    registerBiometricMock.mockClear();
+    authenticateBiometricMock.mockClear();
   });
 
   test('renders main portal title correctly in English', () => {
@@ -253,6 +275,73 @@ describe('SudanGovPortal', () => {
         // Check for search results
       });
     }
+  });
+
+  test('shows offline status changes when connectivity events fire', async () => {
+    render(
+      <TestWrapper>
+        <SudanGovPortal language="en" user={mockUser} />
+      </TestWrapper>
+    );
+
+    fireEvent(window, new Event('offline'));
+
+    expect(screen.getByText('You are offline. Some features may be unavailable.')).toBeInTheDocument();
+
+    fireEvent(window, new Event('online'));
+
+    await waitFor(() => {
+      expect(screen.queryByText('You are offline. Some features may be unavailable.')).not.toBeInTheDocument();
+    });
+  });
+
+  test('toggles the floating chat widget', async () => {
+    render(
+      <TestWrapper>
+        <SudanGovPortal language="en" user={mockUser} />
+      </TestWrapper>
+    );
+
+    await act(async () => {
+      fireEvent.click(screen.getByLabelText('chat'));
+    });
+
+    expect(await screen.findByText('Chat Widget Mock')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Close Chat'));
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('Chat Widget Mock')).not.toBeInTheDocument();
+    });
+  });
+
+  test('registers and authenticates biometrics from the quick action dialog', async () => {
+    render(
+      <TestWrapper>
+        <SudanGovPortal language="en" user={mockUser} />
+      </TestWrapper>
+    );
+
+    fireEvent.click(screen.getByText('Login with Biometrics'));
+    expect(await screen.findByText('Biometric Authentication')).toBeInTheDocument();
+
+    fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'citizen-01' } });
+
+    fireEvent.click(screen.getByText('Register'));
+
+    await waitFor(() => {
+      expect(registerBiometricMock).toHaveBeenCalledWith('citizen-01');
+      expect(screen.getByText('Registered citizen-01')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('Authenticate'));
+
+    await waitFor(() => {
+      expect(authenticateBiometricMock).toHaveBeenCalledWith('citizen-01');
+      expect(screen.getByText('Authenticated citizen-01')).toBeInTheDocument();
+    });
   });
 });
 

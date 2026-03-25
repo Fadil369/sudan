@@ -532,7 +532,7 @@ const AIAssistant = ({ language = 'en', isRTL = false, userId = null }) => {
       </Fade>
 
       {/* Custom Animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes messageSlide {
           from {
             opacity: 0;

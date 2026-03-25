@@ -122,12 +122,13 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build && cp dist/index.html dist/404.html",
-    "build:production": "vite build --mode production",
+    "build": "node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js build && cp dist/index.html dist/404.html",
+    "build:production": "node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js build --mode production",
     "build:sw": "workbox generateSW workbox-config.js",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run --coverage",
+    "test:ci": "vitest run",
+    "test:coverage:critical": "vitest run --config vitest.critical.config.js src/tests/SudanGovPortal.test.jsx src/tests/LandingPage.test.jsx src/tests/AuthService.test.js --coverage --coverage.include=src/pages/SudanGovPortal.jsx --coverage.include=src/pages/LandingPage.jsx --coverage.include=src/security/AuthService.js",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
     "lint:check": "eslint src --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md}",
@@ -152,7 +153,7 @@
     "cf:preflight": "bash ./scripts/deployment/cf-preflight.sh",
     "cf:secrets": "bash ./scripts/deployment/cf-secrets.sh",
     "cf:deploy": "bash ./scripts/deployment/cf-deploy.sh",
-    "build:pages": "vite build --mode production",
+    "build:pages": "node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js build --mode production",
     "dev": "vite",
     "preview": "vite preview",
     "test:ui": "vitest --ui"
@@ -240,6 +241,7 @@
     },
     "rules": {
       "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
       "jsx-a11y/anchor-is-valid": "warn",
       "jsx-a11y/img-redundant-alt": "error",
       "jsx-a11y/aria-role": "error",

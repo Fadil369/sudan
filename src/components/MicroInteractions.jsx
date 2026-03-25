@@ -476,7 +476,7 @@ const CulturalSpinner = ({ size = 40, pattern = 'geometric', isLoading = false }
           }}
         />
         
-        <style jsx>{`
+        <style>{`
           @keyframes rotate {
             100% {
               transform: rotate(360deg);

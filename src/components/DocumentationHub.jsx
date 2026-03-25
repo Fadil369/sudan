@@ -474,7 +474,11 @@ const CONTENT = {
 // ─── Tab-to-content key mapping ──────────────────────────────────────────────
 const TAB_KEYS = ['citizen', 'business', 'staff'];
 const TAB_COLORS = [COLORS.citizen, COLORS.business, COLORS.staff];
-const TAB_ICONS = [<MenuBook fontSize="small" />, <Business fontSize="small" />, <AdminPanelSettings fontSize="small" />];
+const TAB_ICONS = [
+  <MenuBook key="citizen" fontSize="small" />,
+  <Business key="business" fontSize="small" />,
+  <AdminPanelSettings key="staff" fontSize="small" />,
+];
 
 // ─── Reusable section renderer ───────────────────────────────────────────────
 function SectionContent({ section, lang }) {

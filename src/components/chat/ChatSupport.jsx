@@ -351,7 +351,9 @@ const ChatSupport = ({ citizenData, isOpen, onClose }) => {
           }}
         >
           {message.type === 'audio' ? (
-            <audio controls src={message.content} style={{ width: '200px' }} />
+            <audio controls src={message.content} style={{ width: '200px' }}>
+              <track kind="captions" />
+            </audio>
           ) : (
             <Typography variant="body2">
               {message.content}
