@@ -89,7 +89,7 @@ class BrowserJWT {
 class AuthService {
   constructor() {
     // Never fall back to a hardcoded secret — generate a random ephemeral key for dev (OWASP A02)
-    if (!process.env.REACT_APP_JWT_SECRET) {
+    if (!import.meta.env.VITE_JWT_SECRET) {
       const arr = new Uint8Array(32);
       crypto.getRandomValues(arr);
       this.JWT_SECRET = Array.from(arr, b => b.toString(16).padStart(2, '0')).join('');
@@ -97,10 +97,10 @@ class AuthService {
         console.warn('[SECURITY] REACT_APP_JWT_SECRET not set — using ephemeral dev key. Set this env var in production.');
       }
     } else {
-      this.JWT_SECRET = process.env.REACT_APP_JWT_SECRET;
+      this.JWT_SECRET = import.meta.env.VITE_JWT_SECRET;
     }
-    this.JWT_EXPIRES_IN = process.env.REACT_APP_JWT_EXPIRES_IN || '24h';
-    this.REFRESH_EXPIRES_IN = process.env.REACT_APP_REFRESH_EXPIRES_IN || '7d';
+    this.JWT_EXPIRES_IN = import.meta.env.VITE_JWT_EXPIRES_IN || '24h';
+    this.REFRESH_EXPIRES_IN = import.meta.env.VITE_REFRESH_EXPIRES_IN || '7d';
     // Fallback in-memory set only when sessionStorage is unavailable
     this.tokenBlacklist = new Set();
   }

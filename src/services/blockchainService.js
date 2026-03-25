@@ -9,9 +9,9 @@ class BlockchainService {
       channelName: 'sudan-identity-channel',
       chaincodeName: 'sudan-identity-chaincode',
       mspId: 'SudanGovMSP',
-      caUrl: process.env.REACT_APP_BLOCKCHAIN_CA_URL || 'https://ca.sudan.elfadil.com',
-      peerUrl: process.env.REACT_APP_BLOCKCHAIN_PEER_URL || 'grpc://peer0.sudan.elfadil.com:7051',
-      ordererUrl: process.env.REACT_APP_BLOCKCHAIN_ORDERER_URL || 'grpc://orderer.sudan.elfadil.com:7050',
+      caUrl: import.meta.env.VITE_BLOCKCHAIN_CA_URL || 'https://ca.sudan.elfadil.com',
+      peerUrl: import.meta.env.VITE_BLOCKCHAIN_PEER_URL || 'grpc://peer0.sudan.elfadil.com:7051',
+      ordererUrl: import.meta.env.VITE_BLOCKCHAIN_ORDERER_URL || 'grpc://orderer.sudan.elfadil.com:7050',
       walletPath: './wallet',
       connectionProfilePath: './connection-profile.json'
     };
@@ -466,7 +466,7 @@ export class AuditTrailManager {
       serviceId: serviceId,
       ministryId: serviceId.split('.')[0], // Extract ministry from service ID
       actionType: actionType,
-      userId: localStorage.getItem('currentUserId'),
+      userId: (() => { try { return JSON.parse(sessionStorage.getItem('_session_state') || '{}').username || null; } catch { return null; } })(),
       sessionId: sessionStorage.getItem('sessionId'),
       ipAddress: await this.getClientIP(),
       userAgent: navigator.userAgent,
@@ -481,9 +481,9 @@ export class AuditTrailManager {
       oldValue: oldValue,
       newValue: newValue,
       reason: reason,
-      modifiedBy: localStorage.getItem('currentUserId'),
-      approvedBy: localStorage.getItem('approverUserId'),
-      ministryId: localStorage.getItem('currentMinistry'),
+      modifiedBy: (() => { try { return JSON.parse(sessionStorage.getItem('_session_state') || '{}').username || null; } catch { return null; } })(),
+      approvedBy: sessionStorage.getItem('approverUserId'),
+      ministryId: (() => { try { return JSON.parse(sessionStorage.getItem('_session_state') || '{}').ministryId || null; } catch { return null; } })(),
       requestId: `REQ-${Date.now()}`
     });
   }
@@ -495,7 +495,7 @@ export class AuditTrailManager {
       consentType: consentType,
       granted: granted,
       expiryDate: expiryDate,
-      consentGivenBy: localStorage.getItem('currentUserId'),
+      consentGivenBy: (() => { try { return JSON.parse(sessionStorage.getItem('_session_state') || '{}').username || null; } catch { return null; } })(),
       witnessId: null,
       deviceId: await this.getDeviceId()
     });

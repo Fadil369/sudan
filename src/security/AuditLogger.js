@@ -14,7 +14,7 @@ class AuditLogger {
     this.bufferSize = 100;
     this.flushInterval = 30000; // 30 seconds
     this.startBufferFlush();
-    this.logLevel = process.env.REACT_APP_LOG_LEVEL || 'info';
+    this.logLevel = import.meta.env.VITE_LOG_LEVEL || 'info';
   }
 
   /**
@@ -68,7 +68,7 @@ class AuditLogger {
     this.eventBuffer.push(logEntry);
 
     // Console log in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.log(`[${category}] ${event}:`, details);
     }
 
@@ -114,17 +114,17 @@ class AuditLogger {
     // In a real implementation, this would send to a logging API
     // For now, just store in localStorage for development
     try {
-      const existingLogs = JSON.parse(localStorage.getItem('sudan-audit-logs') || '[]');
+      const existingLogs = JSON.parse(sessionStorage.getItem('sudan-audit-logs') || '[]');
       const updatedLogs = [...existingLogs, ...events];
 
-      // Keep only last 1000 entries in localStorage
+      // Keep only last 1000 entries in sessionStorage
       if (updatedLogs.length > 1000) {
         updatedLogs.splice(0, updatedLogs.length - 1000);
       }
 
-      localStorage.setItem('sudan-audit-logs', JSON.stringify(updatedLogs));
+      sessionStorage.setItem('sudan-audit-logs', JSON.stringify(updatedLogs));
 
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         console.log('Audit logs flushed:', events.length, 'entries');
       }
     } catch (error) {
@@ -138,7 +138,7 @@ class AuditLogger {
   getSessionId() {
     let sessionId = sessionStorage.getItem('sudan-session-id');
     if (!sessionId) {
-      sessionId = CryptoJS.lib.WordArray.random(16).toString();
+      sessionId = crypto.randomUUID().replace(/-/g, '');
       sessionStorage.setItem('sudan-session-id', sessionId);
     }
     return sessionId;
@@ -149,7 +149,7 @@ class AuditLogger {
    */
   getLogs(limit = 100) {
     try {
-      const logs = JSON.parse(localStorage.getItem('sudan-audit-logs') || '[]');
+      const logs = JSON.parse(sessionStorage.getItem('sudan-audit-logs') || '[]');
       return logs.slice(-limit).reverse(); // Most recent first
     } catch (error) {
       console.error('Failed to retrieve audit logs:', error);
@@ -162,7 +162,7 @@ class AuditLogger {
    */
   clearLogs() {
     try {
-      localStorage.removeItem('sudan-audit-logs');
+      sessionStorage.removeItem('sudan-audit-logs');
       this.eventBuffer = [];
       return true;
     } catch (error) {

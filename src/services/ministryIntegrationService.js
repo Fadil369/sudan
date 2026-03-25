@@ -154,7 +154,7 @@ class MinistryIntegrationService {
 class BaseMinistryAPI {
   constructor(ministryName) {
     this.ministryName = ministryName;
-    this.baseUrl = process.env[`REACT_APP_${ministryName.toUpperCase()}_API_URL`];
+    this.baseUrl = import.meta.env[`VITE_${ministryName.toUpperCase()}_API_URL`];
   }
 
   async makeRequest(endpoint, method = 'GET', data = null) {

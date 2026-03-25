@@ -17,11 +17,11 @@ class MonitoringService {
     
     this.config = {
       monitoring: {
-        enabled: process.env.REACT_APP_MONITORING_ENABLED === 'true',
+        enabled: import.meta.env.VITE_MONITORING_ENABLED === 'true',
         interval: 30000, // 30 seconds
         performanceSampling: 0.1, // 10% sampling rate
         errorTracking: true,
-        userTracking: process.env.REACT_APP_USER_TRACKING_ENABLED === 'true'
+        userTracking: import.meta.env.VITE_USER_TRACKING_ENABLED === 'true'
       },
       
       thresholds: {
@@ -34,9 +34,9 @@ class MonitoringService {
       },
       
       alerts: {
-        email: process.env.REACT_APP_ALERT_EMAIL,
-        webhook: process.env.REACT_APP_ALERT_WEBHOOK,
-        sms: process.env.REACT_APP_ALERT_SMS
+        email: import.meta.env.VITE_ALERT_EMAIL,
+        webhook: import.meta.env.VITE_ALERT_WEBHOOK,
+        sms: import.meta.env.VITE_ALERT_SMS
       }
     };
     
@@ -615,7 +615,12 @@ class MonitoringService {
   }
 
   getUserId() {
-    return localStorage.getItem('currentCitizenOid') || 'anonymous';
+    try {
+      const state = JSON.parse(sessionStorage.getItem('_session_state') || '{}');
+      return state.username || 'anonymous';
+    } catch {
+      return 'anonymous';
+    }
   }
 
   getSessionId() {
@@ -630,7 +635,7 @@ class MonitoringService {
 
   async sendErrorToService(error) {
     // Send error to external error tracking service
-    const errorService = process.env.REACT_APP_ERROR_REPORTING_URL;
+    const errorService = import.meta.env.VITE_ERROR_REPORTING_URL;
     if (errorService) {
       try {
         await fetch(errorService, {

@@ -348,7 +348,7 @@ export const errorHandler = (error, req, res, next) => {
   });
 
   // Don't expose internal errors in production
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = import.meta.env.DEV;
   
   let statusCode = 500;
   let errorCode = 'INTERNAL_ERROR';
@@ -398,7 +398,7 @@ export const corsOptions = {
     ];
     
     // Allow localhost in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       allowedOrigins.push('http://localhost:3000', 'http://127.0.0.1:3000');
     }
     

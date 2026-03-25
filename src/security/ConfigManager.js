@@ -10,10 +10,10 @@ class ConfigManager {
     this.config = new Map();
     this.encryptionKey = this.generateEncryptionKey();
     this.requiredEnvVars = [
-      'REACT_APP_JWT_SECRET',
-      'REACT_APP_JWT_REFRESH_SECRET',
-      'REACT_APP_API_BASE_URL',
-      'REACT_APP_ENCRYPTION_KEY'
+      'VITE_JWT_SECRET',
+      'VITE_JWT_REFRESH_SECRET',
+      'VITE_API_BASE_URL',
+      'VITE_ENCRYPTION_KEY'
     ];
     
     this.initializeConfig();
@@ -45,7 +45,7 @@ class ConfigManager {
    */
   loadEnvironmentVariables() {
     // Check for required environment variables
-    const missingVars = this.requiredEnvVars.filter(varName => !process.env[varName]);
+    const missingVars = this.requiredEnvVars.filter(varName => !import.meta.env[varName]);
     
     if (missingVars.length > 0) {
       console.warn('[CONFIG] Missing environment variables:', missingVars);
@@ -53,46 +53,46 @@ class ConfigManager {
     }
 
     // JWT Configuration
-    this.set('JWT_SECRET', process.env.REACT_APP_JWT_SECRET || this.generateSecureSecret());
-    this.set('JWT_REFRESH_SECRET', process.env.REACT_APP_JWT_REFRESH_SECRET || this.generateSecureSecret());
-    this.set('JWT_ACCESS_EXPIRY', process.env.REACT_APP_JWT_ACCESS_EXPIRY || '15m');
-    this.set('JWT_REFRESH_EXPIRY', process.env.REACT_APP_JWT_REFRESH_EXPIRY || '7d');
+    this.set('JWT_SECRET', import.meta.env.VITE_JWT_SECRET || this.generateSecureSecret());
+    this.set('JWT_REFRESH_SECRET', import.meta.env.VITE_JWT_REFRESH_SECRET || this.generateSecureSecret());
+    this.set('JWT_ACCESS_EXPIRY', import.meta.env.VITE_JWT_ACCESS_EXPIRY || '15m');
+    this.set('JWT_REFRESH_EXPIRY', import.meta.env.VITE_JWT_REFRESH_EXPIRY || '7d');
 
     // API Configuration
     this.set(
       'API_BASE_URL',
-      process.env.REACT_APP_API_BASE_URL ||
-        process.env.REACT_APP_API_URL ||
-        'http://localhost:8080/api'
+      import.meta.env.VITE_API_BASE_URL ||
+        import.meta.env.VITE_API_URL ||
+        '/api'
     );
-    this.set('API_TIMEOUT', parseInt(process.env.REACT_APP_API_TIMEOUT) || 30000);
-    this.set('API_RETRY_ATTEMPTS', parseInt(process.env.REACT_APP_API_RETRY_ATTEMPTS) || 3);
+    this.set('API_TIMEOUT', parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000);
+    this.set('API_RETRY_ATTEMPTS', parseInt(import.meta.env.VITE_API_RETRY_ATTEMPTS) || 3);
 
     // Security Configuration
-    this.set('ENCRYPTION_KEY', process.env.REACT_APP_ENCRYPTION_KEY || this.encryptionKey);
-    this.set('BCRYPT_ROUNDS', parseInt(process.env.REACT_APP_BCRYPT_ROUNDS) || 12);
-    this.set('SESSION_TIMEOUT', parseInt(process.env.REACT_APP_SESSION_TIMEOUT) || 900000); // 15 minutes
+    this.set('ENCRYPTION_KEY', import.meta.env.VITE_ENCRYPTION_KEY || this.encryptionKey);
+    this.set('BCRYPT_ROUNDS', parseInt(import.meta.env.VITE_BCRYPT_ROUNDS) || 12);
+    this.set('SESSION_TIMEOUT', parseInt(import.meta.env.VITE_SESSION_TIMEOUT) || 900000); // 15 minutes
 
     // Rate Limiting
-    this.set('RATE_LIMIT_WINDOW', parseInt(process.env.REACT_APP_RATE_LIMIT_WINDOW) || 900000); // 15 minutes
-    this.set('RATE_LIMIT_MAX_REQUESTS', parseInt(process.env.REACT_APP_RATE_LIMIT_MAX_REQUESTS) || 100);
+    this.set('RATE_LIMIT_WINDOW', parseInt(import.meta.env.VITE_RATE_LIMIT_WINDOW) || 900000); // 15 minutes
+    this.set('RATE_LIMIT_MAX_REQUESTS', parseInt(import.meta.env.VITE_RATE_LIMIT_MAX_REQUESTS) || 100);
 
     // Database Configuration (if needed)
-    this.set('DB_HOST', process.env.REACT_APP_DB_HOST || 'localhost');
-    this.set('DB_PORT', parseInt(process.env.REACT_APP_DB_PORT) || 5432);
-    this.set('DB_NAME', process.env.REACT_APP_DB_NAME || 'sudan_oid');
-    this.set('DB_SSL', process.env.REACT_APP_DB_SSL === 'true');
+    this.set('DB_HOST', import.meta.env.VITE_DB_HOST || 'localhost');
+    this.set('DB_PORT', parseInt(import.meta.env.VITE_DB_PORT) || 5432);
+    this.set('DB_NAME', import.meta.env.VITE_DB_NAME || 'sudan_oid');
+    this.set('DB_SSL', import.meta.env.VITE_DB_SSL === 'true');
 
     // External Services
-    this.set('BLOCKCHAIN_ENDPOINT', process.env.REACT_APP_BLOCKCHAIN_ENDPOINT || 'http://localhost:7054');
-    this.set('BIOMETRIC_SERVICE_URL', process.env.REACT_APP_BIOMETRIC_SERVICE_URL || 'http://localhost:9090');
-    this.set('SMS_SERVICE_URL', process.env.REACT_APP_SMS_SERVICE_URL || 'http://localhost:8081');
+    this.set('BLOCKCHAIN_ENDPOINT', import.meta.env.VITE_BLOCKCHAIN_ENDPOINT || 'http://localhost:7054');
+    this.set('BIOMETRIC_SERVICE_URL', import.meta.env.VITE_BIOMETRIC_SERVICE_URL || 'http://localhost:9090');
+    this.set('SMS_SERVICE_URL', import.meta.env.VITE_SMS_SERVICE_URL || 'http://localhost:8081');
 
     // Feature Flags
-    this.set('ENABLE_BIOMETRIC_AUTH', process.env.REACT_APP_ENABLE_BIOMETRIC_AUTH === 'true');
-    this.set('ENABLE_MFA', process.env.REACT_APP_ENABLE_MFA === 'true');
-    this.set('ENABLE_AUDIT_LOGGING', process.env.REACT_APP_ENABLE_AUDIT_LOGGING !== 'false');
-    this.set('ENABLE_BLOCKCHAIN', process.env.REACT_APP_ENABLE_BLOCKCHAIN === 'true');
+    this.set('ENABLE_BIOMETRIC_AUTH', import.meta.env.VITE_ENABLE_BIOMETRIC_AUTH === 'true');
+    this.set('ENABLE_MFA', import.meta.env.VITE_ENABLE_MFA === 'true');
+    this.set('ENABLE_AUDIT_LOGGING', import.meta.env.VITE_ENABLE_AUDIT_LOGGING !== 'false');
+    this.set('ENABLE_BLOCKCHAIN', import.meta.env.VITE_ENABLE_BLOCKCHAIN === 'true');
   }
 
   /**

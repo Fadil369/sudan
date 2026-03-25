@@ -231,8 +231,8 @@ export const API_CONFIG = {
   // Cache configuration
   CACHE_CONFIG: {
     redis: {
-      host: process.env.REACT_APP_REDIS_HOST || 'redis.sudan.elfadil.com',
-      port: process.env.REACT_APP_REDIS_PORT || 6379,
+      host: import.meta.env.VITE_REDIS_HOST || 'redis.sudan.elfadil.com',
+      port: import.meta.env.VITE_REDIS_PORT || 6379,
       ttl: {
         shortTerm: 300,    // 5 minutes
         mediumTerm: 3600,  // 1 hour
@@ -252,7 +252,7 @@ export const API_CONFIG = {
       }
     },
     logging: {
-      level: process.env.LOG_LEVEL || 'info',
+      level: import.meta.env.VITE_LOG_LEVEL || 'info',
       format: 'json',
       destinations: [
         'console',
@@ -270,7 +270,7 @@ export const API_CONFIG = {
   // Message queue configuration
   MESSAGING_CONFIG: {
     rabbitmq: {
-      url: process.env.REACT_APP_RABBITMQ_URL || 'amqp://messaging.sudan.elfadil.com',
+      url: import.meta.env.VITE_RABBITMQ_URL || 'amqp://messaging.sudan.elfadil.com',
       exchanges: {
         identity: 'sudan.identity.events',
         notifications: 'sudan.notifications',
@@ -298,8 +298,8 @@ export const API_CONFIG = {
     },
     push: {
       fcm: {
-        serverKey: process.env.REACT_APP_FCM_SERVER_KEY,
-        vapidKey: process.env.REACT_APP_FCM_VAPID_KEY
+        serverKey: import.meta.env.VITE_FCM_SERVER_KEY,
+        vapidKey: import.meta.env.VITE_FCM_VAPID_KEY
       }
     }
   },

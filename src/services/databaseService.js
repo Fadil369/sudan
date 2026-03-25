@@ -18,10 +18,10 @@ class DatabaseService {
     this.config = {
       // Primary Database Configuration
       primary: {
-        host: process.env.REACT_APP_DB_HOST || 'db.sudan.elfadil.com',
-        port: process.env.REACT_APP_DB_PORT || 5432,
-        database: process.env.REACT_APP_DB_NAME || 'sudan_national_identity',
-        ssl: process.env.REACT_APP_DB_SSL === 'true',
+        host: import.meta.env.VITE_DB_HOST || 'db.sudan.elfadil.com',
+        port: import.meta.env.VITE_DB_PORT || 5432,
+        database: import.meta.env.VITE_DB_NAME || 'sudan_national_identity',
+        ssl: import.meta.env.VITE_DB_SSL === 'true',
         pool: {
           min: 5,
           max: 20,
@@ -32,26 +32,26 @@ class DatabaseService {
       
       // Government Database Endpoints
       ministries: {
-        health: process.env.REACT_APP_HEALTH_API_URL,
-        education: process.env.REACT_APP_EDUCATION_API_URL,
-        finance: process.env.REACT_APP_FINANCE_API_URL,
-        agriculture: process.env.REACT_APP_AGRICULTURE_API_URL,
-        energy: process.env.REACT_APP_ENERGY_API_URL,
-        infrastructure: process.env.REACT_APP_INFRASTRUCTURE_API_URL,
-        justice: process.env.REACT_APP_JUSTICE_API_URL,
-        foreignAffairs: process.env.REACT_APP_FOREIGN_AFFAIRS_API_URL,
-        labor: process.env.REACT_APP_LABOR_API_URL,
-        socialWelfare: process.env.REACT_APP_SOCIAL_WELFARE_API_URL
+        health: import.meta.env.VITE_HEALTH_API_URL,
+        education: import.meta.env.VITE_EDUCATION_API_URL,
+        finance: import.meta.env.VITE_FINANCE_API_URL,
+        agriculture: import.meta.env.VITE_AGRICULTURE_API_URL,
+        energy: import.meta.env.VITE_ENERGY_API_URL,
+        infrastructure: import.meta.env.VITE_INFRASTRUCTURE_API_URL,
+        justice: import.meta.env.VITE_JUSTICE_API_URL,
+        foreignAffairs: import.meta.env.VITE_FOREIGN_AFFAIRS_API_URL,
+        labor: import.meta.env.VITE_LABOR_API_URL,
+        socialWelfare: import.meta.env.VITE_SOCIAL_WELFARE_API_URL
       },
       
       // External System Integration
       external: {
-        nationalRecords: process.env.REACT_APP_NATIONAL_RECORDS_API,
-        centralBank: process.env.REACT_APP_CENTRAL_BANK_API,
-        sudanPost: process.env.REACT_APP_SUDAN_POST_API,
-        statistics: process.env.REACT_APP_STATISTICS_API,
-        dhis2: process.env.REACT_APP_DHIS2_URL,
-        ifmis: process.env.REACT_APP_IFMIS_URL
+        nationalRecords: import.meta.env.VITE_NATIONAL_RECORDS_API,
+        centralBank: import.meta.env.VITE_CENTRAL_BANK_API,
+        sudanPost: import.meta.env.VITE_SUDAN_POST_API,
+        statistics: import.meta.env.VITE_STATISTICS_API,
+        dhis2: import.meta.env.VITE_DHIS2_URL,
+        ifmis: import.meta.env.VITE_IFMIS_URL
       }
     };
     
@@ -271,7 +271,7 @@ class DatabaseService {
     switch (type) {
       case 'ministry':
         // Each ministry might have different auth requirements
-        const token = localStorage.getItem(`${name}_api_token`);
+        const token = sessionStorage.getItem(`${name}_api_token`);
         if (token) {
           headers.Authorization = `Bearer ${token}`;
         }
@@ -281,23 +281,23 @@ class DatabaseService {
         // External system specific auth
         switch (name) {
           case 'nationalRecords':
-            headers['X-API-Key'] = process.env.REACT_APP_NATIONAL_RECORDS_API_KEY;
+            headers['X-API-Key'] = import.meta.env.VITE_NATIONAL_RECORDS_API_KEY;
             break;
           case 'centralBank':
-            headers['X-API-Key'] = process.env.REACT_APP_CENTRAL_BANK_API_KEY;
+            headers['X-API-Key'] = import.meta.env.VITE_CENTRAL_BANK_API_KEY;
             break;
           case 'sudanPost':
-            headers['X-API-Key'] = process.env.REACT_APP_SUDAN_POST_API_KEY;
+            headers['X-API-Key'] = import.meta.env.VITE_SUDAN_POST_API_KEY;
             break;
           case 'statistics':
-            headers['X-API-Key'] = process.env.REACT_APP_STATISTICS_API_KEY;
+            headers['X-API-Key'] = import.meta.env.VITE_STATISTICS_API_KEY;
             break;
           case 'dhis2':
-            const dhis2Auth = btoa(`${process.env.REACT_APP_DHIS2_USERNAME}:${process.env.REACT_APP_DHIS2_PASSWORD}`);
+            const dhis2Auth = btoa(`${import.meta.env.VITE_DHIS2_USERNAME}:${import.meta.env.VITE_DHIS2_PASSWORD}`);
             headers.Authorization = `Basic ${dhis2Auth}`;
             break;
           case 'ifmis':
-            headers['X-API-Key'] = process.env.REACT_APP_IFMIS_API_KEY;
+            headers['X-API-Key'] = import.meta.env.VITE_IFMIS_API_KEY;
             break;
         }
         break;
@@ -310,7 +310,7 @@ class DatabaseService {
    * Generate unique request ID for tracking
    */
   generateRequestId() {
-    return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `req_${crypto.randomUUID().replace(/-/g, '')}`;
   }
 
   /**

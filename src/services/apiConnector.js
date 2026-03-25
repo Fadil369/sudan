@@ -11,23 +11,23 @@ import auditLogger from '../security/AuditLogger';
 class APIConnector {
   constructor() {
     this.baseURL =
-      process.env.REACT_APP_API_BASE_URL ||
-      process.env.REACT_APP_API_URL ||
-      'https://api.sudan.elfadil.com/v1';
+      import.meta.env.VITE_API_BASE_URL ||
+      import.meta.env.VITE_API_URL ||
+      '/api';
     this.authToken = null; // Never seed from stale storage; always read live below
-    this.isProduction = process.env.NODE_ENV === 'production';
-    this.mockData = process.env.REACT_APP_MOCK_DATA === 'true';
+    this.isProduction = import.meta.env.PROD;
+    this.mockData = import.meta.env.VITE_MOCK_DATA === 'true';
     
     // Create axios instance with default config
     this.api = axios.create({
       baseURL: this.baseURL,
-      timeout: parseInt(process.env.REACT_APP_API_TIMEOUT) || 30000,
+      timeout: parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'X-API-Version': process.env.REACT_APP_API_VERSION || '1.0',
+        'X-API-Version': import.meta.env.VITE_API_VERSION || '1.0',
         'X-Client-ID': 'sudan-identity-portal',
-        'X-Environment': process.env.NODE_ENV || 'development'
+        'X-Environment': import.meta.env.MODE || 'development'
       }
     });
 
@@ -60,7 +60,9 @@ class APIConnector {
         config.headers['X-Language'] = navigator.language;
         config.headers['X-Timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone;
         
-        console.log(`🔗 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+        if (import.meta.env.DEV) {
+          console.log(`🔗 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+        }
         
         // Log request for audit
         auditLogger.dataAccess('API_REQUEST_INITIATED', {
@@ -457,7 +459,7 @@ class APIConnector {
    * Generate unique request ID
    */
   generateRequestId() {
-    return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    return `req_${crypto.randomUUID().replace(/-/g, '')}`;
   }
 
   /**
@@ -1415,7 +1417,7 @@ export class MockAPIService {
 }
 
 // Use mock service in development
-export const apiService = process.env.NODE_ENV === 'development' 
+export const apiService = import.meta.env.DEV
   ? new MockAPIService() 
   : apiConnector;
 

@@ -701,7 +701,7 @@ class SecurityMonitoringService {
 
   // Placeholder methods that would integrate with actual systems
   getCSRFToken() {
-    return localStorage.getItem('csrf_token');
+    return sessionStorage.getItem('csrf_token');
   }
 
   isCSRFTokenExpired(token) {
@@ -710,7 +710,7 @@ class SecurityMonitoringService {
   }
 
   getSessionData() {
-    return localStorage.getItem('session_data');
+    return sessionStorage.getItem('session_data');
   }
 
   isSessionExpired(sessionData) {

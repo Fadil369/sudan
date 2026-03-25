@@ -8,7 +8,7 @@ import { OID_ROOT } from '../config/oidConfig';
 
 class SecureConfig {
   constructor() {
-    this.environment = process.env.NODE_ENV || 'development';
+    this.environment = import.meta.env.MODE || 'development';
     this.config = new Map();
     this.encryptionKey = this.deriveEncryptionKey();
     this.requiredSecrets = new Set([
@@ -40,7 +40,7 @@ class SecureConfig {
    */
   deriveEncryptionKey() {
     // Never use a hardcoded fallback key in derivation (OWASP A02)
-    let baseKey = process.env.REACT_APP_ENCRYPTION_KEY;
+    let baseKey = import.meta.env.VITE_ENCRYPTION_KEY;
     if (!baseKey) {
       const arr = new Uint8Array(32);
       crypto.getRandomValues(arr);
@@ -59,98 +59,98 @@ class SecureConfig {
    */
   loadEnvironmentConfig() {
     // Core Security Configuration
-    this.set('security.jwtSecret', this.getSecureEnv('REACT_APP_JWT_SECRET'));
-    this.set('security.jwtRefreshSecret', this.getSecureEnv('REACT_APP_JWT_REFRESH_SECRET'));
-    this.set('security.encryptionKey', this.getSecureEnv('REACT_APP_ENCRYPTION_KEY'));
-    this.set('security.sessionTimeout', parseInt(process.env.REACT_APP_SESSION_TIMEOUT) || 1800);
-    this.set('security.maxLoginAttempts', parseInt(process.env.REACT_APP_MAX_LOGIN_ATTEMPTS) || 5);
-    this.set('security.accountLockoutDuration', parseInt(process.env.REACT_APP_ACCOUNT_LOCKOUT_DURATION) || 1800);
+    this.set('security.jwtSecret', this.getSecureEnv('VITE_JWT_SECRET'));
+    this.set('security.jwtRefreshSecret', this.getSecureEnv('VITE_JWT_REFRESH_SECRET'));
+    this.set('security.encryptionKey', this.getSecureEnv('VITE_ENCRYPTION_KEY'));
+    this.set('security.sessionTimeout', parseInt(import.meta.env.VITE_SESSION_TIMEOUT) || 1800);
+    this.set('security.maxLoginAttempts', parseInt(import.meta.env.VITE_MAX_LOGIN_ATTEMPTS) || 5);
+    this.set('security.accountLockoutDuration', parseInt(import.meta.env.VITE_ACCOUNT_LOCKOUT_DURATION) || 1800);
 
     // API Configuration
     this.set(
       'api.baseUrl',
-      process.env.REACT_APP_API_BASE_URL ||
-        process.env.REACT_APP_API_URL ||
+      import.meta.env.VITE_API_BASE_URL ||
+        import.meta.env.VITE_API_URL ||
         'http://localhost:8080/api'
     );
-    this.set('api.timeout', parseInt(process.env.REACT_APP_API_TIMEOUT) || 30000);
-    this.set('api.rateLimit', parseInt(process.env.REACT_APP_API_RATE_LIMIT) || 1000);
+    this.set('api.timeout', parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000);
+    this.set('api.rateLimit', parseInt(import.meta.env.VITE_API_RATE_LIMIT) || 1000);
     this.set('api.retryAttempts', 3);
 
     // Government Integration APIs
-    this.set('apis.health', process.env.REACT_APP_HEALTH_API_URL);
-    this.set('apis.education', process.env.REACT_APP_EDUCATION_API_URL);
-    this.set('apis.finance', process.env.REACT_APP_FINANCE_API_URL);
-    this.set('apis.agriculture', process.env.REACT_APP_AGRICULTURE_API_URL);
-    this.set('apis.energy', process.env.REACT_APP_ENERGY_API_URL);
-    this.set('apis.infrastructure', process.env.REACT_APP_INFRASTRUCTURE_API_URL);
-    this.set('apis.justice', process.env.REACT_APP_JUSTICE_API_URL);
-    this.set('apis.foreignAffairs', process.env.REACT_APP_FOREIGN_AFFAIRS_API_URL);
-    this.set('apis.labor', process.env.REACT_APP_LABOR_API_URL);
-    this.set('apis.socialWelfare', process.env.REACT_APP_SOCIAL_WELFARE_API_URL);
+    this.set('apis.health', import.meta.env.VITE_HEALTH_API_URL);
+    this.set('apis.education', import.meta.env.VITE_EDUCATION_API_URL);
+    this.set('apis.finance', import.meta.env.VITE_FINANCE_API_URL);
+    this.set('apis.agriculture', import.meta.env.VITE_AGRICULTURE_API_URL);
+    this.set('apis.energy', import.meta.env.VITE_ENERGY_API_URL);
+    this.set('apis.infrastructure', import.meta.env.VITE_INFRASTRUCTURE_API_URL);
+    this.set('apis.justice', import.meta.env.VITE_JUSTICE_API_URL);
+    this.set('apis.foreignAffairs', import.meta.env.VITE_FOREIGN_AFFAIRS_API_URL);
+    this.set('apis.labor', import.meta.env.VITE_LABOR_API_URL);
+    this.set('apis.socialWelfare', import.meta.env.VITE_SOCIAL_WELFARE_API_URL);
 
     // BrainSAIT Integration
-    this.set('brainsait.apiUrl', process.env.REACT_APP_BRAINSAIT_API_URL);
-    this.set('brainsait.oidRegistry', process.env.REACT_APP_BRAINSAIT_OID_REGISTRY);
-    this.set('brainsait.apiKey', this.getSecureEnv('REACT_APP_BRAINSAIT_API_KEY'));
-    this.set('brainsait.sudanOidBranch', process.env.REACT_APP_SUDAN_OID_BRANCH || OID_ROOT);
+    this.set('brainsait.apiUrl', import.meta.env.VITE_BRAINSAIT_API_URL);
+    this.set('brainsait.oidRegistry', import.meta.env.VITE_BRAINSAIT_OID_REGISTRY);
+    this.set('brainsait.apiKey', this.getSecureEnv('VITE_BRAINSAIT_API_KEY'));
+    this.set('brainsait.sudanOidBranch', import.meta.env.VITE_SUDAN_OID_BRANCH || OID_ROOT);
 
     // Blockchain Configuration
-    this.set('blockchain.enabled', process.env.REACT_APP_BLOCKCHAIN_ENABLED === 'true');
-    this.set('blockchain.network', process.env.REACT_APP_BLOCKCHAIN_NETWORK || 'hyperledger-fabric');
-    this.set('blockchain.caUrl', process.env.REACT_APP_BLOCKCHAIN_CA_URL);
-    this.set('blockchain.peerUrl', process.env.REACT_APP_BLOCKCHAIN_PEER_URL);
-    this.set('blockchain.ordererUrl', process.env.REACT_APP_BLOCKCHAIN_ORDERER_URL);
-    this.set('blockchain.channel', process.env.REACT_APP_BLOCKCHAIN_CHANNEL || 'sudan-identity-channel');
+    this.set('blockchain.enabled', import.meta.env.VITE_BLOCKCHAIN_ENABLED === 'true');
+    this.set('blockchain.network', import.meta.env.VITE_BLOCKCHAIN_NETWORK || 'hyperledger-fabric');
+    this.set('blockchain.caUrl', import.meta.env.VITE_BLOCKCHAIN_CA_URL);
+    this.set('blockchain.peerUrl', import.meta.env.VITE_BLOCKCHAIN_PEER_URL);
+    this.set('blockchain.ordererUrl', import.meta.env.VITE_BLOCKCHAIN_ORDERER_URL);
+    this.set('blockchain.channel', import.meta.env.VITE_BLOCKCHAIN_CHANNEL || 'sudan-identity-channel');
 
     // Biometric Services
-    this.set('biometric.serviceUrl', process.env.REACT_APP_BIOMETRIC_SERVICE_URL);
-    this.set('biometric.apiKey', this.getSecureEnv('REACT_APP_BIOMETRIC_API_KEY'));
-    this.set('biometric.fingerprintEnabled', process.env.REACT_APP_FINGERPRINT_ENABLED === 'true');
-    this.set('biometric.facialRecognitionEnabled', process.env.REACT_APP_FACIAL_RECOGNITION_ENABLED === 'true');
-    this.set('biometric.irisScanEnabled', process.env.REACT_APP_IRIS_SCAN_ENABLED === 'true');
-    this.set('biometric.voiceRecognitionEnabled', process.env.REACT_APP_VOICE_RECOGNITION_ENABLED === 'true');
+    this.set('biometric.serviceUrl', import.meta.env.VITE_BIOMETRIC_SERVICE_URL);
+    this.set('biometric.apiKey', this.getSecureEnv('VITE_BIOMETRIC_API_KEY'));
+    this.set('biometric.fingerprintEnabled', import.meta.env.VITE_FINGERPRINT_ENABLED === 'true');
+    this.set('biometric.facialRecognitionEnabled', import.meta.env.VITE_FACIAL_RECOGNITION_ENABLED === 'true');
+    this.set('biometric.irisScanEnabled', import.meta.env.VITE_IRIS_SCAN_ENABLED === 'true');
+    this.set('biometric.voiceRecognitionEnabled', import.meta.env.VITE_VOICE_RECOGNITION_ENABLED === 'true');
 
     // Monitoring and Analytics
-    this.set('monitoring.enabled', process.env.REACT_APP_MONITORING_ENABLED === 'true');
-    this.set('monitoring.analyticsId', process.env.REACT_APP_ANALYTICS_ID);
-    this.set('monitoring.errorReportingUrl', process.env.REACT_APP_ERROR_REPORTING_URL);
-    this.set('monitoring.performanceMonitoring', process.env.REACT_APP_PERFORMANCE_MONITORING === 'true');
+    this.set('monitoring.enabled', import.meta.env.VITE_MONITORING_ENABLED === 'true');
+    this.set('monitoring.analyticsId', import.meta.env.VITE_ANALYTICS_ID);
+    this.set('monitoring.errorReportingUrl', import.meta.env.VITE_ERROR_REPORTING_URL);
+    this.set('monitoring.performanceMonitoring', import.meta.env.VITE_PERFORMANCE_MONITORING === 'true');
 
     // Localization
-    this.set('localization.defaultLanguage', process.env.REACT_APP_DEFAULT_LANGUAGE || 'ar');
-    this.set('localization.supportedLanguages', (process.env.REACT_APP_SUPPORTED_LANGUAGES || 'ar,en').split(','));
-    this.set('localization.rtlLanguages', (process.env.REACT_APP_RTL_LANGUAGES || 'ar').split(','));
+    this.set('localization.defaultLanguage', import.meta.env.VITE_DEFAULT_LANGUAGE || 'ar');
+    this.set('localization.supportedLanguages', (import.meta.env.VITE_SUPPORTED_LANGUAGES || 'ar,en').split(','));
+    this.set('localization.rtlLanguages', (import.meta.env.VITE_RTL_LANGUAGES || 'ar').split(','));
 
     // Performance and Scalability
     this.set('performance.cacheEnabled', true);
-    this.set('performance.cacheTtl', parseInt(process.env.REACT_APP_CACHE_TTL) || 3600);
-    this.set('performance.compressionEnabled', process.env.REACT_APP_COMPRESSION_ENABLED === 'true');
-    this.set('performance.maxFileSize', parseInt(process.env.REACT_APP_MAX_FILE_SIZE) || 10485760);
-    this.set('performance.maxConcurrentUsers', parseInt(process.env.REACT_APP_MAX_CONCURRENT_USERS) || 50000000);
+    this.set('performance.cacheTtl', parseInt(import.meta.env.VITE_CACHE_TTL) || 3600);
+    this.set('performance.compressionEnabled', import.meta.env.VITE_COMPRESSION_ENABLED === 'true');
+    this.set('performance.maxFileSize', parseInt(import.meta.env.VITE_MAX_FILE_SIZE) || 10485760);
+    this.set('performance.maxConcurrentUsers', parseInt(import.meta.env.VITE_MAX_CONCURRENT_USERS) || 50000000);
 
     // Cloud Infrastructure
-    this.set('cloud.provider', process.env.REACT_APP_CLOUD_PROVIDER || 'aws');
-    this.set('cloud.cdnUrl', process.env.REACT_APP_CDN_URL);
-    this.set('cloud.storageBucket', process.env.REACT_APP_STORAGE_BUCKET);
-    this.set('cloud.region', process.env.REACT_APP_PRIMARY_REGION || 'khartoum');
+    this.set('cloud.provider', import.meta.env.VITE_CLOUD_PROVIDER || 'aws');
+    this.set('cloud.cdnUrl', import.meta.env.VITE_CDN_URL);
+    this.set('cloud.storageBucket', import.meta.env.VITE_STORAGE_BUCKET);
+    this.set('cloud.region', import.meta.env.VITE_PRIMARY_REGION || 'khartoum');
 
     // Feature Flags
-    this.set('features.offlineSupport', process.env.REACT_APP_OFFLINE_SUPPORT === 'true');
-    this.set('features.pwaEnabled', process.env.REACT_APP_PWA_ENABLED === 'true');
-    this.set('features.pushNotifications', process.env.REACT_APP_PUSH_NOTIFICATIONS_ENABLED === 'true');
-    this.set('features.auditLogging', process.env.REACT_APP_AUDIT_LOGGING_ENABLED !== 'false');
+    this.set('features.offlineSupport', import.meta.env.VITE_OFFLINE_SUPPORT === 'true');
+    this.set('features.pwaEnabled', import.meta.env.VITE_PWA_ENABLED === 'true');
+    this.set('features.pushNotifications', import.meta.env.VITE_PUSH_NOTIFICATIONS_ENABLED === 'true');
+    this.set('features.auditLogging', import.meta.env.VITE_AUDIT_LOGGING_ENABLED !== 'false');
 
     // Debug and Development
-    this.set('debug.mode', process.env.REACT_APP_DEBUG_MODE === 'true' && this.environment !== 'production');
-    this.set('debug.mockData', process.env.REACT_APP_MOCK_DATA === 'true' && this.environment !== 'production');
+    this.set('debug.mode', import.meta.env.VITE_DEBUG_MODE === 'true' && this.environment !== 'production');
+    this.set('debug.mockData', import.meta.env.VITE_MOCK_DATA === 'true' && this.environment !== 'production');
   }
 
   /**
    * Securely retrieve environment variable with fallback
    */
   getSecureEnv(key) {
-    const value = process.env[key];
+    const value = import.meta.env[key];
     if (!value) {
       if (this.environment === 'production') {
         console.warn(`[SECURITY] Missing required environment variable: ${key}`);
@@ -180,7 +180,7 @@ class SecureConfig {
     const missingSecrets = [];
     
     for (const secret of this.requiredSecrets) {
-      const value = process.env[`REACT_APP_${secret}`];
+      const value = import.meta.env[`VITE_${secret}`];
       if (!value || (this.environment === 'production' && value.includes('REPLACE'))) {
         missingSecrets.push(secret);
       }
@@ -328,8 +328,8 @@ class SecureConfig {
   getEnvironmentInfo() {
     return {
       environment: this.environment,
-      version: process.env.REACT_APP_VERSION || '1.0.0',
-      buildDate: process.env.REACT_APP_BUILD_DATE || new Date().toISOString(),
+      version: import.meta.env.VITE_VERSION || '1.0.0',
+      buildDate: import.meta.env.VITE_BUILD_DATE || new Date().toISOString(),
       region: this.get('cloud.region'),
       debug: this.get('debug.mode')
     };

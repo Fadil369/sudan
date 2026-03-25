@@ -1,7 +1,7 @@
 // Sudan Government Digital Unified System (SGDUS) — OID configuration
 // Source of truth: sudan.md (OID SYSTEM SPECIFICATION)
 
-export const OID_ROOT = process.env.REACT_APP_OID_BASE || '1.3.6.1.4.1.61026';
+export const OID_ROOT = import.meta.env.VITE_OID_BASE || '1.3.6.1.4.1.61026';
 
 export const OID_BRANCHES = Object.freeze({
   places: `${OID_ROOT}.1`,
