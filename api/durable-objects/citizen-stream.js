@@ -1,25 +1,38 @@
 /**
  * CitizenStreamDurableObject — WebSocket-based real-time event streaming
  * Broadcasts government service updates, notifications, and live stats
- * to connected clients using the WebSocket hibernation API.
+ * to connected clients using the WebSocket Hibernation API.
+ *
+ * The Hibernation API (state.acceptWebSocket) allows the DO to be evicted
+ * from memory between messages without dropping established connections,
+ * significantly reducing CPU/memory costs for long-lived streams.
  */
 export class CitizenStreamDurableObject {
   constructor(state, env) {
     this.state = state;
     this.env = env;
-    // Track connected WebSocket clients (per session)
-    this.connections = new Set();
   }
 
   async fetch(request) {
-    const upgradeHeader = request.headers.get('Upgrade');
+    if (request.headers.get('Upgrade') === 'websocket') {
+      const pair = new WebSocketPair();
+      const [client, server] = Object.values(pair);
 
-    if (upgradeHeader === 'websocket') {
-      return this._handleWebSocket(request);
+      // Hibernation API: CF runtime re-delivers messages after eviction
+      this.state.acceptWebSocket(server);
+
+      server.send(JSON.stringify({
+        type: 'connected',
+        message: 'Connected to Sudan Gov Portal real-time stream',
+        timestamp: new Date().toISOString(),
+      }));
+
+      return new Response(null, { status: 101, webSocket: client });
     }
 
-    // HTTP endpoint for broadcasting messages
     const url = new URL(request.url);
+
+    // HTTP endpoint for broadcasting messages (called by Worker routes)
     if (request.method === 'POST' && url.pathname === '/broadcast') {
       const body = await request.json().catch(() => ({}));
       const count = this._broadcast(body);
@@ -30,62 +43,45 @@ export class CitizenStreamDurableObject {
 
     if (request.method === 'GET' && url.pathname === '/status') {
       return new Response(JSON.stringify({
-        connections: this.connections.size,
+        connections: this.state.getWebSockets().length,
         timestamp: new Date().toISOString(),
       }), { headers: { 'Content-Type': 'application/json' } });
     }
 
-    return new Response('WebSocket endpoint. Connect using Upgrade: websocket header (wss://sudan-gov-api.workers.dev/api/stream)', { status: 426 });
+    return new Response(
+      'WebSocket endpoint. Connect using Upgrade: websocket header.',
+      { status: 426 }
+    );
   }
 
-  _handleWebSocket(request) {
-    const pair = new WebSocketPair();
-    const [client, server] = Object.values(pair);
+  // Called by the CF runtime for each inbound WS message (survives hibernation)
+  webSocketMessage(ws, message) {
+    try {
+      const msg = JSON.parse(message);
+      if (msg.type === 'ping') {
+        ws.send(JSON.stringify({ type: 'pong', ts: new Date().toISOString() }));
+      } else if (msg.type === 'subscribe') {
+        ws.send(JSON.stringify({ type: 'subscribed', channels: msg.channels }));
+      }
+    } catch (_) {}
+  }
 
-    // Accept and configure the server-side WebSocket
-    server.accept();
-    this.connections.add(server);
+  // CF runtime calls this when a WS closes; no manual cleanup needed
+  webSocketClose(_ws, _code, _reason, _wasClean) {}
 
-    // Send welcome message
-    server.send(JSON.stringify({
-      type: 'connected',
-      message: 'Connected to Sudan Gov Portal real-time stream',
-      timestamp: new Date().toISOString(),
-    }));
-
-    // Handle incoming messages
-    server.addEventListener('message', (event) => {
-      try {
-        const msg = JSON.parse(event.data);
-        if (msg.type === 'ping') {
-          server.send(JSON.stringify({ type: 'pong', ts: new Date().toISOString() }));
-        } else if (msg.type === 'subscribe') {
-          server.send(JSON.stringify({ type: 'subscribed', channels: msg.channels }));
-        }
-      } catch (_) {}
-    });
-
-    // Clean up on close
-    server.addEventListener('close', () => {
-      this.connections.delete(server);
-    });
-
-    server.addEventListener('error', () => {
-      this.connections.delete(server);
-    });
-
-    return new Response(null, { status: 101, webSocket: client });
+  webSocketError(ws, _error) {
+    ws.close(1011, 'Internal error');
   }
 
   _broadcast(message) {
     const data = JSON.stringify({ ...message, timestamp: new Date().toISOString() });
     let delivered = 0;
-    for (const ws of this.connections) {
+    for (const ws of this.state.getWebSockets()) {
       try {
         ws.send(data);
         delivered++;
       } catch (_) {
-        this.connections.delete(ws);
+        // CF runtime automatically removes dead sockets; safe to ignore
       }
     }
     return delivered;

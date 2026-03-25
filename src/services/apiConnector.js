@@ -14,7 +14,7 @@ class APIConnector {
       process.env.REACT_APP_API_BASE_URL ||
       process.env.REACT_APP_API_URL ||
       'https://api.sudan.elfadil.com/v1';
-    this.authToken = localStorage.getItem('authToken');
+    this.authToken = null; // Never seed from stale storage; always read live below
     this.isProduction = process.env.NODE_ENV === 'production';
     this.mockData = process.env.REACT_APP_MOCK_DATA === 'true';
     
@@ -37,15 +37,18 @@ class APIConnector {
         const startTime = performance.now();
         config.metadata = { startTime };
         
-        // Add auth token if available
-        if (this.authToken) {
-          config.headers.Authorization = `Bearer ${this.authToken}`;
+        // Add auth token from live sessionStorage (Worker UUID session token)
+        const storedAuth = sessionStorage.getItem('auth_tokens');
+        const sessionToken = storedAuth ? (JSON.parse(storedAuth).accessToken || null) : null;
+        if (sessionToken) {
+          config.headers.Authorization = `Bearer ${sessionToken}`;
         }
         
-        // Add citizen OID for audit tracking
-        const currentOid = localStorage.getItem('currentCitizenOid');
-        if (currentOid) {
-          config.headers['X-Citizen-OID'] = currentOid;
+        // Add citizen OID for audit tracking (from sessionStorage, not localStorage)
+        const storedSession = sessionStorage.getItem('_session_state');
+        const sessionState = storedSession ? JSON.parse(storedSession) : null;
+        if (sessionState?.username) {
+          config.headers['X-Citizen-OID'] = sessionState.username;
         }
 
         // Add request timestamp and unique ID

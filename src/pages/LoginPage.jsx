@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Container,
   Box,
@@ -13,9 +13,11 @@ import {
 } from '@mui/material';
 import { Lock, Person, Fingerprint } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthProvider';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const { login, user, loading: authLoading } = useAuth();
   const [formData, setFormData] = useState({
     oid: '',
     password: '',
@@ -23,33 +25,31 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Redirect already-authenticated users
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Basic client-side validation
+    if (!formData.oid.trim() || !formData.password) {
+      setError('OID and password are required.');
+      return;
+    }
+    if (formData.oid.length > 128 || formData.password.length > 128) {
+      setError('Input exceeds maximum allowed length.');
+      return;
+    }
+
     setLoading(true);
-
     try {
-      // Test Cloudflare API integration
-      const apiUrl = import.meta.env.VITE_API_BASE_URL || '/api';
-      const response = await fetch(`${apiUrl}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      const data = await response.json();
-      
-      // Store token
-      localStorage.setItem('auth_token', data.token);
-      
-      // Navigate to dashboard
-      navigate('/dashboard');
+      await login({ oid: formData.oid.trim(), password: formData.password });
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       setError('Invalid credentials or connection error. Please try again.');
     } finally {
@@ -62,21 +62,8 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const apiUrl = import.meta.env.VITE_API_BASE_URL || '/api';
-      const response = await fetch(`${apiUrl}/auth/biometric`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Biometric authentication failed');
-      }
-
-      const data = await response.json();
-      localStorage.setItem('auth_token', data.token);
-      navigate('/dashboard');
+      await login({ biometric: true });
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       setError('Biometric authentication is not available or failed.');
     } finally {

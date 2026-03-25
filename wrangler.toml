@@ -1,6 +1,6 @@
 name = "sudan-gov"
 pages_build_output_dir = "dist"
-compatibility_date = "2024-09-23"
+compatibility_date = "2025-09-01"
 compatibility_flags = ["nodejs_compat"]
 
 # ─── Environment Variables ────────────────────────────────────────────────────
@@ -11,6 +11,49 @@ APP_NAME = "Sudan Digital Government Portal"
 CORS_ORIGIN = "https://sudan.elfadil.com"
 API_VERSION = "v1"
 LOG_LEVEL = "info"
+# URL of the API Worker — used by Pages Functions to proxy /api/* requests
+WORKER_URL = "https://sudan-gov-api.brainsait-fadil.workers.dev"
+
+# ─── KV Namespaces (shared with API Worker for health checks) ─────────────────
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "1cfe518ae20e48429a21fc3512a1678d"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "fa6d76cae83141028cad92d4f22a8888"
+
+[[kv_namespaces]]
+binding = "OID_REGISTRY"
+id = "07ea6ec79f2f46ebbc8076a2000fcfa9"
+
+[[kv_namespaces]]
+binding = "CITIZEN_PROFILES"
+id = "9778fed50d8347c28822778f50e5f908"
+
+# ─── R2 Buckets (shared with API Worker for health checks) ────────────────────
+[[r2_buckets]]
+binding = "DOCUMENTS"
+bucket_name = "sudan-gov-documents"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "sudan-gov-media"
+
+[[r2_buckets]]
+binding = "AUDIT_LOGS"
+bucket_name = "sudan-gov-audit-logs"
+
+# ─── D1 SQL Databases (shared with API Worker for health checks) ──────────────
+[[d1_databases]]
+binding = "DB"
+database_name = "sudan-gov-main"
+database_id = "9db027b4-fb6b-44e3-af3f-ef4838d4077b"
+
+[[d1_databases]]
+binding = "ANALYTICS_DB"
+database_name = "brainsait-unified-api"
+database_id = "925780db-b119-42f2-a3ca-2aea98712168"
 
 # ─── Preview environment (CF Pages preview deployments) ───────────────────────
 [env.preview.vars]
@@ -20,3 +63,4 @@ APP_NAME = "Sudan Digital Government Portal"
 CORS_ORIGIN = "*"
 API_VERSION = "v1"
 LOG_LEVEL = "info"
+WORKER_URL = "https://api.sudan.elfadil.com"

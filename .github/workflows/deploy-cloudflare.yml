@@ -69,14 +69,28 @@ jobs:
           name: react-build
           path: dist/
 
-      - name: Install Wrangler
-        run: npm install -g wrangler
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: npm
+
+      - name: Install dependencies (provides pinned wrangler)
+        run: npm ci --legacy-peer-deps
+
+      - name: Validate Cloudflare credentials
+        run: |
+          test -n "${CLOUDFLARE_API_TOKEN}" || (echo "Missing CLOUDFLARE_API_TOKEN" && exit 1)
+          test -n "${CLOUDFLARE_ACCOUNT_ID}" || (echo "Missing CLOUDFLARE_ACCOUNT_ID" && exit 1)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Deploy to Cloudflare Pages
         id: deploy
         run: |
           set -o pipefail
-          wrangler pages deploy dist \
+          npx wrangler pages deploy dist \
             --project-name="${CF_PAGES_PROJECT}" \
             --branch="${DEPLOY_BRANCH}" \
             --commit-hash="${{ github.sha }}" \
@@ -123,21 +137,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
+          cache: npm
 
-      - name: Install Wrangler
-        run: npm install -g wrangler
+      - name: Install dependencies (provides pinned wrangler)
+        run: npm ci --legacy-peer-deps
 
       - name: Deploy Worker to production
         if: github.ref == 'refs/heads/main'
-        run: wrangler deploy --config workers.toml --env=""
+        run: npx wrangler deploy --config workers.toml
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Deploy Worker to staging (PR preview)
         if: github.event_name == 'pull_request'
-        run: wrangler deploy --config workers.toml --env staging
-        continue-on-error: true
+        run: npx wrangler deploy --config workers.toml --env staging
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -145,9 +159,14 @@ jobs:
       - name: Apply D1 Migrations (production only)
         if: github.ref == 'refs/heads/main'
         run: |
-          wrangler d1 execute sudan-gov-main --config workers.toml --file=./database/migrations/001_initial.sql --remote
-          wrangler d1 execute sudan-gov-analytics --config workers.toml --file=./database/migrations/002_analytics.sql --remote
-        continue-on-error: true
+          set -e
+          echo "Applying migration 001_initial to sudan-gov-main..."
+          npx wrangler d1 execute sudan-gov-main --config workers.toml --file=./database/migrations/001_initial.sql --remote
+          echo "Applying migration 002_analytics to brainsait-unified-api..."
+          npx wrangler d1 execute brainsait-unified-api --config workers.toml --file=./database/migrations/002_analytics.sql --remote
+          echo "Applying migration 003_users to sudan-gov-main..."
+          npx wrangler d1 execute sudan-gov-main --config workers.toml --file=./database/migrations/003_users.sql --remote
+          echo "All D1 migrations applied successfully."
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

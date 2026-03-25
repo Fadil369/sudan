@@ -410,19 +410,25 @@ CMD ["npm", "start"]
 ### Cloudflare Pages + Workers Deployment
 This repository includes Cloudflare deployment scaffolding in:
 - `.github/workflows/deploy-cloudflare.yml`
-- `wrangler.toml`
-- `workers/api/index.js`
+- `wrangler.toml` (Pages project config)
+- `workers.toml` (Worker API config)
+- `api/index.js`
 
 Configure the following GitHub secrets before enabling deployment:
-- `CF_API_TOKEN`
-- `CF_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
 - `CF_PAGES_PROJECT`
 
-Configure Cloudflare resources referenced in `wrangler.toml`:
-- KV namespace (`CACHE_KV`)
-- D1 database (`APP_DB`)
-- R2 bucket (`ASSETS_R2`)
-- Durable Object (`SESSION_STORE`)
+Configure Cloudflare resources referenced in `workers.toml`:
+- KV namespaces (`SESSIONS`, `CACHE`, `OID_REGISTRY`, `CITIZEN_PROFILES`)
+- D1 databases (`DB`, `ANALYTICS_DB`)
+- R2 buckets (`DOCUMENTS`, `MEDIA`, `AUDIT_LOGS`)
+- Durable Objects (`SESSION_DO`, `RATE_LIMITER`, `CITIZEN_STREAM`)
+
+Recommended deployment flow:
+1. `npm run cf:preflight`
+2. `npm run cf:secrets`
+3. `npm run cf:deploy`
 
 ### Kubernetes Configuration
 ```yaml

@@ -28,14 +28,30 @@ warn()    { echo -e "${YELLOW}[migrate]${NC} $*"; }
 error()   { echo -e "${RED}[migrate]${NC} $*" >&2; }
 
 # ─── Parse arguments ──────────────────────────────────────────────────────────
-ENV_FLAG=""
+ENV_NAME=""
 DRY_RUN=false
-for arg in "$@"; do
-  case "$arg" in
-    --env)      shift; ENV_FLAG="--env ${1:-staging}"; shift ;;
-    --env=*)    ENV_FLAG="--env ${arg#*=}" ;;
-    --dry-run)  DRY_RUN=true ;;
-    *)          error "Unknown argument: $arg"; exit 1 ;;
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --env)
+      if [[ $# -lt 2 ]]; then
+        error "--env requires a value (e.g. --env staging)"
+        exit 1
+      fi
+      ENV_NAME="$2"
+      shift 2
+      ;;
+    --env=*)
+      ENV_NAME="${1#*=}"
+      shift
+      ;;
+    --dry-run)
+      DRY_RUN=true
+      shift
+      ;;
+    *)
+      error "Unknown argument: $1"
+      exit 1
+      ;;
   esac
 done
 
@@ -75,15 +91,15 @@ fi
 # DATABASE_NAME must match the `database_name` field in workers.toml
 declare -a MIGRATIONS=(
   "sudan-gov-main:001_initial.sql"
-  "sudan-gov-analytics:002_analytics.sql"
+  "brainsait-unified-api:002_analytics.sql"
   "sudan-gov-main:003_users.sql"
 )
 
 # ─── Run migrations ───────────────────────────────────────────────────────────
 info "Starting D1 migrations (repo: ${REPO_ROOT})"
 [[ "${DRY_RUN}" == "true" ]] && warn "DRY RUN — commands will be printed but not executed."
-if [[ -n "${ENV_FLAG}" ]]; then
-  info "Target environment: ${ENV_FLAG#--env }"
+if [[ -n "${ENV_NAME}" ]]; then
+  info "Target environment: ${ENV_NAME}"
 fi
 echo ""
 
@@ -100,7 +116,11 @@ for entry in "${MIGRATIONS[@]}"; do
     continue
   fi
 
-  cmd="${WRANGLER_CMD} d1 execute ${db_name} --config ${WORKERS_CONFIG} --file=${migration_path} --remote ${ENV_FLAG}"
+  if [[ -n "${ENV_NAME}" ]]; then
+    cmd="${WRANGLER_CMD} d1 execute ${db_name} --config ${WORKERS_CONFIG} --file=${migration_path} --remote --env ${ENV_NAME} --yes"
+  else
+    cmd="${WRANGLER_CMD} d1 execute ${db_name} --config ${WORKERS_CONFIG} --file=${migration_path} --remote --yes"
+  fi
 
   info "Applying ${migration_file} → ${db_name}"
   info "  ${cmd}"
@@ -111,16 +131,33 @@ for entry in "${MIGRATIONS[@]}"; do
     continue
   fi
 
-  if ${WRANGLER_CMD} d1 execute "${db_name}" \
-        --config "${WORKERS_CONFIG}" \
-        --file="${migration_path}" \
-        --remote ${ENV_FLAG}; then
-    success "  Applied ${migration_file} successfully."
-    APPLIED=$((APPLIED + 1))
+  if [[ -n "${ENV_NAME}" ]]; then
+    if ${WRANGLER_CMD} d1 execute "${db_name}" \
+          --config "${WORKERS_CONFIG}" \
+          --file="${migration_path}" \
+          --remote \
+          --env "${ENV_NAME}" \
+          --yes; then
+      success "  Applied ${migration_file} successfully."
+      APPLIED=$((APPLIED + 1))
+    else
+      error "  Failed to apply ${migration_file} to ${db_name}."
+      FAILED=$((FAILED + 1))
+      # Continue trying remaining migrations but exit with error at the end
+    fi
   else
-    error "  Failed to apply ${migration_file} to ${db_name}."
-    FAILED=$((FAILED + 1))
-    # Continue trying remaining migrations but exit with error at the end
+    if ${WRANGLER_CMD} d1 execute "${db_name}" \
+          --config "${WORKERS_CONFIG}" \
+          --file="${migration_path}" \
+          --remote \
+          --yes; then
+      success "  Applied ${migration_file} successfully."
+      APPLIED=$((APPLIED + 1))
+    else
+      error "  Failed to apply ${migration_file} to ${db_name}."
+      FAILED=$((FAILED + 1))
+      # Continue trying remaining migrations but exit with error at the end
+    fi
   fi
   echo ""
 done

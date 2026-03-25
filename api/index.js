@@ -48,6 +48,15 @@ function errorResponse(message, status = 400) {
 function nowISO() { return new Date().toISOString(); }
 function generateId() { return crypto.randomUUID(); }
 
+/** Convert a hex string (from PBKDF2 output) to a Uint8Array. */
+function hexToBytes(hex) {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+  }
+  return bytes;
+}
+
 async function checkRateLimit(env, request) {
   if (!env.RATE_LIMITER) return { allowed: true };
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -139,6 +148,10 @@ export default {
     if (method !== 'GET') {
       const { allowed } = await checkRateLimit(env, request);
       if (!allowed) return errorResponse('Too many requests', 429);
+    } else {
+      // Apply a lighter GET rate limit (abuse / scraping protection)
+      const { allowed, remaining } = await checkRateLimit(env, request);
+      if (!allowed && remaining === 0) return errorResponse('Too many requests', 429);
     }
 
     const segments = path.slice(1).split('/').filter(Boolean);
@@ -175,6 +188,8 @@ export default {
       switch (resource) {
         case 'citizen': {
           if (subResource === 'search' && method === 'POST') {
+            const citizenSession = await getSession(env, request);
+            if (!citizenSession) { response = errorResponse('Unauthorized', 401); break; }
             const body = await request.json().catch(() => ({}));
             const { nationalId } = body;
             if (!nationalId) { response = errorResponse('nationalId required'); break; }
@@ -194,6 +209,10 @@ export default {
         }
 
         case 'documents': {
+          // All document operations require an authenticated session
+          const docSession = await getSession(env, request);
+          if (!docSession) { response = errorResponse('Unauthorized', 401); break; }
+
           if (method === 'POST' && subResource === 'upload') {
             const formData = await request.formData().catch(() => null);
             if (!formData) { response = errorResponse('Invalid form data'); break; }
@@ -286,6 +305,36 @@ export default {
             const username = body.username || body.oid;
             const { password } = body;
             if (!username || !password) { response = errorResponse('username/oid and password required'); break; }
+            // Verify credentials against the database
+            let credentialsValid = false;
+            if (env.DB) {
+              try {
+                const userRow = await env.DB.prepare(
+                  'SELECT password_hash FROM users WHERE national_id = ? OR oid = ?'
+                ).bind(username, username).first();
+                if (userRow?.password_hash) {
+                  // PBKDF2 hash format: '<salt_hex>:<hash_hex>' (matches AuthService.hashPassword)
+                  const [saltHex, storedHash] = userRow.password_hash.split(':');
+                  if (saltHex && storedHash) {
+                    const saltBytes = hexToBytes(saltHex);
+                    const derivedKey = await crypto.subtle.importKey(
+                      'raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']
+                    );
+                    const bits = await crypto.subtle.deriveBits(
+                      { name: 'PBKDF2', salt: saltBytes, iterations: 10000, hash: 'SHA-256' },
+                      derivedKey, 256
+                    );
+                    const derivedHex = Array.from(new Uint8Array(bits)).map(b => b.toString(16).padStart(2, '0')).join('');
+                    credentialsValid = derivedHex === storedHash;
+                  }
+                }
+              } catch (_) { /* DB not ready — allow fallback during dev */ }
+            } else {
+              // No DB available (local dev / first deploy): allow login so the portal
+              // remains accessible. In production the DB binding MUST be configured.
+              credentialsValid = true;
+            }
+            if (!credentialsValid) { response = errorResponse('Invalid credentials', 401); break; }
             const sessionToken = generateId();
             const session = {
               token: sessionToken, userId: username, createdAt: nowISO(),

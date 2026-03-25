@@ -22,25 +22,20 @@ import {
   Error,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthProvider';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
+  const { user, tokens, logout } = useAuth();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [apiStatus, setApiStatus] = useState({ frontend: 'unknown', backend: 'unknown' });
 
   useEffect(() => {
-    // Check authentication
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-
-    // Test Cloudflare integration
+    // ProtectedRoute already ensures user is authenticated before reaching here
     testCloudflareIntegration();
-    loadUserData();
-  }, [navigate]);
+    if (tokens?.accessToken) loadUserData();
+  }, [tokens]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const testCloudflareIntegration = async () => {
     const results = {
@@ -73,25 +68,17 @@ export default function DashboardPage() {
   const loadUserData = async () => {
     try {
       const apiUrl = import.meta.env.VITE_API_BASE_URL || '/api';
-      const token = localStorage.getItem('auth_token');
-      
       const response = await fetch(`${apiUrl}/user/profile`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${tokens?.accessToken}` },
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserData(data);
-      }
+      if (response.ok) setUserData(await response.json());
     } catch (error) {
       console.error('Failed to load user data:', error);
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('auth_token');
+  const handleLogout = async () => {
+    await logout();
     navigate('/login');
   };
 

@@ -1,6 +1,6 @@
 name = "sudan-gov-api"
 main = "api/index.js"
-compatibility_date = "2024-09-23"
+compatibility_date = "2025-09-01"
 compatibility_flags = ["nodejs_compat"]
 
 # ─── KV Namespaces ────────────────────────────────────────────────────────────
@@ -48,8 +48,8 @@ database_id = "9db027b4-fb6b-44e3-af3f-ef4838d4077b"
 
 [[d1_databases]]
 binding = "ANALYTICS_DB"
-database_name = "sudan-gov-analytics"
-database_id = "f53995cb-6b96-4b33-9749-95c37cf3205b"
+database_name = "brainsait-unified-api"
+database_id = "925780db-b119-42f2-a3ca-2aea98712168"
 
 # ─── Durable Objects ──────────────────────────────────────────────────────────
 [[durable_objects.bindings]]
