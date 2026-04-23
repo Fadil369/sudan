@@ -18,7 +18,7 @@
     "redis": "^4.6.12",
     "axios": "^1.6.2",
     "jsonwebtoken": "^9.0.2",
-    "uuid": "^9.0.1",
+    "uuid": "^14.0.0",
     "winston": "^3.11.0",
     "express-rate-limit": "^7.1.5",
     "express-validator": "^7.0.1",
