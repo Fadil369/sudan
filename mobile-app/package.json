@@ -43,7 +43,7 @@
     "react-native-webview": "^13.6.4",
     "date-fns": "^3.0.6",
     "lodash": "^4.17.21",
-    "uuid": "^9.0.1"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
