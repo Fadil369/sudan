@@ -82,6 +82,7 @@ const OidTreeIntegration = React.lazy(() => import('../components/OidTreeIntegra
 const ChatWidget = React.lazy(() => import('../components/ChatWidget'));
 const AnalyticsDashboard = React.lazy(() => import('../components/AnalyticsDashboard'));
 const FeedbackForm = React.lazy(() => import('../components/FeedbackForm'));
+const DigitalGovernanceHub = React.lazy(() => import('../components/DigitalGovernanceHub'));
 
 const governmentDepartments = [
     {
@@ -626,6 +627,8 @@ const SudanGovPortal = ({ language, user, defaultTab } = {}) => {
         return <SocialWelfareMinistryPortal language={language} />;
       case 'oid_tree':
         return <OidTreeIntegration language={language} user={user} />;
+      case 'governance':
+        return <DigitalGovernanceHub language={language} />;
       case 'analytics':
         return <AnalyticsDashboard language={language} />;
       case 'feedback':
@@ -737,6 +740,22 @@ const SudanGovPortal = ({ language, user, defaultTab } = {}) => {
             </ListItemIcon>
             <ListItemText
               primary={isRTL ? 'شجرة المعرفات الذكية' : 'OID Tree'}
+              sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }}
+            />
+          </ListItem>
+
+          <ListItem
+            button
+            style={{ minHeight: '44px' }}
+            selected={selectedDepartment === 'governance'}
+            onClick={() => handleDepartmentChange('governance')}
+            className="sudan-nav-item"
+          >
+            <ListItemIcon>
+              <AccountBalance sx={{ color: '#007A3D' }} />
+            </ListItemIcon>
+            <ListItemText
+              primary={isRTL ? 'الحكومة الرقمية العملية' : 'Digital Governance Hub'}
               sx={{ '& .MuiTypography-root': { color: '#1C2B3A', fontSize: '0.875rem' } }}
             />
           </ListItem>

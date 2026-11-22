@@ -11,6 +11,7 @@ const SudanGovPortal = lazy(() => import('./pages/SudanGovPortal'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const DocumentationHub = lazy(() => import('./components/DocumentationHub'));
+const DigitalGovernanceHub = lazy(() => import('./components/DigitalGovernanceHub'));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -104,8 +105,10 @@ function App() {
                 <Route path="/portal" element={<SudanGovPortal />} />
                 <Route path="/login" element={<LoginPage />} />
                 
-                {/* Documentation */}
+                {/* Documentation & Practical Digital Governance Hub */}
                 <Route path="/docs" element={<DocumentationHub />} />
+                <Route path="/governance" element={<DigitalGovernanceHub />} />
+                <Route path="/portal/governance" element={<SudanGovPortal defaultTab="governance" />} />
 
                 {/* Protected Routes */}
                 <Route path="/dashboard" element={

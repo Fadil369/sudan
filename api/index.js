@@ -14,6 +14,12 @@ export { SessionDurableObject } from './durable-objects/session.js';
 export { RateLimiterDurableObject } from './durable-objects/rate-limiter.js';
 export { CitizenStreamDurableObject } from './durable-objects/citizen-stream.js';
 
+// ─── Practical Digital Government Pillar Modules ──────────────────────────────
+import { handleTreasury } from './treasury.js';
+import { handleProcurement } from './procurement.js';
+import { handleLand } from './land.js';
+import { handleConsent } from './consent.js';
+
 const CACHE_TTL = 300; // seconds (5 minutes)
 
 const ALLOWED_ORIGINS = new Set([
@@ -222,6 +228,54 @@ export default {
       }
 
       switch (resource) {
+        case 'treasury': {
+          response = await handleTreasury(request, env, {
+            subResource,
+            subAction: segments[3],
+            method,
+            url,
+            corsHeaders,
+            getSession: () => getSession(env, request),
+          });
+          break;
+        }
+
+        case 'procurement': {
+          response = await handleProcurement(request, env, {
+            subResource,
+            subAction: segments[3],
+            method,
+            url,
+            corsHeaders,
+            getSession: () => getSession(env, request),
+          });
+          break;
+        }
+
+        case 'land': {
+          response = await handleLand(request, env, {
+            subResource,
+            subAction: segments[3],
+            method,
+            url,
+            corsHeaders,
+            getSession: () => getSession(env, request),
+          });
+          break;
+        }
+
+        case 'consent': {
+          response = await handleConsent(request, env, {
+            subResource,
+            subAction: segments[3],
+            method,
+            url,
+            corsHeaders,
+            getSession: () => getSession(env, request),
+          });
+          break;
+        }
+
         case 'citizen': {
           if (subResource === 'search' && method === 'POST') {
             const citizenSession = await getSession(env, request);
